@@ -1,7 +1,6 @@
 # Contents
 
 * [Why use **Tester**?](#why-use-tester)
-* [Advantages of **Tester**](#advantages-of-tester)
 * [Pre-requisites](#pre-requisites)
 * [Downloading latest release](#downloading-latest-release)
 * [Building from sources](#building-from-sources)

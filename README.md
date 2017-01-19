@@ -3,7 +3,7 @@
 * [What is **Tester**?](#what-is-tester)
 * [Advantages of **Tester**](#advantages-of-tester)
 * [Pre-requisites](#pre-requisites)
-* [Downloading binaries](#downloading-binaries)
+* [Downloading latest release](#downloading-latest-release)
 * [Building from sources](#building-from-sources)
 * [Libraries used by **Tester**](#libraries-used-by-tester)
 
@@ -50,14 +50,9 @@ Tester is a lightweight program to test competitive programming problems locally
 
 * Some checkers for problems may come only in EXE file, so you should instal _Wine_ to launch them.
 
-# Downloading binaries
+# Downloading latest release
 
-Current version is 1.0.3 (beta). 
-
-Here you can find **Tester** for supported platforms:
-
-* [_Windows_ (32 bit)](https://raw.githubusercontent.com/alex65536/tester/master/binary/tester-1.0.3-beta-i386-win32-win32.exe)
-* [_GNU/Linux_ (64 bit)](https://raw.githubusercontent.com/alex65536/tester/master/binary/tester-1.0.3-beta-x86_64-linux-gtk)
+To download latest release of **Tester**, go to the following [link](https://github.com/alex65536/tester/releases/latest)
 
 # Building from sources
 

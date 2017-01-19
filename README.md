@@ -68,4 +68,4 @@ Tester is a lightweight program to test competitive programming problems locally
 
 * _SynEdit_, to view the sources.
 
-* _exec.h_, _exec.c_ files from [_ejudge_ project](https://ejudge.ru/), which provides routines to run the submissions and check them for time and memory limits.
+* _exec.h_, _exec.c_ and some other source files from [_ejudge_ project](https://ejudge.ru/), which provides routines to run the submissions and check them for time and memory limits.

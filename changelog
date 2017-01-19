@@ -1,0 +1,25 @@
+Tester ChangeLog:
+--------------------------------
+
+version 1.0.3 (beta) (18.01.2017)
+[*] Added new actions and buttons.
+[*] Minor fixes.
+[*] Added adding tests from template.
+
+version 1.0.2 (beta) (17.01.2017)
+[*] Added stopping the testing.
+[*] Added MoveUp and MoveDown buttons.
+[*] Added icons.
+[*] Minor design fixes.
+[*] Added main menu.
+
+version 1.0.1 (beta) (15.01.2017)
+[*] Fixed compatibility with Windows
+[*] Built Windows version
+[*] Minor bug fixes
+
+version 1.0 (beta) (14.01.2017)
+[*] Added basic functionality
+[*] Added about box
+[*] Added saving results to JSON
+

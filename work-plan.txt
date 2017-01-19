@@ -21,9 +21,9 @@
 [V] 15.01.17 Port the program to Windows
 [V] 16.01.17 Make stopping the testing
 [V] 17.01.17 Draw icons
-[*] Put the project onto GitHub
-[*] Write How-to-use page
-[*] Make a project site
+[V] 19.01.17 Put the project onto GitHub
+[V] 19.01.17 Write ReadMe
+[V] 19.01.17 Make a project site
 [*] Add auto-detecting tests from directories
 [*] Make the application fully GUI (without console) in Windows
 [*] Create settings system

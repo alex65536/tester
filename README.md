@@ -1,10 +1,17 @@
-# **Tester**
+# Contents
 
-## What is **Tester**?
+* [What is **Tester**?](#what-is-tester)
+* [Advantages of **Tester**](#advantages-of-tester)
+* [Pre-requisites](#pre-requisites)
+* [Downloading binaries](#downloading-binaries)
+* [Building from sources](#building-from-sources)
+* [Libraries used by **Tester**](#libraries-used-by-tester)
+
+# What is **Tester**?
 
 Tester is a lightweight program to test competitive programming problems locally.
 
-## Advantages of Tester
+# Advantages of **Tester**
 
 * It's a native, lightweight application.
 
@@ -18,9 +25,9 @@ Tester is a lightweight program to test competitive programming problems locally
 
 * Testing results can be saved to _JSON_ and can be easily parsed, too.
 
-## Pre-requisites
+# Pre-requisites
 
-### Common
+## Common
 
 * At first, you will need a computer 😃
 
@@ -28,11 +35,11 @@ Tester is a lightweight program to test competitive programming problems locally
 
 * _Free Pascal_ (for Pascal) and _GNU GCC_ (for C/C++) installed. For _Windows_, paths to the compiler binaries must be set in PATH environment variable.
 
-### Windows
+## Windows
 
 * _Windows 7, 8, 8.1 or 10_ (32- or 64-bit). Should work on _Windows XP_, but didn't tested on it.
 
-### GNU/Linux
+## GNU/Linux
 
 * Tested on _Ubuntu 16.04_ (64-bit), but should work on other popular _GNU/Linux_ distros.
 
@@ -43,13 +50,23 @@ Tester is a lightweight program to test competitive programming problems locally
 
 * Some checkers for problems may come only in EXE file, so you should instal _Wine_ to launch them.
 
-## Building from sources
+# Downloading binaries
+
+Current version is 1.0.3 (beta). 
+
+Here you can find **Tester** for supported platforms:
+
+* [_Windows_ (32 bit)](https://raw.githubusercontent.com/alex65536/tester/master/binary/tester-1.0.3-beta-i386-win32-win32.exe)
+* [_GNU/Linux_ (64 bit)](https://raw.githubusercontent.com/alex65536/tester/master/binary/tester-1.0.3-beta-x86_64-linux-gtk)
+
+# Building from sources
 
 * You will need _Lazarus IDE_ (recommended version is 1.6.2) with _Free Pascal_ compiler (recommended version is 3.0.0) and _GNU GCC_ compiler.
 
 * To build from sources, do the following steps:
  
-  * Download the project
+  * Download the project  
+    You can use the following command in terminal: _git clone https://github.com/alex65536/tester_
   
   * Build _timerlib_. Use _timerlib/build-win32.bat_ for _Windows_ and _timerlib/build-linux.bat_ for _GNU/Linux_.
   
@@ -62,7 +79,7 @@ Tester is a lightweight program to test competitive programming problems locally
   * **Important note:** On _Windows_, you'll need some magic skills to link the project with _timerlib_. You can try to change libraries in _timerlib/timerlib.pas_ or paths to them in the project options.  
     I've spent about 4 hours to link the project on _Windows_ for the first time. To make building less painful, I'll add a possiblity to build _timerlib_ as a dynamic library (which won't require linking the project with C libraries). 
   
-## Libraries used by **Tester**
+# Libraries used by **Tester**
 
 * _LCL_, which provides GUI for **Tester**.
 

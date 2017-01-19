@@ -48,7 +48,7 @@
 
 # Downloading latest release
 
-To download latest release of **Tester**, go to the following [link](https://github.com/alex65536/tester/releases/latest)
+To download latest release of **Tester**, go to the following [link](https://github.com/alex65536/tester/releases/latest).
 
 # Building from sources
 

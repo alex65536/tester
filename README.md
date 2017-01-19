@@ -1,17 +1,13 @@
 # Contents
 
-* [What is **Tester**?](#what-is-tester)
+* [Why use **Tester**?](#why-use-tester)
 * [Advantages of **Tester**](#advantages-of-tester)
 * [Pre-requisites](#pre-requisites)
 * [Downloading latest release](#downloading-latest-release)
 * [Building from sources](#building-from-sources)
 * [Libraries used by **Tester**](#libraries-used-by-tester)
 
-# What is **Tester**?
-
-Tester is a lightweight program to test competitive programming problems locally.
-
-# Advantages of **Tester**
+# Why use **Tester**?
 
 * It's a native, lightweight application.
 

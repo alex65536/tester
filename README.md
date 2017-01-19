@@ -1,10 +1,3 @@
----
-title: main-page
----
-
-Main page
-=====
-
 # **Tester**
 
 ## What is **Tester**?

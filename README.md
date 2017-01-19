@@ -61,9 +61,9 @@ To download latest release of **Tester**, go to the following [link](https://git
   
   * Build _timerlib_. Use _timerlib/build-win32.bat_ for _Windows_ and _timerlib/build-linux.bat_ for _GNU/Linux_.
   
-  * Open the project inside _Lazarus_
+  * Open the project inside _Lazarus_.
   
-  * Click _Run > Build_ 
+  * Click _Run > Build_.
   
   * That's all! 😃
   

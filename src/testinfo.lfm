@@ -1,0 +1,199 @@
+object TestInfoDlg: TTestInfoDlg
+  Left = 536
+  Height = 267
+  Top = 124
+  Width = 339
+  Caption = 'Test status'
+  ClientHeight = 267
+  ClientWidth = 339
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object Panel: TPanel
+    Left = 6
+    Height = 71
+    Top = 6
+    Width = 327
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Around = 6
+    BevelOuter = bvNone
+    ClientHeight = 71
+    ClientWidth = 327
+    TabOrder = 0
+    object Panel1: TPanel
+      Left = 0
+      Height = 17
+      Top = 0
+      Width = 327
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 327
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 86
+        Align = alLeft
+        Caption = 'Test verdict: '
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object VerdictLabel: TLabel
+        Left = 86
+        Height = 17
+        Top = 0
+        Width = 21
+        Align = alLeft
+        Caption = 'OK'
+        Font.Color = clGreen
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 17
+      Top = 17
+      Width = 327
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 327
+      TabOrder = 1
+      object Label2: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 75
+        Align = alLeft
+        Caption = 'Test score: '
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object ScoreLabel: TLabel
+        Left = 75
+        Height = 17
+        Top = 0
+        Width = 22
+        Align = alLeft
+        Caption = '5/5'
+        Font.Color = clGreen
+        Layout = tlCenter
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 17
+      Top = 37
+      Width = 327
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Top = 3
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 327
+      TabOrder = 2
+      object TimeLabel: TLabel
+        Left = 40
+        Height = 17
+        Top = 0
+        Width = 38
+        Align = alLeft
+        Caption = '0.01 s'
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object Label3: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 40
+        Align = alLeft
+        Caption = 'Time: '
+        Layout = tlCenter
+        ParentColor = False
+      end
+    end
+    object Panel4: TPanel
+      Left = 0
+      Height = 17
+      Top = 54
+      Width = 327
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 327
+      TabOrder = 3
+      object MemoryLabel: TLabel
+        Left = 63
+        Height = 17
+        Top = 0
+        Width = 54
+        Align = alLeft
+        Caption = '2.56 MB'
+        Layout = tlCenter
+        ParentColor = False
+      end
+      object Label5: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 63
+        Align = alLeft
+        Caption = 'Memory: '
+        Layout = tlCenter
+        ParentColor = False
+      end
+    end
+  end
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 224
+    Width = 327
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbClose]
+  end
+  object GroupBox2: TGroupBox
+    Left = 0
+    Height = 135
+    Top = 83
+    Width = 339
+    Align = alClient
+    Caption = 'Checker output'
+    ClientHeight = 116
+    ClientWidth = 335
+    TabOrder = 1
+    object CheckerOutputMemo: TMemo
+      Left = 0
+      Height = 116
+      Top = 0
+      Width = 335
+      Align = alClient
+      BorderStyle = bsNone
+      Color = clForm
+      Lines.Strings = (
+        '<text here>'
+      )
+      ReadOnly = True
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+end

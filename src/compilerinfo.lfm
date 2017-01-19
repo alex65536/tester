@@ -1,0 +1,88 @@
+object CompilerInfoDlg: TCompilerInfoDlg
+  Left = 611
+  Height = 290
+  Top = 219
+  Width = 336
+  Caption = 'Compilation status'
+  ClientHeight = 290
+  ClientWidth = 336
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object ButtonPanel1: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 247
+    Width = 324
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 2
+    ShowButtons = [pbClose]
+  end
+  object Panel1: TPanel
+    Left = 6
+    Height = 17
+    Top = 6
+    Width = 324
+    Align = alTop
+    AutoSize = True
+    BorderSpacing.Around = 6
+    BevelOuter = bvNone
+    ClientHeight = 17
+    ClientWidth = 324
+    TabOrder = 0
+    object Label1: TLabel
+      Left = 0
+      Height = 17
+      Top = 0
+      Width = 120
+      Align = alLeft
+      Caption = 'Compiler verdict: '
+      Layout = tlCenter
+      ParentColor = False
+    end
+    object VerdictLabel: TLabel
+      Left = 120
+      Height = 17
+      Top = 0
+      Width = 21
+      Align = alLeft
+      Caption = 'OK'
+      Font.Color = clGreen
+      Layout = tlCenter
+      ParentColor = False
+      ParentFont = False
+    end
+  end
+  object GroupBox1: TGroupBox
+    Left = 0
+    Height = 212
+    Top = 29
+    Width = 336
+    Align = alClient
+    Caption = 'Compiler output'
+    ClientHeight = 193
+    ClientWidth = 332
+    TabOrder = 1
+    object CompilerOutputMemo: TMemo
+      Left = 0
+      Height = 193
+      Top = 0
+      Width = 332
+      Align = alClient
+      BorderStyle = bsNone
+      Color = clForm
+      Lines.Strings = (
+        '<text here>'
+      )
+      ReadOnly = True
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+    end
+  end
+end

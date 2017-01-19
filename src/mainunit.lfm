@@ -1,0 +1,295 @@
+object MainForm: TMainForm
+  Left = 459
+  Height = 509
+  Top = 169
+  Width = 784
+  Caption = 'Tester v1.0.3 (beta)'
+  ClientHeight = 489
+  ClientWidth = 784
+  Menu = MainMenu
+  Position = poScreenCenter
+  LCLVersion = '1.6.0.4'
+  object Panel: TPanel
+    Left = 0
+    Height = 27
+    Top = 0
+    Width = 784
+    Align = alTop
+    AutoSize = True
+    BevelInner = bvLowered
+    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
+    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.Layout = cclLeftToRightThenTopToBottom
+    ChildSizing.ControlsPerLine = 5
+    ClientHeight = 27
+    ClientWidth = 784
+    Color = clWindow
+    ParentColor = False
+    TabOrder = 0
+    object BitBtn1: TBitBtn
+      Left = 0
+      Height = 25
+      Top = 0
+      Width = 137
+      Action = NewFileAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 0
+    end
+    object BitBtn2: TBitBtn
+      Left = 137
+      Height = 25
+      Top = 0
+      Width = 142
+      Action = OpenFileAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 1
+    end
+    object BitBtn3: TBitBtn
+      Left = 279
+      Height = 25
+      Top = 0
+      Width = 151
+      Action = SaveFileAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 2
+    end
+    object BitBtn4: TBitBtn
+      Left = 430
+      Height = 25
+      Top = 0
+      Width = 186
+      Action = TestAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 3
+    end
+    object BitBtn5: TBitBtn
+      Left = 616
+      Height = 25
+      Top = 0
+      Width = 168
+      Action = AboutAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 4
+    end
+  end
+  object PropsList: TExtendedNotebook
+    Left = 0
+    Height = 462
+    Top = 27
+    Width = 784
+    Align = alClient
+    PopupMenu = TabPopupMenu
+    TabOrder = 1
+    OnCloseTabClicked = PropsListCloseTabClicked
+    Options = [nboShowCloseButtons]
+    TabDragMode = dmAutomatic
+    TabDragAcceptMode = dmAutomatic
+  end
+  object ActionList: TActionList
+    Images = ImageKeeper.ImageList
+    left = 192
+    top = 216
+    object NewFileAction: TAction
+      Caption = 'New...'
+      ImageIndex = 6
+      OnExecute = NewFileActionExecute
+      ShortCut = 16462
+    end
+    object SaveFileAction: TAction
+      Caption = 'Save as...'
+      ImageIndex = 8
+      OnExecute = SaveFileActionExecute
+      OnUpdate = SaveFileActionUpdate
+      ShortCut = 16467
+    end
+    object OpenFileAction: TAction
+      Caption = 'Open...'
+      ImageIndex = 7
+      OnExecute = OpenFileActionExecute
+      ShortCut = 16463
+    end
+    object TestAction: TAction
+      Caption = 'Test solutions...'
+      ImageIndex = 11
+      OnExecute = TestActionExecute
+      OnUpdate = TestActionUpdate
+      ShortCut = 16468
+    end
+    object AboutAction: TAction
+      Caption = 'About Tester'
+      ImageIndex = 0
+      OnExecute = AboutActionExecute
+      ShortCut = 8304
+    end
+    object AddTestAction: TAction
+      Caption = 'Add...'
+      ImageIndex = 1
+      OnExecute = AddTestActionExecute
+      OnUpdate = AddTestActionUpdate
+      ShortCut = 8257
+    end
+    object InsertTestAction: TAction
+      Caption = 'Insert...'
+      ImageIndex = 3
+      OnExecute = InsertTestActionExecute
+      OnUpdate = InsertTestActionUpdate
+      ShortCut = 8265
+    end
+    object DeleteTestAction: TAction
+      Caption = 'Delete'
+      ImageIndex = 2
+      OnExecute = DeleteTestActionExecute
+      OnUpdate = DeleteTestActionUpdate
+      ShortCut = 8260
+    end
+    object MoveUpAction: TAction
+      Caption = 'Move up'
+      ImageIndex = 5
+      OnExecute = MoveUpActionExecute
+      OnUpdate = MoveUpActionUpdate
+      ShortCut = 8230
+    end
+    object MoveDownAction: TAction
+      Caption = 'Move down'
+      ImageIndex = 4
+      OnExecute = MoveDownActionExecute
+      OnUpdate = MoveDownActionUpdate
+      ShortCut = 8232
+    end
+    object CloseTabAction: TAction
+      Caption = 'Close'
+      OnExecute = CloseTabActionExecute
+      OnUpdate = CloseTabActionUpdate
+      ShortCut = 16499
+    end
+    object EditTestAction: TAction
+      Caption = 'Edit...'
+      ImageIndex = 12
+      OnExecute = EditTestActionExecute
+      OnUpdate = EditTestActionUpdate
+      ShortCut = 8261
+    end
+    object MultiAddTestsBtn: TAction
+      Caption = 'Add from template...'
+      ImageIndex = 13
+      OnExecute = MultiAddTestsBtnExecute
+      OnUpdate = MultiAddTestsBtnUpdate
+      ShortCut = 8269
+    end
+    object ClearTestsAction: TAction
+      Caption = 'Clear'
+      ImageIndex = 14
+      OnExecute = ClearTestsActionExecute
+      OnUpdate = ClearTestsActionUpdate
+      ShortCut = 8262
+    end
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = '.json'
+    Filter = 'Task properties|*.json'
+    Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
+    left = 192
+    top = 160
+  end
+  object OpenDialog: TOpenDialog
+    DefaultExt = '.json'
+    Filter = 'Task properties|*.json'
+    Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 96
+    top = 160
+  end
+  object AutoSaveTimer: TTimer
+    Interval = 30000
+    OnTimer = AutoSaveTimerTimer
+    left = 288
+    top = 160
+  end
+  object TabPopupMenu: TPopupMenu
+    left = 392
+    top = 160
+    object MenuItem1: TMenuItem
+      Action = CloseTabAction
+    end
+  end
+  object EmptyPopupMenu: TPopupMenu
+    left = 96
+    top = 216
+  end
+  object MainMenu: TMainMenu
+    left = 280
+    top = 216
+    object MenuItem2: TMenuItem
+      Caption = 'File'
+      object MenuItem5: TMenuItem
+        Action = NewFileAction
+      end
+      object MenuItem6: TMenuItem
+        Action = OpenFileAction
+      end
+      object MenuItem7: TMenuItem
+        Action = SaveFileAction
+      end
+      object MenuItem17: TMenuItem
+        Action = CloseTabAction
+      end
+      object MenuItem9: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem10: TMenuItem
+        Action = TestAction
+      end
+      object MenuItem8: TMenuItem
+        Caption = '-'
+      end
+      object ExitMenuItem: TMenuItem
+        Caption = 'Exit'
+        ShortCut = 32883
+        OnClick = ExitMenuItemClick
+      end
+    end
+    object MenuItem3: TMenuItem
+      Caption = 'Tests'
+      object MenuItem11: TMenuItem
+        Action = AddTestAction
+      end
+      object MenuItem12: TMenuItem
+        Action = InsertTestAction
+      end
+      object MenuItem19: TMenuItem
+        Action = MultiAddTestsBtn
+      end
+      object MenuItem18: TMenuItem
+        Action = EditTestAction
+      end
+      object MenuItem21: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem20: TMenuItem
+        Action = ClearTestsAction
+      end
+      object MenuItem13: TMenuItem
+        Action = DeleteTestAction
+      end
+      object MenuItem22: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem14: TMenuItem
+        Action = MoveUpAction
+      end
+      object MenuItem15: TMenuItem
+        Action = MoveDownAction
+      end
+    end
+    object MenuItem4: TMenuItem
+      Caption = 'Help'
+      object MenuItem16: TMenuItem
+        Action = AboutAction
+      end
+    end
+  end
+end

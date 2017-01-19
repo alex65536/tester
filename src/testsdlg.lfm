@@ -1,0 +1,114 @@
+object TestDialog: TTestDialog
+  Left = 509
+  Height = 132
+  Top = 212
+  Width = 229
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Add test'
+  ClientHeight = 132
+  ClientWidth = 229
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object Label1: TLabel
+    AnchorSideLeft.Control = ButtonPanel1
+    AnchorSideTop.Control = InputFileEdit
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = InputFileEdit
+    Left = 6
+    Height = 17
+    Top = 5
+    Width = 119
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Input file:'
+    ParentColor = False
+  end
+  object ButtonPanel1: TButtonPanel
+    AnchorSideTop.Control = TestCostEdit
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 39
+    Top = 87
+    Width = 217
+    Anchors = [akTop, akLeft, akRight]
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 3
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object InputFileEdit: TEdit
+    AnchorSideLeft.Control = TestCostEdit
+    AnchorSideRight.Control = TestCostEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 125
+    Height = 27
+    Top = 0
+    Width = 98
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 0
+    Text = 'input.txt'
+  end
+  object Label2: TLabel
+    AnchorSideLeft.Control = ButtonPanel1
+    AnchorSideTop.Control = TestCostEdit
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = TestCostEdit
+    Left = 6
+    Height = 17
+    Top = 59
+    Width = 119
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Cost (points):'
+    ParentColor = False
+  end
+  object TestCostEdit: TFloatSpinEdit
+    AnchorSideTop.Control = OutputFileEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = ButtonPanel1
+    AnchorSideRight.Side = asrBottom
+    Left = 125
+    Height = 27
+    Top = 54
+    Width = 98
+    Anchors = [akTop, akRight]
+    DecimalPlaces = 3
+    Increment = 1
+    MaxValue = 1000
+    MinValue = 0.001
+    TabOrder = 2
+    Value = 1
+  end
+  object Label3: TLabel
+    AnchorSideLeft.Control = ButtonPanel1
+    AnchorSideTop.Control = OutputFileEdit
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = OutputFileEdit
+    Left = 6
+    Height = 17
+    Top = 32
+    Width = 119
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Output file:'
+    ParentColor = False
+  end
+  object OutputFileEdit: TEdit
+    AnchorSideLeft.Control = TestCostEdit
+    AnchorSideTop.Control = InputFileEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = TestCostEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 125
+    Height = 27
+    Top = 27
+    Width = 98
+    Anchors = [akTop, akLeft, akRight]
+    TabOrder = 1
+    Text = 'output.txt'
+  end
+end

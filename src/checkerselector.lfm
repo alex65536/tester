@@ -1,0 +1,54 @@
+object CheckerSelect: TCheckerSelect
+  Left = 0
+  Height = 240
+  Top = 0
+  Width = 320
+  AutoSize = True
+  ClientHeight = 240
+  ClientWidth = 320
+  TabOrder = 0
+  DesignLeft = 632
+  DesignTop = 231
+  object Label1: TPanel
+    Left = 0
+    Height = 29
+    Top = 0
+    Width = 320
+    Align = alTop
+    AutoSize = True
+    BevelOuter = bvNone
+    ClientHeight = 29
+    ClientWidth = 320
+    TabOrder = 0
+    object CheckerCombo: TComboBox
+      AnchorSideRight.Side = asrBottom
+      Left = 155
+      Height = 29
+      Top = 0
+      Width = 165
+      Anchors = [akTop, akRight]
+      ItemHeight = 0
+      ItemIndex = 0
+      Items.Strings = (
+        'File comparator'
+        'Text checker'
+        'Testlib checker'
+      )
+      OnChange = CheckerComboChange
+      TabOrder = 0
+      Text = 'File comparator'
+    end
+    object Label5: TLabel
+      AnchorSideTop.Control = CheckerCombo
+      AnchorSideTop.Side = asrCenter
+      AnchorSideRight.Control = CheckerCombo
+      Left = 96
+      Height = 17
+      Top = 6
+      Width = 59
+      Anchors = [akTop, akRight]
+      Caption = 'Checker:'
+      ParentColor = False
+    end
+  end
+end

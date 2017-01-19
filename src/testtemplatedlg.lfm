@@ -1,0 +1,66 @@
+inherited TestTemplateDialog: TTestTemplateDialog
+  Height = 160
+  Top = 197
+  Width = 275
+  Caption = 'Add tests from template'
+  ClientHeight = 160
+  ClientWidth = 275
+  inherited Label1: TLabel
+    Width = 165
+    Caption = 'Input file template:'
+  end
+  inherited ButtonPanel1: TButtonPanel
+    AnchorSideTop.Control = TestNumberEdit
+    Height = 40
+    Top = 114
+    Width = 263
+    AutoSize = False
+    TabOrder = 4
+  end
+  inherited InputFileEdit: TEdit
+    Left = 171
+    Text = '%d.in'
+  end
+  inherited Label2: TLabel
+    Width = 165
+  end
+  inherited TestCostEdit: TFloatSpinEdit
+    Left = 171
+  end
+  inherited Label3: TLabel
+    Width = 165
+    Caption = 'Output file template:'
+  end
+  inherited OutputFileEdit: TEdit
+    Left = 171
+    Text = '%d.out'
+  end
+  object Label4: TLabel[7]
+    AnchorSideLeft.Control = ButtonPanel1
+    AnchorSideTop.Control = TestNumberEdit
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = TestCostEdit
+    Left = 6
+    Height = 17
+    Top = 86
+    Width = 165
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Start from test number:'
+    ParentColor = False
+  end
+  object TestNumberEdit: TSpinEdit[8]
+    AnchorSideLeft.Control = TestCostEdit
+    AnchorSideTop.Control = TestCostEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = TestCostEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 171
+    Height = 27
+    Top = 81
+    Width = 98
+    Anchors = [akTop, akLeft, akRight]
+    MaxValue = 9999
+    TabOrder = 3
+    Value = 1
+  end
+end

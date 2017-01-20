@@ -17,7 +17,7 @@
 */
 
 #include "../timerlib.h"
-#include "exec.h"
+#include "../exec.h"
 
 TIMER_RESULT launch_timer(
 		const char* working_dir,

@@ -14,28 +14,17 @@
  * Lesser General Public License for more details.
  */
 
-#include "osdeps.h"
+#include "../osdeps.h"
 
-#include <stdio.h>
-#include <string.h>
 #include <errno.h>
 
-static char errbuf[256];
-
 /**
- * NAME:    os_GetErrorString
- * PURPOSE: get error string by error code
- * ARGS:    e - error code
- * RETURN:  the corresponding error string
+ * NAME:    os_ErrorString
+ * PURPOSE: get error string of the current error (errno variable)
+ * RETURN:  error string for the current error
  */
 char *
-os_GetErrorString(int e)
+os_ErrorString(void)
 {
-  char *s = strerror(e);
-  if (s == NULL)
-    {
-      sprintf(errbuf, "unknown error (%d)", e);
-      return errbuf;
-    }
-  return s;
+  return os_GetErrorString(errno);
 }

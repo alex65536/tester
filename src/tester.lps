@@ -7,9 +7,12 @@
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="116" Y="67"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="3"/>
+        <TopLine Value="61"/>
+        <CursorPos X="66" Y="66"/>
         <UsageCount Value="124"/>
+        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="mainunit.pas"/>
@@ -255,7 +258,6 @@
       <Unit29>
         <Filename Value="testtemplates.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
         <TopLine Value="63"/>
         <CursorPos X="51" Y="68"/>
@@ -954,11 +956,15 @@
         <UsageCount Value="10"/>
       </Unit127>
     </Units>
-    <JumpHistory Count="1">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
         <Filename Value="licenseforms.pas"/>
         <Caret Line="63" Column="43" TopLine="52"/>
       </Position1>
+      <Position2>
+        <Filename Value="tester.lpr"/>
+        <Caret Line="67" Column="116"/>
+      </Position2>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

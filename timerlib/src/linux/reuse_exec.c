@@ -18,11 +18,11 @@
  * PURPOSE: process abstraction layer
  */
 
-#include "xalloc.h"
-#include "logger.h"
-#include "osdeps.h"
-#include "exec.h"
-#include "process_stats.h"
+#include "../xalloc.h"
+#include "../logger.h"
+#include "../osdeps.h"
+#include "../exec.h"
+#include "../process_stats.h"
 
 #include <sys/types.h>
 #include <sys/wait.h>

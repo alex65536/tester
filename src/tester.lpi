@@ -220,8 +220,8 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <Libraries Value="../timerlib;C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32/;C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/32/"/>
-      <OtherUnitFiles Value="../timerlib"/>
+      <Libraries Value="../timerlib;C:/Program Files (x86)/Dev-Cpp/MinGW64/x86_64-w64-mingw32/lib32;C:/Program Files (x86)/Dev-Cpp/MinGW64/lib/gcc/x86_64-w64-mingw32/4.9.2/32"/>
+      <OtherUnitFiles Value="../timerlib/src"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

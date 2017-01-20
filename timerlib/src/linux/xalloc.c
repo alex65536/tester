@@ -19,7 +19,7 @@
 
 /* Created: Fri Nov  1 19:01:06 1996 by cher (Alexander Chernov) */
 
-#include "xalloc.h"
+#include "../xalloc.h"
 
 #include <stdlib.h>
 #include <stdio.h>

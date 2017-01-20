@@ -14,7 +14,7 @@
  * GNU General Public License for more details.
  */
 
-#include "process_stats.h"
+#include "../process_stats.h"
 
 #include <string.h>
 #include <stdio.h>

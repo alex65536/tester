@@ -17,8 +17,8 @@
  * PURPOSE: logging facilities, fatal error handling
  */
 
-#include "xalloc.h"
-#include "logger.h"
+#include "..\xalloc.h"
+#include "..\logger.h"
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -138,83 +138,83 @@ logger_set_level(int fac, int level)
 int
 vwrite_log(int facility, int level, char const *format, va_list args)
 {
-//  int        r;
-//  time_t     tt;
-//  struct tm *ptm;
-//  char       atm[32];
-//  char      *prio, bprio[32];
-//  char      *pfac, bfac[32];
-//  int        msglen = 1023;
-//  char       msg[1024];
-//
-//  assert (format != NULL);
-//  if (!initialized) minimal_init();
-//
-//  /* check whether log file is open */
-//  if (log_fd <= 0) return 0;
-//
-//  /* check for valid module */
-//  if (facility < 0 || facility >= LOG_MAX_MODULE_NUM) facility = 0;
-//  if (!logmodules[facility]) facility = 0;
-//
-//  /* check that the facility is blocked */
-//  if (logmodules[facility]->blocked) return 0;
-//
-//  /* check against minimal log level for the facility */
-//  if (level < global_log_level) return 0;
-//  if (level < logmodules[facility]->level) return 0;
-//
-//  time(&tt);
-//  ptm = gmtime(&tt);
-//  snprintf(atm, sizeof(atm), "%d-%02d-%02dT%02d:%02d:%02dZ",
-//           ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday,
-//           ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
-//
-//  if (level < LOG_MIN_PRIO || level > LOG_MAX_PRIO) {
-//    sprintf(bprio, "%d", level);
-//    prio = bprio;
-//  } else {
-//    prio = priority_names[level];
-//  }
-//
-//  if (!logmodules[facility]->name) {
-//    sprintf(bfac, "%d", facility);
-//    pfac = bfac;
-//  } else {
-//    pfac = logmodules[facility]->name;
-//  }
-//
-//  if (facility == 0) {
-//    r = sprintf(msg, "%s:%s:", atm, prio);
-//  } else {
-//    r = sprintf(msg, "%s:%s:%s:", atm, pfac, prio);
-//  }
-//
-//
-//  vsnprintf(msg + r, msglen - r, format, args);
-//  msg[msglen] = 0;
-//  r = strlen(msg);
-//  msg[r++] = '\n';
-//
-//  if (r >= 1024) {
-//    fprintf(stderr, "fatal buffer overrun in logger module\n");
-//    abort();
-//  }
-//
-//  /*
-//  if (write(log_fd, msg, r) < 0) {
-//    fprintf(stderr, "log file write error: %s\n", strerror(errno));
-//    fprintf(stderr, "closing log file\n");
-//    close(log_fd);
-//    log_fd = -1;
-//    return -1;
-//  }
-//  */
-//  // ignore errors that may happen on logger fd
-//  write(log_fd, msg, r);
-//  if (log2_fd >= 0) write(log2_fd, msg, r);
-//
-//  return r;
+  int        r;
+  time_t     tt;
+  struct tm *ptm;
+  char       atm[32];
+  char      *prio, bprio[32];
+  char      *pfac, bfac[32];
+  int        msglen = 1023;
+  char       msg[1024];
+
+  assert (format != NULL);
+  if (!initialized) minimal_init();
+
+  /* check whether log file is open */
+  if (log_fd <= 0) return 0;
+
+  /* check for valid module */
+  if (facility < 0 || facility >= LOG_MAX_MODULE_NUM) facility = 0;
+  if (!logmodules[facility]) facility = 0;
+
+  /* check that the facility is blocked */
+  if (logmodules[facility]->blocked) return 0;
+
+  /* check against minimal log level for the facility */
+  if (level < global_log_level) return 0;
+  if (level < logmodules[facility]->level) return 0;
+
+  time(&tt);
+  ptm = gmtime(&tt);
+  snprintf(atm, sizeof(atm), "%d-%02d-%02dT%02d:%02d:%02dZ",
+           ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday,
+           ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+
+  if (level < LOG_MIN_PRIO || level > LOG_MAX_PRIO) {
+    sprintf(bprio, "%d", level);
+    prio = bprio;
+  } else {
+    prio = priority_names[level];
+  }
+
+  if (!logmodules[facility]->name) {
+    sprintf(bfac, "%d", facility);
+    pfac = bfac;
+  } else {
+    pfac = logmodules[facility]->name;
+  }
+
+  if (facility == 0) {
+    r = sprintf(msg, "%s:%s:", atm, prio);
+  } else {
+    r = sprintf(msg, "%s:%s:%s:", atm, pfac, prio);
+  }
+
+
+  vsnprintf(msg + r, msglen - r, format, args);
+  msg[msglen] = 0;
+  r = strlen(msg);
+  msg[r++] = '\n';
+
+  if (r >= 1024) {
+    fprintf(stderr, "fatal buffer overrun in logger module\n");
+    abort();
+  }
+
+  /*
+  if (write(log_fd, msg, r) < 0) {
+    fprintf(stderr, "log file write error: %s\n", strerror(errno));
+    fprintf(stderr, "closing log file\n");
+    close(log_fd);
+    log_fd = -1;
+    return -1;
+  }
+  */
+  // ignore errors that may happen on logger fd
+  write(log_fd, msg, r);
+  if (log2_fd >= 0) write(log2_fd, msg, r);
+
+  return r;
 }
 
 /**
@@ -229,13 +229,13 @@ vwrite_log(int facility, int level, char const *format, va_list args)
 int
 write_log(int facility, int level, char const *format, ...)
 {
-//  va_list    args;
-//  int        r;
-//
-//  va_start(args, format);
-//  r = vwrite_log(facility, level, format, args);
-//  va_end(args);
-//  return r;
+  va_list    args;
+  int        r;
+
+  va_start(args, format);
+  r = vwrite_log(facility, level, format, args);
+  va_end(args);
+  return r;
 }
 
 /**

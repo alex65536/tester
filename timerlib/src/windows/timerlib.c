@@ -16,8 +16,8 @@
   This library uses some sources from Ejudge project <ejudge.ru>
 */
 
-#include "../timerlib.h"
-#include "exec.h"
+#include "..\timerlib.h"
+#include "..\exec.h"
 
 __cdecl TIMER_RESULT launch_timer(
 		const char* working_dir,
@@ -85,18 +85,20 @@ __cdecl TIMER_RESULT launch_timer(
 	secure_task_op(task_Start(task))
 	if (task_Wait(task) == NULL)
 		return TR_RUN_FAIL;
+	if (task_Status(task) == TSK_RUNNING)
+		task_Kill(task);
 	// process results
 	TIMER_RESULT result = TR_OK;
 	// check exitcode
 	*exit_code = task_ExitCode(task);
 	if (*exit_code != 0)
 		result = TR_RUNTIME_ERROR;
-	// check memory
-	*work_memory = task_GetMemoryUsed(task);
-	if (*work_memory >= memory_limit || task_IsMemoryLimit(task))
+	// check real time
+	*work_realtime = task_GetRunningTime(task);
+	if (*work_realtime >= realtime_limit || task_IsRealTimeout(task))
 	{
-		*work_memory = memory_limit;
-		result = TR_MEMORY_LIMIT;
+		*work_realtime = realtime_limit;
+		result = TR_REAL_TIME_LIMIT;
 	}
 	// check time
 	*work_time = task_GetRunningTime(task);
@@ -105,12 +107,12 @@ __cdecl TIMER_RESULT launch_timer(
 		*work_time = time_limit;
 		result = TR_TIME_LIMIT;
 	}
-	// check real time
-	*work_realtime = task_GetRunningTime(task);
-	if (*work_realtime >= realtime_limit || task_IsRealTimeout(task))
+	// check memory
+	*work_memory = task_GetMemoryUsed(task);
+	if (*work_memory >= memory_limit || task_IsMemoryLimit(task))
 	{
-		*work_realtime = realtime_limit;
-		result = TR_REAL_TIME_LIMIT;
+		*work_memory = memory_limit;
+		result = TR_MEMORY_LIMIT;
 	}
 	// delete task and return result
 	task_Delete(task);
@@ -123,4 +125,7 @@ __cdecl TIMER_RESULT launch_timer(
 
 __cdecl void init_timer()
 {
+    freopen("nul", "r", stdin);
+    freopen("nul", "w", stdout);
+    freopen("nul", "w", stderr);
 }

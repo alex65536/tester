@@ -56,6 +56,7 @@ begin
     try
       // modification here: we append stderr to stdout.
       p.Options := [poUsePipes, poStderrToOutPut];
+      p.ShowWindow := swoHide;
       // end of modification
       bytesread := 0;
       outputlength := 0;

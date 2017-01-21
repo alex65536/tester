@@ -24,17 +24,14 @@ program tester;
 
 {$DEFINE UseCThreads}
 
-uses
-  {$IFDEF UNIX}
-  {$IFDEF UseCThreads}
+uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   cthreads,
-  cmem,
-  {$ENDIF}
-  {$ENDIF}
+  cmem, {$ENDIF} {$ENDIF}
   heaptrc,
   Interfaces, // this includes the LCL widgetset
   Forms,
-  sysutils,
+  SysUtils,
+  Classes,
   mainunit,
   problemprops,
   testresults,
@@ -61,7 +58,9 @@ uses
   testerforms,
   about,
   licenseforms,
-  imgkeeper, testtemplates, testtemplatedlg;
+  imgkeeper,
+  testtemplates,
+  testtemplatedlg;
 
 {$R *.res}
 

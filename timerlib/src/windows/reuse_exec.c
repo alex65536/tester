@@ -18,10 +18,10 @@
  * PURPOSE: process abstraction layer, Win32 implementation
  */
 
-#include "xalloc.h"
-#include "logger.h"
-#include "osdeps.h"
-#include "exec.h"
+#include "..\xalloc.h"
+#include "..\logger.h"
+#include "..\osdeps.h"
+#include "..\exec.h"
 
 #include <windows.h>
 #include <stdio.h>
@@ -992,9 +992,10 @@ task_Start(tTask *tsk)
   /* do default redirections: duplicate standard handles */
   tsk->si.cb         = sizeof(tsk->si);
   tsk->si.dwFlags    = STARTF_USESTDHANDLES;
-  if (dup_std_handle(tsk, 0, NULL) < 0) return -1;
-  if (dup_std_handle(tsk, 1, NULL) < 0) return -1;
-  if (dup_std_handle(tsk, 2, NULL) < 0) return -1;
+
+  if (dup_std_handle(tsk, 0, NULL) < 0) /*return -1*/;
+  if (dup_std_handle(tsk, 1, NULL) < 0) /*return -1*/;
+  if (dup_std_handle(tsk, 2, NULL) < 0) /*return -1*/;
 
   /* process user redirections */
   for (i = 0; i < tsk->redirs.u; i++) {
@@ -1109,12 +1110,15 @@ task_Start(tTask *tsk)
     }
   }
 
+  tsk->si.dwFlags |= STARTF_USESHOWWINDOW;
+  tsk->si.wShowWindow = SW_HIDE;
+
   // if no limits are set, just run the process
   if (!tsk->max_proc_count
       && !tsk->max_vm_size && !tsk->max_stack_size && !tsk->max_data_size
       && !tsk->max_time && !tsk->max_time_millis) {
     if (!CreateProcess(NULL, tsk->cmdline, NULL, NULL,
-                       TRUE, CREATE_NEW_PROCESS_GROUP,
+                       TRUE, CREATE_NEW_PROCESS_GROUP | CREATE_NO_WINDOW,
                        tsk->envblock, tsk->working_dir,
                        &tsk->si, &tsk->pi)) {
       write_log(LOG_REUSE, LOG_ERROR, "CreateProcess failed: %d",

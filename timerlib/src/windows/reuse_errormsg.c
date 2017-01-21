@@ -14,7 +14,7 @@
  * Lesser General Public License for more details.
  */
 
-#include "osdeps.h"
+#include "..\osdeps.h"
 
 #include <windows.h>
 #include <stdio.h>

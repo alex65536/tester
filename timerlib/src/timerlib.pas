@@ -21,15 +21,29 @@ interface
 {$packrecords c}
 
 {$IfDef Windows}
-  {$linklib libtimer-win32.a}
-  {$linklib libkernel32}
-  {$linklib libmsvcr100}
-  {$linklib libmsvcrt}
-  {$linklib libcrtdll}
-  {$linklib libgcc}
+  // On Windows, you should specify your paths to these C libraries.
+  // To do this, you can use your fp.cfg file or do this in Lazarus project options.
+  // Also magic skills required.
+  {$IfDef Win32}
+    {$linklib libtimer-win32}
+    {$linklib libkernel32}
+    {$linklib libmsvcr100}
+    {$linklib libmsvcrt}
+    {$linklib libcrtdll}
+    {$linklib libgcc}
+  {$EndIf}
+  {$IfDef Win64}
+    {$linklib libtimer-win64}
+    {$linklib libkernel32}
+    {$linklib libmsvcr100}
+    {$linklib libmsvcrt}
+    {$linklib libcrtdll}
+    {$linklib libgcc}
+  {$EndIf}
 {$Else}
-  {$linklib libtimer-linux.a}
+  {$linklib libtimer-linux}
   {$linklib c}
+  {$linklib libgcc}
 {$EndIf}
   
 type

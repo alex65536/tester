@@ -27,12 +27,12 @@ interface
   {$IfDef Win32}
     {$linklib libtimer-win32}
     {$linklib libkernel32}
-    {$linklib libmsvcr100}
     {$linklib libmsvcrt}
     {$linklib libcrtdll}
     {$linklib libgcc}
   {$EndIf}
   {$IfDef Win64}
+    {$Warning I don't know how to make timerlib for Win64 link...}
     {$linklib libtimer-win64}
     {$linklib libkernel32}
     {$linklib libmsvcr100}

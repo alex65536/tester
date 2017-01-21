@@ -57,7 +57,7 @@ To download latest release of **Tester**, go to the following [link](https://git
  
   * Download the project  
     You can use the following command in terminal:  
-    `_git clone https://github.com/alex65536/tester_`
+    `git clone https://github.com/alex65536/tester`
   
   * Build _timerlib_. Use _timerlib/build-win32.bat_ for _Windows_ and _timerlib/build-linux.bat_ for _GNU/Linux_.
   

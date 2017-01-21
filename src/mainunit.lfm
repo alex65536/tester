@@ -3,15 +3,15 @@ object MainForm: TMainForm
   Height = 509
   Top = 169
   Width = 784
-  Caption = 'Tester v1.0.3 (beta)'
-  ClientHeight = 489
+  Caption = 'Tester v1.0.4 (beta)'
+  ClientHeight = 509
   ClientWidth = 784
   Menu = MainMenu
   Position = poScreenCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.2.0'
   object Panel: TPanel
     Left = 0
-    Height = 27
+    Height = 31
     Top = 0
     Width = 784
     Align = alTop
@@ -21,56 +21,56 @@ object MainForm: TMainForm
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
-    ClientHeight = 27
+    ClientHeight = 31
     ClientWidth = 784
     Color = clWindow
     ParentColor = False
     TabOrder = 0
     object BitBtn1: TBitBtn
       Left = 0
-      Height = 25
+      Height = 29
       Top = 0
-      Width = 137
+      Width = 130
       Action = NewFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 137
-      Height = 25
+      Left = 130
+      Height = 29
       Top = 0
-      Width = 142
+      Width = 137
       Action = OpenFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn3: TBitBtn
-      Left = 279
-      Height = 25
+      Left = 267
+      Height = 29
       Top = 0
-      Width = 151
+      Width = 149
       Action = SaveFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn4: TBitBtn
-      Left = 430
-      Height = 25
+      Left = 416
+      Height = 29
       Top = 0
-      Width = 186
+      Width = 194
       Action = TestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 616
-      Height = 25
+      Left = 610
+      Height = 29
       Top = 0
-      Width = 168
+      Width = 174
       Action = AboutAction
       AutoSize = True
       Color = clHighlight
@@ -79,8 +79,8 @@ object MainForm: TMainForm
   end
   object PropsList: TExtendedNotebook
     Left = 0
-    Height = 462
-    Top = 27
+    Height = 478
+    Top = 31
     Width = 784
     Align = alClient
     PopupMenu = TabPopupMenu

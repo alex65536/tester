@@ -780,7 +780,7 @@ object AboutBox: TAboutBox
     Width = 295
     Align = alTop
     Alignment = taCenter
-    Caption = 'version 1.0.3 (beta)'
+    Caption = 'version 1.0.4 (beta)'
     ParentColor = False
   end
   object DividerBevel1: TDividerBevel

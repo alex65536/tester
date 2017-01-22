@@ -56,7 +56,8 @@ To download latest release of **Tester**, go to the following [link](https://git
 * To build from sources, do the following steps:
  
   * Download the project  
-    You can use the following command in terminal: _git clone https://github.com/alex65536/tester_
+    You can use the following command in terminal:  
+    `git clone https://github.com/alex65536/tester`
   
   * Build _timerlib_. Use _timerlib/build-win32.bat_ for _Windows_ and _timerlib/build-linux.bat_ for _GNU/Linux_.
   
@@ -66,8 +67,15 @@ To download latest release of **Tester**, go to the following [link](https://git
   
   * That's all! 😃
   
-  * **Important note:** On _Windows_, you'll need some magic skills to link the project with _timerlib_. You can try to change libraries in _timerlib/timerlib.pas_ or paths to them in the project options.  
-    I've spent about 4 hours to link the project on _Windows_ for the first time. To make building less painful, I'll add a possiblity to build _timerlib_ as a dynamic library (which won't require linking the project with C libraries). 
+## Important build notes for Windows
+  
+  * You should specify paths to _GCC_'s libraries (in the project or in your `fp.cfg` file).
+
+  * Due to _MinGW_ bugs, linking may fail with the message:  
+    `Undefined symbol: __ms_vsnprintf`  
+    To workaround this issue, I built the timerlib with _MinGW32_ and in _FPC_ I used libraries from the 32-bit version of _MinGW-w64_.
+    
+  * Still have no idea how to link it under _Win64_. If you have enough magic skills, you may try to do it.
   
 # Libraries used by **Tester**
 

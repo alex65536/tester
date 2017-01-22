@@ -1,6 +1,11 @@
 Tester ChangeLog:
 --------------------------------
 
+version 1.0.4 (beta) (22.01.2017)
+[*] Minor bug fixes.
+[*] Windows version became fully GUI.
+[*] Built 32-bit GNU/Linux version.
+
 version 1.0.3 (beta) (18.01.2017)
 [*] Added new actions and buttons.
 [*] Minor fixes.

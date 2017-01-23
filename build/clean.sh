@@ -1,4 +1,5 @@
 #!/bin/bash
+# Cleans the directories.
 cd ..
 rm -rf src/lib/*
 rm -rf src/backup/*

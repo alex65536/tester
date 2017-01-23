@@ -1,4 +1,5 @@
 #!/bin/bash
+# Builds tester for linux.
 cd ../timerlib
 ./build-linux.sh
 ./build-linux-so.sh

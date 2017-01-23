@@ -1,4 +1,5 @@
 @echo off
+rem Builds timerlib for win64 as a static library.
 del /S *.o >>nul
 del libtimer-win64.a
 gcc -c src\windows\*.c -m64

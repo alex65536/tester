@@ -1,3 +1,5 @@
+@echo off
+rem Cleans the directories.
 cd ..
 del /S /Q src\lib
 del /S /Q src\backup

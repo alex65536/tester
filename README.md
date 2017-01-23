@@ -12,7 +12,7 @@
 
 * It's cross-platform and available on _Windows_ and _GNU/Linux_
 
-* No more batch scripts like _All_Test.bat_! **Tester** provides an intuitive graphical interface.
+* No more batch scripts like `All_Test.bat`! **Tester** provides an intuitive graphical interface.
 
 * With adding tests from template, it's easy to import a problem to **Tester**.
 
@@ -54,9 +54,13 @@ To download latest release of **Tester**, go to the following [link](https://git
 
 * You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
 
-* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (_libtimer32.dll_ or _libtimer64.dll_ for _Windows_ and _libtimer.so_ for _GNU/Linux_). **Note:** For _GNU/Linux_, you must install the shared library. To do this, use `timerlib\install-linux.sh`.
+* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (_libtimer32.dll_ or _libtimer64.dll_ for _Windows_ and _libtimer.so_ for _GNU/Linux_) with the executable. For _GNU/Linux_, you must install the shared library. To do this, use `timerlib\install-linux.sh`. For `Windows`, you must put the shared library to the same directory with the executable.
 
 ## Windows
+
+* Use the environment variable `PATH` to specify paths to _Lazarus_ directory and to _GNU GCC_'s `bin` directory.
+
+* If you link _timerlib_ statically, specify paths to the _C_ libraries in the project or in your `fp.cfg` file (you can find that file in the `Free Pascal Compiler`'s directory.  
 
 * Use the following batch scripts: `build/build-win32.bat` (for _Win32_) and `build/build-win64.bat` (for _Win64_). They will build _tester_ automatically.
 

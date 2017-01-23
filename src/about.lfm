@@ -1,7 +1,7 @@
 object AboutBox: TAboutBox
-  Left = 534
+  Left = 526
   Height = 534
-  Top = 100
+  Top = 179
   Width = 295
   ActiveControl = Button3
   AutoSize = True

@@ -17,35 +17,53 @@ unit timerlib;
 
 interface
 
+{$Define TimerlibDyn} // uncomment it if you want to use Timerlib as DLL.
 {$mode objfpc}{$h+}
 {$packrecords c}
 
-{$IfDef Windows}
-  // On Windows, you should specify your paths to these C libraries.
-  // To do this, you can use your fp.cfg file or do this in Lazarus project options.
-  // Also magic skills required.
-  {$IfDef Win32}
-    {$linklib libtimer-win32}
-    {$linklib libkernel32}
-    {$linklib libmsvcrt}
-    {$linklib libcrtdll}
+// Specifying libs for static linking
+{$IfNDef TimerlibDyn}
+  {$IfDef Windows}
+    // On Windows, you should specify your paths to these C libraries.
+    // To do this, you can use your fp.cfg file or do this in Lazarus project options.
+    // Also magic skills required.
+    {$IfDef Win32}
+      {$linklib libtimer-win32}
+      {$linklib libkernel32}
+      {$linklib libmsvcrt}
+      {$linklib libcrtdll}
+      {$linklib libgcc}
+    {$EndIf}
+    {$IfDef Win64}
+      {$Warning Cannot link with static library in Win64. Using dynamic linking}
+      {$Define TimerlibDyn}
+    {$EndIf}
+  {$Else}
+    {$linklib libtimer-linux}
+    {$linklib c}
     {$linklib libgcc}
   {$EndIf}
-  {$IfDef Win64}
-    {$Warning I don't know how to make timerlib for Win64 link...}
-    {$linklib libtimer-win64}
-    {$linklib libkernel32}
-    {$linklib libmsvcr100}
-    {$linklib libmsvcrt}
-    {$linklib libcrtdll}
-    {$linklib libgcc}
-  {$EndIf}
-{$Else}
-  {$linklib libtimer-linux}
-  {$linklib c}
-  {$linklib libgcc}
 {$EndIf}
-  
+
+// Determining lib paths for dynamic linking
+{$IfDef TimerlibDyn}
+  {$IfDef Windows}
+    {$IfDef Win32}
+      const
+        TimerLibName = 'libtimer32.dll';
+    {$EndIf}
+    {$IfDef Win64}
+      const
+        TimerLibName = 'libtimer64.dll';
+    {$EndIf}
+  {$Else}
+    const
+      TimerLibName = 'libtimer.so';
+    {$linklib c}
+    {$linklib libgcc}
+  {$EndIf}
+{$EndIf}
+
 type
   PChar = ^char;
   PInteger = ^integer;
@@ -63,13 +81,13 @@ type
 function LaunchTimer(WorkingDir, ExeName, StdinRedir, StdoutRedir, StderrRedir: PChar;
   TimeLimit, RealtimeLimit, SetMemoryLimit, MemoryLimit: integer;
   WorkTime, WorkRealtime, WorkMemory, ExitCode: PInteger): TTimerResult;
-  cdecl; external name 'launch_timer';
+  cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'launch_timer';
 
 implementation
 
-procedure InitTimer; cdecl; external name 'init_timer';
+procedure InitTimer; cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'init_timer';
 
 initialization
   InitTimer;
-  
+
 end.

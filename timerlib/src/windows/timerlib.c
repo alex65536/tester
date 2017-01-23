@@ -19,7 +19,13 @@
 #include "..\timerlib.h"
 #include "..\exec.h"
 
-__cdecl TIMER_RESULT launch_timer(
+#ifdef LINK_TO_DLL
+	#define EXPORT __declspec(dllexport)
+#else
+	#define EXPORT
+#endif
+
+EXPORT TIMER_RESULT launch_timer(
 		const char* working_dir,
 		const char* exe_name,
 		const char* stdin_redir,
@@ -123,7 +129,7 @@ __cdecl TIMER_RESULT launch_timer(
 	#undef secure_task_op
 }
 
-__cdecl void init_timer()
+EXPORT void init_timer()
 {
     freopen("nul", "r", stdin);
     freopen("nul", "w", stdout);

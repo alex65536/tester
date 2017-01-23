@@ -31,7 +31,7 @@ typedef enum
 	TR_RUN_FAIL
 } TIMER_RESULT;
 
-TIMER_RESULT launch_timer(
+extern TIMER_RESULT launch_timer(
 	const char* working_dir,
 	const char* exe_name,
 	const char* stdin_redir,
@@ -46,7 +46,7 @@ TIMER_RESULT launch_timer(
 	int* work_memory,
 	int* exit_code);
 	
-void init_timer();
+extern void init_timer();
 
 #endif //TIMERLIB_H_INCLUDED
 

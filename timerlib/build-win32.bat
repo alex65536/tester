@@ -1,6 +1,6 @@
 @echo off
 del /S *.o >>nul
 del libtimer-win32.a
-for %%i in (src\windows\*.c) do gcc -c %%i -m32
-for %%i in (*.o) do ar rcs libtimer-win32.a %%i
+mingw32-gcc -c src\windows\*.c -m32
+ar rcs libtimer-win32.a *.o
 del /S *.o >>nul

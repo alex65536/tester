@@ -17,7 +17,7 @@ unit timerlib;
 
 interface
 
-{$Define TimerlibDyn} // uncomment it if you want to use Timerlib as DLL.
+{.$Define TimerlibDyn} // uncomment it if you want to use Timerlib as DLL.
 {$mode objfpc}{$h+}
 {$packrecords c}
 

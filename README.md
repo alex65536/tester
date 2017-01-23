@@ -38,12 +38,9 @@
 
 * Tested on _Ubuntu 16.04_ (64-bit), but should work on other popular _GNU/Linux_ distros.
 
-* Currenty only 64-bit version is available, so 32-bit _GNU/Linuxes_ are not supported now.  
-  But you can build a 32-bit version from sources. See [_Building from sources_](#building-from-sources)
-
 * _GTK_ installed.
 
-* Some checkers for problems may come only in EXE file, so you should instal _Wine_ to launch them.
+* Some checkers for problems may come only in EXE file, so you should install _Wine_ to launch them.
 
 # Downloading latest release
 
@@ -51,31 +48,31 @@ To download latest release of **Tester**, go to the following [link](https://git
 
 # Building from sources
 
-* You will need _Lazarus IDE_ (recommended version is 1.6.2) with _Free Pascal_ compiler (recommended version is 3.0.0) and _GNU GCC_ compiler.
+## Common
 
-* To build from sources, do the following steps:
- 
-  * Download the project  
-    You can use the following command in terminal:  
-    `git clone https://github.com/alex65536/tester`
-  
-  * Build _timerlib_. Use _timerlib/build-win32.bat_ for _Windows_ and _timerlib/build-linux.bat_ for _GNU/Linux_.
-  
-  * Open the project inside _Lazarus_.
-  
-  * Click _Run > Build_.
-  
-  * That's all! 😃
-  
-## Important build notes for Windows
-  
-  * You should specify paths to _GCC_'s libraries (in the project or in your `fp.cfg` file).
+* To build _tester_ from sources, you will need _Lazarus IDE_ (recommended version is 1.6.2) with _Free Pascal_ compiler (recommended version is 3.0.0) and _GNU GCC_ compiler.
 
-  * Due to _MinGW_ bugs, linking may fail with the message:  
-    `Undefined symbol: __ms_vsnprintf`  
-    To workaround this issue, I built the timerlib with _MinGW32_ and in _FPC_ I used libraries from the 32-bit version of _MinGW-w64_.
-    
-  * Still have no idea how to link it under _Win64_. If you have enough magic skills, you may try to do it.
+* You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
+
+* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (_libtimer32.dll_ or _libtimer64.dll_ for _Windows_ and _libtimer.so_ for _GNU/Linux_). **Note:** For _GNU/Linux_, you must install the shared library. To do this, use `timerlib\install-linux.sh`.
+
+## Windows
+
+* Use the following batch scripts: `build/build-win32.bat` (for _Win32_) and `build/build-win64.bat` (for _Win64_). They will build _tester_ automatically.
+
+* There can be linking problems on _Windows_ when you link _timerlib_ statically. Due to _MinGW_ bugs, linking may fail with the message:  
+  `Undefined symbol: __ms_vsnprintf`  
+  To workaround this issue, I built the timerlib with _MinGW32_ and in _FPC_ I used libraries from the 32-bit version of _MinGW-w64_.
+  
+* Still have no idea how to link _timerlib_ statically on _Win64_, so _timerlib_ will be linked dynamically **even if you didn't uncommented `{$Define TimerlibDyn}`**.
+
+* If you have problems with static linking, do build _timerlib_ dynamically.
+
+## GNU/Linux
+
+* Use `build/build-linux.sh` shell script. It will build _tester_ automatically.
+
+* Better use static linking (you won't have to install the shared library).
   
 # Libraries used by **Tester**
 
@@ -84,3 +81,4 @@ To download latest release of **Tester**, go to the following [link](https://git
 * _SynEdit_, to view the sources.
 
 * _exec.h_, _exec.c_ and some other source files from [_ejudge_ project](https://ejudge.ru/), which provides routines to run the submissions and check them for time and memory limits.
+

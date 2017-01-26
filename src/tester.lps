@@ -3,13 +3,13 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="31">
+    <Units Count="34">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="3"/>
-        <TopLine Value="60"/>
-        <CursorPos Y="82"/>
+        <TopLine Value="57"/>
+        <CursorPos X="6" Y="68"/>
         <UsageCount Value="135"/>
         <Loaded Value="True"/>
       </Unit0>
@@ -133,7 +133,7 @@
       <Unit15>
         <Filename Value="processfork.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="5"/>
         <TopLine Value="50"/>
         <CursorPos X="30" Y="59"/>
         <UsageCount Value="113"/>
@@ -142,9 +142,9 @@
       <Unit16>
         <Filename Value="runtimers.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="6"/>
         <TopLine Value="13"/>
-        <CursorPos X="67" Y="82"/>
+        <CursorPos X="99" Y="18"/>
         <UsageCount Value="108"/>
         <Loaded Value="True"/>
       </Unit16>
@@ -277,7 +277,72 @@
         <CursorPos X="57" Y="40"/>
         <UsageCount Value="33"/>
       </Unit30>
+      <Unit31>
+        <Filename Value="logfile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="4"/>
+        <TopLine Value="23"/>
+        <CursorPos X="17" Y="37"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit31>
+      <Unit32>
+        <Filename Value="../.git/info/exclude"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="6" Y="10"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit32>
+      <Unit33>
+        <Filename Value="../../../../../../lazarus/fpc/3.0.0/source/rtl/objpas/sysutils/datih.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="115"/>
+        <CursorPos X="10" Y="128"/>
+        <UsageCount Value="10"/>
+      </Unit33>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="10" HistoryIndex="9">
+      <Position1>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="13" Column="62"/>
+      </Position1>
+      <Position2>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="36" Column="20" TopLine="13"/>
+      </Position2>
+      <Position3>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="12" Column="38" TopLine="23"/>
+      </Position3>
+      <Position4>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="22" Column="3" TopLine="29"/>
+      </Position4>
+      <Position5>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="26" Column="75" TopLine="13"/>
+      </Position5>
+      <Position6>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="22" Column="3" TopLine="9"/>
+      </Position6>
+      <Position7>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="39" Column="23" TopLine="16"/>
+      </Position7>
+      <Position8>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="26" Column="73" TopLine="13"/>
+      </Position8>
+      <Position9>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="32" Column="4" TopLine="19"/>
+      </Position9>
+      <Position10>
+        <Filename Value="logfile.pas"/>
+        <Caret Line="26" Column="38" TopLine="19"/>
+      </Position10>
+    </JumpHistory>
   </ProjectSession>
 </CONFIG>

@@ -60,7 +60,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   licenseforms,
   imgkeeper,
   testtemplates,
-  testtemplatedlg;
+  testtemplatedlg,
+  logfile;
 
 {$R *.res}
 

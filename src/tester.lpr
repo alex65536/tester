@@ -61,7 +61,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   imgkeeper,
   testtemplates,
   testtemplatedlg,
-  logfile;
+  logfile, propsparserbase;
 
 {$R *.res}
 

@@ -54,6 +54,7 @@ type
     property CheckerOutput: string read FCheckerOutput write SetCheckerOutput;
     constructor Create; virtual;
     function Check: TTestVerdict;
+    function Equals(Obj: TObject): boolean; override;
     procedure AssignTo(Dest: TPersistent); override;
   end;
 
@@ -70,6 +71,7 @@ type
     procedure SetInputFile(AValue: string);
     procedure SetOutputFile(AValue: string);
   public
+    function Equals(Obj: TObject): boolean; override;
     procedure AssignTo(Dest: TPersistent); override;
     constructor Create(AInputFile, AOutputFile: string; ACost: double);
   published
@@ -133,6 +135,7 @@ type
 
 procedure RegisterChecker(AClass: TProblemCheckerClass);
 function CreateChecker(const AName: string): TProblemChecker;
+function CloneChecker(AChecker: TProblemChecker): TProblemChecker;
 
 implementation
 
@@ -152,6 +155,17 @@ begin
   if AClass = nil then
     raise EProblemChecker.CreateFmt(SUnknownChecker, [AName]);
   Result := AClass.Create;
+end;
+
+function CloneChecker(AChecker: TProblemChecker): TProblemChecker;
+begin
+  if AChecker = nil then
+    Result := nil
+  else
+  begin
+    Result := TProblemCheckerClass(AChecker.ClassType).Create;
+    Result.Assign(AChecker);
+  end;
 end;
 
 { TProblemChecker }
@@ -201,6 +215,14 @@ function TProblemChecker.Check: TTestVerdict;
 begin
   FCheckerOutput := '';
   Result := DoCheck;
+end;
+
+function TProblemChecker.Equals(Obj: TObject): boolean;
+begin
+  if Obj.ClassType <> ClassType then
+    Result := False
+  else
+    Result := True;
 end;
 
 procedure TProblemChecker.AssignTo(Dest: TPersistent);
@@ -263,6 +285,19 @@ begin
   if FOutputFile = AValue then
     Exit;
   FOutputFile := AValue;
+end;
+
+function TProblemTest.Equals(Obj: TObject): boolean;
+begin
+  if Obj.ClassType <> ClassType then
+    Result := False
+  else
+  begin
+    with Obj as TProblemTest do
+      Result := (InputFile = Self.InputFile) and
+        (OutputFile = Self.OutputFile) and
+        (Abs(Cost - Self.Cost) < 0.0000001);
+  end;
 end;
 
 procedure TProblemTest.AssignTo(Dest: TPersistent);
@@ -403,13 +438,7 @@ begin
     TimeLimit := Self.TimeLimit;
     MemoryLimit := Self.MemoryLimit;
     TestList.Assign(Self.TestList);
-    if Self.Checker = nil then
-      Checker := nil
-    else
-    begin
-      Checker := TProblemCheckerClass(Self.Checker.ClassType).Create;
-      Checker.Assign(Self.Checker);
-    end;
+    Checker := CloneChecker(Self.Checker);
   end;
 end;
 

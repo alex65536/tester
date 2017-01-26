@@ -59,6 +59,7 @@ type
   public
     constructor Create; override;
     procedure AssignTo(Dest: TPersistent); override;
+    function Equals(Obj: TObject): boolean; override;
   published
     property CheckerFileName: string read FCheckerFileName write SetCheckerFileName;
   end;
@@ -135,6 +136,15 @@ begin
   begin
     CheckerFileName := Self.CheckerFileName;
   end;
+end;
+
+function TStdExecutableChecker.Equals(Obj: TObject): boolean;
+begin
+  if Obj.ClassType <> ClassType then
+    Result := False
+  else
+    with Obj as TStdExecutableChecker do
+      Result := CheckerFileName = Self.CheckerFileName;
 end;
 
 { TTextChecker }

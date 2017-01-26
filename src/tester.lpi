@@ -44,7 +44,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="32">
+    <Units Count="33">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -215,6 +215,10 @@
         <Filename Value="logfile.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit31>
+      <Unit32>
+        <Filename Value="propsparserbase.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit32>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -74,8 +74,8 @@ procedure TSourceViewer.SetFileName(AValue: string);
 var
   Extension: string;
 begin
-  if FFileName = AValue then
-    Exit;
+  //if FFileName = AValue then
+  //  Exit;
   Extension := ExtractFileExt(AValue);
   if not FHighlighters.Contains(Extension) then
     raise ESourceViewer.CreateFmt(SSourceNotSupported, [Extension]);

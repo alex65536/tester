@@ -26,7 +26,7 @@ interface
 
 uses
   SysUtils, Forms, ExtCtrls, StdCtrls, ButtonPanel, strconsts,
-  verdictcolors, testresults, problemprops;
+  verdictcolors, testresults, problemprops, Classes;
 
 type
 
@@ -49,6 +49,10 @@ type
     TimeLabel: TLabel;
     VerdictLabel: TLabel;
     ScoreLabel: TLabel;
+    procedure FormShow(Sender: TObject);
+  private
+    FTest: TProblemTest;
+    FResults: TTestResult;
   public
     procedure Show(ATest: TProblemTest; AResults: TTestResult);
   end;
@@ -62,15 +66,21 @@ implementation
 
 { TTestInfoDlg }
 
+procedure TTestInfoDlg.FormShow(Sender: TObject);
+begin
+  VerdictLabel.Font.Color := TestVerdictColors[FResults.Verdict];
+  VerdictLabel.Caption := STestVerdicts[FResults.Verdict];
+  ScoreLabel.Font.Color := GetTotalScoreColor(FResults.Score, FTest.Cost);
+  ScoreLabel.Caption := Format(SScoreDivide, [FResults.Score, FTest.Cost]);
+  TimeLabel.Caption := Format(STimeConsumedEx, [FResults.Time / 1000]);
+  MemoryLabel.Caption := Format(SMemConsumedEx, [FResults.Memory / 1024]);
+  CheckerOutputMemo.Text := FResults.CheckerOutput;
+end;
+
 procedure TTestInfoDlg.Show(ATest: TProblemTest; AResults: TTestResult);
 begin
-  VerdictLabel.Font.Color := TestVerdictColors[AResults.Verdict];
-  VerdictLabel.Caption := STestVerdicts[AResults.Verdict];
-  ScoreLabel.Font.Color := GetTotalScoreColor(AResults.Score, ATest.Cost);
-  ScoreLabel.Caption := Format(SScoreDivide, [AResults.Score, ATest.Cost]);
-  TimeLabel.Caption := Format(STimeConsumedEx, [AResults.Time / 1000]);
-  MemoryLabel.Caption := Format(SMemConsumedEx, [AResults.Memory / 1024]);
-  CheckerOutputMemo.Text := AResults.CheckerOutput;
+  FResults := AResults;
+  FTest := ATest;
   ShowModal;
 end;
 

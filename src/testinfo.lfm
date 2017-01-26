@@ -6,46 +6,47 @@ object TestInfoDlg: TTestInfoDlg
   Caption = 'Test status'
   ClientHeight = 267
   ClientWidth = 339
+  OnShow = FormShow
   Position = poMainFormCenter
   LCLVersion = '1.6.2.0'
   object Panel: TPanel
     Left = 6
-    Height = 71
+    Height = 63
     Top = 6
     Width = 327
     Align = alTop
     AutoSize = True
     BorderSpacing.Around = 6
     BevelOuter = bvNone
-    ClientHeight = 71
+    ClientHeight = 63
     ClientWidth = 327
     TabOrder = 0
     object Panel1: TPanel
       Left = 0
-      Height = 17
+      Height = 15
       Top = 0
       Width = 327
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 17
+      ClientHeight = 15
       ClientWidth = 327
       TabOrder = 0
       object Label1: TLabel
         Left = 0
-        Height = 17
+        Height = 15
         Top = 0
-        Width = 86
+        Width = 67
         Align = alLeft
         Caption = 'Test verdict: '
         Layout = tlCenter
         ParentColor = False
       end
       object VerdictLabel: TLabel
-        Left = 86
-        Height = 17
+        Left = 67
+        Height = 15
         Top = 0
-        Width = 21
+        Width = 16
         Align = alLeft
         Caption = 'OK'
         Font.Color = clGreen
@@ -56,30 +57,30 @@ object TestInfoDlg: TTestInfoDlg
     end
     object Panel5: TPanel
       Left = 0
-      Height = 17
-      Top = 17
+      Height = 15
+      Top = 15
       Width = 327
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 17
+      ClientHeight = 15
       ClientWidth = 327
       TabOrder = 1
       object Label2: TLabel
         Left = 0
-        Height = 17
+        Height = 15
         Top = 0
-        Width = 75
+        Width = 59
         Align = alLeft
         Caption = 'Test score: '
         Layout = tlCenter
         ParentColor = False
       end
       object ScoreLabel: TLabel
-        Left = 75
-        Height = 17
+        Left = 59
+        Height = 15
         Top = 0
-        Width = 22
+        Width = 17
         Align = alLeft
         Caption = '5/5'
         Font.Color = clGreen
@@ -90,21 +91,21 @@ object TestInfoDlg: TTestInfoDlg
     end
     object Panel2: TPanel
       Left = 0
-      Height = 17
-      Top = 37
+      Height = 15
+      Top = 33
       Width = 327
       Align = alTop
       AutoSize = True
       BorderSpacing.Top = 3
       BevelOuter = bvNone
-      ClientHeight = 17
+      ClientHeight = 15
       ClientWidth = 327
       TabOrder = 2
       object TimeLabel: TLabel
-        Left = 40
-        Height = 17
+        Left = 33
+        Height = 15
         Top = 0
-        Width = 38
+        Width = 29
         Align = alLeft
         Caption = '0.01 s'
         Layout = tlCenter
@@ -112,9 +113,9 @@ object TestInfoDlg: TTestInfoDlg
       end
       object Label3: TLabel
         Left = 0
-        Height = 17
+        Height = 15
         Top = 0
-        Width = 40
+        Width = 33
         Align = alLeft
         Caption = 'Time: '
         Layout = tlCenter
@@ -123,20 +124,20 @@ object TestInfoDlg: TTestInfoDlg
     end
     object Panel4: TPanel
       Left = 0
-      Height = 17
-      Top = 54
+      Height = 15
+      Top = 48
       Width = 327
       Align = alTop
       AutoSize = True
       BevelOuter = bvNone
-      ClientHeight = 17
+      ClientHeight = 15
       ClientWidth = 327
       TabOrder = 3
       object MemoryLabel: TLabel
-        Left = 63
-        Height = 17
+        Left = 51
+        Height = 15
         Top = 0
-        Width = 54
+        Width = 42
         Align = alLeft
         Caption = '2.56 MB'
         Layout = tlCenter
@@ -144,9 +145,9 @@ object TestInfoDlg: TTestInfoDlg
       end
       object Label5: TLabel
         Left = 0
-        Height = 17
+        Height = 15
         Top = 0
-        Width = 63
+        Width = 51
         Align = alLeft
         Caption = 'Memory: '
         Layout = tlCenter
@@ -156,8 +157,8 @@ object TestInfoDlg: TTestInfoDlg
   end
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 37
-    Top = 224
+    Height = 34
+    Top = 227
     Width = 327
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -172,17 +173,17 @@ object TestInfoDlg: TTestInfoDlg
   end
   object GroupBox2: TGroupBox
     Left = 0
-    Height = 135
-    Top = 83
+    Height = 146
+    Top = 75
     Width = 339
     Align = alClient
     Caption = 'Checker output'
-    ClientHeight = 116
+    ClientHeight = 126
     ClientWidth = 335
     TabOrder = 1
     object CheckerOutputMemo: TMemo
       Left = 0
-      Height = 116
+      Height = 126
       Top = 0
       Width = 335
       Align = alClient

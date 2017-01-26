@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, SynHighlighterPas, Forms,
   ButtonPanel, AvgLvlTree, SynHighlighterCpp, SynEditHighlighter, strconsts,
-  LazUTF8, Graphics;
+  LazUTF8, Graphics, StdCtrls;
 
 type
   ESourceViewer = class(Exception);
@@ -39,6 +39,7 @@ type
     SourceViewer: TSynEdit;
     SynCppSyn: TSynCppSyn;
     SynFreePascalSyn: TSynFreePascalSyn;
+    procedure FormShow(Sender: TObject);
   private
     FFileName: string;
     FHighlighters: TStringToPointerTree;
@@ -60,6 +61,14 @@ implementation
 {$R *.lfm}
 
 { TSourceViewer }
+
+procedure TSourceViewer.FormShow(Sender: TObject);
+begin
+  // fix for a small bug: by some reason, sometimes ScrollBars aren't shown
+  // after testing stops.
+  SourceViewer.ScrollBars := ssNone;
+  SourceViewer.ScrollBars := ssBoth;
+end;
 
 procedure TSourceViewer.SetFileName(AValue: string);
 var

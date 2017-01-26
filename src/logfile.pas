@@ -24,6 +24,7 @@ var
 procedure WriteLog(const S: string); inline;
 begin
   WriteLn(TheLogFile, FormatDateTime('dd.mm.yyyy hh:nn:ss.zzzz :: ', Now), S);
+  Flush(TheLogFile);
 end;
 
 procedure WriteLogFmt(const S: string; Args: array of const);

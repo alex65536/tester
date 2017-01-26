@@ -6,8 +6,9 @@ object SourceViewer: TSourceViewer
   Caption = 'Source viewer'
   ClientHeight = 345
   ClientWidth = 524
+  OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.0.4'
+  LCLVersion = '1.6.2.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
     Height = 34

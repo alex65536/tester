@@ -25,7 +25,8 @@ unit compilerinfo;
 interface
 
 uses
-  Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts;
+  Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts,
+  Classes;
 
 type
 
@@ -38,6 +39,9 @@ type
     VerdictLabel: TLabel;
     CompilerOutputMemo: TMemo;
     Panel1: TPanel;
+    procedure FormShow(Sender: TObject);
+  private
+    FResults: TTestedProblem;
   public
     procedure Show(AResults: TTestedProblem);
   end;
@@ -51,11 +55,16 @@ implementation
 
 { TCompilerInfoDlg }
 
+procedure TCompilerInfoDlg.FormShow(Sender: TObject);
+begin
+  VerdictLabel.Font.Color := CompilerVerdictColors[FResults.CompileVerdict];
+  VerdictLabel.Caption := SCompilerVerdicts[FResults.CompileVerdict];
+  CompilerOutputMemo.Text := FResults.CompilerOutput;
+end;
+
 procedure TCompilerInfoDlg.Show(AResults: TTestedProblem);
 begin
-  VerdictLabel.Font.Color := CompilerVerdictColors[AResults.CompileVerdict];
-  VerdictLabel.Caption := SCompilerVerdicts[AResults.CompileVerdict];
-  CompilerOutputMemo.Text := AResults.CompilerOutput;
+  FResults := AResults;
   ShowModal;
 end;
 

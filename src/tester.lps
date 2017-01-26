@@ -3,15 +3,14 @@
   <ProjectSession>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="34">
+    <Units Count="32">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="57"/>
         <CursorPos X="6" Y="68"/>
         <UsageCount Value="135"/>
-        <Loaded Value="True"/>
       </Unit0>
       <Unit1>
         <Filename Value="mainunit.pas"/>
@@ -19,10 +18,12 @@
         <ComponentName Value="MainForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="254"/>
-        <CursorPos X="74" Y="276"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="22" Y="224"/>
         <UsageCount Value="135"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="problemprops.pas"/>
@@ -52,7 +53,8 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <EditorIndex Value="-1"/>
-        <CursorPos Y="375"/>
+        <TopLine Value="301"/>
+        <CursorPos X="3" Y="306"/>
         <UsageCount Value="135"/>
       </Unit5>
       <Unit6>
@@ -127,26 +129,25 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="10" Y="30"/>
+        <TopLine Value="40"/>
+        <CursorPos X="22" Y="79"/>
         <UsageCount Value="114"/>
       </Unit14>
       <Unit15>
         <Filename Value="processfork.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="50"/>
         <CursorPos X="30" Y="59"/>
         <UsageCount Value="113"/>
-        <Loaded Value="True"/>
       </Unit15>
       <Unit16>
         <Filename Value="runtimers.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="6"/>
-        <TopLine Value="13"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="151"/>
         <CursorPos X="99" Y="18"/>
         <UsageCount Value="108"/>
-        <Loaded Value="True"/>
       </Unit16>
       <Unit17>
         <Filename Value="problemtesting.pas"/>
@@ -229,12 +230,10 @@
         <ComponentName Value="AboutBox"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="24"/>
         <UsageCount Value="70"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit26>
       <Unit27>
         <Filename Value="licenseforms.pas"/>
@@ -242,10 +241,10 @@
         <ComponentName Value="LicenseForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="47"/>
         <CursorPos X="8" Y="69"/>
         <UsageCount Value="68"/>
-        <Loaded Value="True"/>
       </Unit27>
       <Unit28>
         <Filename Value="imgkeeper.pas"/>
@@ -260,9 +259,8 @@
       <Unit29>
         <Filename Value="testtemplates.pas"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
-        <TopLine Value="63"/>
-        <CursorPos X="51" Y="68"/>
+        <TopLine Value="57"/>
+        <CursorPos X="43" Y="67"/>
         <UsageCount Value="34"/>
         <Loaded Value="True"/>
       </Unit29>
@@ -272,77 +270,28 @@
         <ComponentName Value="TestTemplateDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="18"/>
+        <EditorIndex Value="2"/>
         <CursorPos X="57" Y="40"/>
         <UsageCount Value="33"/>
+        <Loaded Value="True"/>
       </Unit30>
       <Unit31>
         <Filename Value="logfile.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="23"/>
-        <CursorPos X="17" Y="37"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="48" Y="29"/>
         <UsageCount Value="20"/>
-        <Loaded Value="True"/>
       </Unit31>
-      <Unit32>
-        <Filename Value="../.git/info/exclude"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="6" Y="10"/>
-        <UsageCount Value="10"/>
-        <DefaultSyntaxHighlighter Value="None"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="../../../../../../lazarus/fpc/3.0.0/source/rtl/objpas/sysutils/datih.inc"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="115"/>
-        <CursorPos X="10" Y="128"/>
-        <UsageCount Value="10"/>
-      </Unit33>
     </Units>
-    <JumpHistory Count="10" HistoryIndex="9">
+    <JumpHistory Count="2" HistoryIndex="1">
       <Position1>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="13" Column="62"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="276" Column="74" TopLine="254"/>
       </Position1>
       <Position2>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="36" Column="20" TopLine="13"/>
+        <Filename Value="mainunit.pas"/>
+        <Caret Line="224" Column="22" TopLine="209"/>
       </Position2>
-      <Position3>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="12" Column="38" TopLine="23"/>
-      </Position3>
-      <Position4>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="22" Column="3" TopLine="29"/>
-      </Position4>
-      <Position5>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="26" Column="75" TopLine="13"/>
-      </Position5>
-      <Position6>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="22" Column="3" TopLine="9"/>
-      </Position6>
-      <Position7>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="39" Column="23" TopLine="16"/>
-      </Position7>
-      <Position8>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="26" Column="73" TopLine="13"/>
-      </Position8>
-      <Position9>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="32" Column="4" TopLine="19"/>
-      </Position9>
-      <Position10>
-        <Filename Value="logfile.pas"/>
-        <Caret Line="26" Column="38" TopLine="19"/>
-      </Position10>
     </JumpHistory>
   </ProjectSession>
 </CONFIG>

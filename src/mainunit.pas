@@ -221,6 +221,7 @@ var
   WasDir: string;
 begin
   AEditor := CurEditor;
+  AEditor.SaveToJSON;
   WasDir := GetCurrentDirUTF8;
   try
     SetCurrentDirUTF8(ExtractFilePath(AEditor.FileName));

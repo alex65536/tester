@@ -58,6 +58,7 @@ type
     procedure GetCommandLine(var ExeName: string; Args: TStringList); override;
   public
     constructor Create; override;
+    constructor Create(ACheckerFileName: string);
     procedure AssignTo(Dest: TPersistent); override;
     function Equals(Obj: TObject): boolean; override;
   published
@@ -127,6 +128,12 @@ constructor TStdExecutableChecker.Create;
 begin
   inherited;
   CheckerFileName := 'checker.exe';
+end;
+
+constructor TStdExecutableChecker.Create(ACheckerFileName: string);
+begin
+  Create;
+  CheckerFileName := ACheckerFileName;
 end;
 
 procedure TStdExecutableChecker.AssignTo(Dest: TPersistent);

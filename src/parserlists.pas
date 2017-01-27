@@ -163,14 +163,11 @@ begin
       try
         AParser.WorkingDir := Self.WorkingDir;
         // parse
-        if AParser.Parse then
-        begin
-          // merge
-          if not FCollector.Merge(AParser.Properties) then
-            MergeConflicts := True;
-        end
-        else
+        if not AParser.Parse then
           ParserFail := True;
+        // merge
+        if not FCollector.Merge(AParser.Properties) then
+          MergeConflicts := True;
       finally
         FreeAndNil(AParser);
       end;

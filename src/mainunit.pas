@@ -182,17 +182,17 @@ begin
     TabSheet.Caption := ExtractFileName(FileName);
     PropEditor.PopupMenu := EmptyPopupMenu;
     PropEditor.FileName := ExpandFileNameUTF8(FileName);
+    if Parse then
+    begin
+      RunAllParsers(ExtractFilePath(FileName), PropEditor.Properties);
+      PropEditor.UpdateControls;
+    end;
     case APolicy of
       ceLoad: PropEditor.LoadFromJSON;
       ceSave: PropEditor.SaveToJSON;
     end;
     PropEditor.Parent := TabSheet;
     PropEditor.Align := alClient;
-    if Parse then
-    begin
-      RunAllParsers(ExtractFilePath(FileName), PropEditor.Properties);
-      PropEditor.UpdateControls;
-    end;
   except
     FreeAndNil(TabSheet);
     Exit;

@@ -25,7 +25,7 @@ unit propsparserbase;
 interface
 
 uses
-  Classes, SysUtils, problemprops, checkers;
+  Classes, SysUtils, problemprops, checkers, logfile;
 
 type
 
@@ -48,6 +48,7 @@ type
     constructor Create; virtual;
     destructor Destroy; override;
   end;
+
   TPropertiesParserClass = class of TPropertiesParserBase;
 
   { TProblemPropsCollector }
@@ -62,6 +63,12 @@ type
   public
     property Properties: TProblemProperties read FProperties;
     class function CleanProperties: TProblemProperties;
+    class function MergeStr(const Str1, Str2: string; var Success: boolean): string;
+    class function MergeInt(Int1, Int2: integer; var Success: boolean): integer;
+    class function MergeChecker(Chk1, Chk2: TProblemChecker;
+      var Success: boolean): TProblemChecker;
+    class procedure MergeTests(BaseTst, MergeTst: TProblemTestList;
+      var Success: boolean);
     function Merge(Props: TProblemProperties): boolean;
     function Finalize: boolean;
     constructor Create;
@@ -74,7 +81,8 @@ implementation
 
 procedure TPropertiesParserBase.SetWorkingDir(AValue: string);
 begin
-  if FWorkingDir = AValue then Exit;
+  if FWorkingDir = AValue then
+    Exit;
   FWorkingDir := AValue;
 end;
 
@@ -90,9 +98,14 @@ begin
     Result := DoParse;
     if IsTerminated then
       Result := False;
-  finally
-    FIsTerminated := True;
+  except
+    on E: Exception do
+    begin
+      WriteLog(ClassName + ' error: ' + E.Message);
+      Result := False;
+    end;
   end;
+  FIsTerminated := True;
 end;
 
 constructor TPropertiesParserBase.Create;
@@ -128,75 +141,78 @@ begin
   end;
 end;
 
+class function TProblemPropsCollector.MergeStr(const Str1, Str2: string;
+  var Success: boolean): string;
+begin
+  if Str1 = UnknownStr then // str1 unknown
+    Result := Str2
+  else if Str2 = UnknownStr then // str2 unknown
+    Result := Str1
+  else if Str1 = Str2 then // all are equal
+    Result := Str1
+  else
+  begin // all are known, but differ (this is not good)
+    Success := False;
+    Result := Str1;
+  end;
+end;
+
+class function TProblemPropsCollector.MergeInt(Int1, Int2: integer;
+  var Success: boolean): integer;
+begin
+  if Int1 = UnknownInt then // int1 unknown
+    Result := Int2
+  else if Int2 = UnknownInt then // int2 unknown
+    Result := Int1
+  else if Int1 = Int2 then // all are equal
+    Result := Int1
+  else
+  begin // all are known, but differ (this is not good)
+    Success := False;
+    Result := Int1;
+  end;
+end;
+
+class function TProblemPropsCollector.MergeChecker(Chk1, Chk2: TProblemChecker;
+  var Success: boolean): TProblemChecker;
+begin
+  if Chk1 = nil then // chk1 unknown
+    Result := Chk2
+  else if Chk2 = nil then // chk2 unknown
+    Result := Chk1
+  else if Chk1.Equals(Chk2) then // all are equal
+    Result := Chk1
+  else
+  begin // all are known, but differ (this is not good)
+    Success := False;
+    Result := Chk1;
+  end;
+end;
+
+class procedure TProblemPropsCollector.MergeTests(BaseTst, MergeTst: TProblemTestList;
+  var Success: boolean);
+var
+  I: integer;
+begin
+  // check for conflicts
+  if BaseTst.Count = MergeTst.Count then
+  begin
+    for I := 0 to BaseTst.Count - 1 do
+      if not BaseTst[I].Equals(MergeTst[I]) then
+      begin
+        Success := False;
+        Break;
+      end;
+  end
+  else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
+    Success := False;
+  // add tests from MergeTst that don't exist in BaseTst
+  for I := 0 to MergeTst.Count - 1 do
+    if BaseTst.Find(MergeTst[I]) < 0 then
+      BaseTst.Add.Assign(MergeTst[I]);
+end;
+
 function TProblemPropsCollector.Merge(Props: TProblemProperties): boolean;
-
-  function MergeStr(const Str1, Str2: string; var Success: boolean): string;
-  begin
-    if Str1 = UnknownStr then // str1 unknown
-      Result := Str2
-    else if Str2 = UnknownStr then // str2 unknown
-      Result := Str1
-    else if Str1 = Str2 then // all are equal
-      Result := Str1
-    else
-    begin // all are known, but differ (this is not good)
-      Success := False;
-      Result := Str1;
-    end;
-  end;
-
-  function MergeInt(Int1, Int2: integer; var Success: boolean): integer;
-  begin
-    if Int1 = UnknownInt then // int1 unknown
-      Result := Int2
-    else if Int2 = UnknownInt then // int2 unknown
-      Result := Int1
-    else if Int1 = Int2 then // all are equal
-      Result := Int1
-    else
-    begin // all are known, but differ (this is not good)
-      Success := False;
-      Result := Int1;
-    end;
-  end;
-
-  function MergeChecker(Chk1, Chk2: TProblemChecker; var Success: boolean): TProblemChecker;
-  begin
-    if Chk1 = nil then // chk1 unknown
-      Result := Chk2
-    else if Chk2 = nil then // chk2 unknown
-      Result := Chk1
-    else if Chk1.Equals(Chk2) then // all are equal
-      Result := Chk1
-    else
-    begin // all are known, but differ (this is not good)
-      Success := False;
-      Result := Chk1;
-    end;
-  end;
-
-  procedure MergeTests(BaseTst, MergeTst: TProblemTestList; var Success: boolean);
-  var
-    I: integer;
-  begin
-    // check for conflicts
-    if BaseTst.Count = MergeTst.Count then
-    begin
-      for I := 0 to BaseTst.Count - 1 do
-        if not BaseTst[I].Equals(MergeTst[I]) then
-        begin
-          Success := False;
-          Break;
-        end;
-    end
-    else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
-      Success := False;
-    // add tests from MergeTst that don't exist in BaseTst
-    for I := 0 to MergeTst.Count - 1 do
-      if BaseTst.Find(MergeTst[I]) < 0 then
-        BaseTst.Add.Assign(MergeTst[I]);
-  end;
-
 begin
   Result := True;
   with FProperties do

@@ -64,7 +64,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   logfile,
   propsparserbase,
   parserlists,
-  parsertest;
+  parsertest, parserforms;
 
 {$R *.res}
 
@@ -82,5 +82,6 @@ begin
   Application.CreateForm(TAboutBox, AboutBox);
   Application.CreateForm(TLicenseForm, LicenseForm);
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
+  Application.CreateForm(TParserForm, ParserForm);
   Application.Run;
 end.

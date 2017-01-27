@@ -42,7 +42,7 @@ resourcestring
   SCompilerError = 'Could not run compiler "%s"';
   SCompilerExitCode = 'Compiler exitcode: %d';
   SCompilerNotRegistered = 'No compiler registered for extension %s';
-  SSourceNotSupported = 'Extension %s not supported.';
+  SSourceNotSupported = 'Extension %s not supported';
   SDirCreateError = 'Cannot create dir "%s"';
   SDirRemoveError = 'Cannot remove dir "%s"';
   SFileDeleteError = 'Cannot delete file "%s"';
@@ -57,12 +57,18 @@ resourcestring
   SMemConsumed = '%.2f MB';
   SMemConsumedEx = '%.0f KBytes';
   SScoreDivide = '%.2f/%.2f';
-  SAlreadyTesting = 'Testing is already started.';
-  SNoTestsAdded = 'No tests were added.';
+  SAlreadyTesting = 'Testing is already started';
+  SNoTestsAdded = 'No tests were added';
   SAddTest = 'Add test';
   SInsertTest = 'Insert test';
   SEditTest = 'Edit test';
   SMultiAddTest = 'Add tests from template';
+  SThreadAlreadyRunning = 'ParserForm is already running a thread';
+  SCheckRecommendation = 'Please check and edit (if necessary) the problem data manually';
+  SParserFail = 'One or more parsers failed';
+  SMergeConflict = 'Two or more parsers produced the conflicting output';
+  SNotFullInfo = 'Parsing didn''t deduce all the problem info';
+  SParserWarningFmt = '%s. %s.';
 
 // Compilation verdicts
 resourcestring

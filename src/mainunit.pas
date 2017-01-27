@@ -26,7 +26,8 @@ interface
 
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
-  ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about;
+  ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
+  parserforms;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);
@@ -119,7 +120,8 @@ type
   public
     function CurEditor: TProblemPropsEditor;
     function EditorFromTab(TabSheet: TTabSheet): TProblemPropsEditor;
-    procedure CreateFromFile(const FileName: string; APolicy: TCreateEditorPolicy);
+    procedure CreateFromFile(const FileName: string; APolicy: TCreateEditorPolicy;
+      Parse: boolean);
     procedure AfterConstruction; override;
   end;
 
@@ -168,7 +170,7 @@ begin
 end;
 
 procedure TMainForm.CreateFromFile(const FileName: string;
-  APolicy: TCreateEditorPolicy);
+  APolicy: TCreateEditorPolicy; Parse: boolean);
 var
   TabSheet: TTabSheet;
   PropEditor: TProblemPropsEditor;
@@ -186,6 +188,11 @@ begin
     end;
     PropEditor.Parent := TabSheet;
     PropEditor.Align := alClient;
+    if Parse then
+    begin
+      RunAllParsers(ExtractFilePath(FileName), PropEditor.Properties);
+      PropEditor.UpdateControls;
+    end;
   except
     FreeAndNil(TabSheet);
     Exit;
@@ -252,7 +259,7 @@ procedure TMainForm.NewFileActionExecute(Sender: TObject);
 begin
   if not SaveDialog.Execute then
     Exit;
-  CreateFromFile(SaveDialog.FileName, ceSave);
+  CreateFromFile(SaveDialog.FileName, ceSave, True);
   DoUpdateActions;
 end;
 
@@ -396,7 +403,7 @@ begin
   if not OpenDialog.Execute then
     Exit;
   for I := 0 to OpenDialog.Files.Count - 1 do
-    CreateFromFile(OpenDialog.Files[I], ceLoad);
+    CreateFromFile(OpenDialog.Files[I], ceLoad, False);
   DoUpdateActions;
 end;
 

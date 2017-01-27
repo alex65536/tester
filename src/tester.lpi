@@ -44,7 +44,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="35">
+    <Units Count="36">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -227,6 +227,12 @@
         <Filename Value="parsertest.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit34>
+      <Unit35>
+        <Filename Value="parserforms.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="ParserForm"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit35>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -220,7 +220,6 @@ begin
     0: Properties.Checker := TFileCompareChecker.Create;
     1: Properties.Checker := TTextChecker.Create;
     2: Properties.Checker := TTestlibChecker.Create
-    else;
   end;
 end;
 

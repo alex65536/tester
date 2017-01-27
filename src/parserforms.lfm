@@ -1,0 +1,51 @@
+object ParserForm: TParserForm
+  Left = 533
+  Height = 105
+  Top = 276
+  Width = 353
+  AutoSize = True
+  Caption = 'Parsing directory'
+  ClientHeight = 105
+  ClientWidth = 353
+  OnCloseQuery = FormCloseQuery
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object Label1: TLabel
+    Left = 3
+    Height = 34
+    Top = 3
+    Width = 347
+    Align = alTop
+    Alignment = taCenter
+    BorderSpacing.Around = 3
+    Caption = 'Please wait while Tester will finish parsing problem directory to get info about the problem.'
+    ParentColor = False
+    WordWrap = True
+  end
+  object ProgressBar: TProgressBar
+    Left = 0
+    Height = 16
+    Top = 40
+    Width = 353
+    Align = alClient
+    Style = pbstMarquee
+    TabOrder = 0
+  end
+  object ButtonPanel: TButtonPanel
+    Left = 6
+    Height = 37
+    Top = 62
+    Width = 341
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    CancelButton.OnClick = CancelButtonClick
+    TabOrder = 1
+    ShowButtons = [pbCancel]
+  end
+end

@@ -4,6 +4,7 @@ object ParserForm: TParserForm
   Top = 276
   Width = 353
   AutoSize = True
+  BorderStyle = bsDialog
   Caption = 'Parsing directory'
   ClientHeight = 105
   ClientWidth = 353

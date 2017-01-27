@@ -79,8 +79,7 @@ end;
 
 procedure RunAllParsers(const WorkingDir: string; Props: TProblemProperties);
 begin
-  // TODO: Complete it as I write all the parsers.
-  // Now, there's just a test version
+  // TODO: Add more parsers!!!
   RunParsers(WorkingDir, [TAllTestPropertiesParser], Props);
 end;
 

@@ -39,6 +39,7 @@ type
     FItems: TPropertiesParserClassList;
     FCollector: TProblemPropsCollector;
     FIsTerminated: boolean;
+    FParser: TPropertiesParserBase;
     FWorkingDir: string;
     function GetCount: integer;
     function GetParsers(I: integer): TPropertiesParserClass;
@@ -137,6 +138,8 @@ end;
 procedure TPropertiesParserList.Terminate;
 begin
   FIsTerminated := True;
+  if FParser <> nil then
+    FParser.Terminate;
 end;
 
 function TPropertiesParserList.Run: TPropertiesParserStatus;
@@ -145,7 +148,6 @@ var
   MergeConflicts: boolean;
   NotFullInfo: boolean;
   ParserFail: boolean;
-  AParser: TPropertiesParserBase;
 begin
   FIsTerminated := False;
   try
@@ -159,17 +161,17 @@ begin
     // launch parsers from the list
     for I := 0 to FItems.Count - 1 do
     begin
-      AParser := FItems[I].Create;
+      FParser := FItems[I].Create;
       try
-        AParser.WorkingDir := Self.WorkingDir;
+        FParser.WorkingDir := Self.WorkingDir;
         // parse
-        if not AParser.Parse then
+        if not FParser.Parse then
           ParserFail := True;
         // merge
-        if not FCollector.Merge(AParser.Properties) then
+        if not FCollector.Merge(FParser.Properties) then
           MergeConflicts := True;
       finally
-        FreeAndNil(AParser);
+        FreeAndNil(FParser);
       end;
       if IsTerminated then
         Exit;
@@ -194,6 +196,7 @@ end;
 constructor TPropertiesParserList.Create;
 begin
   FCollector := nil;
+  FParser := nil;
   FItems := TPropertiesParserClassList.Create;
 end;
 

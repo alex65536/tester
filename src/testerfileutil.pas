@@ -25,7 +25,7 @@ unit testerfileutil;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LazFileUtils, logfile;
+  Classes, SysUtils, FileUtil, LazFileUtils;
 
 function CorrectFileNameCase(const FileName: string): string;
 function CorrectFileNameCase(FileDir, FileName: string): string;
@@ -49,7 +49,6 @@ var
   I: integer;
   CurFileName: string;
 begin
-  WriteLog('Correcting ' + FileDir + ' / ' + FileName);
   FileName := LowerCase(FileName);
   AList := FindAllFiles(FileDir, '*', False);
   try
@@ -57,7 +56,6 @@ begin
     for I := 0 to AList.Count - 1 do
     begin
       CurFileName := LowerCase(ExtractFileName(AList[I]));
-      WriteLog('Candidate is ' + CurFileName);
       if FileName = CurFileName then
       begin
         Result := AList[I];

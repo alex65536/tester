@@ -38,8 +38,8 @@ type
     FOutFormat: string;
     FTestIndices: TStringList;
     procedure SearcherFileFound(Iterator: TFileIterator);
-    function FindAllFiles(const SearchPath, SearchMask: string;
-      SearchSubDirs: boolean): TStringList;
+    function FindAllFiles(const SearchPath: string; SearchMask: string = '';
+      SearchSubDirs: boolean = True): TStringList;
     function ParseStringList(const WorkDir: string; AList: TStringList): boolean;
     function AddTests: boolean;
   protected
@@ -51,6 +51,24 @@ type
 
 implementation
 
+type
+
+  { TListFileSearcher }
+
+  TListFileSearcher = class(FileUtil.TListFileSearcher)
+  protected
+    procedure DoFileFound; override;
+  end;
+
+{ TListFileSearcher }
+
+procedure TListFileSearcher.DoFileFound;
+begin
+  if Assigned(OnFileFound) then
+    OnFileFound(Self);
+  inherited DoFileFound;
+end;
+
 { TAllTestPropertiesParser }
 
 procedure TAllTestPropertiesParser.SearcherFileFound(Iterator: TFileIterator);
@@ -59,8 +77,8 @@ begin
     Iterator.Stop;
 end;
 
-function TAllTestPropertiesParser.FindAllFiles(const SearchPath, SearchMask: string;
-  SearchSubDirs: boolean): TStringList;
+function TAllTestPropertiesParser.FindAllFiles(const SearchPath: string;
+  SearchMask: string; SearchSubDirs: boolean): TStringList;
 var
   ASearcher: TListFileSearcher;
 begin
@@ -93,12 +111,17 @@ var
     Result := AppendPathDelim(WorkDir) + FileName;
   end;
 
-  function CompleteAndCorrectPath(FileName: string): string; inline;
+  function CompleteAndCorrectPath(var FileName: string): boolean; inline;
+  var
+    NewFileName: string;
   begin
+    Result := True;
     FileName := CompletePath(FileName);
-    Result := CorrectFileNameCase(FileName);
-    if Result = '' then
-      Result := FileName;
+    NewFileName := CorrectFileNameCase(FileName);
+    if NewFileName = '' then
+      Result := False
+    else
+      FileName := NewFileName;
   end;
 
   function BatParamToFmtStr(S: string): string;
@@ -128,6 +151,8 @@ var
   var
     I, Pos: integer;
   begin
+    if FTestIndices.Count <> 0 then
+      Exit;
     I := 1;
     while I <= Length(S) do
     begin
@@ -185,7 +210,15 @@ var
   var
     CheckerPath: string;
   begin
-    CheckerPath := CreateRelativePath(CompleteAndCorrectPath(GetCmd(0)), WorkingDir);
+    CheckerPath := GetCmd(0);
+    if not CompleteAndCorrectPath(CheckerPath) then
+    begin
+      // maybe, forgot EXE?
+      CheckerPath := ChangeFileExt(ExtractFileName(CheckerPath), '.exe');
+      if not CompleteAndCorrectPath(CheckerPath) then
+        Success := False;
+    end;
+    CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
     TryReplaceChecker(TTextChecker.Create(CheckerPath));
     UpdateOutputFile(GetCmd(2));
     UpdateOutputFile(GetCmd(3));
@@ -265,42 +298,39 @@ begin
       if IsTerminated then
         Break;
     end;
-  finally
-    FreeAndNil(CmdList);
-    Result := Success;
+  except
+    Success := False;
   end;
+  FreeAndNil(CmdList);
+  Result := Success;
 end;
 
 function TAllTestPropertiesParser.AddTests: boolean;
 var
-  NewList: TProblemTestList;
   I: integer;
 begin
   Result := True;
-  NewList := TProblemTestList.Create;
   WriteLog('Formats: ' + FInFormat + ' ' + FOutFormat);
-  try
-    for I := 0 to FTestIndices.Count - 1 do
-      with NewList.Add do
+  for I := 0 to FTestIndices.Count - 1 do
+  begin
+    with Properties.TestList.Add do
+    begin
+      InputFile := CorrectFileNameCase(Format(FInFormat, [FTestIndices[I]]));
+      InputFile := CreateRelativePath(InputFile, WorkingDir);
+      OutputFile := CorrectFileNameCase(Format(FOutFormat, [FTestIndices[I]]));
+      OutputFile := CreateRelativePath(OutputFile, WorkingDir);
+      Cost := 1;
+      WriteLog('WorkDir = ' + WorkingDir);
+      WriteLog('Test! ' + CreateRelativePath(InputFile, WorkingDir));
+      WriteLog('Add files: ' + InputFile + ' ' + OutputFile);
+      if (InputFile = '') or (OutputFile = '') then
       begin
-        InputFile := CorrectFileNameCase(Format(FInFormat, [FTestIndices[I]]));
-        InputFile := CreateRelativePath(InputFile, WorkingDir);
-        OutputFile := CorrectFileNameCase(Format(FOutFormat, [FTestIndices[I]]));
-        OutputFile := CreateRelativePath(OutputFile, WorkingDir);
-        Cost := 1;
-        WriteLog('WorkDir = ' + WorkingDir);
-        WriteLog('Test! ' + CreateRelativePath(InputFile, WorkingDir));
-        WriteLog('Add files: ' + InputFile + ' ' + OutputFile);
-        if (InputFile = '') or (OutputFile = '') then
-        begin
-          Result := False;
-          Free;
-        end;
+        Result := False;
+        Free;
       end;
-    with TProblemPropsCollector, Self.Properties do
-      MergeTests(TestList, NewList, Result);
-  finally
-    FreeAndNil(NewList);
+    end;
+    if IsTerminated then
+      Break;
   end;
 end;
 
@@ -308,10 +338,11 @@ function TAllTestPropertiesParser.DoParse: boolean;
 var
   FileList, BatFile: TStringList;
   I: integer;
+  CurFile: string;
 begin
   Result := True;
   // we search for bat files (like All_Test.bat or Test.bat)
-  FileList := FindAllFiles(WorkingDir, '*.bat;*.BAT', True);
+  FileList := FindAllFiles(WorkingDir, '*', True);
   try
     // cleanup
     with TProblemPropsCollector do
@@ -325,11 +356,15 @@ begin
     begin
       if IsTerminated then
         Break;
-      if Pos('test', LowerCase(ExtractFileName(FileList[I]))) <> 0 then
+      CurFile := LowerCase(ExtractFileName(FileList[I]));
+      if (CurFile = 'alltest.bat') or (CurFile = 'all_test.bat') or
+        (CurFile = 'testall.bat') or (CurFile = 'test_all.bat') or
+        (CurFile = 'test.bat') then
       begin
         // parse this bat file
         BatFile := TStringList.Create;
         try
+          WriteLog('Fond BAT file: ' + FileList[I]);
           BatFile.LoadFromFile(FileList[I]);
           if not ParseStringList(ExtractFilePath(FileList[I]), BatFile) then
             Result := False;

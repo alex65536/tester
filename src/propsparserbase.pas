@@ -35,9 +35,12 @@ type
   private
     FIsTerminated: boolean;
     FProperties: TProblemProperties;
+    FWorkingDir: string;
+    procedure SetWorkingDir(AValue: string);
   protected
     function DoParse: boolean; virtual; abstract;
   public
+    property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property IsTerminated: boolean read FIsTerminated;
     procedure Terminate;
     property Properties: TProblemProperties read FProperties;
@@ -68,6 +71,12 @@ type
 implementation
 
 { TPropertiesParserBase }
+
+procedure TPropertiesParserBase.SetWorkingDir(AValue: string);
+begin
+  if FWorkingDir = AValue then Exit;
+  FWorkingDir := AValue;
+end;
 
 procedure TPropertiesParserBase.Terminate;
 begin
@@ -214,7 +223,7 @@ begin
     if OutputFile = UnknownStr then
     begin
       Result := False;
-      InputFile := 'stdout';
+      OutputFile := 'stdout';
     end;
     if TimeLimit = UnknownInt then
     begin

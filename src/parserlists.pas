@@ -39,10 +39,13 @@ type
     FItems: TPropertiesParserClassList;
     FCollector: TProblemPropsCollector;
     FIsTerminated: boolean;
+    FWorkingDir: string;
     function GetCount: integer;
     function GetParsers(I: integer): TPropertiesParserClass;
     function GetProperties: TProblemProperties;
+    procedure SetWorkingDir(AValue: string);
   public
+    property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property Properties: TProblemProperties read GetProperties;
     property IsTerminated: boolean read FIsTerminated;
     property Items: TPropertiesParserClassList read FItems;
@@ -120,6 +123,12 @@ begin
     Result := FCollector.Properties;
 end;
 
+procedure TPropertiesParserList.SetWorkingDir(AValue: string);
+begin
+  if FWorkingDir = AValue then Exit;
+  FWorkingDir := AValue;
+end;
+
 procedure TPropertiesParserList.AddParser(AClass: TPropertiesParserClass);
 begin
   FItems.Add(AClass);
@@ -152,6 +161,7 @@ begin
     begin
       AParser := FItems[I].Create;
       try
+        AParser.WorkingDir := Self.WorkingDir;
         // parse
         if AParser.Parse then
         begin

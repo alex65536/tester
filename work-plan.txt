@@ -28,6 +28,10 @@
 [V] 20.01.17 Re-organise timerlib part
 [V] 23.01.17 Build timerlib to DLL
 [*] Add auto-detecting tests from directories
+[*] Add changing cost for ALL tests in one button
+[*] Make adding some additional file to the deirectory with tested program
+[*] Allow testing EXEs
+[*] Add time limit for checker
 [*] Create settings system
 [*] Make settings save/load to JSON to settings dir
 [*] Allow changing tests order by drag'n'drop
@@ -35,6 +39,4 @@
 [*] Write docs
 [*] Write README with system requirements
 [*] Make a console testing tool (from properties)
-
-
 

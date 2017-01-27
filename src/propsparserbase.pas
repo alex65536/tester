@@ -25,7 +25,7 @@ unit propsparserbase;
 interface
 
 uses
-  Classes, SysUtils, problemprops;
+  Classes, SysUtils, problemprops, checkers;
 
 type
 
@@ -42,9 +42,10 @@ type
     procedure Terminate;
     property Properties: TProblemProperties read FProperties;
     function Parse: boolean;
-    constructor Create;
+    constructor Create; virtual;
     destructor Destroy; override;
   end;
+  TPropertiesParserClass = class of TPropertiesParserBase;
 
   { TProblemPropsCollector }
 
@@ -59,7 +60,7 @@ type
     property Properties: TProblemProperties read FProperties;
     class function CleanProperties: TProblemProperties;
     function Merge(Props: TProblemProperties): boolean;
-    procedure Finalize;
+    function Finalize: boolean;
     constructor Create;
     destructor Destroy; override;
   end;
@@ -76,13 +77,18 @@ end;
 function TPropertiesParserBase.Parse: boolean;
 begin
   FIsTerminated := False;
-  Result := DoParse;
-  FIsTerminated := True;
+  try
+    Result := DoParse;
+    if IsTerminated then
+      Result := False;
+  finally
+    FIsTerminated := True;
+  end;
 end;
 
 constructor TPropertiesParserBase.Create;
 begin
-  FProperties := TProblemProperties.Create;
+  FProperties := TProblemPropsCollector.CleanProperties;
   FIsTerminated := False;
 end;
 
@@ -177,9 +183,9 @@ function TProblemPropsCollector.Merge(Props: TProblemProperties): boolean;
     else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
       Success := False;
     // add tests from MergeTst that don't exist in BaseTst
-
-    // TODO: Impement it !!!
-
+    for I := 0 to MergeTst.Count - 1 do
+      if BaseTst.Find(MergeTst[I]) < 0 then
+        BaseTst.Add.Assign(MergeTst[I]);
   end;
 
 begin
@@ -195,11 +201,38 @@ begin
   end;
 end;
 
-procedure TProblemPropsCollector.Finalize;
+function TProblemPropsCollector.Finalize: boolean;
 begin
+  Result := True;
   with FProperties do
   begin
-    // TODO: Implement it !!!
+    if InputFile = UnknownStr then
+    begin
+      Result := False;
+      InputFile := 'stdin';
+    end;
+    if OutputFile = UnknownStr then
+    begin
+      Result := False;
+      InputFile := 'stdout';
+    end;
+    if TimeLimit = UnknownInt then
+    begin
+      Result := False;
+      TimeLimit := 2000;
+    end;
+    if MemoryLimit = UnknownInt then
+    begin
+      Result := False;
+      MemoryLimit := 65536;
+    end;
+    if Checker = nil then
+    begin
+      Result := False;
+      Checker := TFileCompareChecker.Create;
+    end;
+    if TestList.Count = 0 then
+      Result := False;
   end;
 end;
 

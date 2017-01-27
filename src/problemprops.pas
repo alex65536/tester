@@ -88,6 +88,7 @@ type
     procedure SetItem(Index: integer; AValue: TProblemTest);
     function GetItem(Index: integer): TProblemTest;
   public
+    function Find(ATest: TProblemTest): integer;
     function Add: TProblemTest;
     function Insert(Index: integer): TProblemTest;
     property Items[Index: integer]: TProblemTest read GetItem write SetItem; default;
@@ -247,6 +248,19 @@ end;
 function TProblemTestList.GetItem(Index: integer): TProblemTest;
 begin
   Result := (inherited Items[Index]) as TProblemTest;
+end;
+
+function TProblemTestList.Find(ATest: TProblemTest): integer;
+var
+  I: integer;
+begin
+  Result := -1;
+  for I := 0 to Count - 1 do
+    if Items[I].Equals(ATest) then
+    begin
+      Result := I;
+      Break;
+    end;
 end;
 
 function TProblemTestList.Add: TProblemTest;

@@ -31,7 +31,19 @@ function CorrectFileName(FileName: string): string;
 function CorrectSeparators(const FileName: string): string;
 function CorrectFileNameCase(const FileDir, FileName: string): string;
 
+function FindAllFiles(OnFileFound: TFileFoundEvent; const SearchPath: string;
+  SearchMask: string = ''; SearchSubDirs: boolean = True): TStringList;
+
 implementation
+
+type
+
+  { TListFileSearcher }
+
+  TListFileSearcher = class(FileUtil.TListFileSearcher)
+  protected
+    procedure DoFileFound; override;
+  end;
 
 function CorrectFileName(FileName: string): string;
 var
@@ -65,7 +77,7 @@ var
   CurFileName: string;
 begin
   Result := FileName;
-  AList := FindAllFiles(FileDir, '*', False);
+  AList := FindAllFiles(nil, FileDir, '*', False);
   try
     for I := 0 to AList.Count - 1 do
     begin
@@ -79,6 +91,30 @@ begin
   finally
     FreeAndNil(AList);
   end;
+end;
+
+function FindAllFiles(OnFileFound: TFileFoundEvent; const SearchPath: string;
+  SearchMask: string; SearchSubDirs: boolean): TStringList;
+var
+  ASearcher: TListFileSearcher;
+begin
+  Result := TStringList.Create;
+  ASearcher := TListFileSearcher.Create(Result);
+  try
+    ASearcher.OnFileFound := OnFileFound;
+    ASearcher.Search(SearchPath, SearchMask, SearchSubDirs);
+  finally
+    FreeAndNil(ASearcher);
+  end;
+end;
+
+{ TListFileSearcher }
+
+procedure TListFileSearcher.DoFileFound;
+begin
+  if Assigned(OnFileFound) then
+    OnFileFound(Self);
+  inherited DoFileFound;
 end;
 
 end.

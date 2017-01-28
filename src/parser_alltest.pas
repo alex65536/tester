@@ -38,8 +38,6 @@ type
     FOutFormat: string;
     FTestIndices: TStringList;
     procedure SearcherFileFound(Iterator: TFileIterator);
-    function FindAllFiles(const SearchPath: string; SearchMask: string = '';
-      SearchSubDirs: boolean = True): TStringList;
     function ParseStringList(const WorkDir: string; AList: TStringList): boolean;
     function AddTests: boolean;
   protected
@@ -51,45 +49,12 @@ type
 
 implementation
 
-type
-
-  { TListFileSearcher }
-
-  TListFileSearcher = class(FileUtil.TListFileSearcher)
-  protected
-    procedure DoFileFound; override;
-  end;
-
-{ TListFileSearcher }
-
-procedure TListFileSearcher.DoFileFound;
-begin
-  if Assigned(OnFileFound) then
-    OnFileFound(Self);
-  inherited DoFileFound;
-end;
-
 { TAllTestPropertiesParser }
 
 procedure TAllTestPropertiesParser.SearcherFileFound(Iterator: TFileIterator);
 begin
   if IsTerminated then
     Iterator.Stop;
-end;
-
-function TAllTestPropertiesParser.FindAllFiles(const SearchPath: string;
-  SearchMask: string; SearchSubDirs: boolean): TStringList;
-var
-  ASearcher: TListFileSearcher;
-begin
-  Result := TStringList.Create;
-  ASearcher := TListFileSearcher.Create(Result);
-  try
-    ASearcher.OnFileFound := @SearcherFileFound;
-    ASearcher.Search(SearchPath, SearchMask, SearchSubDirs);
-  finally
-    FreeAndNil(ASearcher);
-  end;
 end;
 
 function TAllTestPropertiesParser.ParseStringList(const WorkDir: string;
@@ -386,7 +351,7 @@ var
 begin
   Result := True;
   // we search for bat files (like All_Test.bat or Test.bat)
-  FileList := FindAllFiles(WorkingDir, '*', True);
+  FileList := FindAllFiles(@SearcherFileFound, WorkingDir, '*', True);
   try
     // cleanup
     with TProblemPropsCollector do

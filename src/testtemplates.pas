@@ -25,7 +25,7 @@ unit testtemplates;
 interface
 
 uses
-  Classes, SysUtils, problemprops, LazFileUtils, strconsts;
+  Classes, SysUtils, problemprops, LazFileUtils, strconsts, testerfileutil;
 
 type
   ETestTemplate = class(Exception);
@@ -53,7 +53,8 @@ implementation
 
 procedure TProblemTestTemplate.SetStartFrom(AValue: integer);
 begin
-  if FStartFrom = AValue then Exit;
+  if FStartFrom = AValue then
+    Exit;
   FStartFrom := AValue;
 end;
 
@@ -69,13 +70,16 @@ begin
   LastOutput := '';
   while True do
   begin
-    InputFileName := Format(InputFile, [I]);
-    OutputFileName := Format(OutputFile, [I]);
+    InputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
+      Format(InputFile, [I]));
+    OutputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
+      Format(OutputFile, [I]));
     if (InputFileName = LastInput) and (OutputFileName = LastOutput) then
       Break;
-    if FileExistsUTF8(AppendPathDelim(WorkingDir) + InputFileName) and
-       FileExistsUTF8(AppendPathDelim(WorkingDir) + OutputFileName) then
+    if FileExistsUTF8(InputFileName) and FileExistsUTF8(OutputFileName) then
     begin
+      InputFileName := CreateRelativePath(InputFileName, WorkingDir);
+      OutputFileName := CreateRelativePath(OutputFileName, WorkingDir);
       Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost));
       Inc(I);
       LastInput := InputFileName;
@@ -88,8 +92,7 @@ begin
     raise ETestTemplate.Create(SNoTestsAdded);
 end;
 
-constructor TProblemTestTemplate.Create(AInputFile, AOutputFile: string;
-  ACost: double);
+constructor TProblemTestTemplate.Create(AInputFile, AOutputFile: string; ACost: double);
 begin
   inherited;
   StartFrom := 1;
@@ -103,4 +106,3 @@ begin
 end;
 
 end.
-

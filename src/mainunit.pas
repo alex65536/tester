@@ -176,6 +176,7 @@ var
   PropEditor: TProblemPropsEditor;
 begin
   TabSheet := PropsList.AddTabSheet;
+  PropsList.ActivePage := TabSheet;
   PropEditor := TProblemPropsEditor.Create(TabSheet);
   PropEditor.OnTestsChange := @PropEditorTestsChange;
   try

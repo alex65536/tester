@@ -25,23 +25,38 @@ unit testerfileutil;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LazFileUtils;
+  Classes, SysUtils, FileUtil, LazFileUtils, logfile;
 
-function CorrectFileNameCase(const FileName: string): string;
-function CorrectFileNameCase(FileDir, FileName: string): string;
+function CorrectFileName(FileName: string): string;
+function CorrectSeparators(const FileName: string): string;
+function CorrectFileNameCase(const FileDir, FileName: string): string;
 
 implementation
 
-function CorrectFileNameCase(const FileName: string): string;
+function CorrectFileName(FileName: string): string;
 var
   FileDir, FileNameOnly: string;
 begin
+  // TODO: Correct file name in all path, not only in the last file!!!
+  WriteLog('CorrectFileName = ' + FileName);
+  FileName := CorrectSeparators(FileName);
   FileDir := ExtractFilePath(FileName);
   FileNameOnly := ExtractFileName(FileName);
-  Result := CorrectFileNameCase(FileDir, FileNameOnly);
+  Result := AppendPathDelim(FileDir) + CorrectFileNameCase(FileDir, FileNameOnly);
+  WriteLog('Result = ' + Result);
 end;
 
-function CorrectFileNameCase(FileDir, FileName: string): string;
+function CorrectSeparators(const FileName: string): string;
+var
+  I: integer;
+begin
+  Result := FileName;
+  for I := 1 to Length(Result) do
+    if Result[I] in AllowDirectorySeparators then
+      Result[I] := DirectorySeparator;
+end;
+
+function CorrectFileNameCase(const FileDir, FileName: string): string;
 // Nessesary for GNU/Linux version. Sometimes tests may be in different cases
 // (as 4.in, but 5.IN). So we need case-insensivity.
 var
@@ -49,16 +64,15 @@ var
   I: integer;
   CurFileName: string;
 begin
-  FileName := LowerCase(FileName);
   AList := FindAllFiles(FileDir, '*', False);
   try
-    Result := '';
+    Result := FileName;
     for I := 0 to AList.Count - 1 do
     begin
-      CurFileName := LowerCase(ExtractFileName(AList[I]));
-      if FileName = CurFileName then
+      CurFileName := ExtractFileName(AList[I]);
+      if LowerCase(FileName) = LowerCase(CurFileName) then
       begin
-        Result := AList[I];
+        Result := CurFileName;
         Break;
       end;
     end;

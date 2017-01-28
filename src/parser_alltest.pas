@@ -111,19 +111,6 @@ var
     Result := AppendPathDelim(WorkDir) + FileName;
   end;
 
-  function CompleteAndCorrectPath(var FileName: string): boolean; inline;
-  var
-    NewFileName: string;
-  begin
-    Result := True;
-    FileName := CompletePath(FileName);
-    NewFileName := CorrectFileNameCase(FileName);
-    if NewFileName = '' then
-      Result := False
-    else
-      FileName := NewFileName;
-  end;
-
   function BatParamToFmtStr(S: string): string;
   var
     I: integer;
@@ -210,12 +197,12 @@ var
   var
     CheckerPath: string;
   begin
-    CheckerPath := GetCmd(0);
-    if not CompleteAndCorrectPath(CheckerPath) then
+    CheckerPath := CorrectFileName(CompletePath(GetCmd(0)));
+    if not FileExistsUTF8(CheckerPath) then
     begin
       // maybe, forgot EXE?
-      CheckerPath := ChangeFileExt(ExtractFileName(CheckerPath), '.exe');
-      if not CompleteAndCorrectPath(CheckerPath) then
+      CheckerPath := CorrectFileName(ChangeFileExt(CheckerPath, '.exe'));
+      if not FileExistsUTF8(CheckerPath) then
         Success := False;
     end;
     CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
@@ -315,9 +302,9 @@ begin
   begin
     with Properties.TestList.Add do
     begin
-      InputFile := CorrectFileNameCase(Format(FInFormat, [FTestIndices[I]]));
+      InputFile := CorrectFileName(Format(FInFormat, [FTestIndices[I]]));
       InputFile := CreateRelativePath(InputFile, WorkingDir);
-      OutputFile := CorrectFileNameCase(Format(FOutFormat, [FTestIndices[I]]));
+      OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
       OutputFile := CreateRelativePath(OutputFile, WorkingDir);
       Cost := 1;
       WriteLog('WorkDir = ' + WorkingDir);
@@ -364,7 +351,7 @@ begin
         // parse this bat file
         BatFile := TStringList.Create;
         try
-          WriteLog('Fond BAT file: ' + FileList[I]);
+          WriteLog('Found BAT file: ' + FileList[I]);
           BatFile.LoadFromFile(FileList[I]);
           if not ParseStringList(ExtractFilePath(FileList[I]), BatFile) then
             Result := False;

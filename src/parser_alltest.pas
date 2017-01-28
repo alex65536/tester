@@ -183,7 +183,6 @@ var
   begin
     with TProblemPropsCollector, Self.Properties do
     begin
-      WriteLog('Upd output: ' + S);
       if Pos('%', S) = 0 then
         OutputFile := MergeStr(OutputFile, S, Success)
       else
@@ -234,11 +233,16 @@ var
       UpdateOutputFile(GetCmd(1));
       UpdateOutputFile(GetCmd(2));
     end
-    else if P = 3 then
+    else if P >= 3 then
     begin
       Checker.ParamsPolicy := secpInOutAns;
       UpdateOutputFile(GetCmd(2));
       UpdateOutputFile(GetCmd(3));
+    end
+    else
+    begin
+      FreeAndNil(Checker);
+      Exit;
     end;
     // add checker
     TryReplaceChecker(Checker);
@@ -305,8 +309,7 @@ begin
         Delete(CurCmd, 1, 1);
       WriteLog('Parsing line = "' + AList[I] + '"');
       WriteLog('CurCmd = "' + CurCmd + '"');
-      if (CurCmd = 'timer') or (CurCmd = 'timer.exe') or (CurCmd = 'runexe') or
-        (CurCmd = 'runexe.exe') then
+      if (CurCmd = 'timer') or (CurCmd = 'timer.exe') then
         UpdateTimer;
       if CurCmd = 'copy' then
         UpdateInput;
@@ -317,6 +320,8 @@ begin
         UpdateChecker;
       if CurCmd = 'for' then
         UpdateFor;
+      if not Success then
+        WriteLog('Fail');
       if IsTerminated then
         Break;
     end;

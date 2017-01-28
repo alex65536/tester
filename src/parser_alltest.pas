@@ -161,8 +161,12 @@ var
   begin
     with TProblemPropsCollector, Self.Properties do
     begin
-      TimeLimit := MergeInt(TimeLimit, StrToInt(GetCmd(2)), Success);
-      MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetCmd(3)), Success);
+      try
+        TimeLimit := MergeInt(TimeLimit, StrToInt(GetCmd(2)), Success);
+        MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetCmd(3)), Success);
+      except
+        // mute the exceptions
+      end;
     end;
   end;
 
@@ -179,6 +183,7 @@ var
   begin
     with TProblemPropsCollector, Self.Properties do
     begin
+      WriteLog('Upd output: ' + S);
       if Pos('%', S) = 0 then
         OutputFile := MergeStr(OutputFile, S, Success)
       else
@@ -240,7 +245,7 @@ var
     while True do
     begin
       CurCmd := GetCmd(P);
-      Str := ' ' + CurCmd;
+      Str := Str + ' ' + CurCmd;
       if (CurCmd = '') or (Pos(')', CurCmd) <> 0) then
         Break;
       Inc(P);
@@ -268,6 +273,8 @@ begin
       CmdList.Clear;
       CommandToList(AList[I], CmdList);
       CurCmd := ExtractFileName(LowerCase(GetCmd(0)));
+      if (CurCmd <> '') and (CurCmd[1] = '@') then
+        Delete(CurCmd, 1, 1);
       WriteLog('Parsing line = "' + AList[I] + '"');
       WriteLog('CurCmd = "' + CurCmd + '"');
       if (CurCmd = 'timer') or (CurCmd = 'timer.exe') or (CurCmd = 'runexe') or
@@ -286,7 +293,11 @@ begin
         Break;
     end;
   except
-    Success := False;
+    on E: Exception do
+    begin
+      WriteLog('error = ' + E.Message);
+      Success := False;
+    end;
   end;
   FreeAndNil(CmdList);
   Result := Success;
@@ -297,24 +308,37 @@ var
   I: integer;
 begin
   Result := True;
+  with TProblemPropsCollector do
+    if (FInFormat = UnknownStr) or (FOutFormat = UnknownStr) then
+      Exit;
   WriteLog('Formats: ' + FInFormat + ' ' + FOutFormat);
   for I := 0 to FTestIndices.Count - 1 do
   begin
     with Properties.TestList.Add do
     begin
-      InputFile := CorrectFileName(Format(FInFormat, [FTestIndices[I]]));
-      InputFile := CreateRelativePath(InputFile, WorkingDir);
-      OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
-      OutputFile := CreateRelativePath(OutputFile, WorkingDir);
-      Cost := 1;
-      WriteLog('WorkDir = ' + WorkingDir);
-      WriteLog('Test! ' + CreateRelativePath(InputFile, WorkingDir));
-      WriteLog('Add files: ' + InputFile + ' ' + OutputFile);
-      if (InputFile = '') or (OutputFile = '') then
-      begin
-        Result := False;
-        Free;
+      try
+        InputFile := CorrectFileName(Format(FInFormat, [FTestIndices[I]]));
+        InputFile := CreateRelativePath(InputFile, WorkingDir);
+        OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
+        OutputFile := CreateRelativePath(OutputFile, WorkingDir);
+        Cost := 1;
+        WriteLog('WorkDir = ' + WorkingDir);
+        WriteLog('Test! ' + CreateRelativePath(InputFile, WorkingDir));
+        WriteLog('Add files: ' + InputFile + ' ' + OutputFile);
+      except
+        // if fail, delete this test
+        InputFile := '';
+        OutputFile := '';
       end;
+      if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
+        (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
+      // if non-existing tests, delete them also
+      begin
+        InputFile := '';
+        OutputFile := '';
+      end;
+      if (InputFile = '') or (OutputFile = '') then
+        Properties.TestList.Delete(Properties.TestCount - 1);
     end;
     if IsTerminated then
       Break;

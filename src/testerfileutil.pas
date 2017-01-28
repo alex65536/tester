@@ -57,16 +57,19 @@ begin
 end;
 
 function CorrectFileNameCase(const FileDir, FileName: string): string;
-// Nessesary for GNU/Linux version. Sometimes tests may be in different cases
-// (as 4.in, but 5.IN). So we need case-insensivity.
+  // Nessesary for GNU/Linux version. Sometimes tests may be in different cases
+  // (as 4.in, but 5.IN). So we need case-insensivity.
 var
   AList: TStringList;
   I: integer;
   CurFileName: string;
 begin
+  Result := FileName;
+  if FileExistsUTF8(AppendPathDelim(FileDir) + FileName) then
+    // it's already correct
+    Exit;
   AList := FindAllFiles(FileDir, '*', False);
   try
-    Result := FileName;
     for I := 0 to AList.Count - 1 do
     begin
       CurFileName := ExtractFileName(AList[I]);

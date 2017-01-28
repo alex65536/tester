@@ -311,7 +311,6 @@ begin
       Exit;
   WriteLog('Formats: ' + FInFormat + ' ' + FOutFormat);
   for I := 0 to FTestIndices.Count - 1 do
-  begin
     with Properties.TestList.Add do
     begin
       try
@@ -320,9 +319,7 @@ begin
         OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
         OutputFile := CreateRelativePath(OutputFile, WorkingDir);
         Cost := 1;
-        WriteLog('WorkDir = ' + WorkingDir);
-        WriteLog('Test! ' + CreateRelativePath(InputFile, WorkingDir));
-        WriteLog('Add files: ' + InputFile + ' ' + OutputFile);
+        WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
       except
         // if fail, delete this test
         InputFile := '';
@@ -330,17 +327,16 @@ begin
       end;
       if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
         (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
-      // if non-existing tests, delete them also
+        // if non-existing tests, delete them also
       begin
         InputFile := '';
         OutputFile := '';
       end;
       if (InputFile = '') or (OutputFile = '') then
         Properties.TestList.Delete(Properties.TestCount - 1);
+      if IsTerminated then
+        Break;
     end;
-    if IsTerminated then
-      Break;
-  end;
 end;
 
 function TAllTestPropertiesParser.DoParse: boolean;

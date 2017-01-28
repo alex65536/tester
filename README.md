@@ -14,7 +14,7 @@
 
 * No more batch scripts like `All_Test.bat`! **Tester** provides an intuitive graphical interface.
 
-* With adding tests from template, it's easy to import a problem to **Tester**.
+* It can automatially import problems.
 
 * **Tester** uses _JSON_ to save problems' properties, so they can be easily parsed.
 

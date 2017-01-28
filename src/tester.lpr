@@ -67,7 +67,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parsertest,
   parserforms,
   parser_alltest,
-  testerfileutil;
+  testerfileutil,
+  textcheckedit;
 
 {$R *.res}
 

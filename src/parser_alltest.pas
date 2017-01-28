@@ -200,8 +200,12 @@ var
 
   procedure UpdateChecker;
   var
+    Checker: TTextChecker;
     CheckerPath: string;
+    P: integer;
+    CurCmd: string;
   begin
+    // determine checker path
     CheckerPath := CorrectFileName(CompletePath(GetCmd(0)));
     if not FileExistsUTF8(CheckerPath) then
     begin
@@ -211,9 +215,33 @@ var
         Success := False;
     end;
     CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
-    TryReplaceChecker(TTextChecker.Create(CheckerPath));
-    UpdateOutputFile(GetCmd(2));
-    UpdateOutputFile(GetCmd(3));
+    // determine parameters count (two or three)
+    P := 1;
+    while True do
+    begin
+      CurCmd := GetCmd(P);
+      if (CurCmd = '') or (Pos('>', CurCmd) <> 0) then
+        Break;
+      Inc(P);
+    end;
+    Dec(P);
+    WriteLogFmt('Param count: %d', [P]);
+    // create a checker and parse data
+    Checker := TTextChecker.Create(CheckerPath);
+    if P = 2 then
+    begin
+      Checker.ParamsPolicy := secpOutAns;
+      UpdateOutputFile(GetCmd(1));
+      UpdateOutputFile(GetCmd(2));
+    end
+    else if P = 3 then
+    begin
+      Checker.ParamsPolicy := secpInOutAns;
+      UpdateOutputFile(GetCmd(2));
+      UpdateOutputFile(GetCmd(3));
+    end;
+    // add checker
+    TryReplaceChecker(Checker);
   end;
 
   procedure UpdateFor;

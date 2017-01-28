@@ -18,7 +18,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="4"/>
-      <BuildNr Value="96"/>
+      <BuildNr Value="97"/>
       <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.0.4 beta"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -44,7 +44,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="38">
+    <Units Count="39">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -242,6 +242,13 @@
         <Filename Value="testerfileutil.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit37>
+      <Unit38>
+        <Filename Value="textcheckedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="TextCheckerEdit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit38>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

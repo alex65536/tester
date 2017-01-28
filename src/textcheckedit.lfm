@@ -1,0 +1,51 @@
+inherited TextCheckerEdit: TTextCheckerEdit
+  Height = 77
+  Width = 402
+  AutoSize = False
+  ClientHeight = 77
+  ClientWidth = 402
+  DesignLeft = 410
+  DesignTop = 212
+  inherited Label1: TLabel
+    Top = 37
+    Width = 146
+  end
+  inherited CheckerNameEdit: TEdit
+    Left = 146
+    Top = 32
+    Width = 256
+  end
+  object Label2: TLabel[2]
+    AnchorSideLeft.Control = Label1
+    AnchorSideTop.Control = ParamsCombo
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = ParamsCombo
+    Left = 0
+    Height = 17
+    Top = 5
+    Width = 146
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Checker parameters:'
+    ParentColor = False
+  end
+  object ParamsCombo: TComboBox[3]
+    AnchorSideLeft.Control = CheckerNameEdit
+    AnchorSideRight.Control = CheckerNameEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 146
+    Height = 27
+    Top = 0
+    Width = 256
+    Anchors = [akTop, akLeft, akRight]
+    ItemHeight = 0
+    ItemIndex = 1
+    Items.Strings = (
+      '<output file> <answer file>'
+      '<intput file> <output file> <answer file>'
+    )
+    Style = csDropDownList
+    TabOrder = 1
+    Text = '<intput file> <output file> <answer file>'
+  end
+end

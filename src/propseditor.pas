@@ -35,28 +35,34 @@ type
   { TProblemPropsEditor }
 
   TProblemPropsEditor = class(TFrame)
+    AddTestBtn: TBitBtn;
+    ButtonPanel: TPanel;
+    CheckerCombo: TComboBox;
+    CheckSelect: TCheckerSelect;
+    ClearTestsBtn: TBitBtn;
     DeleteTestBtn: TBitBtn;
     EditTestBtn: TBitBtn;
-    InsertTestBtn: TBitBtn;
-    AddTestBtn: TBitBtn;
-    CheckSelect: TCheckerSelect;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
     InputFileEdit: TEdit;
-    ClearTestsBtn: TBitBtn;
+    InsertTestBtn: TBitBtn;
+    Label1: TPanel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    MemoryLimitEdit: TSpinEdit;
     MoveDownBtn: TBitBtn;
     MoveUpBtn: TBitBtn;
     MultiAddTestsBtn: TBitBtn;
     OutputFileEdit: TEdit;
-    GroupBox1: TGroupBox;
-    GroupBox2: TGroupBox;
-    TestsList: TListBox;
-    ButtonPanel: TPanel;
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Splitter1: TSplitter;
     Tests: TGroupBox;
-    Label1: TLabel;
-    Label2: TLabel;
-    Label3: TLabel;
-    Label4: TLabel;
+    TestsList: TListBox;
     TimeLimitEdit: TSpinEdit;
-    MemoryLimitEdit: TSpinEdit;
     procedure AddTestBtnClick(Sender: TObject);
     procedure ClearTestsBtnClick(Sender: TObject);
     procedure DeleteTestBtnClick(Sender: TObject);

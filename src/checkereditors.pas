@@ -26,7 +26,7 @@ interface
 
 uses
   SysUtils, checkereditorbase, stdexecheckeredit, checkers, ExtCtrls, Controls,
-  problemprops;
+  problemprops, textcheckedit;
 
 type
 
@@ -44,90 +44,80 @@ type
     destructor Destroy; override;
   end;
 
-  { TTextCheckerEditor }
+  { TStdExecutableCheckerEditor }
 
-  TTextCheckerEditor = class(TCheckerEditor)
-  private
-    FControl: TStdExecuteCheckerEdit;
+  TStdExecutableCheckerEditor = class(TCheckerEditor)
   protected
+    FControl: TStdExecuteCheckerEdit;
     function GetControl: TControl; override;
     function GetChecker: TProblemChecker; override;
     procedure SetChecker(AValue: TProblemChecker); override;
   public
     constructor Create; override;
     destructor Destroy; override;
+  end;
+
+  { TTextCheckerEditor }
+
+  TTextCheckerEditor = class(TStdExecutableCheckerEditor)
+  protected
+    function GetChecker: TProblemChecker; override;
+  public
+    constructor Create; override;
   end;
 
   { TTestlibCheckerEditor }
 
-  TTestlibCheckerEditor = class(TCheckerEditor)
-  private
-    FControl: TStdExecuteCheckerEdit;
+  TTestlibCheckerEditor = class(TStdExecutableCheckerEditor)
   protected
-    function GetControl: TControl; override;
     function GetChecker: TProblemChecker; override;
-    procedure SetChecker(AValue: TProblemChecker); override;
-  public
-    constructor Create; override;
-    destructor Destroy; override;
   end;
-
 
 implementation
 
 { TTestlibCheckerEditor }
-
-function TTestlibCheckerEditor.GetControl: TControl;
-begin
-  Result := FControl;
-end;
 
 function TTestlibCheckerEditor.GetChecker: TProblemChecker;
 begin
   Result := FControl.GetChecker(TTestlibChecker);
 end;
 
-procedure TTestlibCheckerEditor.SetChecker(AValue: TProblemChecker);
-begin
-  FControl.SetChecker(AValue);
-end;
-
-constructor TTestlibCheckerEditor.Create;
-begin
-  inherited Create;
-  FControl := TStdExecuteCheckerEdit.Create(nil);
-end;
-
-destructor TTestlibCheckerEditor.Destroy;
-begin
-  FreeAndNil(FControl);
-  inherited Destroy;
-end;
-
 { TTextCheckerEditor }
-
-function TTextCheckerEditor.GetControl: TControl;
-begin
-  Result := FControl;
-end;
 
 function TTextCheckerEditor.GetChecker: TProblemChecker;
 begin
   Result := FControl.GetChecker(TTextChecker);
 end;
 
-procedure TTextCheckerEditor.SetChecker(AValue: TProblemChecker);
+constructor TTextCheckerEditor.Create;
+begin
+  FControl := TTextCheckerEdit.Create(nil);
+end;
+
+{ TStdExecutableCheckerEditor }
+
+function TStdExecutableCheckerEditor.GetControl: TControl;
+begin
+  Result := FControl;
+end;
+
+function TStdExecutableCheckerEditor.GetChecker: TProblemChecker;
+begin
+  Result := FControl.GetChecker(TStdExecutableChecker);
+end;
+
+procedure TStdExecutableCheckerEditor.SetChecker(AValue: TProblemChecker);
 begin
   FControl.SetChecker(AValue);
 end;
 
-constructor TTextCheckerEditor.Create;
+constructor TStdExecutableCheckerEditor.Create;
 begin
   inherited Create;
   FControl := TStdExecuteCheckerEdit.Create(nil);
 end;
 
-destructor TTextCheckerEditor.Destroy;
+destructor TStdExecutableCheckerEditor.Destroy;
 begin
   FreeAndNil(FControl);
   inherited Destroy;

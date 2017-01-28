@@ -65,9 +65,6 @@ var
   CurFileName: string;
 begin
   Result := FileName;
-  if FileExistsUTF8(AppendPathDelim(FileDir) + FileName) then
-    // it's already correct
-    Exit;
   AList := FindAllFiles(FileDir, '*', False);
   try
     for I := 0 to AList.Count - 1 do

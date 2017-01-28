@@ -18,43 +18,53 @@
   to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
   MA 02111-1307, USA.
 }
-unit stdexecheckeredit;
+unit textcheckedit;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Forms, StdCtrls, checkers, problemprops;
+  StdCtrls, stdexecheckeredit, checkers, problemprops;
 
 type
 
-  { TStdExecuteCheckerEdit }
+  { TTextCheckerEdit }
 
-  TStdExecuteCheckerEdit = class(TFrame)
-    CheckerNameEdit: TEdit;
-    Label1: TLabel;
+  TTextCheckerEdit = class(TStdExecuteCheckerEdit)
+    ParamsCombo: TComboBox;
+    Label2: TLabel;
   public
-    function GetChecker(AClass: TProblemCheckerClass): TProblemChecker; virtual;
-    procedure SetChecker(AValue: TProblemChecker); virtual;
+    function GetChecker(AClass: TProblemCheckerClass): TProblemChecker; override;
+    procedure SetChecker(AValue: TProblemChecker); override;
   end;
 
 implementation
 
 {$R *.lfm}
 
-{ TStdExecuteCheckerEdit }
+{ TTextCheckerEdit }
 
-function TStdExecuteCheckerEdit.GetChecker(AClass: TProblemCheckerClass):
-TProblemChecker;
+function TTextCheckerEdit.GetChecker(AClass: TProblemCheckerClass): TProblemChecker;
+var
+  Params: TStdExecutableCheckerParamsPolicy;
 begin
-  Result := AClass.Create;
-  (Result as TStdExecutableChecker).CheckerFileName := CheckerNameEdit.Text;
+  Result := inherited GetChecker(AClass);
+  case ParamsCombo.ItemIndex of
+    0: Params := secpOutAns;
+    1: Params := secpInOutAns;
+  end;
+  (Result as TTextChecker).ParamsPolicy := Params;
 end;
 
-procedure TStdExecuteCheckerEdit.SetChecker(AValue: TProblemChecker);
+procedure TTextCheckerEdit.SetChecker(AValue: TProblemChecker);
 begin
-  CheckerNameEdit.Text := (AValue as TStdExecutableChecker).CheckerFileName;
+  inherited SetChecker(AValue);
+  case (AValue as TTextChecker).ParamsPolicy of
+    secpOutAns: ParamsCombo.ItemIndex := 0;
+    secpInOutAns: ParamsCombo.ItemIndex := 1;
+  end;
 end;
 
 end.
+

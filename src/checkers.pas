@@ -48,13 +48,18 @@ type
     function DoCheck: TTestVerdict; override;
   end;
 
+  TStdExecutableCheckerParamsPolicy = (secpOutAns, secpInOutAns);
+
   { TStdExecutableChecker }
 
   TStdExecutableChecker = class(TProcessProblemChecker)
   private
     FCheckerFileName: string;
+    FParamsPolicy: TStdExecutableCheckerParamsPolicy;
     procedure SetCheckerFileName(AValue: string);
+    procedure SetParamsPolicy(AValue: TStdExecutableCheckerParamsPolicy);
   protected
+    property ParamsPolicy: TStdExecutableCheckerParamsPolicy read FParamsPolicy write SetParamsPolicy;
     procedure GetCommandLine(var ExeName: string; Args: TStringList); override;
   public
     constructor Create; override;
@@ -71,6 +76,8 @@ type
   protected
     function ProcessCheckerOutput(Output: string; ExitCode: integer): TTestVerdict;
       override;
+  published
+    property ParamsPolicy;
   end;
 
   { TTestlibChecker }
@@ -118,16 +125,28 @@ begin
   FCheckerFileName := AValue;
 end;
 
+procedure TStdExecutableChecker.SetParamsPolicy(AValue: TStdExecutableCheckerParamsPolicy);
+begin
+  if FParamsPolicy = AValue then Exit;
+  FParamsPolicy := AValue;
+end;
+
 procedure TStdExecutableChecker.GetCommandLine(var ExeName: string; Args: TStringList);
 begin
   ExeName := ExpandFileNameUTF8(CheckerFileName, WorkingDir);
-  Args.Text := InputFile + LineEnding + OutputFile + LineEnding + AnswerFile;
+  case ParamsPolicy of
+    secpOutAns:
+      Args.Text := OutputFile + LineEnding + AnswerFile;
+    secpInOutAns:
+      Args.Text := InputFile + LineEnding + OutputFile + LineEnding + AnswerFile;
+  end;
 end;
 
 constructor TStdExecutableChecker.Create;
 begin
   inherited;
   CheckerFileName := 'checker.exe';
+  ParamsPolicy := secpInOutAns;
 end;
 
 constructor TStdExecutableChecker.Create(ACheckerFileName: string);
@@ -142,6 +161,7 @@ begin
   with Dest as TStdExecutableChecker do
   begin
     CheckerFileName := Self.CheckerFileName;
+    ParamsPolicy := Self.ParamsPolicy;
   end;
 end;
 

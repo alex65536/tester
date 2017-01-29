@@ -7,7 +7,7 @@ object ProblemPropsEditor: TProblemPropsEditor
   ClientHeight = 488
   ClientWidth = 714
   TabOrder = 0
-  DesignLeft = 449
+  DesignLeft = 446
   DesignTop = 188
   object GroupBox1: TGroupBox
     Left = 0
@@ -151,9 +151,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       Align = alClient
       ClientHeight = 29
       ClientWidth = 301
-      DesignLeft = 421
-      DesignTop = 155
-      inherited Label1: TPanel
+      inherited Panel: TPanel
         Width = 301
         ClientWidth = 301
         inherited CheckerCombo: TComboBox

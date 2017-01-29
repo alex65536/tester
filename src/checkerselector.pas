@@ -40,7 +40,7 @@ type
   TCheckerSelect = class(TFrame)
     CheckerCombo: TComboBox;
     Label5: TLabel;
-    Label1: TPanel;
+    Panel: TPanel;
     procedure CheckerComboChange(Sender: TObject);
   private
     FComboLock: integer;

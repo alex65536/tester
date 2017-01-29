@@ -7,9 +7,9 @@ object CheckerSelect: TCheckerSelect
   ClientHeight = 240
   ClientWidth = 320
   TabOrder = 0
-  DesignLeft = 632
+  DesignLeft = 618
   DesignTop = 231
-  object Label1: TPanel
+  object Panel: TPanel
     Left = 0
     Height = 29
     Top = 0
@@ -19,6 +19,8 @@ object CheckerSelect: TCheckerSelect
     BevelOuter = bvNone
     ClientHeight = 29
     ClientWidth = 320
+    Color = clNone
+    ParentColor = False
     TabOrder = 0
     object CheckerCombo: TComboBox
       AnchorSideRight.Side = asrBottom

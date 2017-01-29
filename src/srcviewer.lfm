@@ -1,7 +1,7 @@
 object SourceViewer: TSourceViewer
-  Left = 560
+  Left = 544
   Height = 345
-  Top = 159
+  Top = 182
   Width = 524
   Caption = 'Source viewer'
   ClientHeight = 345
@@ -11,8 +11,8 @@ object SourceViewer: TSourceViewer
   LCLVersion = '1.6.2.0'
   object ButtonPanel1: TButtonPanel
     Left = 6
-    Height = 34
-    Top = 305
+    Height = 37
+    Top = 302
     Width = 512
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -27,7 +27,7 @@ object SourceViewer: TSourceViewer
   end
   inline SourceViewer: TSynEdit
     Left = 0
-    Height = 299
+    Height = 296
     Top = 0
     Width = 524
     Align = alClient
@@ -38,6 +38,7 @@ object SourceViewer: TSourceViewer
     ParentColor = False
     ParentFont = False
     TabOrder = 0
+    Gutter.Color = clWindow
     Gutter.Width = 47
     Gutter.MouseActions = <>
     RightGutter.Width = 0
@@ -500,7 +501,7 @@ object SourceViewer: TSourceViewer
       object SynGutterLineNumber1: TSynGutterLineNumber
         Width = 17
         MouseActions = <>
-        MarkupInfo.Background = clBtnFace
+        MarkupInfo.Background = clWindow
         MarkupInfo.Foreground = clNone
         DigitCount = 2
         ShowOnlyLineNumbersMultiplesOf = 1

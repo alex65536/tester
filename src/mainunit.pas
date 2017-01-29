@@ -27,7 +27,7 @@ interface
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
   ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
-  parserforms;
+  parserforms, versioninfo;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);
@@ -99,6 +99,7 @@ type
     procedure EditTestActionExecute(Sender: TObject);
     procedure EditTestActionUpdate(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure InsertTestActionExecute(Sender: TObject);
     procedure InsertTestActionUpdate(Sender: TObject);
     procedure MoveDownActionExecute(Sender: TObject);
@@ -325,6 +326,11 @@ end;
 procedure TMainForm.ExitMenuItemClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  Caption := GetAppFullName;
 end;
 
 procedure TMainForm.InsertTestActionExecute(Sender: TObject);

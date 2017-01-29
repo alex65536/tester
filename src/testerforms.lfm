@@ -60,8 +60,6 @@ object TesterForm: TTesterForm
       Action = OpenSourcesAction
       AutoSize = True
       Color = clHighlight
-      Font.Color = clHighlightText
-      ParentFont = False
       TabOrder = 0
     end
     object BitBtn1: TBitBtn
@@ -72,8 +70,6 @@ object TesterForm: TTesterForm
       Action = LaunchTestAction
       AutoSize = True
       Color = clHighlight
-      Font.Color = clHighlightText
-      ParentFont = False
       TabOrder = 1
     end
     object BitBtn2: TBitBtn
@@ -84,8 +80,6 @@ object TesterForm: TTesterForm
       Action = StopTestAction
       AutoSize = True
       Color = clHighlight
-      Font.Color = clHighlightText
-      ParentFont = False
       TabOrder = 2
     end
     object BitBtn3: TBitBtn
@@ -96,8 +90,6 @@ object TesterForm: TTesterForm
       Action = SaveResultsAction
       AutoSize = True
       Color = clHighlight
-      Font.Color = clHighlightText
-      ParentFont = False
       TabOrder = 3
     end
   end

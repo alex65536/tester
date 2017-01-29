@@ -25,30 +25,37 @@ unit about;
 interface
 
 uses
-  Classes, DividerBevel, Forms, ExtCtrls, StdCtrls, licenseforms;
+  Classes, DividerBevel, Forms, ExtCtrls, StdCtrls, licenseforms, versioninfo,
+  strconsts, SysUtils, LCLIntf;
 
 type
 
   { TAboutBox }
 
   TAboutBox = class(TForm)
-    Button1: TButton;
-    Button3: TButton;
+    LisenceBtn: TButton;
+    WebsiteBtn: TButton;
+    CloseBtn: TButton;
     DividerBevel1: TDividerBevel;
     DividerBevel2: TDividerBevel;
     DividerBevel3: TDividerBevel;
     DividerBevel4: TDividerBevel;
+    DividerBevel5: TDividerBevel;
     Image: TImage;
     Label1: TLabel;
-    Label2: TLabel;
+    VersionLbl: TLabel;
     Label3: TLabel;
     Label4: TLabel;
     Label5: TLabel;
     Label6: TLabel;
+    DateLbl: TLabel;
+    PlatformLbl: TLabel;
     Panel: TPanel;
     Panel1: TPanel;
-    procedure Button1Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
+    procedure LisenceBtnClick(Sender: TObject);
+    procedure CloseBtnClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure WebsiteBtnClick(Sender: TObject);
   end;
 
 var
@@ -60,14 +67,26 @@ implementation
 
 { TAboutBox }
 
-procedure TAboutBox.Button1Click(Sender: TObject);
+procedure TAboutBox.LisenceBtnClick(Sender: TObject);
 begin
   LicenseForm.ShowModal;
 end;
 
-procedure TAboutBox.Button3Click(Sender: TObject);
+procedure TAboutBox.CloseBtnClick(Sender: TObject);
 begin
   Close;
+end;
+
+procedure TAboutBox.FormCreate(Sender: TObject);
+begin
+  VersionLbl.Caption := Format(SVersionFmt, [GetAppVersion]);
+  PlatformLbl.Caption := GetAppTarget;
+  DateLbl.Caption := Format(SBuildDateFmt, [GetAppBuildDate]);
+end;
+
+procedure TAboutBox.WebsiteBtnClick(Sender: TObject);
+begin
+  OpenURL('https://alex65536.github.io/tester');
 end;
 
 end.

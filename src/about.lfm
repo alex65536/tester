@@ -1,14 +1,14 @@
 object AboutBox: TAboutBox
-  Left = 526
-  Height = 534
-  Top = 179
+  Left = 511
+  Height = 596
+  Top = 66
   Width = 295
-  ActiveControl = Button3
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'About Tester...'
-  ClientHeight = 534
+  ClientHeight = 596
   ClientWidth = 295
+  OnCreate = FormCreate
   Position = poMainFormCenter
   LCLVersion = '1.6.2.0'
   object Image: TImage
@@ -773,20 +773,20 @@ object AboutBox: TAboutBox
     ParentFont = False
     OptimalFill = True
   end
-  object Label2: TLabel
+  object VersionLbl: TLabel
     Left = 0
     Height = 17
     Top = 304
     Width = 295
     Align = alTop
     Alignment = taCenter
-    Caption = 'version 1.0.4 (beta)'
+    Caption = 'version %version%'
     ParentColor = False
   end
   object DividerBevel1: TDividerBevel
     Left = 0
     Height = 17
-    Top = 321
+    Top = 372
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
@@ -795,7 +795,7 @@ object AboutBox: TAboutBox
   object Label3: TLabel
     Left = 3
     Height = 17
-    Top = 406
+    Top = 457
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -806,7 +806,7 @@ object AboutBox: TAboutBox
   object Label4: TLabel
     Left = 3
     Height = 17
-    Top = 423
+    Top = 474
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -817,7 +817,7 @@ object AboutBox: TAboutBox
   object Panel: TPanel
     Left = 0
     Height = 29
-    Top = 505
+    Top = 567
     Width = 295
     Align = alBottom
     AutoSize = True
@@ -829,30 +829,39 @@ object AboutBox: TAboutBox
     ClientHeight = 29
     ClientWidth = 295
     TabOrder = 1
-    object Button1: TButton
+    object LisenceBtn: TButton
       Left = 0
       Height = 29
       Top = 0
-      Width = 155
+      Width = 102
       Caption = 'License'
-      OnClick = Button1Click
+      OnClick = LisenceBtnClick
       TabOrder = 0
     end
-    object Button3: TButton
-      Left = 155
+    object WebsiteBtn: TButton
+      Left = 102
       Height = 29
       Top = 0
-      Width = 140
+      Width = 107
+      Caption = 'Website'
+      OnClick = WebsiteBtnClick
+      TabOrder = 1
+    end
+    object CloseBtn: TButton
+      Left = 209
+      Height = 29
+      Top = 0
+      Width = 86
       Caption = 'Close'
       Default = True
-      OnClick = Button3Click
-      TabOrder = 1
+      OnClick = CloseBtnClick
+      TabOrder = 2
     end
   end
   object DividerBevel2: TDividerBevel
     Left = 0
     Height = 17
-    Top = 488
+    Top = 550
     Width = 295
     Align = alBottom
     Font.Style = [fsBold]
@@ -861,7 +870,7 @@ object AboutBox: TAboutBox
   object Label5: TLabel
     Left = 3
     Height = 51
-    Top = 338
+    Top = 389
     Width = 289
     Align = alTop
     Alignment = taCenter
@@ -874,7 +883,7 @@ object AboutBox: TAboutBox
   object DividerBevel3: TDividerBevel
     Left = 0
     Height = 17
-    Top = 389
+    Top = 440
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
@@ -883,7 +892,7 @@ object AboutBox: TAboutBox
   object Label6: TLabel
     Left = 3
     Height = 34
-    Top = 457
+    Top = 508
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -894,8 +903,8 @@ object AboutBox: TAboutBox
   end
   object Panel1: TPanel
     Left = 0
-    Height = 1
-    Top = 491
+    Height = 8
+    Top = 542
     Width = 295
     Align = alClient
     BevelOuter = bvNone
@@ -904,7 +913,36 @@ object AboutBox: TAboutBox
   object DividerBevel4: TDividerBevel
     Left = 0
     Height = 17
-    Top = 440
+    Top = 491
+    Width = 295
+    Align = alTop
+    Font.Style = [fsBold]
+    ParentFont = False
+  end
+  object DateLbl: TLabel
+    Left = 0
+    Height = 17
+    Top = 355
+    Width = 295
+    Align = alTop
+    Alignment = taCenter
+    Caption = 'Build date: %builddate%'
+    ParentColor = False
+  end
+  object PlatformLbl: TLabel
+    Left = 0
+    Height = 17
+    Top = 321
+    Width = 295
+    Align = alTop
+    Alignment = taCenter
+    Caption = '%platform%-%os%-%ws%'
+    ParentColor = False
+  end
+  object DividerBevel5: TDividerBevel
+    Left = 0
+    Height = 17
+    Top = 338
     Width = 295
     Align = alTop
     Font.Style = [fsBold]

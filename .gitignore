@@ -9,5 +9,6 @@ src/tester-x86_64-linux
 src/*.exe
 src/*.lps
 src/*.log
+src/*.res
 .fuse*
 

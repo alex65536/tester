@@ -18,7 +18,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <RevisionNr Value="4"/>
-      <BuildNr Value="97"/>
+      <BuildNr Value="99"/>
       <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.0.4 beta"/>
     </VersionInfo>
     <BuildModes Count="1">

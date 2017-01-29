@@ -31,7 +31,7 @@ uses
 
 function RunCommandIndirUTF8(const curdir: string; const exename: string;
   const commands: array of string; var outputstring: string;
-  var exitstatus: integer): integer;
+  var exitcode: integer): integer;
 
 implementation
 
@@ -45,7 +45,7 @@ const
 // We need to also collect stderr output in order to avoid
 // lock out if the stderr pipe is full.
 function internalRuncommandUTF8(p: TProcessUTF8; var outputstring: string;
-  var stderrstring: string; var exitstatus: integer): integer;
+  var stderrstring: string; var exitcode: integer): integer;
 var
   numbytes, bytesread, available: integer;
   outputlength, stderrlength: integer;
@@ -126,7 +126,7 @@ begin
           Inc(StderrBytesRead, StderrNumBytes);
       end;
       setlength(stderrstring, StderrBytesRead);
-      exitstatus := p.exitstatus;
+      exitcode := p.ExitCode;
       Result := 0; // we came to here, document that.
     except
       on e: Exception do
@@ -142,7 +142,7 @@ end;
 
 function RunCommandIndirUTF8(const curdir: string; const exename: string;
   const commands: array of string; var outputstring: string;
-  var exitstatus: integer): integer;
+  var exitcode: integer): integer;
 var
   p: TProcessUTF8;
   i: integer;
@@ -155,7 +155,7 @@ begin
   if high(commands) >= 0 then
     for i := low(commands) to high(commands) do
       p.Parameters.add(commands[i]);
-  Result := internalruncommandUTF8(p, outputstring, errorstring, exitstatus);
+  Result := internalruncommandUTF8(p, outputstring, errorstring, exitcode);
 end;
 
 end.

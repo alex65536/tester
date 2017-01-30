@@ -154,6 +154,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       inherited Panel: TPanel
         Width = 301
         ClientWidth = 301
+        ParentColor = True
         inherited CheckerCombo: TComboBox
           Left = 136
         end

@@ -70,7 +70,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   testerfileutil,
   textcheckedit,
   parser_polygon,
-  versioninfo;
+  versioninfo,
+  parser_simplecfg;
 
 {$R *.res}
 

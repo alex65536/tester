@@ -25,7 +25,7 @@ unit propsparserbase;
 interface
 
 uses
-  Classes, SysUtils, problemprops, checkers, logfile;
+  Classes, SysUtils, problemprops, checkers, logfile, LazFileUtils, testerfileutil;
 
 type
 
@@ -38,6 +38,7 @@ type
     FWorkingDir: string;
     procedure SetWorkingDir(AValue: string);
   protected
+    procedure AddTestsFmt(const InputFmt, OutputFmt: string; TestCount: integer);
     function DoParse: boolean; virtual; abstract;
   public
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
@@ -84,6 +85,43 @@ begin
   if FWorkingDir = AValue then
     Exit;
   FWorkingDir := AValue;
+end;
+
+procedure TPropertiesParserBase.AddTestsFmt(const InputFmt, OutputFmt: string;
+  TestCount: integer);
+var
+  I: integer;
+begin
+  with TProblemPropsCollector do
+    if (InputFmt = UnknownStr) or (OutputFmt = UnknownStr) then
+      Exit;
+  for I := 1 to TestCount do
+    with Properties.TestList.Add do
+    begin
+      try
+        InputFile := CorrectFileName(Format(InputFmt, [I]));
+        InputFile := CreateRelativePath(InputFile, WorkingDir);
+        OutputFile := CorrectFileName(Format(OutputFmt, [I]));
+        OutputFile := CreateRelativePath(OutputFile, WorkingDir);
+        Cost := 1;
+        WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
+      except
+        // if fail, delete the tests
+        InputFile := '';
+        OutputFile := '';
+      end;
+      if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
+        (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
+        // if non-existing tests, delete them also
+      begin
+        InputFile := '';
+        OutputFile := '';
+      end;
+      if (InputFile = '') or (OutputFile = '') then
+        Properties.TestList.Delete(Properties.TestCount - 1);
+      if IsTerminated then
+        Break;
+    end;
 end;
 
 procedure TPropertiesParserBase.Terminate;

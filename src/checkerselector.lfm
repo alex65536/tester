@@ -19,7 +19,6 @@ object CheckerSelect: TCheckerSelect
     BevelOuter = bvNone
     ClientHeight = 29
     ClientWidth = 320
-    Color = clNone
     ParentColor = False
     TabOrder = 0
     object CheckerCombo: TComboBox

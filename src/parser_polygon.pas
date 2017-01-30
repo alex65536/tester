@@ -62,39 +62,6 @@ var
         Result[I] := '.';
   end;
 
-  procedure AddTests;
-  var
-    I: integer;
-  begin
-    for I := 1 to TestCount do
-      with Properties.TestList.Add do
-      begin
-        try
-          InputFile := CorrectFileName(Format(InputTestFmt, [I]));
-          InputFile := CreateRelativePath(InputFile, WorkingDir);
-          OutputFile := CorrectFileName(Format(OutputTestFmt, [I]));
-          OutputFile := CreateRelativePath(OutputFile, WorkingDir);
-          Cost := 1;
-          WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
-        except
-          // if fail, delete the tests
-          InputFile := '';
-          OutputFile := '';
-        end;
-        if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
-          (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
-          // if non-existing tests, delete them also
-        begin
-          InputFile := '';
-          OutputFile := '';
-        end;
-        if (InputFile = '') or (OutputFile = '') then
-          Properties.TestList.Delete(Properties.TestCount - 1);
-        if IsTerminated then
-          Break;
-      end;
-  end;
-
   function Parser: boolean;
   var
     RootNode, JudgingNode, TestsetNode, AssetsNode, CheckerNode, BinaryNode: TDOMElement;
@@ -107,6 +74,14 @@ var
     end;
 
   begin
+    // initialize
+    with TProblemPropsCollector do
+    begin
+      CheckerPath := UnknownStr;
+      TestCount := 0;
+      InputTestFmt := UnknownStr;
+      OutputTestFmt := UnknownStr;
+    end;
     Result := False;
     Success := True;
     RootNode := XMLDocument.DocumentElement;
@@ -128,7 +103,7 @@ var
     if IsTerminated then
       Exit;
     // add tests
-    AddTests;
+    AddTestsFmt(InputTestFmt, OutputTestFmt, TestCount);
     if IsTerminated then
       Exit;
     // parse checker - "assets/checker" node

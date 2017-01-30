@@ -170,7 +170,10 @@ var
     CurCmd: string;
   begin
     // determine checker path
-    CheckerPath := CorrectFileName(CompletePath(GetCmd(0)));
+    // first, without EXE
+    CheckerPath := CompletePath(ExtractFileNameWithoutExt(GetCmd(0)));
+    CheckerPath := CorrectFileName(CheckerPath);
+    WriteLog('checkerPath = ' + CheckerPath);
     if not FileExistsUTF8(CheckerPath) then // maybe, forgot EXE?
       CheckerPath := CorrectFileName(ChangeFileExt(CheckerPath, '.exe'));
     CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
@@ -186,7 +189,7 @@ var
     Dec(P);
     WriteLogFmt('Param count: %d', [P]);
     // create a checker
-    if FileExistsUTF8(CheckerPath) then
+    if FileExistsUTF8(AppendPathDelim(WorkingDir) + CheckerPath) then
       Checker := TTextChecker.Create(CheckerPath)
     else
       Checker := nil;

@@ -64,7 +64,6 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   logfile,
   propsparserbase,
   parserlists,
-  parsertest,
   parserforms,
   parser_alltest,
   testerfileutil,

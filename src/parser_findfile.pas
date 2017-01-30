@@ -109,13 +109,14 @@ function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
       begin
         CurFile := LowerCase(ExtractFileName(AList[I]));
         // check if it's checker
-        if (CurFile = 'check.exe') or (CurFile = 'checker.exe') or
+        if (CurFile = 'check.exe') or (CurFile = 'checker.exe')
         {$IfNDef Windows}
-          (CurFile = 'check') or (CurFile = 'checker')
+          or (CurFile = 'check') or (CurFile = 'checker')
         {$EndIf}
         then
         begin
-          Properties.Checker := TTextChecker.Create(CreateRelativePath(AList[I], WorkingDir));
+          Properties.Checker :=
+            TTextChecker.Create(CreateRelativePath(AList[I], WorkingDir));
           Properties.Checker.Replaceable := True;
         end;
         // if checker was found - we break
@@ -223,4 +224,3 @@ finalization
   FreeAndNil(OutputTemplate);
 
 end.
-

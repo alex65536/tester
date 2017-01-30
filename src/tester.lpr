@@ -71,7 +71,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   textcheckedit,
   parser_polygon,
   versioninfo,
-  parser_simplecfg;
+  parser_simplecfg,
+  parser_tests;
 
 {$R *.res}
 

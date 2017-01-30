@@ -26,8 +26,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Dialogs, StdCtrls, ComCtrls, ButtonPanel,
-  parserlists, propsparserbase, strconsts, problemprops, parser_alltest,
-  parser_polygon, parser_simplecfg;
+  parserlists, propsparserbase, strconsts, problemprops;
 
 type
   EParserForm = class(Exception);
@@ -61,6 +60,10 @@ procedure RunAllParsers(const WorkingDir: string; Props: TProblemProperties);
 
 implementation
 
+uses
+  // Parsers
+  parser_alltest, parser_polygon, parser_simplecfg, parser_tests;
+
 procedure RunParsers(const WorkingDir: string;
   const Parsers: array of TPropertiesParserClass; Props: TProblemProperties);
 var
@@ -82,7 +85,7 @@ procedure RunAllParsers(const WorkingDir: string; Props: TProblemProperties);
 begin
   // TODO: Add more parsers!!!
   RunParsers(WorkingDir, [TAllTestPropertiesParser, TPolygonPropertiesParser,
-    TSimpleCfgPropertiesParser], Props);
+    TSimpleCfgPropertiesParser, TTestProblemPropertiesParser], Props);
 end;
 
 {$R *.lfm}

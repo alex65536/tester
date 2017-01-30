@@ -41,7 +41,7 @@ type
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
     procedure ThreadTerminate(Sender: TObject);
   private
-    FClosing: boolean;
+    FTerminating: boolean;
     FProperties: TProblemProperties;
     FThread: TPropertiesParserThread;
     procedure SetProperties(AValue: TProblemProperties);
@@ -98,39 +98,20 @@ end;
 
 procedure TParserForm.FormCloseQuery(Sender: TObject; var CanClose: boolean);
 begin
-  FClosing := True;
-  if FThread <> nil then
+  if FTerminating then
   begin
-    FThread.Terminate;
-    FThread.WaitFor;
+    CanClose := True;
+    Exit;
   end;
-  CanClose := True;
+  if FThread <> nil then
+    FThread.Terminate;
+  CanClose := False;
 end;
 
 procedure TParserForm.ThreadTerminate(Sender: TObject);
-var
-  ChangeProps: boolean;
-  MsgText: string;
 begin
-  ChangeProps := True;
-  MsgText := '';
-  case FThread.Status of
-    ppNone, ppTerminated: ChangeProps := False;
-    ppOK: ; // everything is ok, do nothing
-    ppParserFail: MsgText := Format(SParserWarningFmt,
-        [SParserFail, SCheckRecommendation]);
-    ppMergeConflicts: MsgText :=
-        Format(SParserWarningFmt, [SMergeConflict, SCheckRecommendation]);
-    ppNotFullInfo: MsgText :=
-        Format(SParserWarningFmt, [SNotFullInfo, SCheckRecommendation]);
-  end;
-  if MsgText <> '' then
-    MessageDlg(MsgText, mtWarning, [mbOK], 0);
-  if ChangeProps then
-    FProperties.Assign(FThread.List.Properties);
-  FThread := nil;
-  if not FClosing then
-    Close;
+  FTerminating := True;
+  Close;
 end;
 
 procedure TParserForm.SetProperties(AValue: TProblemProperties);
@@ -140,25 +121,50 @@ begin
 end;
 
 procedure TParserForm.RunThread(AThread: TPropertiesParserThread);
+var
+  ChangeProps: boolean;
+  MsgText: string;
 begin
   if FThread <> nil then
     raise EParserForm.Create(SThreadAlreadyRunning);
-  FClosing := False;
   FThread := AThread;
-  with FThread do
-  begin
-    FreeOnTerminate := True;
-    OnTerminate := @ThreadTerminate;
-    Start;
+  try
+    FTerminating := False;
+    with FThread do
+    begin
+      FreeOnTerminate := False;
+      OnTerminate := @ThreadTerminate;
+      Start;
+    end;
+    // show
+    ShowModal;
+    // process thread info
+    ChangeProps := True;
+    MsgText := '';
+    case FThread.Status of
+      ppNone, ppTerminated: ChangeProps := False;
+      ppOK: ; // everything is ok, do nothing
+      ppParserFail: MsgText := Format(SParserWarningFmt,
+          [SParserFail, SCheckRecommendation]);
+      ppMergeConflicts: MsgText :=
+          Format(SParserWarningFmt, [SMergeConflict, SCheckRecommendation]);
+      ppNotFullInfo: MsgText :=
+          Format(SParserWarningFmt, [SNotFullInfo, SCheckRecommendation]);
+    end;
+    if MsgText <> '' then
+      MessageDlg(MsgText, mtWarning, [mbOK], 0);
+    if ChangeProps then
+      FProperties.Assign(AThread.List.Properties);
+  finally
+    FreeAndNil(FThread);
   end;
-  ShowModal;
 end;
 
 constructor TParserForm.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FThread := nil;
-  FClosing := False;
+  FTerminating := False;
 end;
 
 end.

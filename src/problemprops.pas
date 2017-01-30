@@ -38,15 +38,18 @@ type
     FCheckerOutput: string;
     FInputFile: string;
     FOutputFile: string;
+    FReplaceable: boolean;
     FWorkingDir: string;
     procedure SetAnswerFile(AValue: string);
     procedure SetCheckerOutput(AValue: string);
     procedure SetInputFile(AValue: string);
     procedure SetOutputFile(AValue: string);
+    procedure SetReplaceable(AValue: boolean);
     procedure SetWorkingDir(AValue: string);
   protected
     function DoCheck: TTestVerdict; virtual; abstract;
   public
+    property Replaceable: boolean read FReplaceable write SetReplaceable; // necessary for PropsParser
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -199,6 +202,12 @@ begin
   FOutputFile := AValue;
 end;
 
+procedure TProblemChecker.SetReplaceable(AValue: boolean);
+begin
+  if FReplaceable = AValue then Exit;
+  FReplaceable := AValue;
+end;
+
 procedure TProblemChecker.SetWorkingDir(AValue: string);
 begin
   if FWorkingDir = AValue then
@@ -210,6 +219,7 @@ constructor TProblemChecker.Create;
 begin
   WorkingDir := '';
   CheckerOutput := '';
+  Replaceable := False;
 end;
 
 function TProblemChecker.Check: TTestVerdict;
@@ -235,6 +245,7 @@ begin
     OutputFile := Self.OutputFile;
     AnswerFile := Self.AnswerFile;
     CheckerOutput := Self.CheckerOutput;
+    Replaceable := Self.Replaceable;
   end;
 end;
 

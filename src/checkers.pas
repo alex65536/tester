@@ -171,7 +171,8 @@ begin
     Result := False
   else
     with Obj as TStdExecutableChecker do
-      Result := CheckerFileName = Self.CheckerFileName;
+      Result := (CheckerFileName = Self.CheckerFileName) and
+        (ParamsPolicy = Self.ParamsPolicy);
 end;
 
 { TTextChecker }

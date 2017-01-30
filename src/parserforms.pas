@@ -62,7 +62,7 @@ implementation
 
 uses
   // Parsers
-  parser_alltest, parser_polygon, parser_simplecfg, parser_tests;
+  parser_alltest, parser_polygon, parser_simplecfg, parser_findfile;
 
 procedure RunParsers(const WorkingDir: string;
   const Parsers: array of TPropertiesParserClass; Props: TProblemProperties);
@@ -83,9 +83,8 @@ end;
 
 procedure RunAllParsers(const WorkingDir: string; Props: TProblemProperties);
 begin
-  // TODO: Add more parsers!!!
-  RunParsers(WorkingDir, [TAllTestPropertiesParser, TPolygonPropertiesParser,
-    TSimpleCfgPropertiesParser, TTestProblemPropertiesParser], Props);
+  RunParsers(WorkingDir, [TFindFilePropertiesParser, TAllTestPropertiesParser,
+    TPolygonPropertiesParser, TSimpleCfgPropertiesParser], Props);
 end;
 
 {$R *.lfm}

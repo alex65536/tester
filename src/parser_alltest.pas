@@ -171,13 +171,8 @@ var
   begin
     // determine checker path
     CheckerPath := CorrectFileName(CompletePath(GetCmd(0)));
-    if not FileExistsUTF8(CheckerPath) then
-    begin
-      // maybe, forgot EXE?
+    if not FileExistsUTF8(CheckerPath) then // maybe, forgot EXE?
       CheckerPath := CorrectFileName(ChangeFileExt(CheckerPath, '.exe'));
-      if not FileExistsUTF8(CheckerPath) then
-        Success := False;
-    end;
     CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
     // determine parameters count (two or three)
     P := 1;
@@ -190,17 +185,23 @@ var
     end;
     Dec(P);
     WriteLogFmt('Param count: %d', [P]);
-    // create a checker and parse data
-    Checker := TTextChecker.Create(CheckerPath);
+    // create a checker
+    if FileExistsUTF8(CheckerPath) then
+      Checker := TTextChecker.Create(CheckerPath)
+    else
+      Checker := nil;
+    // parse data
     if P = 2 then
     begin
-      Checker.ParamsPolicy := secpOutAns;
+      if Checker <> nil then
+        Checker.ParamsPolicy := secpOutAns;
       UpdateOutputFile(GetCmd(1));
       UpdateOutputFile(GetCmd(2));
     end
     else if P >= 3 then
     begin
-      Checker.ParamsPolicy := secpInOutAns;
+      if Checker <> nil then
+        Checker.ParamsPolicy := secpInOutAns;
       UpdateOutputFile(GetCmd(2));
       UpdateOutputFile(GetCmd(3));
     end

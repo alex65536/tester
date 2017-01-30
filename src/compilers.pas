@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, processfork, strconsts, AvgLvlTree, testerprimitives,
-  LazFileUtils;
+  FileUtil, LazFileUtils;
 
 type
 
@@ -104,8 +104,8 @@ var
 
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
-function CompileFile(const SrcName, ExeName: string;
-  var Output: string): TCompilerVerdict;
+function CompileFile(const SrcName, ExeName: string; var Output: string): TCompilerVerdict;
+function CompileChecker(const AFileName: string): string;
 
 implementation
 
@@ -147,6 +147,28 @@ begin
       Output := E.Message;
     end;
   end;
+end;
+
+function CompileChecker(const AFileName: string): string;
+var
+  ShortFileName, CheckerExe, CompilerOutput: string;
+  CompilerVerdict: TCompilerVerdict;
+begin
+  ShortFileName := ExtractFileNameWithoutExt(ExtractFileName(AFileName));
+  CheckerExe := AppendPathDelim(ExtractFileDir(AFileName)) + ShortFileName;
+  {$IfDef Windows}
+  CheckerExe := CheckerExe + '.exe';
+  {$EndIf}
+  if FileExistsUTF8(CheckerExe) then
+    // already compiled
+    CompilerVerdict := cvSuccess
+  else
+    // compile it
+    CompilerVerdict := CompileFile(AFileName, CheckerExe, CompilerOutput);
+  if CompilerVerdict = cvSuccess then
+    Result := CheckerExe
+  else
+    Result := '';
 end;
 
 { TGnuCpp11Compiler }

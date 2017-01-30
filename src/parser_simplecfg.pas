@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, checkers, propsparserbase, logfile, FileUtil,
-  LazFileUtils, testerfileutil, compilers, testerprimitives;
+  LazFileUtils, testerfileutil, compilers;
 
 type
 
@@ -58,15 +58,11 @@ function TSimpleCfgPropertiesParser.DoParse: boolean;
 
     procedure ParseChecker(ACheckerSrc: string; var Success: boolean);
     var
-      CompilerOutput: string;
       CheckerExe: string;
     begin
       ACheckerSrc := CorrectFileName(AppendPathDelim(WorkingDir) + ACheckerSrc);
-      CheckerExe := AppendPathDelim(WorkingDir) + 'checker';
-      {$IfDef Windows}
-      CheckerExe := CheckerExe + '.exe';
-      {$EndIf}
-      if CompileFile(ACheckerSrc, CheckerExe, CompilerOutput) = cvSuccess then
+      CheckerExe := CompileChecker(ACheckerSrc);
+      if CheckerExe <> '' then
         Properties.Checker :=
           TTestlibChecker.Create(CreateRelativePath(CheckerExe, WorkingDir))
       else

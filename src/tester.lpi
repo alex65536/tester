@@ -262,7 +262,7 @@
         <IsPartOfProject Value="True"/>
       </Unit41>
       <Unit42>
-        <Filename Value="parser_tests.pas"/>
+        <Filename Value="parser_findfile.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit42>
     </Units>

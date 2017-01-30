@@ -25,7 +25,7 @@ unit testerfileutil;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, LazFileUtils, logfile;
+  Classes, SysUtils, FileUtil, LazFileUtils;
 
 function CorrectFileName(FileName: string): string;
 function CorrectSeparators(const FileName: string): string;
@@ -50,12 +50,10 @@ var
   FileDir, FileNameOnly: string;
 begin
   // TODO: Correct file name in all path, not only in the last file!!!
-  WriteLog('CorrectFileName = ' + FileName);
   FileName := CorrectSeparators(FileName);
   FileDir := ExtractFilePath(FileName);
   FileNameOnly := ExtractFileName(FileName);
   Result := AppendPathDelim(FileDir) + CorrectFileNameCase(FileDir, FileNameOnly);
-  WriteLog('Result = ' + Result);
 end;
 
 function CorrectSeparators(const FileName: string): string;

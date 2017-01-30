@@ -72,7 +72,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parser_polygon,
   versioninfo,
   parser_simplecfg,
-  parser_tests;
+  parser_findfile;
 
 {$R *.res}
 

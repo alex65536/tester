@@ -168,13 +168,19 @@ var
     CheckerPath: string;
     P: integer;
     CurCmd: string;
+    IsWindows: boolean;
   begin
     // determine checker path
     // first, without EXE
     CheckerPath := CompletePath(ExtractFileNameWithoutExt(GetCmd(0)));
     CheckerPath := CorrectFileName(CheckerPath);
+    {$IfDef Windows}
+    IsWindows := True;
+    {$Else}
+    IsWindows := False;
+    {$EndIf}
     WriteLog('checkerPath = ' + CheckerPath);
-    if not FileExistsUTF8(CheckerPath) then // maybe, forgot EXE?
+    if IsWindows or (not FileExistsUTF8(CheckerPath)) then // maybe, forgot EXE?
       CheckerPath := CorrectFileName(ChangeFileExt(CheckerPath, '.exe'));
     CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
     // determine parameters count (two or three)

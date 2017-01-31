@@ -214,9 +214,13 @@ end;
 class function TProblemPropsCollector.MergeChecker(Chk1, Chk2: TProblemChecker;
   var Success: boolean): TProblemChecker;
 begin
-  if (Chk1 = nil) or (Chk1.Replaceable) then // chk1 unknown (or replaceable)
+  if  Chk1 = nil then // chk1 unknown
     Result := Chk2
-  else if (Chk2 = nil) or (Chk2.Replaceable) then // chk2 unknown (or replaceable)
+  else if Chk2 = nil then // chk2 unknown
+    Result := Chk1
+  else if Chk1.Replaceable then // chk1 replaceable
+    Result := Chk2
+  else if Chk2.Replaceable then // chk2 replaceable
     Result := Chk1
   else if Chk1.Equals(Chk2) then // all are equal
     Result := Chk1

@@ -25,7 +25,7 @@ unit parser_simplecfg;
 interface
 
 uses
-  Classes, SysUtils, problemprops, checkers, propsparserbase, logfile, FileUtil,
+  Classes, SysUtils, problemprops, checkers, propsparserbase, FileUtil,
   LazFileUtils, testerfileutil, compilers;
 
 type

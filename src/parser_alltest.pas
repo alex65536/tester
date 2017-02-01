@@ -319,34 +319,39 @@ begin
   with TProblemPropsCollector do
     if (FInFormat = UnknownStr) or (FOutFormat = UnknownStr) then
       Exit;
-  WriteLog('Formats: ' + FInFormat + ' ' + FOutFormat);
-  for I := 0 to FTestIndices.Count - 1 do
-    with Properties.TestList.Add do
-    begin
-      try
-        InputFile := CorrectFileName(Format(FInFormat, [FTestIndices[I]]));
-        InputFile := CreateRelativePath(InputFile, WorkingDir);
-        OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
-        OutputFile := CreateRelativePath(OutputFile, WorkingDir);
-        Cost := 1;
-        WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
-      except
-        // if fail, delete this test
-        InputFile := '';
-        OutputFile := '';
-      end;
-      if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
-        (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
-        // if non-existing tests, delete them also
+  BeginCache;
+  try
+    WriteLog('Formats: ' + FInFormat + ' ' + FOutFormat);
+    for I := 0 to FTestIndices.Count - 1 do
+      with Properties.TestList.Add do
       begin
-        InputFile := '';
-        OutputFile := '';
+        try
+          InputFile := CorrectFileName(Format(FInFormat, [FTestIndices[I]]));
+          InputFile := CreateRelativePath(InputFile, WorkingDir);
+          OutputFile := CorrectFileName(Format(FOutFormat, [FTestIndices[I]]));
+          OutputFile := CreateRelativePath(OutputFile, WorkingDir);
+          Cost := 1;
+          WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
+        except
+          // if fail, delete this test
+          InputFile := '';
+          OutputFile := '';
+        end;
+        if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
+          (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
+          // if non-existing tests, delete them also
+        begin
+          InputFile := '';
+          OutputFile := '';
+        end;
+        if (InputFile = '') or (OutputFile = '') then
+          Properties.TestList.Delete(Properties.TestCount - 1);
+        if IsTerminated then
+          Break;
       end;
-      if (InputFile = '') or (OutputFile = '') then
-        Properties.TestList.Delete(Properties.TestCount - 1);
-      if IsTerminated then
-        Break;
-    end;
+  finally
+    EndCache;
+  end;
 end;
 
 function TAllTestPropertiesParser.DoParse: boolean;

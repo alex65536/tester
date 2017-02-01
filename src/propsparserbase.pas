@@ -95,33 +95,38 @@ begin
   with TProblemPropsCollector do
     if (InputFmt = UnknownStr) or (OutputFmt = UnknownStr) then
       Exit;
-  for I := 1 to TestCount do
-    with Properties.TestList.Add do
-    begin
-      try
-        InputFile := CorrectFileName(Format(InputFmt, [I]));
-        InputFile := CreateRelativePath(InputFile, WorkingDir);
-        OutputFile := CorrectFileName(Format(OutputFmt, [I]));
-        OutputFile := CreateRelativePath(OutputFile, WorkingDir);
-        Cost := 1;
-        WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
-      except
-        // if fail, delete the tests
-        InputFile := '';
-        OutputFile := '';
-      end;
-      if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
-        (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
-        // if non-existing tests, delete them also
+  BeginCache;
+  try
+    for I := 1 to TestCount do
+      with Properties.TestList.Add do
       begin
-        InputFile := '';
-        OutputFile := '';
+        try
+          InputFile := CorrectFileName(Format(InputFmt, [I]));
+          InputFile := CreateRelativePath(InputFile, WorkingDir);
+          OutputFile := CorrectFileName(Format(OutputFmt, [I]));
+          OutputFile := CreateRelativePath(OutputFile, WorkingDir);
+          Cost := 1;
+          WriteLog('Add tests: ' + InputFile + ' ' + OutputFile);
+        except
+          // if fail, delete the tests
+          InputFile := '';
+          OutputFile := '';
+        end;
+        if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
+          (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
+          // if non-existing tests, delete them also
+        begin
+          InputFile := '';
+          OutputFile := '';
+        end;
+        if (InputFile = '') or (OutputFile = '') then
+          Properties.TestList.Delete(Properties.TestCount - 1);
+        if IsTerminated then
+          Break;
       end;
-      if (InputFile = '') or (OutputFile = '') then
-        Properties.TestList.Delete(Properties.TestCount - 1);
-      if IsTerminated then
-        Break;
-    end;
+  finally
+    EndCache;
+  end;
 end;
 
 procedure TPropertiesParserBase.Terminate;

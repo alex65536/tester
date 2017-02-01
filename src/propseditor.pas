@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
   problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
-  testtemplates, testtemplatedlg, strconsts, editcostsdlg;
+  testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils;
 
 type
   EUnknownChecker = class(Exception);
@@ -297,6 +297,7 @@ procedure TProblemPropsEditor.LoadFromJSON;
 var
   MemStream: TMemoryStream;
   S: string;
+  WasDir: string;
 begin
   if FileName = '' then
     Exit;
@@ -306,6 +307,14 @@ begin
     SetLength(S, MemStream.Size);
     MemStream.Read(S[1], Length(S));
     LoadFromJSONStr(S, FProperties);
+    // correct file names
+    WasDir := GetCurrentDirUTF8;
+    try
+      SetCurrentDirUTF8(ExtractFilePath(FileName));
+      FProperties.CorrectFileNames;
+    finally
+      SetCurrentDirUTF8(WasDir);
+    end;
   finally
     FreeAndNil(MemStream);
     UpdateControls;

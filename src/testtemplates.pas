@@ -65,28 +65,33 @@ var
   LastInput, LastOutput: string;
   InputFileName, OutputFileName: string;
 begin
-  I := StartFrom;
-  LastInput := '';
-  LastOutput := '';
-  while True do
-  begin
-    InputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
-      Format(InputFile, [I]));
-    OutputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
-      Format(OutputFile, [I]));
-    if (InputFileName = LastInput) and (OutputFileName = LastOutput) then
-      Break;
-    if FileExistsUTF8(InputFileName) and FileExistsUTF8(OutputFileName) then
+  BeginCache;
+  try
+    I := StartFrom;
+    LastInput := '';
+    LastOutput := '';
+    while True do
     begin
-      InputFileName := CreateRelativePath(InputFileName, WorkingDir);
-      OutputFileName := CreateRelativePath(OutputFileName, WorkingDir);
-      Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost));
-      Inc(I);
-      LastInput := InputFileName;
-      LastOutput := OutputFileName;
-    end
-    else
-      Break;
+      InputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
+        Format(InputFile, [I]));
+      OutputFileName := CorrectFileName(AppendPathDelim(WorkingDir) +
+        Format(OutputFile, [I]));
+      if (InputFileName = LastInput) and (OutputFileName = LastOutput) then
+        Break;
+      if FileExistsUTF8(InputFileName) and FileExistsUTF8(OutputFileName) then
+      begin
+        InputFileName := CreateRelativePath(InputFileName, WorkingDir);
+        OutputFileName := CreateRelativePath(OutputFileName, WorkingDir);
+        Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost));
+        Inc(I);
+        LastInput := InputFileName;
+        LastOutput := OutputFileName;
+      end
+      else
+        Break;
+    end;
+  finally
+    EndCache;
   end;
   if I = StartFrom then
     raise ETestTemplate.Create(SNoTestsAdded);

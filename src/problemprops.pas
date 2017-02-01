@@ -25,7 +25,7 @@ unit problemprops;
 interface
 
 uses
-  Classes, SysUtils, AvgLvlTree, testresults, strconsts;
+  Classes, SysUtils, AvgLvlTree, strconsts, testerfileutil, testerprimitives;
 
 type
   EProblemChecker = class(Exception);
@@ -59,6 +59,7 @@ type
     property AnswerFile: string read FAnswerFile write SetAnswerFile;
     property CheckerOutput: string read FCheckerOutput write SetCheckerOutput;
     constructor Create; virtual;
+    procedure CorrectFileNames; virtual;
     function Check: TTestVerdict;
     function Equals(Obj: TObject): boolean; override;
     procedure AssignTo(Dest: TPersistent); override;
@@ -80,6 +81,7 @@ type
     function Equals(Obj: TObject): boolean; override;
     procedure AssignTo(Dest: TPersistent); override;
     constructor Create(AInputFile, AOutputFile: string; ACost: double);
+    procedure CorrectFileNames;
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -132,6 +134,7 @@ type
     function MaxScore: double;
     procedure AssignTo(Dest: TPersistent); override;
     procedure RescaleCosts(NewTotalCost: double; APolicy: TTestCostEditPolicy);
+    procedure CorrectFileNames;
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -227,10 +230,22 @@ begin
   Replaceable := False;
 end;
 
+procedure TProblemChecker.CorrectFileNames;
+begin
+end;
+
 function TProblemChecker.Check: TTestVerdict;
 begin
   FCheckerOutput := '';
-  Result := DoCheck;
+  try
+    Result := DoCheck;
+  except
+    on E: Exception do
+    begin
+      Result := veCheckError;
+      FCheckerOutput := E.Message;
+    end;
+  end;
 end;
 
 function TProblemChecker.Equals(Obj: TObject): boolean;
@@ -324,8 +339,8 @@ begin
   else
   begin
     with Obj as TProblemTest do
-      Result := (InputFile = Self.InputFile) and (OutputFile =
-        Self.OutputFile) and (Abs(Cost - Self.Cost) < 0.0000001);
+      Result := (InputFile = Self.InputFile) and
+        (OutputFile = Self.OutputFile) and (Abs(Cost - Self.Cost) < 0.0000001);
   end;
 end;
 
@@ -345,6 +360,12 @@ begin
   InputFile := AInputFile;
   OutputFile := AOutputFile;
   Cost := ACost;
+end;
+
+procedure TProblemTest.CorrectFileNames;
+begin
+  InputFile := CorrectFileName(InputFile);
+  OutputFile := CorrectFileName(OutputFile);
 end;
 
 constructor TProblemTest.Create(ACollection: TCollection);
@@ -491,6 +512,21 @@ begin
       for I := 0 to TestCount - 1 do
         Tests[I].Cost := NewTotalCost / TestCount;
     end;
+  end;
+end;
+
+procedure TProblemProperties.CorrectFileNames;
+var
+  I: integer;
+begin
+  BeginCache;
+  try
+    if Checker <> nil then
+      Checker.CorrectFileNames;
+    for I := 0 to TestCount - 1 do
+      Tests[I].CorrectFileNames;
+  finally
+    EndCache;
   end;
 end;
 

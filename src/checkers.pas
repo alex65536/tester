@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, processfork, LazFileUtils, LazUTF8, strconsts,
-  testerprimitives;
+  testerprimitives, testerfileutil;
 
 type
 
@@ -64,6 +64,7 @@ type
   public
     constructor Create; override;
     constructor Create(ACheckerFileName: string);
+    procedure CorrectFileNames; override;
     procedure AssignTo(Dest: TPersistent); override;
     function Equals(Obj: TObject): boolean; override;
   published
@@ -155,6 +156,12 @@ begin
   CheckerFileName := ACheckerFileName;
 end;
 
+procedure TStdExecutableChecker.CorrectFileNames;
+begin
+  inherited CorrectFileNames;
+  CheckerFileName := CorrectFileName(CheckerFileName);
+end;
+
 procedure TStdExecutableChecker.AssignTo(Dest: TPersistent);
 begin
   inherited;
@@ -233,37 +240,29 @@ function TFileCompareChecker.DoCheck: TTestVerdict;
   end;
 
 begin
-  try
-    if not FileExistsUTF8(AppendPathDelim(WorkingDir) + OutputFile) then
-    begin
-      CheckerOutput := Format(SFileNotFound, [OutputFile]);
-      Result := vePresentationError;
-      Exit;
-    end;
-    if not FileExistsUTF8(AppendPathDelim(WorkingDir) + AnswerFile) then
-    begin
-      CheckerOutput := Format(SFileNotFound, [AnswerFile]);
-      Result := veCheckError;
-      Exit;
-    end;
-    if GetTextFromFile(OutputFile) = GetTextFromFile(AnswerFile) then
-    begin
-      CheckerOutput := SFilesEqual;
-      Result := veAccepted;
-    end
-    else
-    begin
-      CheckerOutput := SFilesNotEqual;
-      // TODO : Show where is the inequality
-      // TODO : Maybe use standard utils (as diff & fc)
-      Result := veWrongAnswer;
-    end;
-  except
-    on E: Exception do
-    begin
-      Result := veCheckError;
-      CheckerOutput := E.Message;
-    end;
+  if not FileExistsUTF8(AppendPathDelim(WorkingDir) + OutputFile) then
+  begin
+    CheckerOutput := Format(SFileNotFound, [OutputFile]);
+    Result := vePresentationError;
+    Exit;
+  end;
+  if not FileExistsUTF8(AppendPathDelim(WorkingDir) + AnswerFile) then
+  begin
+    CheckerOutput := Format(SFileNotFound, [AnswerFile]);
+    Result := veCheckError;
+    Exit;
+  end;
+  if GetTextFromFile(OutputFile) = GetTextFromFile(AnswerFile) then
+  begin
+    CheckerOutput := SFilesEqual;
+    Result := veAccepted;
+  end
+  else
+  begin
+    CheckerOutput := SFilesNotEqual;
+    // TODO : Show where is the inequality
+    // TODO : Maybe use standard utils (as diff & fc)
+    Result := veWrongAnswer;
   end;
 end;
 
@@ -278,34 +277,26 @@ var
   ArgsArr: array of string;
   I: integer;
 begin
+  Args := TStringList.Create;
   try
-    Args := TStringList.Create;
-    try
-      GetCommandLine(ExeName, Args);
-      SetLength(ArgsArr, Args.Count);
-      for I := 0 to Args.Count - 1 do
-        ArgsArr[I] := Args[I];
-      ExitCode := 0;
-      Output := '';
-      if RunCommandIndirUTF8(WorkingDir, ExeName, ArgsArr, Output, ExitCode) <> 0 then
-      begin
-        CheckerOutput := Format(SCheckerRunFail, [ExeName]);
-        Result := veCheckError;
-      end
-      else
-      begin
-        CheckerOutput := Output + LineEnding + Format(SCheckerExitCode, [ExitCode]);
-        Result := ProcessCheckerOutput(Output, ExitCode);
-      end;
-    finally
-      FreeAndNil(Args);
-    end;
-  except
-    on E: Exception do
+    GetCommandLine(ExeName, Args);
+    SetLength(ArgsArr, Args.Count);
+    for I := 0 to Args.Count - 1 do
+      ArgsArr[I] := Args[I];
+    ExitCode := 0;
+    Output := '';
+    if RunCommandIndirUTF8(WorkingDir, ExeName, ArgsArr, Output, ExitCode) <> 0 then
     begin
+      CheckerOutput := Format(SCheckerRunFail, [ExeName]);
       Result := veCheckError;
-      CheckerOutput := E.Message;
+    end
+    else
+    begin
+      CheckerOutput := Output + LineEnding + Format(SCheckerExitCode, [ExitCode]);
+      Result := ProcessCheckerOutput(Output, ExitCode);
     end;
+  finally
+    FreeAndNil(Args);
   end;
 end;
 

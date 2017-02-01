@@ -265,6 +265,7 @@
         <Filename Value="editcostsdlg.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditCostsDialog"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit42>
     </Units>

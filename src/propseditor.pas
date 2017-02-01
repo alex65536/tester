@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
   problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
-  testtemplates, testtemplatedlg, strconsts;
+  testtemplates, testtemplatedlg, strconsts, editcostsdlg;
 
 type
   EUnknownChecker = class(Exception);
@@ -53,6 +53,7 @@ type
     Label5: TLabel;
     Label6: TLabel;
     MemoryLimitEdit: TSpinEdit;
+    EditCostsBtn: TBitBtn;
     MoveDownBtn: TBitBtn;
     MoveUpBtn: TBitBtn;
     MultiAddTestsBtn: TBitBtn;
@@ -66,6 +67,7 @@ type
     procedure AddTestBtnClick(Sender: TObject);
     procedure ClearTestsBtnClick(Sender: TObject);
     procedure DeleteTestBtnClick(Sender: TObject);
+    procedure EditCostsBtnClick(Sender: TObject);
     procedure EditTestBtnClick(Sender: TObject);
     procedure InsertTestBtnClick(Sender: TObject);
     procedure MoveDownBtnClick(Sender: TObject);
@@ -213,6 +215,12 @@ begin
   DoTestChange;
 end;
 
+procedure TProblemPropsEditor.EditCostsBtnClick(Sender: TObject);
+begin
+  EditCostsDialog.Execute(FProperties);
+  UpdateControls;
+end;
+
 procedure TProblemPropsEditor.EditTestBtnClick(Sender: TObject);
 begin
   TestsListDblClick(TestsList);
@@ -348,6 +356,7 @@ begin
   InsertTestBtn.Enabled := TestsList.ItemIndex >= 0;
   MultiAddTestsBtn.Enabled := True;
   EditTestBtn.Enabled := TestsList.ItemIndex >= 0;
+  EditCostsBtn.Enabled := TestsList.Count <> 0;
   DeleteTestBtn.Enabled := TestsList.ItemIndex >= 0;
   ClearTestsBtn.Enabled := TestsList.Count <> 0;
   MoveUpBtn.Enabled := TestsList.ItemIndex >= 1;
@@ -386,6 +395,7 @@ begin
   ImageKeeper.ImageList.GetBitmap(12, EditTestBtn.Glyph);
   ImageKeeper.ImageList.GetBitmap(13, MultiAddTestsBtn.Glyph);
   ImageKeeper.ImageList.GetBitmap(14, ClearTestsBtn.Glyph);
+  ImageKeeper.ImageList.GetBitmap(15, EditCostsBtn.Glyph);
 end;
 
 destructor TProblemPropsEditor.Destroy;

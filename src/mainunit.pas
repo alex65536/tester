@@ -36,11 +36,13 @@ type
 
   TMainForm = class(TForm)
     AboutAction: TAction;
+    EditCostsAction: TAction;
     ClearTestsAction: TAction;
     MenuItem19: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
     MenuItem22: TMenuItem;
+    MenuItem23: TMenuItem;
     MultiAddTestsBtn: TAction;
     EditTestAction: TAction;
     CloseTabAction: TAction;
@@ -96,6 +98,8 @@ type
     procedure CloseTabActionUpdate(Sender: TObject);
     procedure DeleteTestActionExecute(Sender: TObject);
     procedure DeleteTestActionUpdate(Sender: TObject);
+    procedure EditCostsActionExecute(Sender: TObject);
+    procedure EditCostsActionUpdate(Sender: TObject);
     procedure EditTestActionExecute(Sender: TObject);
     procedure EditTestActionUpdate(Sender: TObject);
     procedure ExitMenuItemClick(Sender: TObject);
@@ -308,6 +312,19 @@ var
 begin
   Editor := CurEditor;
   (Sender as TAction).Enabled := (Editor <> nil) and Editor.DeleteTestBtn.Enabled;
+end;
+
+procedure TMainForm.EditCostsActionExecute(Sender: TObject);
+begin
+  CurEditor.EditCostsBtn.Click;
+end;
+
+procedure TMainForm.EditCostsActionUpdate(Sender: TObject);
+var
+  Editor: TProblemPropsEditor;
+begin
+  Editor := CurEditor;
+  (Sender as TAction).Enabled := (Editor <> nil) and Editor.EditCostsBtn.Enabled;
 end;
 
 procedure TMainForm.EditTestActionExecute(Sender: TObject);

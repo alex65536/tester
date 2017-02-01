@@ -71,7 +71,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parser_polygon,
   versioninfo,
   parser_simplecfg,
-  parser_findfile;
+  parser_findfile,
+  editcostsdlg;
 
 {$R *.res}
 
@@ -90,5 +91,6 @@ begin
   Application.CreateForm(TLicenseForm, LicenseForm);
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
+  Application.CreateForm(TEditCostsDialog, EditCostsDialog);
   Application.Run;
 end.

@@ -30,6 +30,8 @@ uses
 type
   EProblemChecker = class(Exception);
 
+  TTestCostEditPolicy = (tcepProportionally, tcepMakeEqual);
+
   { TProblemChecker }
 
   TProblemChecker = class(TPersistent)
@@ -49,7 +51,8 @@ type
   protected
     function DoCheck: TTestVerdict; virtual; abstract;
   public
-    property Replaceable: boolean read FReplaceable write SetReplaceable; // necessary for PropsParser
+    property Replaceable: boolean read FReplaceable write SetReplaceable;
+    // necessary for PropsParser
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -128,6 +131,7 @@ type
     procedure ClearTests;
     function MaxScore: double;
     procedure AssignTo(Dest: TPersistent); override;
+    procedure RescaleCosts(NewTotalCost: double; APolicy: TTestCostEditPolicy);
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -204,7 +208,8 @@ end;
 
 procedure TProblemChecker.SetReplaceable(AValue: boolean);
 begin
-  if FReplaceable = AValue then Exit;
+  if FReplaceable = AValue then
+    Exit;
   FReplaceable := AValue;
 end;
 
@@ -319,9 +324,8 @@ begin
   else
   begin
     with Obj as TProblemTest do
-      Result := (InputFile = Self.InputFile) and
-        (OutputFile = Self.OutputFile) and
-        (Abs(Cost - Self.Cost) < 0.0000001);
+      Result := (InputFile = Self.InputFile) and (OutputFile =
+        Self.OutputFile) and (Abs(Cost - Self.Cost) < 0.0000001);
   end;
 end;
 
@@ -464,6 +468,27 @@ begin
     MemoryLimit := Self.MemoryLimit;
     TestList.Assign(Self.TestList);
     Checker := CloneChecker(Self.Checker);
+  end;
+end;
+
+procedure TProblemProperties.RescaleCosts(NewTotalCost: double;
+  APolicy: TTestCostEditPolicy);
+var
+  ATotalCost: double;
+  I: integer;
+begin
+  ATotalCost := MaxScore;
+  case APolicy of
+    tcepProportionally:
+    begin
+      for I := 0 to TestCount - 1 do
+        Tests[I].Cost := Tests[I].Cost / ATotalCost * NewTotalCost;
+    end;
+    tcepMakeEqual:
+    begin
+      for I := 0 to TestCount - 1 do
+        Tests[I].Cost := NewTotalCost / TestCount;
+    end;
   end;
 end;
 

@@ -1,11 +1,11 @@
 object MainForm: TMainForm
-  Left = 449
+  Left = 402
   Height = 509
-  Top = 160
-  Width = 784
+  Top = 165
+  Width = 860
   Caption = 'Tester'
   ClientHeight = 509
-  ClientWidth = 784
+  ClientWidth = 860
   Menu = MainMenu
   OnCreate = FormCreate
   Position = poScreenCenter
@@ -14,7 +14,7 @@ object MainForm: TMainForm
     Left = 0
     Height = 31
     Top = 0
-    Width = 784
+    Width = 860
     Align = alTop
     AutoSize = True
     BevelInner = bvLowered
@@ -23,7 +23,7 @@ object MainForm: TMainForm
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
     ClientHeight = 31
-    ClientWidth = 784
+    ClientWidth = 860
     Color = clWindow
     ParentColor = False
     TabOrder = 0
@@ -31,47 +31,47 @@ object MainForm: TMainForm
       Left = 0
       Height = 29
       Top = 0
-      Width = 130
+      Width = 145
       Action = NewFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 130
+      Left = 145
       Height = 29
       Top = 0
-      Width = 137
+      Width = 152
       Action = OpenFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn3: TBitBtn
-      Left = 267
+      Left = 297
       Height = 29
       Top = 0
-      Width = 149
+      Width = 164
       Action = SaveFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn4: TBitBtn
-      Left = 416
+      Left = 461
       Height = 29
       Top = 0
-      Width = 194
+      Width = 209
       Action = TestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 610
+      Left = 670
       Height = 29
       Top = 0
-      Width = 174
+      Width = 190
       Action = AboutAction
       AutoSize = True
       Color = clHighlight
@@ -82,7 +82,7 @@ object MainForm: TMainForm
     Left = 0
     Height = 478
     Top = 31
-    Width = 784
+    Width = 860
     Align = alClient
     PopupMenu = TabPopupMenu
     TabOrder = 1
@@ -189,6 +189,13 @@ object MainForm: TMainForm
       OnUpdate = ClearTestsActionUpdate
       ShortCut = 8262
     end
+    object EditCostsAction: TAction
+      Caption = 'Edit costs...'
+      ImageIndex = 15
+      OnExecute = EditCostsActionExecute
+      OnUpdate = EditCostsActionUpdate
+      ShortCut = 8274
+    end
   end
   object SaveDialog: TSaveDialog
     DefaultExt = '.json'
@@ -266,6 +273,9 @@ object MainForm: TMainForm
       end
       object MenuItem18: TMenuItem
         Action = EditTestAction
+      end
+      object MenuItem23: TMenuItem
+        Action = EditCostsAction
       end
       object MenuItem21: TMenuItem
         Caption = '-'

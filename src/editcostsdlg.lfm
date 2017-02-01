@@ -1,0 +1,90 @@
+object EditCostsDialog: TEditCostsDialog
+  Left = 518
+  Height = 102
+  Top = 225
+  Width = 311
+  AutoSize = True
+  BorderStyle = bsDialog
+  Caption = 'Edit costs'
+  ClientHeight = 102
+  ClientWidth = 311
+  Position = poMainFormCenter
+  LCLVersion = '1.6.2.0'
+  object ButtonPanel: TButtonPanel
+    AnchorSideTop.Control = ResizePolicyCombo
+    AnchorSideTop.Side = asrBottom
+    Left = 6
+    Height = 36
+    Top = 60
+    Width = 299
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbOK, pbCancel]
+  end
+  object ResizePolicyCombo: TComboBox
+    AnchorSideLeft.Control = TestsCostEdit
+    AnchorSideTop.Control = TestsCostEdit
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = TestsCostEdit
+    AnchorSideRight.Side = asrBottom
+    Left = 175
+    Height = 27
+    Top = 27
+    Width = 136
+    Anchors = [akTop, akLeft, akRight]
+    ItemHeight = 0
+    Items.Strings = (
+      'Proportionally'
+      'Equal costs to all tests'
+    )
+    Style = csDropDownList
+    TabOrder = 1
+  end
+  object TestsCostEdit: TFloatSpinEdit
+    Left = 175
+    Height = 27
+    Top = 0
+    Width = 136
+    Anchors = [akTop, akRight]
+    DecimalPlaces = 3
+    Increment = 1
+    MaxValue = 1000
+    MinValue = 1
+    TabOrder = 2
+    Value = 1
+  end
+  object Label1: TLabel
+    AnchorSideTop.Control = TestsCostEdit
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = TestsCostEdit
+    Left = 0
+    Height = 17
+    Top = 5
+    Width = 175
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Total tests cost:'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    AnchorSideTop.Control = ResizePolicyCombo
+    AnchorSideTop.Side = asrCenter
+    AnchorSideRight.Control = ResizePolicyCombo
+    Left = 0
+    Height = 17
+    Top = 32
+    Width = 175
+    Alignment = taRightJustify
+    Anchors = [akTop, akLeft, akRight]
+    Caption = 'Cost change policy:'
+    ParentColor = False
+  end
+end

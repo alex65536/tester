@@ -477,6 +477,8 @@ var
   ATotalCost: double;
   I: integer;
 begin
+  if TestCount = 0 then
+    Exit;
   ATotalCost := MaxScore;
   case APolicy of
     tcepProportionally:

@@ -28,11 +28,15 @@
 [V] 20.01.17 Re-organise timerlib part
 [V] 23.01.17 Build timerlib to DLL
 [V] 30.01.17 Add auto-detecting tests from directories
-[*] Add changing cost for ALL tests in one button
-[*] Make adding some additional file to the deirectory with tested program
+[V] 01.02.17 Add changing cost for ALL tests in one button
+[*] Optimize the parsers
+[*] Make adding some additional file to the directory with tested program
 [*] Allow testing EXEs
 [*] Add time limit for checker
+[*] Allow stop the parser at every point of time
+
 [*] Create settings system
+[*] Make auto-update system
 [*] Make settings save/load to JSON to settings dir
 [*] Allow changing tests order by drag'n'drop
 [*] Write Russian translation

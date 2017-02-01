@@ -300,6 +300,7 @@ begin
     end;
     if TestList.Count = 0 then
       Result := False;
+    RescaleCosts(100.0, tcepMakeEqual);
   end;
 end;
 

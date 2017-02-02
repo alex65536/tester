@@ -2,7 +2,7 @@ unit logfile;
 
 {$mode objfpc}{$H+}
 
-{$Define WriteLog} // Comment this for releases!
+{.$Define WriteLog} // Comment this for releases!
 
 interface
 

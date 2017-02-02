@@ -1,6 +1,12 @@
 Tester ChangeLog:
 --------------------------------
 
+version 1.1.1 (beta) (02.02.2017)
+[*] Minor bug fixes.
+[*] Added changing tests' costs in one button.
+[*] Now parser make the total problem cost equal to 100 points.
+[*] Hints on tabs show full path to the file.
+
 version 1.1 (beta) (31.01.2017)
 [*] Many bug fixes and improvements.
 [*] Added auto-parsing problem properties.

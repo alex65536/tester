@@ -94,9 +94,9 @@ function TSimpleCfgPropertiesParser.DoParse: boolean;
         else if AName = 'memorylimit' then
           Properties.MemoryLimit := StrToInt(AValue)
         else if AName = 'inputfile' then
-          Properties.InputFile := 'input.txt'
+          Properties.InputFile := AValue
         else if AName = 'outputfile' then
-          Properties.OutputFile := 'output.txt'
+          Properties.OutputFile := AValue
         else if AName = 'checker' then
           ParseChecker(AValue, Result)
         else if AName = 'testscount' then

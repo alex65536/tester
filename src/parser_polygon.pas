@@ -46,8 +46,6 @@ uses
 
 function TPolygonPropertiesParser.DoParse: boolean;
 var
-  TestCount: integer;
-  InputTestFmt, OutputTestFmt: string;
   XMLDocument: TXMLDocument;
 
   function PrintfToFormat(const S: string): string;
@@ -73,15 +71,63 @@ var
       Result := TestsetNode.FindNode(ANodeName).TextContent;
     end;
 
+    function FirstTestsetNode: TDOMNode;
+    begin
+      Result := JudgingNode.FirstChild;
+      while Result <> nil do
+      begin
+        if Result.CompareName('testset') = 0 then
+          Exit;
+        Result := Result.NextSibling;
+      end;
+    end;
+
+    function NextTestsetNode: TDOMNode;
+    begin
+      Result := TestsetNode.NextSibling;
+      while Result <> nil do
+      begin
+        if Result.CompareName('testset') = 0 then
+          Exit;
+        Result := Result.NextSibling;
+      end;
+    end;
+
+    procedure AddTestsetNode;
+    var
+      TestCount: integer;
+      InputTestFmt, OutputTestFmt: string;
+    begin
+      // parse TL, ML
+      with Properties, TProblemPropsCollector do
+      begin
+        if not Success then
+          WriteLog(':)');
+        TimeLimit := MergeInt(TimeLimit, StrToInt(GetTestsetNode('time-limit')), Success);
+        if not Success then
+          WriteLog('TL :(');
+        MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetTestsetNode('memory-limit')) div 1024, Success);
+        if not Success then
+          WriteLog('ML :(');
+      end;
+      // parse test info
+      TestCount := StrToInt(GetTestsetNode('test-count'));
+      InputTestFmt := PrintfToFormat(GetTestsetNode('input-path-pattern'));
+      InputTestFmt := AppendPathDelim(WorkingDir) + InputTestFmt;
+      OutputTestFmt := PrintfToFormat(GetTestsetNode('answer-path-pattern'));
+      OutputTestFmt := AppendPathDelim(WorkingDir) + OutputTestFmt;
+      if IsTerminated then
+        Exit;
+      // add tests
+      AddTestsFmt(InputTestFmt, OutputTestFmt, TestCount);
+      if IsTerminated then
+        Exit;
+    end;
+
   begin
     // initialize
     with TProblemPropsCollector do
-    begin
       CheckerPath := UnknownStr;
-      TestCount := 0;
-      InputTestFmt := UnknownStr;
-      OutputTestFmt := UnknownStr;
-    end;
     Result := False;
     Success := True;
     RootNode := XMLDocument.DocumentElement;
@@ -91,21 +137,20 @@ var
     Properties.OutputFile := JudgingNode.GetAttribute('output-file');
     if IsTerminated then
       Exit;
-    // parse TL, ML, test info - "judging/testset" node
-    TestsetNode := JudgingNode.FindNode('testset') as TDOMElement;
-    Properties.TimeLimit := StrToInt(GetTestsetNode('time-limit'));
-    Properties.MemoryLimit := StrToInt(GetTestsetNode('memory-limit')) div 1024;
-    TestCount := StrToInt(GetTestsetNode('test-count'));
-    InputTestFmt := PrintfToFormat(GetTestsetNode('input-path-pattern'));
-    InputTestFmt := AppendPathDelim(WorkingDir) + InputTestFmt;
-    OutputTestFmt := PrintfToFormat(GetTestsetNode('answer-path-pattern'));
-    OutputTestFmt := AppendPathDelim(WorkingDir) + OutputTestFmt;
-    if IsTerminated then
-      Exit;
-    // add tests
-    AddTestsFmt(InputTestFmt, OutputTestFmt, TestCount);
-    if IsTerminated then
-      Exit;
+    // parsing all the "judging/testset" nodes
+    BeginCache;
+    try
+      TestsetNode := FirstTestsetNode as TDOMElement;
+      while TestsetNode <> nil do
+      begin
+        AddTestsetNode;
+        if IsTerminated then
+          Break;
+        TestsetNode := NextTestsetNode as TDOMElement;
+      end;
+    finally
+      EndCache;
+    end;
     // parse checker - "assets/checker" node
     AssetsNode := RootNode.FindNode('assets') as TDOMElement;
     CheckerNode := AssetsNode.FindNode('checker') as TDOMElement;

@@ -241,18 +241,19 @@ class procedure TProblemPropsCollector.MergeTests(BaseTst, MergeTst: TProblemTes
 var
   I: integer;
 begin
-  // check for conflicts
-  if BaseTst.Count = MergeTst.Count then
-  begin
-    for I := 0 to BaseTst.Count - 1 do
-      if not BaseTst[I].Equals(MergeTst[I]) then
-      begin
-        Success := False;
-        Break;
-      end;
-  end
-  else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
-    Success := False;
+  // we do not check for conflicts!
+  //if BaseTst.Count = MergeTst.Count then
+  //begin
+  //  for I := 0 to BaseTst.Count - 1 do
+  //    if not BaseTst[I].Equals(MergeTst[I]) then
+  //    begin
+  //      Success := False;
+  //      Break;
+  //    end;
+  //end
+  //else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
+  //  Success := False;
+  Success := Success;
   // add tests from MergeTst that don't exist in BaseTst
   for I := 0 to MergeTst.Count - 1 do
     if BaseTst.Find(MergeTst[I]) < 0 then

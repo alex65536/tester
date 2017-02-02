@@ -218,6 +218,7 @@ object MainForm: TMainForm
     top = 160
   end
   object TabPopupMenu: TPopupMenu
+    OnPopup = TabPopupMenuPopup
     left = 392
     top = 160
     object MenuItem1: TMenuItem

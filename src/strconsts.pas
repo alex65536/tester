@@ -70,7 +70,7 @@ resourcestring
   SNotFullInfo = 'Parsing didn''t deduce all the problem info';
   SParserWarningFmt = '%s. %s.';
   SVersionFmt = 'version %s';
-  SFullAppNameFmt = '%s v.%s';
+  SFullAppNameFmt = '%s v%s';
   SBuildDateFmt = 'Build date: %s';
   SDefaultVersion = '<unknown>';
   SDateViewFmt = 'dd.mm.yyyy';

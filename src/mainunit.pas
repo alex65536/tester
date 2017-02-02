@@ -118,11 +118,14 @@ type
     procedure PropsListCloseTabClicked(Sender: TObject);
     procedure SaveFileActionExecute(Sender: TObject);
     procedure SaveFileActionUpdate(Sender: TObject);
+    procedure TabPopupMenuPopup(Sender: TObject);
+    procedure TabShowHint(Sender: TObject; HintInfo: PHintInfo);
     procedure TestActionExecute(Sender: TObject);
     procedure TestActionUpdate(Sender: TObject);
   private
     procedure DoUpdateActions;
   public
+    function GetCurrentPage(const MousePos: TPoint): TTabSheet;
     function CurEditor: TProblemPropsEditor;
     function EditorFromTab(TabSheet: TTabSheet): TProblemPropsEditor;
     procedure CreateFromFile(const FileName: string; APolicy: TCreateEditorPolicy;
@@ -228,6 +231,27 @@ begin
   (Sender as TAction).Enabled := PropsList.ActivePage <> nil;
 end;
 
+procedure TMainForm.TabPopupMenuPopup(Sender: TObject);
+var
+  ACurPage: TTabSheet;
+begin
+  if not (TabPopupMenu.PopupComponent = PropsList) then
+    Exit;
+  ACurPage := GetCurrentPage(TabPopupMenu.PopupPoint);
+  if ACurPage <> nil then
+    PropsList.ActivePage := ACurPage;
+end;
+
+procedure TMainForm.TabShowHint(Sender: TObject; HintInfo: PHintInfo);
+var
+  ACurTab: TTabSheet;
+begin
+  ACurTab := GetCurrentPage(Mouse.CursorPos);
+  if (ACurTab = nil) or (HintInfo = nil) then
+    Exit;
+  HintInfo^.HintStr := EditorFromTab(ACurTab).FileName;
+end;
+
 procedure TMainForm.TestActionExecute(Sender: TObject);
 var
   AEditor: TProblemPropsEditor;
@@ -259,6 +283,20 @@ begin
     for I := 0 to ActionList.ActionCount - 1 do
       ActionList.Actions[I].Update;
   end;
+end;
+
+function TMainForm.GetCurrentPage(const MousePos: TPoint): TTabSheet;
+var
+  TabIndex: integer;
+begin
+  Result := nil;
+  if PropsList.PageCount = 0 then
+    Exit;
+  TabIndex := PropsList.TabIndexAtClientPos(PropsList.ScreenToClient(MousePos));
+  if TabIndex < 0 then
+    Result := nil
+  else
+    Result := PropsList.Pages[TabIndex];
 end;
 
 procedure TMainForm.NewFileActionExecute(Sender: TObject);
@@ -348,6 +386,8 @@ end;
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
   Caption := GetAppFullName;
+  PropsList.OnShowHint := @TabShowHint;
+  PropsList.ShowHint := True;
 end;
 
 procedure TMainForm.InsertTestActionExecute(Sender: TObject);

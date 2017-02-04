@@ -5,6 +5,7 @@ object TesterFrame: TTesterFrame
   Width = 475
   ClientHeight = 240
   ClientWidth = 475
+  LCLVersion = '1.6.2.0'
   TabOrder = 0
   DesignLeft = 533
   DesignTop = 167

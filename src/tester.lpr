@@ -72,7 +72,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   versioninfo,
   parser_simplecfg,
   parser_findfile,
-  editcostsdlg;
+  editcostsdlg,
+  htmlexport;
 
 {$R *.res}
 

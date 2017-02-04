@@ -53,9 +53,10 @@ resourcestring
   STestIndex = 'Test %d';
   STotalScore = 'Score';
   STimeConsumed = '%.2f s';
+  SScoreFmt = '%.2f';
   STimeConsumedEx = '%.3f seconds';
   SMemConsumed = '%.2f MB';
-  SMemConsumedEx = '%.0f KBytes';
+  SMemConsumedEx = '%d KBytes';
   SScoreDivide = '%.2f/%.2f';
   SAlreadyTesting = 'Testing is already started';
   SNoTestsAdded = 'No tests were added';
@@ -74,6 +75,8 @@ resourcestring
   SBuildDateFmt = 'Build date: %s';
   SDefaultVersion = '<unknown>';
   SDateViewFmt = 'dd.mm.yyyy';
+  SHTMLComment = 'This HTML file was exported by Tester v%s.';
+  SHTMLTitle = 'Testing results';
 
 // Compilation verdicts
 resourcestring

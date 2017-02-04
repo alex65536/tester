@@ -34,9 +34,8 @@
 [*] Allow testing EXEs
 [*] Add time limit for checker
 [*] Allow stop the parser at every point of time
-
 [*] Create settings system
-[*] Make auto-update system
+[*] Make auto-updating the program
 [*] Make settings save/load to JSON to settings dir
 [*] Allow changing tests order by drag'n'drop
 [*] Write Russian translation

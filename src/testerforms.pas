@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Dialogs, ExtCtrls, StdCtrls, ComCtrls,
   EditBtn, testerframes, problemprops, LazFileUtils, LCLType, ActnList, Buttons,
-  Menus, jsonsaver, imgkeeper;
+  Menus, jsonsaver, imgkeeper, htmlexport, LCLIntf;
 
 type
 
@@ -44,6 +44,8 @@ type
   { TTesterForm }
 
   TTesterForm = class(TForm)
+    BitBtn5: TBitBtn;
+    ExportHTMLAction: TAction;
     BitBtn1: TBitBtn;
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
@@ -59,6 +61,7 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    SaveHTMLDialog: TSaveDialog;
     StopTestAction: TAction;
     SaveDialog: TSaveDialog;
     SaveResultsAction: TAction;
@@ -69,6 +72,8 @@ type
     ProgressPanel: TPanel;
     ProgressBar: TProgressBar;
     TestFrame: TTesterFrame;
+    procedure ExportHTMLActionExecute(Sender: TObject);
+    procedure ExportHTMLActionUpdate(Sender: TObject);
     procedure FileNameEditChange(Sender: TObject);
     procedure FileNameEditViewerKeyDown(Sender: TObject; var Key: word;
       Shift: TShiftState);
@@ -135,6 +140,27 @@ begin
     end;
   end;
   FileNameEditViewer.Text := AText;
+end;
+
+procedure TTesterForm.ExportHTMLActionExecute(Sender: TObject);
+var
+  AExporter: TMultiTesterHTMLExporter;
+begin
+  if not SaveHTMLDialog.Execute then Exit;
+  AExporter := TMultiTesterHTMLExporter.Create;
+  try
+    AExporter.MultiTester := TestFrame.MultiTester;
+    AExporter.ExportHTML;
+    AExporter.Document.SaveToFile(SaveHTMLDialog.FileName);
+    OpenDocument(SaveHTMLDialog.FileName);
+  finally
+    FreeAndNil(AExporter);
+  end;
+end;
+
+procedure TTesterForm.ExportHTMLActionUpdate(Sender: TObject);
+begin
+  (Sender as TAction).Enabled := FEverTested and (not TestFrame.IsTesting);
 end;
 
 procedure TTesterForm.FileNameEditViewerKeyDown(Sender: TObject;

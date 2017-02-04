@@ -304,7 +304,7 @@ begin
     MaxScore := Properties.MaxScore;
     Score := TestResults[Row].TotalScore;
     ACanvas.Font.Color := GetTotalScoreColor(Score, MaxScore);
-    DrawTextCenter(ARect, Format('%.2f', [Score]));
+    DrawTextCenter(ARect, Format(SScoreFmt, [Score]));
     RestoreFont;
     Exit;
   end;
@@ -328,7 +328,7 @@ begin
     DrawTextCenter(NewRect, TimeStr);
     // memory
     ACanvas.Font.Assign(MemoryLabel.Font);
-    MemStr := Format(SMemConsumed, [TestResults[Row][Col - 3].Memory / 1048576]);
+    MemStr := Format(SMemConsumed, [TestResults[Row][Col - 3].Memory / 1024]);
     H3 := ACanvas.TextHeight(MemStr);
     NewRect.Top := NewRect.Bottom;
     NewRect.Bottom := NewRect.Top + H3;

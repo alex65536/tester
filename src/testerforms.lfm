@@ -46,7 +46,7 @@ object TesterForm: TTesterForm
     ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
-    ChildSizing.ControlsPerLine = 4
+    ChildSizing.ControlsPerLine = 5
     ClientHeight = 31
     ClientWidth = 1009
     Color = clWindow
@@ -56,41 +56,51 @@ object TesterForm: TTesterForm
       Left = 0
       Height = 29
       Top = 0
-      Width = 220
+      Width = 162
       Action = OpenSourcesAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn1: TBitBtn
-      Left = 220
+      Left = 162
       Height = 29
       Top = 0
-      Width = 272
+      Width = 214
       Action = LaunchTestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn2: TBitBtn
-      Left = 492
+      Left = 376
       Height = 29
       Top = 0
-      Width = 254
+      Width = 196
       Action = StopTestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn3: TBitBtn
-      Left = 746
+      Left = 572
       Height = 29
       Top = 0
-      Width = 263
+      Width = 206
       Action = SaveResultsAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
+    end
+    object BitBtn5: TBitBtn
+      Left = 778
+      Height = 29
+      Top = 0
+      Width = 231
+      Action = ExportHTMLAction
+      AutoSize = True
+      Color = clHighlight
+      TabOrder = 4
     end
   end
   object ProgressPanel: TPanel
@@ -210,6 +220,12 @@ object TesterForm: TTesterForm
       OnUpdate = OpenSourcesActionUpdate
       ShortCut = 16463
     end
+    object ExportHTMLAction: TAction
+      Caption = 'Export to HTML...'
+      OnExecute = ExportHTMLActionExecute
+      OnUpdate = ExportHTMLActionUpdate
+      ShortCut = 16453
+    end
   end
   object SaveDialog: TSaveDialog
     DefaultExt = '.json'
@@ -235,5 +251,12 @@ object TesterForm: TTesterForm
         Action = SaveResultsAction
       end
     end
+  end
+  object SaveHTMLDialog: TSaveDialog
+    Title = 'Export to HTML...'
+    DefaultExt = '.html'
+    Filter = 'HTML files|*.html'
+    left = 408
+    top = 141
   end
 end

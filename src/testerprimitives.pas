@@ -20,7 +20,7 @@
 }
 unit testerprimitives;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$M+}
 
 interface
 

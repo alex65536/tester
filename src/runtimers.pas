@@ -106,6 +106,7 @@ begin
     PChar(UTF8ToSystem(StderrRedir)), Properties.TimeLimit, Max(1000,
     Properties.TimeLimit * 2), Properties.MemoryLimit * 2048 - 1,
     Properties.MemoryLimit * 1024, @FTime, @Temp, @FMemory, @FExitCode);
+  FMemory := Round(FMemory / 1024); // we show memory in kBytes instead of bytes!
   case Res of
     trOK: Result := veAccepted;
     trTimeLimit: Result := veTimeLimit;

@@ -28,7 +28,8 @@
 '    border: thin solid black;'  + LineEnding +
 '    text-align: center;'        + LineEnding +
 '    vertical-align: middle;'    + LineEnding +
-'    padding: 4;'                + LineEnding +
+'    padding: 4px;'              + LineEnding +
+'    white-space: nowrap;'       + LineEnding +
 '}'                              + LineEnding +
 '.headerCell {'                  + LineEnding +
 '    background-color: silver;'  + LineEnding +

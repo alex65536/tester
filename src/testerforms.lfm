@@ -43,8 +43,8 @@ object TesterForm: TTesterForm
     Align = alTop
     AutoSize = True
     BevelInner = bvLowered
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
     ClientHeight = 31
@@ -56,47 +56,47 @@ object TesterForm: TTesterForm
       Left = 0
       Height = 29
       Top = 0
-      Width = 162
+      Width = 123
       Action = OpenSourcesAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn1: TBitBtn
-      Left = 162
+      Left = 123
       Height = 29
       Top = 0
-      Width = 214
+      Width = 226
       Action = LaunchTestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn2: TBitBtn
-      Left = 376
+      Left = 349
       Height = 29
       Top = 0
-      Width = 196
+      Width = 190
       Action = StopTestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn3: TBitBtn
-      Left = 572
+      Left = 539
       Height = 29
       Top = 0
-      Width = 206
+      Width = 210
       Action = SaveResultsAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 778
+      Left = 749
       Height = 29
       Top = 0
-      Width = 231
+      Width = 260
       Action = ExportHTMLAction
       AutoSize = True
       Color = clHighlight

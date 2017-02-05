@@ -18,8 +18,8 @@ object MainForm: TMainForm
     Align = alTop
     AutoSize = True
     BevelInner = bvLowered
-    ChildSizing.EnlargeHorizontal = crsHomogenousChildResize
-    ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
+    ChildSizing.EnlargeHorizontal = crsScaleChilds
+    ChildSizing.ShrinkHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
     ClientHeight = 31
@@ -31,47 +31,47 @@ object MainForm: TMainForm
       Left = 0
       Height = 29
       Top = 0
-      Width = 145
+      Width = 115
       Action = NewFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 145
+      Left = 115
       Height = 29
       Top = 0
-      Width = 152
+      Width = 130
       Action = OpenFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn3: TBitBtn
-      Left = 297
+      Left = 245
       Height = 29
       Top = 0
-      Width = 164
+      Width = 155
       Action = SaveFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn4: TBitBtn
-      Left = 461
+      Left = 400
       Height = 29
       Top = 0
-      Width = 209
+      Width = 250
       Action = TestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 670
+      Left = 650
       Height = 29
       Top = 0
-      Width = 190
+      Width = 210
       Action = AboutAction
       AutoSize = True
       Color = clHighlight

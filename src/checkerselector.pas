@@ -30,7 +30,7 @@ uses
 
 const
   CheckerTypesCount = 3;
-  CheckerTypes: array [0 .. 2] of TProblemCheckerClass =
+  CheckerTypes: array [0 .. CheckerTypesCount - 1] of TProblemCheckerClass =
     (TFileCompareChecker, TTextChecker, TTestlibChecker);
 
 type
@@ -44,9 +44,10 @@ type
     procedure CheckerComboChange(Sender: TObject);
   private
     FComboLock: integer;
-    FEditor: TCheckerEditor;
+    FEditors: array [0 .. CheckerTypesCount - 1] of TCheckerEditor;
+    procedure CreateEditor(I: integer);
+    procedure UpdateEditor;
     function GetChecker: TProblemChecker;
-    procedure RecreateEditor;
     procedure SetChecker(AValue: TProblemChecker);
   public
     property Checker: TProblemChecker read GetChecker write SetChecker;
@@ -65,64 +66,90 @@ procedure TCheckerSelect.CheckerComboChange(Sender: TObject);
 begin
   if FComboLock <> 0 then
     Exit;
-  RecreateEditor;
+  UpdateEditor;
 end;
 
 function TCheckerSelect.GetChecker: TProblemChecker;
+var
+  AEditor: TCheckerEditor;
 begin
-  if FEditor = nil then
+  if CheckerCombo.ItemIndex < 0 then
     Result := nil
   else
-    Result := FEditor.Checker;
+  begin
+    AEditor := FEditors[CheckerCombo.ItemIndex];
+    if AEditor = nil then
+      Result := nil
+    else
+      Result := AEditor.Checker;
+  end;
 end;
 
-procedure TCheckerSelect.RecreateEditor;
+procedure TCheckerSelect.CreateEditor(I: integer);
 begin
-  FreeAndNil(FEditor);
-  if CheckerCombo.ItemIndex >= 0 then
-    FEditor := GetEditor(CheckerTypes[CheckerCombo.ItemIndex]).Create;
-  if FEditor = nil then
+  if FEditors[I] <> nil then
     Exit;
-  with FEditor.Control do
+  FEditors[I] := GetEditor(CheckerTypes[I]).Create;
+  with FEditors[I].Control do
   begin
-    FEditor.Control.Parent := Self;
-    FEditor.Control.Align := alClient;
-    FEditor.Control.AutoSize := True;
+    Parent := Self;
+    Align := alClient;
+    AutoSize := True;
+    Visible := False;
   end;
+end;
+
+procedure TCheckerSelect.UpdateEditor;
+var
+  I: integer;
+begin
+  if CheckerCombo.ItemIndex >= 0 then
+    CreateEditor(CheckerCombo.ItemIndex);
+  for I := 0 to CheckerTypesCount - 1 do
+    if FEditors[I] <> nil then
+      FEditors[I].Control.Visible := CheckerCombo.ItemIndex = I;
 end;
 
 procedure TCheckerSelect.SetChecker(AValue: TProblemChecker);
 var
   I: integer;
+  Ind: integer;
 begin
-  Inc(FComboLock);
-  CheckerCombo.ItemIndex := -1;
+  Ind := -1;
   for I := 0 to CheckerTypesCount - 1 do
     if (AValue <> nil) and (AValue.ClassType = CheckerTypes[I]) then
-      CheckerCombo.ItemIndex := I;
+      Ind := I;
+  Inc(FComboLock);
+  CheckerCombo.ItemIndex := Ind;
   Dec(FComboLock);
-  RecreateEditor;
-  if FEditor <> nil then
-    FEditor.Checker := AValue;
+  UpdateEditor;
+  if Ind >= 0 then
+    FEditors[Ind].Checker := AValue;
 end;
 
 constructor TCheckerSelect.Create(TheOwner: TComponent);
+var
+  I: integer;
 begin
   inherited Create(TheOwner);
-  FEditor := nil;
+  for I := 0 to CheckerTypesCount - 1 do
+    FEditors[I] := nil;
   FComboLock := 0;
 end;
 
 destructor TCheckerSelect.Destroy;
+var
+  I: integer;
 begin
-  FreeAndNil(FEditor);
+  for I := 0 to CheckerTypesCount - 1 do
+    FreeAndNil(FEditors[I]);
   inherited Destroy;
 end;
 
 procedure TCheckerSelect.AfterConstruction;
 begin
   inherited AfterConstruction;
-  RecreateEditor;
+  UpdateEditor;
 end;
 
 end.

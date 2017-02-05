@@ -222,6 +222,7 @@ object TesterForm: TTesterForm
     end
     object ExportHTMLAction: TAction
       Caption = 'Export to HTML...'
+      ImageIndex = 16
       OnExecute = ExportHTMLActionExecute
       OnUpdate = ExportHTMLActionUpdate
       ShortCut = 16453
@@ -247,8 +248,14 @@ object TesterForm: TTesterForm
       object MenuItem3: TMenuItem
         Action = StopTestAction
       end
+      object MenuItem7: TMenuItem
+        Caption = '-'
+      end
       object MenuItem4: TMenuItem
         Action = SaveResultsAction
+      end
+      object MenuItem6: TMenuItem
+        Action = ExportHTMLAction
       end
     end
   end

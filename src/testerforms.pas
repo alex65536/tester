@@ -55,6 +55,8 @@ type
     FilePanel: TPanel;
     Label2: TLabel;
     MenuItem5: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem7: TMenuItem;
     OpenSourcesAction: TAction;
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;

@@ -56,12 +56,14 @@ type
 
   TProblemPropsCollector = class
   private
+    FIsTerminated: boolean;
     FProperties: TProblemProperties;
   public
   const
     UnknownStr = '%*unknown*%';
     UnknownInt = -2147483648;
   public
+    property IsTerminated: boolean read FIsTerminated;
     property Properties: TProblemProperties read FProperties;
     class function CleanProperties: TProblemProperties;
     class function MergeStr(const Str1, Str2: string; var Success: boolean): string;
@@ -69,7 +71,8 @@ type
     class function MergeChecker(Chk1, Chk2: TProblemChecker;
       var Success: boolean): TProblemChecker;
     class procedure MergeTests(BaseTst, MergeTst: TProblemTestList;
-      var Success: boolean);
+      var Success: boolean; Terminated: PBoolean = nil);
+    procedure Terminate;
     function Merge(Props: TProblemProperties): boolean;
     function Finalize: boolean;
     constructor Create;
@@ -236,8 +239,8 @@ begin
   end;
 end;
 
-class procedure TProblemPropsCollector.MergeTests(BaseTst, MergeTst: TProblemTestList;
-  var Success: boolean);
+class procedure TProblemPropsCollector.MergeTests(BaseTst,
+  MergeTst: TProblemTestList; var Success: boolean; Terminated: PBoolean);
 var
   I: integer;
 begin
@@ -257,11 +260,23 @@ begin
   // add tests from MergeTst that don't exist in BaseTst
   for I := 0 to MergeTst.Count - 1 do
     if BaseTst.Find(MergeTst[I]) < 0 then
+    begin
       BaseTst.Add.Assign(MergeTst[I]);
+      // termination check
+      if Terminated <> nil then
+        if Terminated^ then
+          Break;
+    end;
+end;
+
+procedure TProblemPropsCollector.Terminate;
+begin
+  FIsTerminated := True;
 end;
 
 function TProblemPropsCollector.Merge(Props: TProblemProperties): boolean;
 begin
+  FIsTerminated := False;
   Result := True;
   with FProperties do
   begin
@@ -270,12 +285,13 @@ begin
     TimeLimit := MergeInt(TimeLimit, Props.TimeLimit, Result);
     MemoryLimit := MergeInt(MemoryLimit, Props.MemoryLimit, Result);
     Checker := CloneChecker(MergeChecker(Checker, Props.Checker, Result));
-    MergeTests(TestList, Props.TestList, Result);
+    MergeTests(TestList, Props.TestList, Result, @FIsTerminated);
   end;
 end;
 
 function TProblemPropsCollector.Finalize: boolean;
 begin
+  FIsTerminated := False;
   Result := True;
   with FProperties do
   begin
@@ -313,6 +329,7 @@ end;
 constructor TProblemPropsCollector.Create;
 begin
   FProperties := CleanProperties;
+  FIsTerminated := False;
 end;
 
 destructor TProblemPropsCollector.Destroy;

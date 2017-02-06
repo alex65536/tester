@@ -140,6 +140,8 @@ begin
   FIsTerminated := True;
   if FParser <> nil then
     FParser.Terminate;
+  if FCollector <> nil then
+    FCollector.Terminate;
 end;
 
 function TPropertiesParserList.Run: TPropertiesParserStatus;
@@ -180,7 +182,9 @@ begin
     if not FCollector.Finalize then
       NotFullInfo := True;
     // determine result
-    if ParserFail then
+    if IsTerminated then
+      Result := ppTerminated
+    else if ParserFail then
       Result := ppParserFail
     else if NotFullInfo then
       Result := ppNotFullInfo

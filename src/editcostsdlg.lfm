@@ -1,12 +1,12 @@
 object EditCostsDialog: TEditCostsDialog
   Left = 518
-  Height = 102
+  Height = 103
   Top = 225
   Width = 311
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Edit costs'
-  ClientHeight = 102
+  ClientHeight = 103
   ClientWidth = 311
   Position = poMainFormCenter
   LCLVersion = '1.6.2.0'
@@ -14,7 +14,7 @@ object EditCostsDialog: TEditCostsDialog
     AnchorSideTop.Control = ResizePolicyCombo
     AnchorSideTop.Side = asrBottom
     Left = 6
-    Height = 36
+    Height = 37
     Top = 60
     Width = 299
     Anchors = [akTop, akLeft, akRight, akBottom]
@@ -26,7 +26,7 @@ object EditCostsDialog: TEditCostsDialog
     CloseButton.DefaultCaption = True
     CancelButton.Name = 'CancelButton'
     CancelButton.DefaultCaption = True
-    TabOrder = 0
+    TabOrder = 2
     ShowButtons = [pbOK, pbCancel]
   end
   object ResizePolicyCombo: TComboBox
@@ -58,7 +58,7 @@ object EditCostsDialog: TEditCostsDialog
     Increment = 1
     MaxValue = 1000
     MinValue = 1
-    TabOrder = 2
+    TabOrder = 0
     Value = 1
   end
   object Label1: TLabel

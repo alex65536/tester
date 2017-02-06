@@ -18,9 +18,9 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="1"/>
-      <RevisionNr Value="1"/>
-      <BuildNr Value="103"/>
-      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.1.1 (beta)"/>
+      <RevisionNr Value="2"/>
+      <BuildNr Value="104"/>
+      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.1.2 (beta)"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -294,6 +294,9 @@
       <SmartLinkUnit Value="True"/>
     </CodeGeneration>
     <Linking>
+      <Debugging>
+        <GenerateDebugInfo Value="False"/>
+      </Debugging>
       <LinkSmart Value="True"/>
       <Options>
         <Win32>

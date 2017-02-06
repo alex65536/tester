@@ -29,10 +29,10 @@
 [V] 23.01.17 Build timerlib to DLL
 [V] 30.01.17 Add auto-detecting tests from directories
 [V] 01.02.17 Add changing cost for ALL tests in one button
-[*] Optimize the parsers
+[*] Make warning is tests/checker not found
 [*] Make adding some additional file to the directory with tested program
 [*] Allow testing EXEs
-[*] Add time limit for checker
+[*] Allow stop the testing at every point of time
 [*] Allow stop the parser at every point of time
 [*] Create settings system
 [*] Make auto-updating the program

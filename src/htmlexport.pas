@@ -52,7 +52,8 @@ type
   public
     procedure Clear; override;
     procedure AddComment(const AComm: string);
-    procedure BeginTag(const ATag: string; const AAttrib: string = '');
+    procedure BeginTag(const ATag: string; const AAttrib: string = '';
+      NoEnd: boolean = False);
     procedure EndTag(const ATag: string);
     procedure SingleLineTag(const ATag, AAttrib, AContent: string);
   end;
@@ -81,7 +82,8 @@ type
 implementation
 
 const
-  IndentValue = 4;
+  IndentDelta = 1;
+  IndentFill = #9;
 
 { THTMLExportStringList }
 
@@ -116,15 +118,17 @@ begin
     Add(MakeComment(AComm));
 end;
 
-procedure THTMLExportStringList.BeginTag(const ATag, AAttrib: string);
+procedure THTMLExportStringList.BeginTag(const ATag: string;
+  const AAttrib: string; NoEnd: boolean);
 begin
   Add(MakeOpenTag(ATag, AAttrib));
-  Indent := Indent + IndentValue;
+  if not NoEnd then
+    Indent := Indent + IndentDelta;
 end;
 
 procedure THTMLExportStringList.EndTag(const ATag: string);
 begin
-  Indent := Indent - IndentValue;
+  Indent := Indent - IndentDelta;
   Add(MakeCloseTag(ATag));
 end;
 
@@ -154,7 +158,7 @@ var
 begin
   IndentStr := '';
   for I := 0 to Indent - 1 do
-    IndentStr := IndentStr + ' ';
+    IndentStr := IndentStr + IndentFill;
   inherited InsertItem(Index, IndentStr + S, O);
 end;
 
@@ -187,8 +191,10 @@ procedure TMultiTesterHTMLExporter.PrepareStyleTable;
 
   procedure AddColorBlock(const AName: string; AColor: TColor);
   const
-    ColorBlockFormat = '.%s {' + LineEnding + '    color: rgb(%d, %d, %d);' +
-      LineEnding + '}';
+    ColorBlockFormat =
+      '.%s {' + LineEnding +
+      IndentFill + 'color: rgb(%d, %d, %d);' + LineEnding +
+      '}';
   begin
     FStyleTable.AddText(Format(ColorBlockFormat,
       [AName, Red(AColor), Green(AColor), Blue(AColor)]));
@@ -276,6 +282,8 @@ begin
     AddComment(Format(SHTMLComment, [GetAppVersion]));
     BeginTag('html');
       BeginTag('head');
+        BeginTag('meta', 'http-equiv="Content-Type" content="text/html; charset=utf-8"',
+          True);
         SingleLineTag('title', '', SHTMLTitle);
         BeginTag('style');
           AddStrings(FStyleTable);

@@ -4,7 +4,7 @@ cd ../timerlib
 ./build-linux.sh
 ./build-linux-so.sh
 cd ../src
-lazbuild tester.lpi
+lazbuild --build-all tester.lpi
 cd ../build
 echo "Press enter to exit"
 read

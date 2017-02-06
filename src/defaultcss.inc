@@ -19,26 +19,26 @@
   MA 02111-1307, USA.
 }
 
-'.scoreTable {'                  + LineEnding +
-'    border-collapse: collapse;' + LineEnding +
-'    border: thin solid black;'  + LineEnding +
-'    font-family: sans-serif;'   + LineEnding +
-'}'                              + LineEnding +
-'.tableCell {'                   + LineEnding +
-'    border: thin solid black;'  + LineEnding +
-'    text-align: center;'        + LineEnding +
-'    vertical-align: middle;'    + LineEnding +
-'    padding: 4px;'              + LineEnding +
-'    white-space: nowrap;'       + LineEnding +
-'}'                              + LineEnding +
-'.headerCell {'                  + LineEnding +
-'    background-color: silver;'  + LineEnding +
-'}'                              + LineEnding +
-'.bigDataText {'                 + LineEnding +
-'    font-size: 150%;'           + LineEnding +
-'    font-weight: bold;'         + LineEnding +
-'}'                              + LineEnding +
-'.smallDataText {'               + LineEnding +
-'    font-size: 75%;'            + LineEnding +
+'.scoreTable {'                           + LineEnding +
+IndentFill + 'border-collapse: collapse;' + LineEnding +
+IndentFill + 'border: thin solid black;'  + LineEnding +
+IndentFill + 'font-family: sans-serif;'   + LineEnding +
+'}'                                       + LineEnding +
+'.tableCell {'                            + LineEnding +
+IndentFill + 'border: thin solid black;'  + LineEnding +
+IndentFill + 'text-align: center;'        + LineEnding +
+IndentFill + 'vertical-align: middle;'    + LineEnding +
+IndentFill + 'padding: 4px;'              + LineEnding +
+IndentFill + 'white-space: nowrap;'       + LineEnding +
+'}'                                       + LineEnding +
+'.headerCell {'                           + LineEnding +
+IndentFill + 'background-color: silver;'  + LineEnding +
+'}'                                       + LineEnding +
+IndentFill + '.bigDataText {'             + LineEnding +
+IndentFill + 'font-size: 150%;'           + LineEnding +
+IndentFill + 'font-weight: bold;'         + LineEnding +
+'}'                                       + LineEnding +
+IndentFill + '.smallDataText {'           + LineEnding +
+IndentFill + ' font-size: 75%;'           + LineEnding +
 '}'
 

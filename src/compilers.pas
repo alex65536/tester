@@ -37,12 +37,15 @@ type
     FCompilerOutput: string;
     FExeName: string;
     FSrcName: string;
+    FStackSize: integer;
     procedure SetCompilerOutput(AValue: string);
     procedure SetExeName(AValue: string);
     procedure SetSrcName(AValue: string);
+    procedure SetStackSize(AValue: integer);
   public
     property SrcName: string read FSrcName write SetSrcName;
     property ExeName: string read FExeName write SetExeName;
+    property StackSize: integer read FStackSize write SetStackSize;
     property CompilerOutput: string read FCompilerOutput write SetCompilerOutput;
     function Compile: TCompilerVerdict; virtual; abstract;
     constructor Create; virtual;
@@ -102,9 +105,12 @@ var
   GppExe: string = 'g++';
 {$EndIf}
 
+const
+  DefaultStackSize = 16384;
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
-function CompileFile(const SrcName, ExeName: string; var Output: string): TCompilerVerdict;
+function CompileFile(const SrcName, ExeName: string; var Output: string;
+  StackSize: TProblemMemory = DefaultStackSize): TCompilerVerdict;
 function CompileChecker(const AFileName: string): string;
 
 implementation
@@ -117,8 +123,8 @@ begin
   CompilerMap[Extension] := AClass;
 end;
 
-function CompileFile(const SrcName, ExeName: string;
-  var Output: string): TCompilerVerdict;
+function CompileFile(const SrcName, ExeName: string; var Output: string;
+  StackSize: TProblemMemory): TCompilerVerdict;
 var
   Extension: string;
   Compiler: TCompiler;
@@ -135,6 +141,7 @@ begin
     try
       Compiler.SrcName := SrcName;
       Compiler.ExeName := ExeName;
+      Compiler.StackSize := StackSize;
       Result := Compiler.Compile;
       Output := Compiler.CompilerOutput;
     finally
@@ -185,6 +192,9 @@ procedure TGnuCppCompiler.GetCommandLine(var CmdName: string; Args: TStringList)
 begin
   CmdName := GppDir + GppExe;
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName + LineEnding + '-O2';
+  {$IfDef Windows}
+     Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
+  {$EndIf}
 end;
 
 { TGnuCCompiler }
@@ -194,6 +204,9 @@ begin
   CmdName := GccDir + GccExe;
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName +
     LineEnding + '-O2' + LineEnding;
+  {$IfDef Windows}
+     Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
+  {$EndIf}
 end;
 
 { TFreePascalCompiler }
@@ -272,8 +285,15 @@ begin
   FSrcName := AValue;
 end;
 
+procedure TCompiler.SetStackSize(AValue: integer);
+begin
+  if FStackSize = AValue then Exit;
+  FStackSize := AValue;
+end;
+
 constructor TCompiler.Create;
 begin
+  StackSize := DefaultStackSize;
 end;
 
 initialization

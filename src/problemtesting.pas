@@ -262,7 +262,8 @@ begin
           // create the working directory
           InternalDirMake(WorkingDir);
           // compile the solution
-          FResults.CompileVerdict := CompileFile(FSourceFile, ExeName, CompilerOutput);
+          FResults.CompileVerdict := CompileFile(FSourceFile, ExeName,
+            CompilerOutput, FProperties.MemoryLimit);
           FResults.CompilerOutput := CompilerOutput;
         except
           on E: EProblemTester do

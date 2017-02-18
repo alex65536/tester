@@ -101,6 +101,7 @@ const
   TextWA2 = 'wrong answer';
   TextPE1 = 'pe';
   TextPE2 = 'presentation error';
+  TextPE3 = 'wrong output format';
 
 { TTestlibChecker }
 

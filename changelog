@@ -1,6 +1,11 @@
 Tester ChangeLog:
 --------------------------------
 
+version 1.1.3 (beta) (18.02.2017)
+[*] Fixed stack size for C/C++ in Windows.
+[*] Fixed text checker parsing.
+[*] Some other minor bug fixes.
+
 version 1.1.2 (beta) (06.02.2017)
 [*] Minor bug fixes.
 [*] Added exporting testing results to HTML.

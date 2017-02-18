@@ -77,6 +77,7 @@ resourcestring
   SDateViewFmt = 'dd.mm.yyyy';
   SHTMLComment = 'This HTML file was exported by Tester v%s.';
   SHTMLTitle = 'Testing results';
+  SSavePropsError = 'Unable to save properties file "%s"';
 
 // Compilation verdicts
 resourcestring

@@ -27,7 +27,8 @@ interface
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
   problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
-  testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils;
+  testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils,
+  Dialogs;
 
 type
   EUnknownChecker = class(Exception);
@@ -328,14 +329,19 @@ var
 begin
   if FileName = '' then
     Exit;
-  UpdateProperties;
-  MemStream := TMemoryStream.Create;
   try
-    S := SavePropsToJSONStr(FProperties);
-    MemStream.Write(S[1], Length(S));
-    MemStream.SaveToFile(FileName);
-  finally
-    FreeAndNil(MemStream);
+    UpdateProperties;
+    MemStream := TMemoryStream.Create;
+    try
+      S := SavePropsToJSONStr(FProperties);
+      MemStream.Write(S[1], Length(S));
+      MemStream.SaveToFile(FileName);
+    finally
+      FreeAndNil(MemStream);
+    end;
+  except
+    on E: Exception do
+      MessageDlg(Format(SSavePropsError, [FileName]), mtError, [mbOK], 0);
   end;
 end;
 

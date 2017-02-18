@@ -189,16 +189,18 @@ function TTextChecker.ProcessCheckerOutput(Output: string;
   ExitCode: integer): TTestVerdict;
 begin
   ExitCode := ExitCode; // to mute the hint
-  Output := LowerCase(Output);
-  if Pos(TextOK, Output) <> 0 then
+  Output := Trim(LowerCase(Output));
+  if Pos(TextOK, Output) = 1 then
     Result := veAccepted
-  else if Pos(TextWA1, Output) <> 0 then
+  else if Pos(TextWA1, Output) = 1 then
     Result := veWrongAnswer
-  else if Pos(TextWA2, Output) <> 0 then
+  else if Pos(TextWA2, Output) = 1 then
     Result := veWrongAnswer
-  else if Pos(TextPE1, Output) <> 0 then
+  else if Pos(TextPE1, Output) = 1 then
     Result := vePresentationError
-  else if Pos(TextPE2, Output) <> 0 then
+  else if Pos(TextPE2, Output) = 1 then
+    Result := vePresentationError
+  else if Pos(TextPE3, Output) = 1 then
     Result := vePresentationError
   else
     Result := veCheckError;

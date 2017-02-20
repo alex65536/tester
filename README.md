@@ -60,7 +60,7 @@ To download latest release of **Tester**, go to the following [link](https://git
 
 * Use the environment variable `PATH` to specify paths to _Lazarus_ directory and to _GNU GCC_'s `bin` directory.
 
-* If you link _timerlib_ statically, specify paths to the _C_ libraries in the project or in your `fp.cfg` file (you can find that file in the `Free Pascal Compiler`'s directory.  
+* If you link _timerlib_ statically, specify paths to the _C_ libraries in the project or in your `fp.cfg` file (you can find that file in the _Free Pascal Compiler_'s directory.  
 
 * Use the following batch scripts: `build/build-win32.bat` (for _Win32_) and `build/build-win64.bat` (for _Win64_). They will build _tester_ automatically.
 

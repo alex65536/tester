@@ -2,14 +2,16 @@ object TestDialog: TTestDialog
   Left = 509
   Height = 132
   Top = 212
-  Width = 229
+  Width = 294
+  ActiveControl = InputFileEdit
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Add test'
   ClientHeight = 132
-  ClientWidth = 229
+  ClientWidth = 294
   Position = poMainFormCenter
-  LCLVersion = '1.6.2.0'
+  LCLVersion = '1.6.4.0'
+  Visible = False
   object Label1: TLabel
     AnchorSideLeft.Control = ButtonPanel1
     AnchorSideTop.Control = InputFileEdit
@@ -18,7 +20,7 @@ object TestDialog: TTestDialog
     Left = 6
     Height = 17
     Top = 5
-    Width = 119
+    Width = 98
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Input file:'
     ParentColor = False
@@ -29,8 +31,8 @@ object TestDialog: TTestDialog
     Left = 6
     Height = 39
     Top = 87
-    Width = 217
-    Anchors = [akTop, akLeft, akRight]
+    Width = 282
+    Anchors = [akTop, akLeft, akRight, akBottom]
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
     HelpButton.Name = 'HelpButton'
@@ -46,10 +48,10 @@ object TestDialog: TTestDialog
     AnchorSideLeft.Control = TestCostEdit
     AnchorSideRight.Control = TestCostEdit
     AnchorSideRight.Side = asrBottom
-    Left = 125
+    Left = 104
     Height = 27
     Top = 0
-    Width = 98
+    Width = 184
     Anchors = [akTop, akLeft, akRight]
     TabOrder = 0
     Text = 'input.txt'
@@ -62,7 +64,7 @@ object TestDialog: TTestDialog
     Left = 6
     Height = 17
     Top = 59
-    Width = 119
+    Width = 98
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Cost (points):'
     ParentColor = False
@@ -72,10 +74,10 @@ object TestDialog: TTestDialog
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = ButtonPanel1
     AnchorSideRight.Side = asrBottom
-    Left = 125
+    Left = 104
     Height = 27
     Top = 54
-    Width = 98
+    Width = 184
     Anchors = [akTop, akRight]
     DecimalPlaces = 3
     Increment = 1
@@ -92,7 +94,7 @@ object TestDialog: TTestDialog
     Left = 6
     Height = 17
     Top = 32
-    Width = 119
+    Width = 98
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Output file:'
     ParentColor = False
@@ -103,10 +105,10 @@ object TestDialog: TTestDialog
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = TestCostEdit
     AnchorSideRight.Side = asrBottom
-    Left = 125
+    Left = 104
     Height = 27
     Top = 27
-    Width = 98
+    Width = 184
     Anchors = [akTop, akLeft, akRight]
     TabOrder = 1
     Text = 'output.txt'

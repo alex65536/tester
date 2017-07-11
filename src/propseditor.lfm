@@ -7,8 +7,6 @@ object ProblemPropsEditor: TProblemPropsEditor
   ClientHeight = 488
   ClientWidth = 714
   TabOrder = 0
-  DesignLeft = 446
-  DesignTop = 188
   object GroupBox1: TGroupBox
     Left = 0
     Height = 127
@@ -194,10 +192,13 @@ object ProblemPropsEditor: TProblemPropsEditor
       ClientWidth = 405
       Color = clWindow
       ParentColor = False
+      ParentShowHint = False
+      ShowHint = True
       TabOrder = 0
       object AddTestBtn: TBitBtn
         Left = 0
         Height = 36
+        Hint = 'Add...'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -283,6 +284,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object InsertTestBtn: TBitBtn
         Left = 36
         Height = 36
+        Hint = 'Insert...'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -368,6 +370,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object MultiAddTestsBtn: TBitBtn
         Left = 72
         Height = 36
+        Hint = 'Add from template...'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -453,6 +456,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object EditTestBtn: TBitBtn
         Left = 108
         Height = 36
+        Hint = 'Edit...'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -538,6 +542,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object EditCostsBtn: TBitBtn
         Left = 144
         Height = 36
+        Hint = 'Edit costs...'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -623,6 +628,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object DeleteTestBtn: TBitBtn
         Left = 180
         Height = 36
+        Hint = 'Delete'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -708,6 +714,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object ClearTestsBtn: TBitBtn
         Left = 216
         Height = 36
+        Hint = 'Clear'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -793,6 +800,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object MoveUpBtn: TBitBtn
         Left = 252
         Height = 36
+        Hint = 'Move up'
         Top = 0
         Width = 36
         Color = clHighlight
@@ -878,6 +886,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       object MoveDownBtn: TBitBtn
         Left = 288
         Height = 36
+        Hint = 'Move down'
         Top = 0
         Width = 36
         Color = clHighlight

@@ -3,6 +3,7 @@ object MainForm: TMainForm
   Height = 509
   Top = 165
   Width = 860
+  ActiveControl = BitBtn1
   Caption = 'Tester'
   ClientHeight = 509
   ClientWidth = 860
@@ -14,7 +15,7 @@ object MainForm: TMainForm
   object Panel: TPanel
     Left = 0
     Height = 31
-    Top = -35
+    Top = 0
     Width = 860
     Align = alTop
     AutoSize = True
@@ -81,8 +82,8 @@ object MainForm: TMainForm
   end
   object PropsList: TExtendedNotebook
     Left = 0
-    Height = 1
-    Top = -52
+    Height = 445
+    Top = 31
     Width = 860
     Align = alClient
     PopupMenu = TabPopupMenu
@@ -282,11 +283,11 @@ object MainForm: TMainForm
       object MenuItem21: TMenuItem
         Caption = '-'
       end
-      object MenuItem20: TMenuItem
-        Action = ClearTestsAction
-      end
       object MenuItem13: TMenuItem
         Action = DeleteTestAction
+      end
+      object MenuItem20: TMenuItem
+        Action = ClearTestsAction
       end
       object MenuItem22: TMenuItem
         Caption = '-'

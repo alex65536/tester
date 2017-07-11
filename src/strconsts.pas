@@ -78,10 +78,11 @@ resourcestring
   SHTMLComment = 'This HTML file was exported by Tester v%s.';
   SHTMLTitle = 'Testing results';
   SSavePropsError = 'Unable to save properties file "%s"';
+  STestFilesDontExist = 'Input or output file doesn''t exist. Do you really want to insert this test?';
 
 // Compilation verdicts
 resourcestring
-  SCompileSuccess = 'Compile successful';
+  SCompileSuccess = 'Compilation successful';
   SCompileSuccessS = 'OK';
   SCompileError = 'Compilation error';
   SCompileErrorS = 'CE';

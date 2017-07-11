@@ -87,6 +87,7 @@ type
     procedure SetOnTestsChange(AValue: TNotifyEvent);
     function TestToStr(ATest: TProblemTest): string;
     procedure AddTestProc(ATest: TProblemTest);
+    procedure AddInsertTestHelper(Place: integer);
   protected
     procedure DoTestChange; virtual;
   public
@@ -139,6 +140,11 @@ begin
   DoTestChange;
 end;
 
+procedure TProblemPropsEditor.AddTestBtnClick(Sender: TObject);
+begin
+  AddInsertTestHelper(-1);
+end;
+
 procedure TProblemPropsEditor.InsertTestBtnClick(Sender: TObject);
 var
   Place: integer;
@@ -146,12 +152,42 @@ begin
   Place := TestsList.ItemIndex;
   if Place < 0 then
     Exit;
+  AddInsertTestHelper(Place);
+end;
+
+procedure TProblemPropsEditor.AddInsertTestHelper(Place: integer);
+var
+  PutPlace: integer;
+  Test: TProblemTest;
+  WasDir: string;
+begin
+  PutPlace := Place;
+  if Place < 0 then
+    PutPlace := FProperties.TestCount;
   if TestDialog.ShowModal(SInsertTest) = mrOk then
   begin
-    FProperties.InsertTest(Place, TestDialog.GetTest);
-    RefreshTests;
-    UpdateEnabled;
-    DoTestChange;
+    Test := TestDialog.GetTest;
+    // correct test file names
+    WasDir := GetCurrentDirUTF8;
+    try
+      SetCurrentDirUTF8(ExtractFilePath(FileName));
+      Test.CorrectFileNames;
+      if not Test.IsFileNamesValid then
+        if MessageDlg(STestFilesDontExist, mtWarning, [mbYes, mbNo], 0) = mrNo then
+          FreeAndNil(Test);
+    finally
+      SetCurrentDirUTF8(WasDir);
+    end;
+    // if test is valid and exists - insert it
+    if Test <> nil then
+    begin
+      FProperties.InsertTest(PutPlace, Test);
+      RefreshTests;
+      if Place < 0 then
+        TestsList.ItemIndex := TestsList.Count - 1;
+      UpdateEnabled;
+      DoTestChange;
+    end;
   end;
 end;
 
@@ -225,18 +261,6 @@ end;
 procedure TProblemPropsEditor.EditTestBtnClick(Sender: TObject);
 begin
   TestsListDblClick(TestsList);
-end;
-
-procedure TProblemPropsEditor.AddTestBtnClick(Sender: TObject);
-begin
-  if TestDialog.ShowModal(SAddTest) = mrOk then
-  begin
-    FProperties.InsertTest(FProperties.TestCount, TestDialog.GetTest);
-    RefreshTests;
-    TestsList.ItemIndex := TestsList.Count - 1;
-    UpdateEnabled;
-    DoTestChange;
-  end;
 end;
 
 procedure TProblemPropsEditor.ClearTestsBtnClick(Sender: TObject);

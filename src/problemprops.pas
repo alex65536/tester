@@ -82,6 +82,7 @@ type
     procedure AssignTo(Dest: TPersistent); override;
     constructor Create(AInputFile, AOutputFile: string; ACost: double);
     procedure CorrectFileNames;
+    function IsFileNamesValid: boolean;
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -366,6 +367,11 @@ procedure TProblemTest.CorrectFileNames;
 begin
   InputFile := CorrectFileName(InputFile);
   OutputFile := CorrectFileName(OutputFile);
+end;
+
+function TProblemTest.IsFileNamesValid: boolean;
+begin
+  Result := FileExists(InputFile) and FileExists(OutputFile);
 end;
 
 constructor TProblemTest.Create(ACollection: TCollection);

@@ -59,7 +59,7 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 ## Common
 
-* To build _tester_ from sources, you will need [_Lazarus IDE_](https://lazarus-ide.org) (recommended version is 1.6.4) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.2) and [_GNU GCC Compiler_](https://gcc.gnu.org).
+* To build _tester_ from sources, you will need [_Lazarus IDE_](https://www.lazarus-ide.org) (recommended version is 1.6.4) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.2) and [_GNU GCC Compiler_](https://gcc.gnu.org).
 
 * You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
 
@@ -67,7 +67,7 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 ## Windows
 
-* Use the environment variable `PATH` to specify paths to [_Lazarus IDE_](https://lazarus-ide.org) directory and to [_GNU GCC_](https://gcc.gnu.org)'s `bin` directory.
+* Use the environment variable `PATH` to specify paths to [_Lazarus IDE_](https://www.lazarus-ide.org) directory and to [_GNU GCC_](https://gcc.gnu.org)'s `bin` directory.
 
 * If you link _timerlib_ statically, specify paths to the _C_ libraries in the project or in your `fp.cfg` file (you can find that file in the [_Free Pascal Compiler_](https://freepascal.org/)'s directory.  
 

@@ -17,10 +17,9 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
-      <MinorVersionNr Value="1"/>
-      <RevisionNr Value="3"/>
+      <MinorVersionNr Value="2"/>
       <BuildNr Value="108"/>
-      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.1.3 (beta)"/>
+      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2-pre (unstable)"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -31,7 +30,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <LaunchingApplication Use="True"/>
+        <LaunchingApplication Use="True" PathPlusParams="/usr/bin/gnome-terminal.real -t 'Lazarus Run Output' -e '$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)'"/>
       </local>
     </RunParams>
     <RequiredPackages Count="3">

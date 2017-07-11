@@ -215,6 +215,9 @@ initialization
   // input01.txt - output01.txt
   AddTestTemplate('input%d.txt', 'output%d.txt');
   AddTestTemplate('input%.2d.txt', 'output%.2d.txt');
+  // input01.txt - answer01.txt
+  AddTestTemplate('input%d.txt', 'answer%d.txt');
+  AddTestTemplate('input%.2d.txt', 'answer%.2d.txt');
   // in.1 - out.1
   AddTestTemplate('in.%d', 'out.%d');
   AddTestTemplate('in.%.2d', 'out.%.2d');

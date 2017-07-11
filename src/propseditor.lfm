@@ -6,6 +6,7 @@ object ProblemPropsEditor: TProblemPropsEditor
   AutoSize = True
   ClientHeight = 488
   ClientWidth = 714
+  OnResize = FrameResize
   TabOrder = 0
   object GroupBox1: TGroupBox
     Left = 0

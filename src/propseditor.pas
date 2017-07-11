@@ -28,7 +28,7 @@ uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
   problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
   testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils,
-  Dialogs;
+  Dialogs, math;
 
 type
   EUnknownChecker = class(Exception);
@@ -70,6 +70,7 @@ type
     procedure DeleteTestBtnClick(Sender: TObject);
     procedure EditCostsBtnClick(Sender: TObject);
     procedure EditTestBtnClick(Sender: TObject);
+    procedure FrameResize(Sender: TObject);
     procedure InsertTestBtnClick(Sender: TObject);
     procedure MoveDownBtnClick(Sender: TObject);
     procedure MoveUpBtnClick(Sender: TObject);
@@ -100,6 +101,7 @@ type
     procedure UpdateControls;
     procedure UpdateEnabled;
     procedure RefreshTests;
+    procedure RecalcWidths;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
   end;
@@ -263,6 +265,11 @@ begin
   TestsListDblClick(TestsList);
 end;
 
+procedure TProblemPropsEditor.FrameResize(Sender: TObject);
+begin
+  RecalcWidths;
+end;
+
 procedure TProblemPropsEditor.ClearTestsBtnClick(Sender: TObject);
 begin
   FProperties.TestList.Clear;
@@ -419,6 +426,21 @@ begin
   end;
   if WasIndex < TestsList.Count then
     TestsList.ItemIndex := WasIndex;
+end;
+
+procedure TProblemPropsEditor.RecalcWidths;
+var
+  I: integer;
+  MaxWidth: integer;
+begin
+  with TestsList.Items do
+  begin
+    MaxWidth := 0;
+    TestsList.Canvas.Font.Assign(TestsList.Font);
+    for I := 0 to Count - 1 do
+      MaxWidth := Max(MaxWidth, TestsList.Canvas.TextWidth(Strings[I]));
+    TestsList.ScrollWidth := MaxWidth + 2;
+  end;
 end;
 
 constructor TProblemPropsEditor.Create(TheOwner: TComponent);

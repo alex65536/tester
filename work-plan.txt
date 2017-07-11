@@ -30,7 +30,7 @@
 [V] 30.01.17 Add auto-detecting tests from directories
 [V] 01.02.17 Add changing cost for ALL tests in one button
 [V] 11.07.17 Write README with system requirements
-[*] Make warning is tests/checker not found
+[*] Make warning if tests/checker not found while loading
 [*] Make adding some additional file to the directory with tested program
 [*] Allow testing EXEs
 [*] Allow stop the testing at every point of time

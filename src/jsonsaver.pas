@@ -25,7 +25,8 @@ unit jsonsaver;
 interface
 
 uses
-  SysUtils, problemprops, fpjson, fpjsonrtti, jsonparser, multitesters;
+  SysUtils, problemprops, fpjson, fpjsonrtti, jsonparser, multitesters,
+  jsonscanner;
 
 function LoadChecker(Obj: TJSONData): TProblemChecker;
 procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties);
@@ -78,7 +79,7 @@ var
   Parser: TJSONParser;
   Obj: TJSONData;
 begin
-  Parser := TJSONParser.Create(Str);
+  Parser := TJSONParser.Create(Str, DefaultOptions);
   try
     Obj := Parser.Parse;
     try

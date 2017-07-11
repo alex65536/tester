@@ -62,6 +62,8 @@ finalization
   CloseFile(TheLogFile);
 
 {$Else}
+
+{$Hints Off}
 procedure WriteLog(const S: string); inline;
 begin
   // do nothing
@@ -71,6 +73,8 @@ procedure WriteLogFmt(const S: string; Args: array of const);
 begin
   // do nothing
 end;
+{$Hints On}
+
 {$EndIf}
 
 end.

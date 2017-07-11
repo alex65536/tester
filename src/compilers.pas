@@ -57,7 +57,7 @@ type
 
   TProcessCompiler = class(TCompiler)
   protected
-    procedure GetCommandLine(var CmdName: string; Args: TStringList);
+    procedure GetCommandLine(out CmdName: string; Args: TStringList);
       virtual; abstract;
   public
     function Compile: TCompilerVerdict; override;
@@ -67,28 +67,28 @@ type
 
   TFreePascalCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(var CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
   end;
 
   { TGnuCCompiler }
 
   TGnuCCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(var CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
   end;
 
   { TGnuCppCompiler }
 
   TGnuCppCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(var CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
   end;
 
   { TGnuCpp11Compiler }
 
   TGnuCpp11Compiler = class(TGnuCppCompiler)
   protected
-    procedure GetCommandLine(var CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
   end;
 
 var
@@ -109,7 +109,7 @@ const
   DefaultStackSize = 16384;
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
-function CompileFile(const SrcName, ExeName: string; var Output: string;
+function CompileFile(const SrcName, ExeName: string; out Output: string;
   StackSize: TProblemMemory = DefaultStackSize): TCompilerVerdict;
 function CompileChecker(const AFileName: string): string;
 
@@ -123,7 +123,7 @@ begin
   CompilerMap[Extension] := AClass;
 end;
 
-function CompileFile(const SrcName, ExeName: string; var Output: string;
+function CompileFile(const SrcName, ExeName: string; out Output: string;
   StackSize: TProblemMemory): TCompilerVerdict;
 var
   Extension: string;
@@ -180,7 +180,8 @@ end;
 
 { TGnuCpp11Compiler }
 
-procedure TGnuCpp11Compiler.GetCommandLine(var CmdName: string; Args: TStringList);
+procedure TGnuCpp11Compiler.GetCommandLine(out CmdName: string;
+  Args: TStringList);
 begin
   inherited GetCommandLine(CmdName, Args);
   Args.Add('-std=c++11');
@@ -188,7 +189,8 @@ end;
 
 { TGnuCppCompiler }
 
-procedure TGnuCppCompiler.GetCommandLine(var CmdName: string; Args: TStringList);
+procedure TGnuCppCompiler.GetCommandLine(out CmdName: string; Args: TStringList
+  );
 begin
   CmdName := GppDir + GppExe;
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName + LineEnding + '-O2';
@@ -199,7 +201,7 @@ end;
 
 { TGnuCCompiler }
 
-procedure TGnuCCompiler.GetCommandLine(var CmdName: string; Args: TStringList);
+procedure TGnuCCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
 begin
   CmdName := GccDir + GccExe;
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName +
@@ -211,7 +213,8 @@ end;
 
 { TFreePascalCompiler }
 
-procedure TFreePascalCompiler.GetCommandLine(var CmdName: string; Args: TStringList);
+procedure TFreePascalCompiler.GetCommandLine(out CmdName: string;
+  Args: TStringList);
 begin
   CmdName := FreePascalDir + FreePascalExe;
   Args.Text := SrcName + LineEnding + '-o' + ExeName + LineEnding + '-O2';

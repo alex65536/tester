@@ -30,7 +30,7 @@ uses
   Classes, SysUtils, process, UTF8Process;
 
 function RunCommandIndirUTF8(const curdir: string; const exename: string;
-  const commands: array of string; var outputstring: string;
+  const commands: array of string; out outputstring: string;
   var exitcode: integer): integer;
 
 implementation
@@ -44,8 +44,8 @@ const
 // helperfunction that does the bulk of the work.
 // We need to also collect stderr output in order to avoid
 // lock out if the stderr pipe is full.
-function internalRuncommandUTF8(p: TProcessUTF8; var outputstring: string;
-  var stderrstring: string; var exitcode: integer): integer;
+function internalRuncommandUTF8(p: TProcessUTF8; out outputstring: string;
+  out stderrstring: string; var exitcode: integer): integer;
 var
   numbytes, bytesread, available: integer;
   outputlength, stderrlength: integer;
@@ -141,7 +141,7 @@ begin
 end;
 
 function RunCommandIndirUTF8(const curdir: string; const exename: string;
-  const commands: array of string; var outputstring: string;
+  const commands: array of string; out outputstring: string;
   var exitcode: integer): integer;
 var
   p: TProcessUTF8;

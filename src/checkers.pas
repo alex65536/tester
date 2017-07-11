@@ -34,7 +34,7 @@ type
 
   TProcessProblemChecker = class(TProblemChecker)
   protected
-    procedure GetCommandLine(var ExeName: string; Args: TStringList);
+    procedure GetCommandLine(out ExeName: string; Args: TStringList);
       virtual; abstract;
     function ProcessCheckerOutput(Output: string; ExitCode: integer): TTestVerdict;
       virtual; abstract;
@@ -60,7 +60,7 @@ type
     procedure SetParamsPolicy(AValue: TStdExecutableCheckerParamsPolicy);
   protected
     property ParamsPolicy: TStdExecutableCheckerParamsPolicy read FParamsPolicy write SetParamsPolicy;
-    procedure GetCommandLine(var ExeName: string; Args: TStringList); override;
+    procedure GetCommandLine(out ExeName: string; Args: TStringList); override;
   public
     constructor Create; override;
     constructor Create(ACheckerFileName: string);
@@ -133,7 +133,7 @@ begin
   FParamsPolicy := AValue;
 end;
 
-procedure TStdExecutableChecker.GetCommandLine(var ExeName: string; Args: TStringList);
+procedure TStdExecutableChecker.GetCommandLine(out ExeName: string; Args: TStringList);
 begin
   ExeName := ExpandFileNameUTF8(CheckerFileName, WorkingDir);
   case ParamsPolicy of

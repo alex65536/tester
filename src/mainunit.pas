@@ -292,7 +292,7 @@ begin
   Result := nil;
   if PropsList.PageCount = 0 then
     Exit;
-  TabIndex := PropsList.TabIndexAtClientPos(PropsList.ScreenToClient(MousePos));
+  TabIndex := PropsList.IndexOfPageAt(PropsList.ScreenToClient(MousePos));
   if TabIndex < 0 then
     Result := nil
   else

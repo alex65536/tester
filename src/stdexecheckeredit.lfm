@@ -10,24 +10,28 @@ object StdExecuteCheckerEdit: TStdExecuteCheckerEdit
   DesignLeft = 632
   DesignTop = 318
   object Label1: TLabel
+    AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = CheckerNameEdit
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = CheckerNameEdit
-    Left = 0
-    Height = 17
-    Top = 5
-    Width = 160
+    Left = 3
+    Height = 13
+    Top = 4
+    Width = 189
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight]
+    BorderSpacing.Left = 3
     Caption = 'Checker file name:'
     ParentColor = False
   end
   object CheckerNameEdit: TEdit
-    Left = 160
-    Height = 27
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 192
+    Height = 21
     Top = 0
-    Width = 160
-    Anchors = [akTop, akLeft, akRight]
+    Width = 128
+    Anchors = [akTop, akRight]
     TabOrder = 0
     Text = 'checker.exe'
   end

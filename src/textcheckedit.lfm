@@ -4,26 +4,30 @@ inherited TextCheckerEdit: TTextCheckerEdit
   AutoSize = False
   ClientHeight = 77
   ClientWidth = 402
-  DesignLeft = 410
-  DesignTop = 212
+  DesignLeft = 553
+  DesignTop = 361
   inherited Label1: TLabel
-    Top = 37
-    Width = 146
+    AnchorSideLeft.Control = Owner
+    Top = 25
+    Width = 269
   end
   inherited CheckerNameEdit: TEdit
-    Left = 146
-    Top = 32
-    Width = 256
+    AnchorSideTop.Control = ParamsCombo
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    Left = 272
+    Top = 21
+    Width = 130
   end
   object Label2: TLabel[2]
     AnchorSideLeft.Control = Label1
     AnchorSideTop.Control = ParamsCombo
     AnchorSideTop.Side = asrCenter
     AnchorSideRight.Control = ParamsCombo
-    Left = 0
-    Height = 17
-    Top = 5
-    Width = 146
+    Left = 3
+    Height = 13
+    Top = 4
+    Width = 269
     Alignment = taRightJustify
     Anchors = [akTop, akLeft, akRight]
     Caption = 'Checker parameters:'
@@ -33,19 +37,19 @@ inherited TextCheckerEdit: TTextCheckerEdit
     AnchorSideLeft.Control = CheckerNameEdit
     AnchorSideRight.Control = CheckerNameEdit
     AnchorSideRight.Side = asrBottom
-    Left = 146
-    Height = 27
+    Left = 272
+    Height = 21
     Top = 0
-    Width = 256
+    Width = 130
     Anchors = [akTop, akLeft, akRight]
-    ItemHeight = 0
+    ItemHeight = 13
     ItemIndex = 1
     Items.Strings = (
       '<output file> <answer file>'
-      '<intput file> <output file> <answer file>'
+      '<input file> <output file> <answer file>'
     )
     Style = csDropDownList
     TabOrder = 1
-    Text = '<intput file> <output file> <answer file>'
+    Text = '<input file> <output file> <answer file>'
   end
 end

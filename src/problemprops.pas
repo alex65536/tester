@@ -30,7 +30,7 @@ uses
 type
   EProblemChecker = class(Exception);
 
-  TTestCostEditPolicy = (tcepProportionally, tcepMakeEqual);
+  TTestCostEditPolicy = (tcepProportionally, tcepMakeEqual, tcepAllCostToLast);
 
   { TProblemChecker }
 
@@ -520,6 +520,14 @@ begin
   if TestCount = 0 then
     Exit;
   ATotalCost := MaxScore;
+  // if all the test have zero-cost, add them any non-zero cost
+  if ATotalCost = 0 then
+  begin
+    for I := 0 to TestCount - 1 do
+      Tests[I].Cost := 1;
+    ATotalCost := MaxScore;
+  end;
+  // choose the policy and apply it
   case APolicy of
     tcepProportionally:
     begin
@@ -530,6 +538,13 @@ begin
     begin
       for I := 0 to TestCount - 1 do
         Tests[I].Cost := NewTotalCost / TestCount;
+    end;
+    tcepAllCostToLast:
+    begin
+      for I := 0 to TestCount - 2 do
+        Tests[I].Cost := 0;
+      if TestCount <> 0 then
+        Tests[TestCount - 1].Cost := NewTotalCost;
     end;
   end;
 end;

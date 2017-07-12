@@ -40,9 +40,10 @@ implementation
 
 function GetTotalScoreColor(Cur, Max: double): TColor;
 begin
-  if Max = 0 then // to avoid division by 0
-    Max := 1;
-  Result := GetTotalScoreColor(Cur / Max);
+  if Max = 0 then
+    Result := clGray
+  else
+    Result := GetTotalScoreColor(Cur / Max);
 end;
 
 function GetTotalScoreColor(Ratio: double): TColor;

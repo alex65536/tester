@@ -42,6 +42,7 @@ type
     FOnFinish: TNotifyEvent;
     FOnStart: TNotifyEvent;
     FOnTest: TTestEvent;
+    FOnTestSkip: TTestEvent;
     FProperties: TProblemProperties;
     FResults: TTestedProblem;
     FSourceFile: string;
@@ -50,6 +51,7 @@ type
     procedure SetOnFinish(AValue: TNotifyEvent);
     procedure SetOnStart(AValue: TNotifyEvent);
     procedure SetOnTest(AValue: TTestEvent);
+    procedure SetOnTestSkip(AValue: TTestEvent);
     procedure SetProperties(AValue: TProblemProperties);
     procedure SetSourceFile(AValue: string);
     procedure SetTag(AValue: PtrInt);
@@ -57,6 +59,7 @@ type
     procedure DoStart; virtual;
     procedure DoCompile; virtual;
     procedure DoTest(Index: integer); virtual;
+    procedure DoTestSkip(Index: integer); virtual;
     procedure DoFinish; virtual;
   public
     property IsTerminated: boolean read FIsTerminated;
@@ -64,6 +67,7 @@ type
     property OnStart: TNotifyEvent read FOnStart write SetOnStart;
     property OnCompile: TNotifyEvent read FOnCompile write SetOnCompile;
     property OnTest: TTestEvent read FOnTest write SetOnTest;
+    property OnTestSkip: TTestEvent read FOnTestSkip write SetOnTestSkip;
     property OnFinish: TNotifyEvent read FOnFinish write SetOnFinish;
     property Tag: PtrInt read FTag write SetTag;
     procedure Prepare;
@@ -109,6 +113,12 @@ begin
   FOnTest := AValue;
 end;
 
+procedure TProblemTester.SetOnTestSkip(AValue: TTestEvent);
+begin
+  if FOnTestSkip = AValue then Exit;
+  FOnTestSkip := AValue;
+end;
+
 procedure TProblemTester.SetProperties(AValue: TProblemProperties);
 begin
   if FProperties = AValue then
@@ -146,6 +156,12 @@ procedure TProblemTester.DoTest(Index: integer);
 begin
   if Assigned(FOnTest) then
     FOnTest(Self, Index);
+end;
+
+procedure TProblemTester.DoTestSkip(Index: integer);
+begin
+  if Assigned(FOnTestSkip) then
+    FOnTestSkip(Self, Index);
 end;
 
 procedure TProblemTester.DoFinish;
@@ -292,7 +308,7 @@ begin
           if MustSkip then
           begin
             FResults.TestResults[I].Verdict := veSkipped;
-            DoTest(I);
+            DoTestSkip(I);
             Continue;
           end;
           // otherwise, just do testing
@@ -363,7 +379,7 @@ begin
           if IsTerminated then
             Break;
           FResults.TestResults[I].Verdict := veSkipped;
-          DoTest(I);
+          DoTestSkip(I);
         end;
       end;
     finally

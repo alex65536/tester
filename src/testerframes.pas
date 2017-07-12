@@ -224,8 +224,10 @@ procedure TTesterFrame.MultiTesterUpdate(Sender: TObject; TesterID: integer;
 var
   CurTester: TMultiTester;
 begin
-  if Assigned(FProgressBar) and (AKind in [ukCompile, ukTest]) then
+  if Assigned(FProgressBar) and (AKind in [ukCompile, ukTest, ukTestSkip]) then
     FProgressBar.StepIt;
+  if AKind = ukTestSkip then
+    Exit;
   CurTester := (Sender as TMultiTesterThread).MultiTester;
   FMultiTester.Testers[TesterID].Assign(CurTester.Testers[TesterID]);
   UpdateWidths;

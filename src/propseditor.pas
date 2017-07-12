@@ -38,6 +38,7 @@ type
   TProblemPropsEditor = class(TFrame)
     AddTestBtn: TBitBtn;
     ButtonPanel: TPanel;
+    StopAfterFirstFailCheck: TCheckBox;
     CheckerCombo: TComboBox;
     CheckSelect: TCheckerSelect;
     ClearTestsBtn: TBitBtn;
@@ -382,6 +383,7 @@ begin
   FProperties.OutputFile := OutputFileEdit.Text;
   FProperties.TimeLimit := TimeLimitEdit.Value;
   FProperties.MemoryLimit := MemoryLimitEdit.Value;
+  FProperties.StopAfterFirstFail := StopAfterFirstFailCheck.Checked;
   FProperties.Checker := GetChecker;
 end;
 
@@ -391,6 +393,7 @@ begin
   OutputFileEdit.Text := FProperties.OutputFile;
   TimeLimitEdit.Value := FProperties.TimeLimit;
   MemoryLimitEdit.Value := FProperties.MemoryLimit;
+  StopAfterFirstFailCheck.Checked := FProperties.StopAfterFirstFail;
   PutChecker(FProperties.Checker);
   RefreshTests;
   UpdateEnabled;

@@ -113,6 +113,7 @@ type
     FInputFile: string;
     FMemoryLimit: TProblemTime;
     FOutputFile: string;
+    FStopAfterFirstFail: boolean;
     FTestList: TProblemTestList;
     FTimeLimit: TProblemTime;
     function GetTestCount: integer;
@@ -121,6 +122,7 @@ type
     procedure SetInputFile(AValue: string);
     procedure SetMemoryLimit(AValue: TProblemTime);
     procedure SetOutputFile(AValue: string);
+    procedure SetStopAfterFirstFail(AValue: boolean);
     procedure SetTests(I: integer; AValue: TProblemTest);
     procedure SetTimeLimit(AValue: TProblemTime);
   public
@@ -141,6 +143,8 @@ type
     property OutputFile: string read FOutputFile write SetOutputFile;
     property TimeLimit: TProblemTime read FTimeLimit write SetTimeLimit;
     property MemoryLimit: TProblemTime read FMemoryLimit write SetMemoryLimit;
+    property StopAfterFirstFail: boolean read FStopAfterFirstFail
+      write SetStopAfterFirstFail;
     property TestList: TProblemTestList read FTestList;
     constructor Create;
   end;
@@ -340,8 +344,8 @@ begin
   else
   begin
     with Obj as TProblemTest do
-      Result := (InputFile = Self.InputFile) and
-        (OutputFile = Self.OutputFile) and (Abs(Cost - Self.Cost) < 0.0000001);
+      Result := (InputFile = Self.InputFile) and (OutputFile =
+        Self.OutputFile) and (Abs(Cost - Self.Cost) < 0.0000001);
   end;
 end;
 
@@ -426,6 +430,13 @@ begin
   FOutputFile := AValue;
 end;
 
+procedure TProblemProperties.SetStopAfterFirstFail(AValue: boolean);
+begin
+  if FStopAfterFirstFail = AValue then
+    Exit;
+  FStopAfterFirstFail := AValue;
+end;
+
 procedure TProblemProperties.SetTests(I: integer; AValue: TProblemTest);
 begin
   FTestList.Items[I] := AValue;
@@ -443,6 +454,7 @@ begin
   inherited;
   InputFile := 'stdin';
   OutputFile := 'stdout';
+  StopAfterFirstFail := False;
   TimeLimit := 1000;
   MemoryLimit := 65536;
   FTestList := TProblemTestList.Create;

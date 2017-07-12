@@ -505,6 +505,7 @@ begin
     OutputFile := Self.OutputFile;
     TimeLimit := Self.TimeLimit;
     MemoryLimit := Self.MemoryLimit;
+    StopAfterFirstFail := Self.StopAfterFirstFail;
     TestList.Assign(Self.TestList);
     Checker := CloneChecker(Self.Checker);
   end;

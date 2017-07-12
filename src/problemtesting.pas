@@ -243,6 +243,7 @@ var
   CompilerOutput: string;
   I: integer;
   Timer: TBaseRunTimer;
+  MustSkip: boolean;
 
 begin
   FIsTerminated := False;
@@ -281,11 +282,20 @@ begin
       if FResults.CompileVerdict = cvSuccess then
       // successful compilation - we can continue testing
       begin
+        MustSkip := False;
         // iterate over the tests
         for I := 0 to FProperties.TestCount - 1 do
         begin
           if IsTerminated then
             Break;
+          // if we must skip the rest of the tests, we skip them
+          if MustSkip then
+          begin
+            FResults.TestResults[I].Verdict := veSkipped;
+            DoTest(I);
+            Continue;
+          end;
+          // otherwise, just do testing
           try
             // delete temp files
             InternalFileDel(InputFile);
@@ -312,9 +322,9 @@ begin
             finally
               FreeAndNil(Timer);
             end;
+            // if the program ran successfully, launch the checker
             if Assigned(FProperties.Checker) and
               (FResults.TestResults[I].Verdict = veAccepted) then
-              // if the program ran successfully, launch the checker
             begin
               FProperties.Checker.InputFile := FProperties.Tests[I].InputFile;
               FProperties.Checker.OutputFile := OutputFile;
@@ -328,6 +338,10 @@ begin
             // count the score for the test
             if FResults.TestResults[I].Verdict = veAccepted then
               FResults.TestResults[I].Score := FProperties.Tests[I].Cost;
+            // if we must stop after first fail, we say that we skip the rest of the tests
+            if FProperties.StopAfterFirstFail and
+              (FResults.TestResults[I].Verdict <> veAccepted) then
+              MustSkip := True;
           except
             on E: EProblemTester do
             begin

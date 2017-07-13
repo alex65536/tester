@@ -64,8 +64,10 @@ type
     procedure DrawCell(Col, Row: integer; ARect: TRect; ACanvas: TCanvas;
       Draw: boolean; var MaxWidth: integer);
     function CalcMaxWidth(Col, Row: integer): integer;
-    procedure UpdateWidth(Col, Row: integer);
     procedure UpdateWidths;
+    procedure UpdateWidthsCol(ACol: integer);
+    procedure UpdateWidthsRow(ARow: integer);
+    procedure UpdateWidthCell(ACol, ARow: integer);
   protected
     procedure MultiTesterStart(Sender: TObject);
     procedure MultiTesterUpdate(Sender: TObject; TesterID: integer;
@@ -177,25 +179,39 @@ begin
   for I := 1 to DrawGrid.RowCount - 1 do
     DrawGrid.RowHeights[I] := CellH;
   // update widths
-  UpdateWidths;
-end;
-
-procedure TTesterFrame.UpdateWidth(Col, Row: integer);
-begin
-  UpdateWidth(Col, CalcMaxWidth(Col, Row));
+  UpdateWidthsRow(1);
+  UpdateWidthsCol(0);
 end;
 
 procedure TTesterFrame.UpdateWidths;
 var
-  W, I, J: integer;
+  I: integer;
 begin
   for I := 0 to DrawGrid.ColCount - 1 do
-  begin
-    W := DrawGrid.ColWidths[I];
-    for J := 0 to DrawGrid.RowCount - 1 do
-      W := Max(W, CalcMaxWidth(I, J));
-    DrawGrid.ColWidths[I] := W;
-  end;
+    UpdateWidthsCol(I);
+end;
+
+procedure TTesterFrame.UpdateWidthsCol(ACol: integer);
+var
+  W, I: integer;
+begin
+  W := DrawGrid.ColWidths[ACol];
+  for I := 0 to DrawGrid.RowCount - 1 do
+    W := Max(W, CalcMaxWidth(ACol, I));
+  DrawGrid.ColWidths[ACol] := W;
+end;
+
+procedure TTesterFrame.UpdateWidthsRow(ARow: integer);
+var
+  I: integer;
+begin
+  for I := 0 to DrawGrid.ColCount - 1 do
+    DrawGrid.ColWidths[I] := Max(DrawGrid.ColWidths[I], CalcMaxWidth(I, ARow));
+end;
+
+procedure TTesterFrame.UpdateWidthCell(ACol, ARow: integer);
+begin
+  DrawGrid.ColWidths[ACol] := Max(DrawGrid.ColWidths[ACol], CalcMaxWidth(ACol, ARow));
 end;
 
 procedure TTesterFrame.MultiTesterStart(Sender: TObject);
@@ -215,26 +231,42 @@ begin
   CurTester := (Sender as TMultiTesterThread).MultiTester;
   FMultiTester.Assign(CurTester);
   Prepare;
-  UpdateWidths;
-  Repaint;
 end;
 
 procedure TTesterFrame.MultiTesterUpdate(Sender: TObject; TesterID: integer;
   AKind: TTesterUpdateKind);
 var
   CurTester: TMultiTester;
+  NeedsUpdate: array of boolean;
+  I: integer;
 begin
-  if Assigned(FProgressBar) and (AKind in [ukCompile, ukTest]) then
+  if Assigned(FProgressBar) and (AKind in [ukCompile, ukTest, ukTestSkip]) then
     FProgressBar.StepIt;
+  if AKind = ukTestSkip then
+    Exit;
   CurTester := (Sender as TMultiTesterThread).MultiTester;
+  // decide whom to update
+  SetLength(NeedsUpdate, DrawGrid.ColCount);
+  for I := 0 to DrawGrid.ColCount - 1 do
+    NeedsUpdate[I] := False;
+  NeedsUpdate[1] := True;
+  NeedsUpdate[2] := True;
+  for I := 0 to CurTester.Testers[TesterID].Results.Items.Count - 1 do
+    NeedsUpdate[3 + I] :=
+      (CurTester.Testers[TesterID].Results[I].Verdict <> veWaiting) and
+      (FMultiTester.Testers[TesterID].Results[I].Verdict = veWaiting);
+  // reassign
   FMultiTester.Testers[TesterID].Assign(CurTester.Testers[TesterID]);
-  UpdateWidths;
+  // update
+  for I := 0 to DrawGrid.ColCount - 1 do
+    if NeedsUpdate[I] then
+      UpdateWidthCell(I, TesterID + 1);
+  // repaint
   Repaint;
 end;
 
 procedure TTesterFrame.MultiTesterFinish(Sender: TObject);
 begin
-  UpdateWidths;
   Repaint;
   if Assigned(FOnTestingEnd) then
     FOnTestingEnd(Self);

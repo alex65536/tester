@@ -61,6 +61,7 @@ begin
   case ResizePolicyCombo.ItemIndex of
     0: APolicy := tcepProportionally;
     1: APolicy := tcepMakeEqual;
+    2: APolicy := tcepAllCostToLast;
   end;
   AProps.RescaleCosts(TestsCostEdit.Value, APolicy);
 end;

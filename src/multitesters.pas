@@ -28,7 +28,7 @@ uses
   Classes, SysUtils, problemtesting, problemprops;
 
 type
-  TTesterUpdateKind = (ukStart, ukCompile, ukTest, ukFinish);
+  TTesterUpdateKind = (ukStart, ukCompile, ukTest, ukTestSkip, ukFinish);
   TTesterUpdateEvent = procedure(Sender: TObject; TesterID: integer;
     Kind: TTesterUpdateKind) of object;
   TTesterExceptionEvent = procedure(Sender: TObject; E: Exception) of object;
@@ -77,6 +77,7 @@ type
     procedure TesterStart(Sender: TObject);
     procedure TesterCompile(Sender: TObject);
     procedure TesterTest(Sender: TObject; TesterIndex: integer);
+    procedure TesterTestSkip(Sender: TObject; TesterIndex: integer);
     procedure TesterFinish(Sender: TObject);
   protected
     procedure DoStart; virtual;
@@ -305,6 +306,12 @@ begin
   DoUpdate((Sender as TProblemTester).Tag, ukTest);
 end;
 
+procedure TMultiTester.TesterTestSkip(Sender: TObject; TesterIndex: integer);
+begin
+  TesterIndex := TesterIndex; // to prevent hints
+  DoUpdate((Sender as TProblemTester).Tag, ukTestSkip);
+end;
+
 procedure TMultiTester.TesterFinish(Sender: TObject);
 begin
   DoUpdate((Sender as TProblemTester).Tag, ukFinish);
@@ -356,6 +363,7 @@ begin
       Tester.OnStart := @TesterStart;
       Tester.OnCompile := @TesterCompile;
       Tester.OnTest := @TesterTest;
+      Tester.OnTestSkip := @TesterTestSkip;
       Tester.OnFinish := @TesterFinish;
       Tester.Prepare;
     end;

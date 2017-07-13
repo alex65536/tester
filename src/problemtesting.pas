@@ -42,6 +42,7 @@ type
     FOnFinish: TNotifyEvent;
     FOnStart: TNotifyEvent;
     FOnTest: TTestEvent;
+    FOnTestSkip: TTestEvent;
     FProperties: TProblemProperties;
     FResults: TTestedProblem;
     FSourceFile: string;
@@ -50,6 +51,7 @@ type
     procedure SetOnFinish(AValue: TNotifyEvent);
     procedure SetOnStart(AValue: TNotifyEvent);
     procedure SetOnTest(AValue: TTestEvent);
+    procedure SetOnTestSkip(AValue: TTestEvent);
     procedure SetProperties(AValue: TProblemProperties);
     procedure SetSourceFile(AValue: string);
     procedure SetTag(AValue: PtrInt);
@@ -57,6 +59,7 @@ type
     procedure DoStart; virtual;
     procedure DoCompile; virtual;
     procedure DoTest(Index: integer); virtual;
+    procedure DoTestSkip(Index: integer); virtual;
     procedure DoFinish; virtual;
   public
     property IsTerminated: boolean read FIsTerminated;
@@ -64,6 +67,7 @@ type
     property OnStart: TNotifyEvent read FOnStart write SetOnStart;
     property OnCompile: TNotifyEvent read FOnCompile write SetOnCompile;
     property OnTest: TTestEvent read FOnTest write SetOnTest;
+    property OnTestSkip: TTestEvent read FOnTestSkip write SetOnTestSkip;
     property OnFinish: TNotifyEvent read FOnFinish write SetOnFinish;
     property Tag: PtrInt read FTag write SetTag;
     procedure Prepare;
@@ -109,6 +113,12 @@ begin
   FOnTest := AValue;
 end;
 
+procedure TProblemTester.SetOnTestSkip(AValue: TTestEvent);
+begin
+  if FOnTestSkip = AValue then Exit;
+  FOnTestSkip := AValue;
+end;
+
 procedure TProblemTester.SetProperties(AValue: TProblemProperties);
 begin
   if FProperties = AValue then
@@ -146,6 +156,12 @@ procedure TProblemTester.DoTest(Index: integer);
 begin
   if Assigned(FOnTest) then
     FOnTest(Self, Index);
+end;
+
+procedure TProblemTester.DoTestSkip(Index: integer);
+begin
+  if Assigned(FOnTestSkip) then
+    FOnTestSkip(Self, Index);
 end;
 
 procedure TProblemTester.DoFinish;
@@ -243,6 +259,7 @@ var
   CompilerOutput: string;
   I: integer;
   Timer: TBaseRunTimer;
+  MustSkip: boolean;
 
 begin
   FIsTerminated := False;
@@ -281,11 +298,20 @@ begin
       if FResults.CompileVerdict = cvSuccess then
       // successful compilation - we can continue testing
       begin
+        MustSkip := False;
         // iterate over the tests
         for I := 0 to FProperties.TestCount - 1 do
         begin
           if IsTerminated then
             Break;
+          // if we must skip the rest of the tests, we skip them
+          if MustSkip then
+          begin
+            FResults.TestResults[I].Verdict := veSkipped;
+            DoTestSkip(I);
+            Continue;
+          end;
+          // otherwise, just do testing
           try
             // delete temp files
             InternalFileDel(InputFile);
@@ -312,9 +338,9 @@ begin
             finally
               FreeAndNil(Timer);
             end;
+            // if the program ran successfully, launch the checker
             if Assigned(FProperties.Checker) and
               (FResults.TestResults[I].Verdict = veAccepted) then
-              // if the program ran successfully, launch the checker
             begin
               FProperties.Checker.InputFile := FProperties.Tests[I].InputFile;
               FProperties.Checker.OutputFile := OutputFile;
@@ -328,6 +354,10 @@ begin
             // count the score for the test
             if FResults.TestResults[I].Verdict = veAccepted then
               FResults.TestResults[I].Score := FProperties.Tests[I].Cost;
+            // if we must stop after first fail, we say that we skip the rest of the tests
+            if FProperties.StopAfterFirstFail and
+              (FResults.TestResults[I].Verdict <> veAccepted) then
+              MustSkip := True;
           except
             on E: EProblemTester do
             begin
@@ -349,7 +379,7 @@ begin
           if IsTerminated then
             Break;
           FResults.TestResults[I].Verdict := veSkipped;
-          DoTest(I);
+          DoTestSkip(I);
         end;
       end;
     finally

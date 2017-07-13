@@ -27,7 +27,8 @@ interface
 uses
   Classes, SysUtils, Forms, Grids, StdCtrls, problemprops, Math, strconsts,
   Graphics, testresults, Types, srcviewer, Dialogs, verdictcolors, compilerinfo,
-  testinfo, multitesters, testerprimitives, ComCtrls;
+  testinfo, multitesters, testerprimitives, ComCtrls, LazUTF8SysUtils,
+  dateutils;
 
 type
   ETesterFrame = class(Exception);
@@ -64,8 +65,9 @@ type
     procedure DrawCell(Col, Row: integer; ARect: TRect; ACanvas: TCanvas;
       Draw: boolean; var MaxWidth: integer);
     function CalcMaxWidth(Col, Row: integer): integer;
-    procedure UpdateWidth(Col, Row: integer);
     procedure UpdateWidths;
+    procedure UpdateWidthsRow(ARow: integer);
+    procedure UpdateWidthCell(ARow, ACol: integer);
   protected
     procedure MultiTesterStart(Sender: TObject);
     procedure MultiTesterUpdate(Sender: TObject; TesterID: integer;
@@ -89,6 +91,7 @@ type
     procedure AfterConstruction; override;
     constructor Create(TheOwner: TComponent); override;
     destructor Destroy; override;
+    procedure Repaint; override;
   end;
 
 implementation
@@ -180,15 +183,13 @@ begin
   UpdateWidths;
 end;
 
-procedure TTesterFrame.UpdateWidth(Col, Row: integer);
-begin
-  UpdateWidth(Col, CalcMaxWidth(Col, Row));
-end;
-
 procedure TTesterFrame.UpdateWidths;
 var
+  Beg: TDateTime;
   W, I, J: integer;
 begin
+  Beg := NowUTC;
+
   for I := 0 to DrawGrid.ColCount - 1 do
   begin
     W := DrawGrid.ColWidths[I];
@@ -196,6 +197,27 @@ begin
       W := Max(W, CalcMaxWidth(I, J));
     DrawGrid.ColWidths[I] := W;
   end;
+
+  WriteLn('UpdateWidths time = ', MilliSecondSpan(Beg, NowUTC): 0: 3, ' ms');
+end;
+
+procedure TTesterFrame.UpdateWidthsRow(ARow: integer);
+var
+  Beg: TDateTime;
+  I: integer;
+begin
+  Beg := NowUTC;
+
+  for I := 0 to DrawGrid.ColCount - 1 do
+    DrawGrid.ColWidths[I] := Max(DrawGrid.ColWidths[I], CalcMaxWidth(I, ARow));
+
+  WriteLn('UpdateWidthsRow(', ARow, ') time = ', MilliSecondSpan(Beg, NowUTC)
+    : 0 : 3, ' ms');
+end;
+
+procedure TTesterFrame.UpdateWidthCell(ARow, ACol: integer);
+begin
+  DrawGrid.ColWidths[ACol] := Max(DrawGrid.ColWidths[ACol], CalcMaxWidth(ACol, ARow));
 end;
 
 procedure TTesterFrame.MultiTesterStart(Sender: TObject);
@@ -230,7 +252,7 @@ begin
     Exit;
   CurTester := (Sender as TMultiTesterThread).MultiTester;
   FMultiTester.Testers[TesterID].Assign(CurTester.Testers[TesterID]);
-  UpdateWidths;
+  UpdateWidthsRow(TesterID + 1);
   Repaint;
 end;
 
@@ -464,6 +486,17 @@ destructor TTesterFrame.Destroy;
 begin
   FreeAndNil(FMultiTester);
   inherited Destroy;
+end;
+
+procedure TTesterFrame.Repaint;
+var
+  Beg: TDateTime;
+begin
+  Beg := NowUTC;
+
+  inherited Repaint;
+
+  WriteLn('Repaint time = ', MilliSecondSpan(Beg, NowUTC): 0: 3, ' ms');
 end;
 
 end.

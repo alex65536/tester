@@ -1,4 +1,4 @@
-object MainForm: TMainForm
+inherited MainForm: TMainForm
   Left = 402
   Height = 509
   Top = 165
@@ -10,9 +10,7 @@ object MainForm: TMainForm
   Menu = MainMenu
   OnCreate = FormCreate
   Position = poScreenCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object Panel: TPanel
+  object Panel: TPanel[0]
     Left = 0
     Height = 31
     Top = 0
@@ -80,7 +78,7 @@ object MainForm: TMainForm
       TabOrder = 4
     end
   end
-  object PropsList: TExtendedNotebook
+  object PropsList: TExtendedNotebook[1]
     Left = 0
     Height = 445
     Top = 31
@@ -93,7 +91,7 @@ object MainForm: TMainForm
     TabDragMode = dmAutomatic
     TabDragAcceptMode = dmAutomatic
   end
-  object ActionList: TActionList
+  object ActionList: TActionList[2]
     Images = ImageKeeper.ImageList
     left = 192
     top = 216
@@ -199,27 +197,27 @@ object MainForm: TMainForm
       ShortCut = 8274
     end
   end
-  object SaveDialog: TSaveDialog
+  object SaveDialog: TSaveDialog[3]
     DefaultExt = '.json'
     Filter = 'Task properties|*.json'
     Options = [ofOverwritePrompt, ofPathMustExist, ofEnableSizing, ofViewDetail]
     left = 192
     top = 160
   end
-  object OpenDialog: TOpenDialog
+  object OpenDialog: TOpenDialog[4]
     DefaultExt = '.json'
     Filter = 'Task properties|*.json'
     Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 96
     top = 160
   end
-  object AutoSaveTimer: TTimer
+  object AutoSaveTimer: TTimer[5]
     Interval = 30000
     OnTimer = AutoSaveTimerTimer
     left = 288
     top = 160
   end
-  object TabPopupMenu: TPopupMenu
+  object TabPopupMenu: TPopupMenu[6]
     OnPopup = TabPopupMenuPopup
     left = 392
     top = 160
@@ -227,11 +225,11 @@ object MainForm: TMainForm
       Action = CloseTabAction
     end
   end
-  object EmptyPopupMenu: TPopupMenu
+  object EmptyPopupMenu: TPopupMenu[7]
     left = 96
     top = 216
   end
-  object MainMenu: TMainMenu
+  object MainMenu: TMainMenu[8]
     left = 280
     top = 216
     object MenuItem2: TMenuItem

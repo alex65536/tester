@@ -1,4 +1,4 @@
-object EditCostsDialog: TEditCostsDialog
+inherited EditCostsDialog: TEditCostsDialog
   Left = 518
   Height = 103
   Top = 225
@@ -10,9 +10,7 @@ object EditCostsDialog: TEditCostsDialog
   ClientHeight = 103
   ClientWidth = 275
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object ButtonPanel: TButtonPanel
+  object ButtonPanel: TButtonPanel[0]
     AnchorSideTop.Control = ResizePolicyCombo
     AnchorSideTop.Side = asrBottom
     Left = 6
@@ -31,7 +29,7 @@ object EditCostsDialog: TEditCostsDialog
     TabOrder = 2
     ShowButtons = [pbOK, pbCancel]
   end
-  object ResizePolicyCombo: TComboBox
+  object ResizePolicyCombo: TComboBox[1]
     AnchorSideLeft.Control = TestsCostEdit
     AnchorSideTop.Control = TestsCostEdit
     AnchorSideTop.Side = asrBottom
@@ -51,7 +49,7 @@ object EditCostsDialog: TEditCostsDialog
     Style = csDropDownList
     TabOrder = 1
   end
-  object TestsCostEdit: TFloatSpinEdit
+  object TestsCostEdit: TFloatSpinEdit[2]
     AnchorSideRight.Control = ButtonPanel
     AnchorSideRight.Side = asrBottom
     Left = 133
@@ -66,7 +64,7 @@ object EditCostsDialog: TEditCostsDialog
     TabOrder = 0
     Value = 100
   end
-  object Label1: TLabel
+  object Label1: TLabel[3]
     AnchorSideLeft.Control = ButtonPanel
     AnchorSideTop.Control = TestsCostEdit
     AnchorSideTop.Side = asrCenter
@@ -80,7 +78,7 @@ object EditCostsDialog: TEditCostsDialog
     Caption = 'Total tests cost:'
     ParentColor = False
   end
-  object Label2: TLabel
+  object Label2: TLabel[4]
     AnchorSideLeft.Control = ButtonPanel
     AnchorSideTop.Control = ResizePolicyCombo
     AnchorSideTop.Side = asrCenter

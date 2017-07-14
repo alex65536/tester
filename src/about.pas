@@ -26,13 +26,13 @@ interface
 
 uses
   Classes, DividerBevel, Forms, ExtCtrls, StdCtrls, licenseforms, versioninfo,
-  strconsts, SysUtils, LCLIntf;
+  strconsts, SysUtils, LCLIntf, baseforms;
 
 type
 
   { TAboutBox }
 
-  TAboutBox = class(TForm)
+  TAboutBox = class(TBaseForm)
     LisenceBtn: TButton;
     WebsiteBtn: TButton;
     CloseBtn: TButton;

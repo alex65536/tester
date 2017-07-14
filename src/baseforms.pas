@@ -18,52 +18,65 @@
   to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
   MA 02111-1307, USA.
 }
-unit editcostsdlg;
+unit baseforms;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Forms, ButtonPanel, Spin, StdCtrls, Controls, problemprops, baseforms;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs;
 
 type
 
-  { TEditCostsDialog }
+  { TBaseForm }
 
-  TEditCostsDialog = class(TBaseForm)
-    ButtonPanel: TButtonPanel;
-    Label1: TLabel;
-    Label2: TLabel;
-    TestsCostEdit: TFloatSpinEdit;
-    ResizePolicyCombo: TComboBox;
+  TBaseForm = class(TForm)
+  private
+    FInitialHeight: integer;
+    FInitialWidth: integer;
+  protected
+    procedure DoShow; override;
   public
-    procedure Execute(AProps: TProblemProperties);
+    procedure AfterConstruction; override;
   end;
 
 var
-  EditCostsDialog: TEditCostsDialog;
+  BaseForm: TBaseForm;
 
 implementation
 
 {$R *.lfm}
 
-{ TEditCostsDialog }
+{ TBaseForm }
 
-procedure TEditCostsDialog.Execute(AProps: TProblemProperties);
+procedure TBaseForm.DoShow;
 var
-  APolicy: TTestCostEditPolicy;
+  WasPos: TPosition;
 begin
-  TestsCostEdit.Value := AProps.MaxScore;
-  ResizePolicyCombo.ItemIndex := 0;
-  if ShowModal <> mrOK then
-    Exit;
-  case ResizePolicyCombo.ItemIndex of
-    0: APolicy := tcepProportionally;
-    1: APolicy := tcepMakeEqual;
-    2: APolicy := tcepAllCostToLast;
+  if (BorderStyle = bsSizeable) and AutoSize then
+  begin
+    Constraints.MinHeight := Height;
+    Constraints.MinWidth := Width;
+    AutoSize := False;
+    Height := FInitialHeight;
+    Width := FInitialWidth;
+    WasPos := Position;
+    Position := poDesigned;
+    Position := WasPos;
   end;
-  AProps.RescaleCosts(TestsCostEdit.Value, APolicy);
+  inherited DoShow;
+end;
+
+procedure TBaseForm.AfterConstruction;
+begin
+  inherited AfterConstruction;
+  if BorderStyle = bsSizeable then
+  begin
+    FInitialHeight := Height;
+    FInitialWidth := Width;
+    AutoSize := True;
+  end;
 end;
 
 end.

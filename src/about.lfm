@@ -1,8 +1,9 @@
-object AboutBox: TAboutBox
+inherited AboutBox: TAboutBox
   Left = 511
   Height = 596
   Top = 66
   Width = 295
+  ActiveControl = LisenceBtn
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'About Tester...'
@@ -10,8 +11,7 @@ object AboutBox: TAboutBox
   ClientWidth = 295
   OnCreate = FormCreate
   Position = poMainFormCenter
-  LCLVersion = '1.6.2.0'
-  object Image: TImage
+  object Image: TImage[0]
     Left = 0
     Height = 256
     Top = 0
@@ -758,7 +758,7 @@ object AboutBox: TAboutBox
     }
     Proportional = True
   end
-  object Label1: TLabel
+  object Label1: TLabel[1]
     Left = 0
     Height = 48
     Top = 256
@@ -773,7 +773,7 @@ object AboutBox: TAboutBox
     ParentFont = False
     OptimalFill = True
   end
-  object VersionLbl: TLabel
+  object VersionLbl: TLabel[2]
     Left = 0
     Height = 17
     Top = 304
@@ -783,7 +783,7 @@ object AboutBox: TAboutBox
     Caption = 'version %version%'
     ParentColor = False
   end
-  object DividerBevel1: TDividerBevel
+  object DividerBevel1: TDividerBevel[3]
     Left = 0
     Height = 17
     Top = 372
@@ -792,7 +792,7 @@ object AboutBox: TAboutBox
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label3: TLabel
+  object Label3: TLabel[4]
     Left = 3
     Height = 17
     Top = 457
@@ -803,7 +803,7 @@ object AboutBox: TAboutBox
     Caption = 'Copyright © 2017 Kernozhitsky Alexander'
     ParentColor = False
   end
-  object Label4: TLabel
+  object Label4: TLabel[5]
     Left = 3
     Height = 17
     Top = 474
@@ -814,7 +814,7 @@ object AboutBox: TAboutBox
     Caption = 'e-mail: sh200105@mail.ru'
     ParentColor = False
   end
-  object Panel: TPanel
+  object Panel: TPanel[6]
     Left = 0
     Height = 29
     Top = 567
@@ -858,7 +858,7 @@ object AboutBox: TAboutBox
       TabOrder = 2
     end
   end
-  object DividerBevel2: TDividerBevel
+  object DividerBevel2: TDividerBevel[7]
     Left = 0
     Height = 17
     Top = 550
@@ -867,7 +867,7 @@ object AboutBox: TAboutBox
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label5: TLabel
+  object Label5: TLabel[8]
     Left = 3
     Height = 51
     Top = 389
@@ -880,7 +880,7 @@ object AboutBox: TAboutBox
     ParentColor = False
     WordWrap = True
   end
-  object DividerBevel3: TDividerBevel
+  object DividerBevel3: TDividerBevel[9]
     Left = 0
     Height = 17
     Top = 440
@@ -889,7 +889,7 @@ object AboutBox: TAboutBox
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object Label6: TLabel
+  object Label6: TLabel[10]
     Left = 3
     Height = 34
     Top = 508
@@ -901,7 +901,7 @@ object AboutBox: TAboutBox
     ParentColor = False
     WordWrap = True
   end
-  object Panel1: TPanel
+  object Panel1: TPanel[11]
     Left = 0
     Height = 8
     Top = 542
@@ -910,7 +910,7 @@ object AboutBox: TAboutBox
     BevelOuter = bvNone
     TabOrder = 0
   end
-  object DividerBevel4: TDividerBevel
+  object DividerBevel4: TDividerBevel[12]
     Left = 0
     Height = 17
     Top = 491
@@ -919,7 +919,7 @@ object AboutBox: TAboutBox
     Font.Style = [fsBold]
     ParentFont = False
   end
-  object DateLbl: TLabel
+  object DateLbl: TLabel[13]
     Left = 0
     Height = 17
     Top = 355
@@ -929,7 +929,7 @@ object AboutBox: TAboutBox
     Caption = 'Build date: %builddate%'
     ParentColor = False
   end
-  object PlatformLbl: TLabel
+  object PlatformLbl: TLabel[14]
     Left = 0
     Height = 17
     Top = 321
@@ -939,7 +939,7 @@ object AboutBox: TAboutBox
     Caption = '%platform%-%os%-%ws%'
     ParentColor = False
   end
-  object DividerBevel5: TDividerBevel
+  object DividerBevel5: TDividerBevel[15]
     Left = 0
     Height = 17
     Top = 338

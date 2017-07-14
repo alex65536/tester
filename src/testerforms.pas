@@ -27,13 +27,13 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Dialogs, ExtCtrls, StdCtrls, ComCtrls,
   EditBtn, testerframes, problemprops, LazFileUtils, LCLType, ActnList, Buttons,
-  Menus, jsonsaver, imgkeeper, htmlexport, LCLIntf;
+  Menus, jsonsaver, imgkeeper, htmlexport, LCLIntf, baseforms;
 
 type
 
   { TTesterForm }
 
-  TTesterForm = class(TForm)
+  TTesterForm = class(TBaseForm)
     BitBtn5: TBitBtn;
     ExportHTMLAction: TAction;
     BitBtn1: TBitBtn;

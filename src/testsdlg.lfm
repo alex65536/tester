@@ -1,4 +1,4 @@
-object TestDialog: TTestDialog
+inherited TestDialog: TTestDialog
   Left = 509
   Height = 132
   Top = 212
@@ -10,9 +10,7 @@ object TestDialog: TTestDialog
   ClientHeight = 132
   ClientWidth = 294
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object Label1: TLabel
+  object Label1: TLabel[0]
     AnchorSideLeft.Control = ButtonPanel1
     AnchorSideTop.Control = InputFileEdit
     AnchorSideTop.Side = asrCenter
@@ -25,7 +23,7 @@ object TestDialog: TTestDialog
     Caption = 'Input file:'
     ParentColor = False
   end
-  object ButtonPanel1: TButtonPanel
+  object ButtonPanel1: TButtonPanel[1]
     AnchorSideTop.Control = TestCostEdit
     AnchorSideTop.Side = asrBottom
     Left = 6
@@ -44,7 +42,7 @@ object TestDialog: TTestDialog
     TabOrder = 3
     ShowButtons = [pbOK, pbCancel]
   end
-  object InputFileEdit: TEdit
+  object InputFileEdit: TEdit[2]
     AnchorSideLeft.Control = TestCostEdit
     AnchorSideRight.Control = TestCostEdit
     AnchorSideRight.Side = asrBottom
@@ -56,7 +54,7 @@ object TestDialog: TTestDialog
     TabOrder = 0
     Text = 'input.txt'
   end
-  object Label2: TLabel
+  object Label2: TLabel[3]
     AnchorSideLeft.Control = ButtonPanel1
     AnchorSideTop.Control = TestCostEdit
     AnchorSideTop.Side = asrCenter
@@ -69,7 +67,7 @@ object TestDialog: TTestDialog
     Caption = 'Cost (points):'
     ParentColor = False
   end
-  object TestCostEdit: TFloatSpinEdit
+  object TestCostEdit: TFloatSpinEdit[4]
     AnchorSideTop.Control = OutputFileEdit
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = ButtonPanel1
@@ -86,7 +84,7 @@ object TestDialog: TTestDialog
     TabOrder = 2
     Value = 1
   end
-  object Label3: TLabel
+  object Label3: TLabel[5]
     AnchorSideLeft.Control = ButtonPanel1
     AnchorSideTop.Control = OutputFileEdit
     AnchorSideTop.Side = asrCenter
@@ -99,7 +97,7 @@ object TestDialog: TTestDialog
     Caption = 'Output file:'
     ParentColor = False
   end
-  object OutputFileEdit: TEdit
+  object OutputFileEdit: TEdit[6]
     AnchorSideLeft.Control = TestCostEdit
     AnchorSideTop.Control = InputFileEdit
     AnchorSideTop.Side = asrBottom

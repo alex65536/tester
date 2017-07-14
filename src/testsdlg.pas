@@ -25,13 +25,13 @@ unit testsdlg;
 interface
 
 uses
-  Forms, StdCtrls, ButtonPanel, Spin, problemprops;
+  Forms, StdCtrls, ButtonPanel, Spin, problemprops, baseforms;
 
 type
 
   { TTestDialog }
 
-  TTestDialog = class(TForm)
+  TTestDialog = class(TBaseForm)
     ButtonPanel1: TButtonPanel;
     OutputFileEdit: TEdit;
     Label3: TLabel;

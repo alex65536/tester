@@ -26,13 +26,13 @@ interface
 
 uses
   SysUtils, Forms, ExtCtrls, StdCtrls, ButtonPanel, strconsts,
-  verdictcolors, testresults, problemprops, Classes;
+  verdictcolors, testresults, problemprops, Classes, baseforms;
 
 type
 
   { TTestInfoDlg }
 
-  TTestInfoDlg = class(TForm)
+  TTestInfoDlg = class(TBaseForm)
     ButtonPanel1: TButtonPanel;
     CheckerOutputMemo: TMemo;
     GroupBox2: TGroupBox;

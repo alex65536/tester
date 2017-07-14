@@ -27,14 +27,14 @@ interface
 uses
   Classes, SysUtils, FileUtil, SynEdit, SynHighlighterPas, Forms,
   ButtonPanel, AvgLvlTree, SynHighlighterCpp, SynEditHighlighter, strconsts,
-  LazUTF8, Graphics, StdCtrls;
+  LazUTF8, Graphics, StdCtrls, baseforms;
 
 type
   ESourceViewer = class(Exception);
 
   { TSourceViewer }
 
-  TSourceViewer = class(TForm)
+  TSourceViewer = class(TBaseForm)
     ButtonPanel1: TButtonPanel;
     SourceViewer: TSynEdit;
     SynCppSyn: TSynCppSyn;

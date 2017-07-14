@@ -26,13 +26,13 @@ interface
 
 uses
   Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts,
-  Classes;
+  Classes, baseforms;
 
 type
 
   { TCompilerInfoDlg }
 
-  TCompilerInfoDlg = class(TForm)
+  TCompilerInfoDlg = class(TBaseForm)
     ButtonPanel1: TButtonPanel;
     GroupBox1: TGroupBox;
     Label1: TLabel;

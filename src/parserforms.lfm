@@ -1,8 +1,9 @@
-object ParserForm: TParserForm
+inherited ParserForm: TParserForm
   Left = 533
   Height = 105
   Top = 276
   Width = 353
+  ActiveControl = ButtonPanel.CancelButton
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'Parsing directory'
@@ -10,8 +11,7 @@ object ParserForm: TParserForm
   ClientWidth = 353
   OnCloseQuery = FormCloseQuery
   Position = poMainFormCenter
-  LCLVersion = '1.6.2.0'
-  object Label1: TLabel
+  object Label1: TLabel[0]
     Left = 3
     Height = 34
     Top = 3
@@ -23,7 +23,7 @@ object ParserForm: TParserForm
     ParentColor = False
     WordWrap = True
   end
-  object ProgressBar: TProgressBar
+  object ProgressBar: TProgressBar[1]
     Left = 0
     Height = 16
     Top = 40
@@ -32,7 +32,7 @@ object ParserForm: TParserForm
     Style = pbstMarquee
     TabOrder = 0
   end
-  object ButtonPanel: TButtonPanel
+  object ButtonPanel: TButtonPanel[2]
     Left = 6
     Height = 37
     Top = 62

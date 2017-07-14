@@ -73,7 +73,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parser_simplecfg,
   parser_findfile,
   editcostsdlg,
-  htmlexport;
+  htmlexport, baseforms;
 
 {$R *.res}
 
@@ -93,5 +93,6 @@ begin
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
   Application.CreateForm(TEditCostsDialog, EditCostsDialog);
+  Application.CreateForm(TBaseForm, BaseForm);
   Application.Run;
 end.

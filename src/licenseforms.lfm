@@ -1,16 +1,16 @@
-object LicenseForm: TLicenseForm
+inherited LicenseForm: TLicenseForm
   Left = 476
   Height = 367
   Top = 210
   Width = 567
+  ActiveControl = ButtonPanel1.CloseButton
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'License'
   ClientHeight = 367
   ClientWidth = 567
   Position = poMainFormCenter
-  LCLVersion = '1.6.2.0'
-  object ButtonPanel1: TButtonPanel
+  object ButtonPanel1: TButtonPanel[0]
     Left = 6
     Height = 37
     Top = 324
@@ -26,7 +26,7 @@ object LicenseForm: TLicenseForm
     TabOrder = 0
     ShowButtons = [pbClose]
   end
-  object Memo1: TMemo
+  object Memo1: TMemo[1]
     Left = 0
     Height = 261
     Top = 57
@@ -381,7 +381,7 @@ object LicenseForm: TLicenseForm
     TabOrder = 1
     WordWrap = False
   end
-  object Label1: TLabel
+  object Label1: TLabel[2]
     Left = 3
     Height = 51
     Top = 3

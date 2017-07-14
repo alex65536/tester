@@ -26,14 +26,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Dialogs, StdCtrls, ComCtrls, ButtonPanel,
-  parserlists, propsparserbase, strconsts, problemprops;
+  parserlists, propsparserbase, strconsts, problemprops, baseforms;
 
 type
   EParserForm = class(Exception);
 
   { TParserForm }
 
-  TParserForm = class(TForm)
+  TParserForm = class(TBaseForm)
     ButtonPanel: TButtonPanel;
     Label1: TLabel;
     ProgressBar: TProgressBar;

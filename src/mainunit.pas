@@ -27,14 +27,14 @@ interface
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
   ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
-  parserforms, versioninfo;
+  parserforms, versioninfo, baseforms;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);
 
   { TMainForm }
 
-  TMainForm = class(TForm)
+  TMainForm = class(TBaseForm)
     AboutAction: TAction;
     EditCostsAction: TAction;
     ClearTestsAction: TAction;

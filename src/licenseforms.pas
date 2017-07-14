@@ -25,7 +25,7 @@ unit licenseforms;
 interface
 
 uses
-  SysUtils, Forms, ButtonPanel, StdCtrls, Graphics, math, LCLIntf;
+  SysUtils, Forms, ButtonPanel, StdCtrls, Graphics, math, LCLIntf, baseforms;
 
 type
 
@@ -39,7 +39,7 @@ type
 
   { TLicenseForm }
 
-  TLicenseForm = class(TForm)
+  TLicenseForm = class(TBaseForm)
     ButtonPanel1: TButtonPanel;
     Label1: TLabel;
     Memo1: TMemo;

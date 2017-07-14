@@ -44,7 +44,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="45">
+    <Units Count="46">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -276,6 +276,13 @@
         <Filename Value="defaultcss.inc"/>
         <IsPartOfProject Value="True"/>
       </Unit44>
+      <Unit45>
+        <Filename Value="baseforms.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="BaseForm"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+      </Unit45>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

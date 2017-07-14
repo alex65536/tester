@@ -14,12 +14,7 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 }
 
-{
-  This unit is a modification of RunCommandInDir from FreePascal's process.pp.
-  RunCommandInDir from this unit redirects stderr to stdout, which is nessesary
-  to show compilation error from gcc and g++ (they write to stderr rather than
-  stdout). Also it uses TProcessUTF8 instead of TProcess (for Unicode support)
-}
+// This unit is a modification of RunCommandInDir from FreePascal's process.pp.
 unit processfork;
 
 {$mode objfpc}{$H+}
@@ -35,15 +30,20 @@ function RunCommandIndirUTF8(const curdir: string; const exename: string;
 
 implementation
 
-// The following two procedures were copied from FCL's process.pp
-// The second one is a little bit modified
+{
+  The following two procedures were copied from FCL's process.pp
+  They are modified
+  Patches are:
+    1. They were designed to capture stderr, not only stdout
+    2. JCF reformated the code :)
+    3. Using TProcessUTF8 instead of TProcess
+    4. Maybe I forgot something?
+}
 
 const
   READ_BYTES = 65536; // not too small to avoid fragmentation when reading large files.
 
 // helperfunction that does the bulk of the work.
-// We need to also collect stderr output in order to avoid
-// lock out if the stderr pipe is full.
 function internalRuncommandUTF8(p: TProcessUTF8; out outputstring: string;
   out stderrstring: string; var exitcode: integer): integer;
 var
@@ -127,6 +127,8 @@ begin
       end;
       setlength(stderrstring, StderrBytesRead);
       exitcode := p.ExitCode;
+      if exitcode = 0 then
+        exitcode := p.ExitStatus;
       Result := 0; // we came to here, document that.
     except
       on e: Exception do

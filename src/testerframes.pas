@@ -488,6 +488,7 @@ begin
   FMultiTester := TMultiTester.Create;
   FReady := False;
   FIsTesting := False;
+  DrawGrid.DoubleBuffered := True;
 end;
 
 destructor TTesterFrame.Destroy;

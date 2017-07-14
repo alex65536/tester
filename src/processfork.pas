@@ -24,9 +24,9 @@ interface
 uses
   Classes, SysUtils, process, UTF8Process;
 
-function RunCommandIndirUTF8(const curdir: string; const exename: string;
-  const commands: array of string; out outputstring: string;
-  var exitcode: integer): integer;
+function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
+  const Commands: array of string; out OutputString: string;
+  var ExitCode: integer): integer;
 
 implementation
 
@@ -37,61 +37,62 @@ implementation
     1. They were designed to capture stderr, not only stdout
     2. JCF reformated the code :)
     3. Using TProcessUTF8 instead of TProcess
-    4. Maybe I forgot something?
+    4. Fixed codestyle (e. g. variable & method names)
+    5. Maybe I forgot something?
 }
 
 const
   READ_BYTES = 65536; // not too small to avoid fragmentation when reading large files.
 
 // helperfunction that does the bulk of the work.
-function internalRuncommandUTF8(p: TProcessUTF8; out outputstring: string;
-  out stderrstring: string; var exitcode: integer): integer;
+function InternalRunCommandUTF8(P: TProcessUTF8; out OutputString: string;
+  out StderrString: string; var ExitCode: integer): integer;
 var
-  numbytes, bytesread, available: integer;
-  outputlength, stderrlength: integer;
-  stderrnumbytes, stderrbytesread: integer;
+  NumBytes, BytesRead, Available: integer;
+  OutputLength, StderrLength: integer;
+  StderrNumBytes, StderrBytesRead: integer;
 begin
   Result := -1;
   try
     try
       // modification here: we append stderr to stdout.
-      p.Options := [poUsePipes, poStderrToOutPut];
-      p.ShowWindow := swoHide;
+      P.Options := [poUsePipes, poStderrToOutPut];
+      P.ShowWindow := swoHide;
       // end of modification
-      bytesread := 0;
-      outputlength := 0;
-      stderrbytesread := 0;
-      stderrlength := 0;
-      p.Execute;
-      while p.Running do
+      BytesRead := 0;
+      OutputLength := 0;
+      StderrBytesRead := 0;
+      StderrLength := 0;
+      P.Execute;
+      while P.Running do
       begin
         // Only call ReadFromStream if Data from corresponding stream
         // is already available, otherwise, on  linux, the read call
         // is blocking, and thus it is not possible to be sure to handle
         // big data amounts both on output and stderr pipes. PM.
-        available := P.Output.NumBytesAvailable;
-        if available > 0 then
+        Available := P.Output.NumBytesAvailable;
+        if Available > 0 then
         begin
-          if (BytesRead + available > outputlength) then
+          if (BytesRead + Available > OutputLength) then
           begin
-            outputlength := BytesRead + READ_BYTES;
-            Setlength(outputstring, outputlength);
+            OutputLength := BytesRead + READ_BYTES;
+            SetLength(OutputString, OutputLength);
           end;
-          NumBytes := p.Output.Read(outputstring[1 + bytesread], available);
+          NumBytes := P.Output.Read(OutputString[1 + BytesRead], Available);
           if NumBytes > 0 then
             Inc(BytesRead, NumBytes);
         end
-        // The check for assigned(P.stderr) is mainly here so that
-        // if we use poStderrToOutput in p.Options, we do not access invalid memory.
-        else if assigned(P.stderr) and (P.StdErr.NumBytesAvailable > 0) then
+        // The check for assigned(P.Stderr) is mainly here so that
+        // if we use poStderrToOutput in P.Options, we do not access invalid memory.
+        else if Assigned(P.StdErr) and (P.StdErr.NumBytesAvailable > 0) then
         begin
-          available := P.StdErr.NumBytesAvailable;
-          if (StderrBytesRead + available > stderrlength) then
+          Available := P.StdErr.NumBytesAvailable;
+          if (StderrBytesRead + Available > StderrLength) then
           begin
-            stderrlength := StderrBytesRead + READ_BYTES;
-            Setlength(stderrstring, stderrlength);
+            StderrLength := StderrBytesRead + READ_BYTES;
+            SetLength(StderrString, StderrLength);
           end;
-          StderrNumBytes := p.StdErr.Read(stderrstring[1 + StderrBytesRead], available);
+          StderrNumBytes := P.StdErr.Read(StderrString[1 + StderrBytesRead], Available);
           if StderrNumBytes > 0 then
             Inc(StderrBytesRead, StderrNumBytes);
         end
@@ -99,65 +100,65 @@ begin
           Sleep(15);
       end;
       // Get left output after end of execution
-      available := P.Output.NumBytesAvailable;
-      while available > 0 do
+      Available := P.Output.NumBytesAvailable;
+      while Available > 0 do
       begin
-        if (BytesRead + available > outputlength) then
+        if (BytesRead + Available > OutputLength) then
         begin
-          outputlength := BytesRead + READ_BYTES;
-          Setlength(outputstring, outputlength);
+          OutputLength := BytesRead + READ_BYTES;
+          SetLength(OutputString, OutputLength);
         end;
-        NumBytes := p.Output.Read(outputstring[1 + bytesread], available);
+        NumBytes := P.Output.Read(OutputString[1 + BytesRead], Available);
         if NumBytes > 0 then
           Inc(BytesRead, NumBytes);
-        available := P.Output.NumBytesAvailable;
+        Available := P.Output.NumBytesAvailable;
       end;
-      setlength(outputstring, BytesRead);
-      while assigned(P.stderr) and (P.Stderr.NumBytesAvailable > 0) do
+      SetLength(OutputString, BytesRead);
+      while Assigned(P.Stderr) and (P.Stderr.NumBytesAvailable > 0) do
       begin
-        available := P.Stderr.NumBytesAvailable;
-        if (StderrBytesRead + available > stderrlength) then
+        Available := P.Stderr.NumBytesAvailable;
+        if (StderrBytesRead + Available > StderrLength) then
         begin
-          stderrlength := StderrBytesRead + READ_BYTES;
-          Setlength(stderrstring, stderrlength);
+          StderrLength := StderrBytesRead + READ_BYTES;
+          SetLength(StderrString, StderrLength);
         end;
-        StderrNumBytes := p.StdErr.Read(stderrstring[1 + StderrBytesRead], available);
+        StderrNumBytes := P.StdErr.Read(StderrString[1 + StderrBytesRead], Available);
         if StderrNumBytes > 0 then
           Inc(StderrBytesRead, StderrNumBytes);
       end;
-      setlength(stderrstring, StderrBytesRead);
-      exitcode := p.ExitCode;
-      if exitcode = 0 then
-        exitcode := p.ExitStatus;
+      SetLength(StderrString, StderrBytesRead);
+      ExitCode := P.ExitCode;
+      if ExitCode = 0 then
+        ExitCode := P.ExitStatus;
       Result := 0; // we came to here, document that.
     except
-      on e: Exception do
+      on E: Exception do
       begin
         Result := 1;
-        setlength(outputstring, BytesRead);
+        SetLength(OutputString, BytesRead);
       end;
     end;
   finally
-    p.Free;
+    P.Free;
   end;
 end;
 
-function RunCommandIndirUTF8(const curdir: string; const exename: string;
-  const commands: array of string; out outputstring: string;
-  var exitcode: integer): integer;
+function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
+  const Commands: array of string; out OutputString: string;
+  var ExitCode: integer): integer;
 var
-  p: TProcessUTF8;
-  i: integer;
+  P: TProcessUTF8;
+  I: integer;
   ErrorString: string;
 begin
-  p := TProcessUTF8.Create(nil);
-  p.Executable := exename;
-  if curdir <> '' then
-    p.CurrentDirectory := curdir;
-  if high(commands) >= 0 then
-    for i := low(commands) to high(commands) do
-      p.Parameters.add(commands[i]);
-  Result := internalruncommandUTF8(p, outputstring, errorstring, exitcode);
+  P := TProcessUTF8.Create(nil);
+  P.Executable := ExeName;
+  if CurDir <> '' then
+    P.CurrentDirectory := CurDir;
+  if High(Commands) >= 0 then
+    for I := Low(Commands) to High(Commands) do
+      P.Parameters.add(Commands[I]);
+  Result := InternalRunCommandUTF8(P, OutputString, errorstring, ExitCode);
 end;
 
 end.

@@ -31,16 +31,6 @@ uses
 
 type
 
-  { TFileNameEdit }
-
-  TFileNameEdit = class(EditBtn.TFileNameEdit)
-  protected
-    procedure CalculatePreferredSize(var PreferredWidth, PreferredHeight: integer;
-      WithThemeSpace: boolean); override;
-  public
-    procedure AfterConstruction; override;
-  end;
-
   { TTesterForm }
 
   TTesterForm = class(TForm)
@@ -50,13 +40,13 @@ type
     BitBtn2: TBitBtn;
     BitBtn3: TBitBtn;
     BitBtn4: TBitBtn;
-    FileNameEdit: TFileNameEdit;
     FileNameEditViewer: TEdit;
     FilePanel: TPanel;
     Label2: TLabel;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem7: TMenuItem;
+    OpenDialog: TOpenDialog;
     OpenSourcesAction: TAction;
     MainMenu: TMainMenu;
     MenuItem1: TMenuItem;
@@ -64,6 +54,7 @@ type
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     SaveHTMLDialog: TSaveDialog;
+    FileChooseButton: TSpeedButton;
     StopTestAction: TAction;
     SaveDialog: TSaveDialog;
     SaveResultsAction: TAction;
@@ -76,7 +67,7 @@ type
     TestFrame: TTesterFrame;
     procedure ExportHTMLActionExecute(Sender: TObject);
     procedure ExportHTMLActionUpdate(Sender: TObject);
-    procedure FileNameEditChange(Sender: TObject);
+    procedure FileChooseButtonClick(Sender: TObject);
     procedure FileNameEditViewerKeyDown(Sender: TObject; var Key: word;
       Shift: TShiftState);
     procedure FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -92,8 +83,10 @@ type
     procedure TestFrameStart(Sender: TObject);
     procedure TestFrameEnd(Sender: TObject);
   private
+    FAppliedFiles: TStringList;
     FProperties: TProblemProperties;
     FEverTested: boolean;
+    procedure FilesChangedTrigger;
   public
     property Properties: TProblemProperties read FProperties;
     constructor Create(TheOwner: TComponent); override;
@@ -107,42 +100,7 @@ implementation
 
 {$R *.lfm}
 
-{ TFileNameEdit }
-
-procedure TFileNameEdit.CalculatePreferredSize(
-  var PreferredWidth, PreferredHeight: integer; WithThemeSpace: boolean);
-begin
-  inherited CalculatePreferredSize(PreferredWidth, PreferredHeight,
-    WithThemeSpace);
-  PreferredWidth := Button.Width;
-end;
-
-procedure TFileNameEdit.AfterConstruction;
-begin
-  inherited AfterConstruction;
-  ImageKeeper.SmallImageList.GetBitmap(0, Button.Glyph);
-end;
-
 { TTesterForm }
-
-procedure TTesterForm.FileNameEditChange(Sender: TObject);
-var
-  I: integer;
-  AText: string;
-begin
-  AText := '';
-  with FileNameEdit.DialogFiles do
-  begin
-    for I := 0 to Count - 1 do
-    begin
-      if I <> 0 then
-        AText += ';';
-      AText += CreateRelativePath(ExpandFileNameUTF8(Strings[I]),
-        ExpandFileNameUTF8(GetCurrentDirUTF8));
-    end;
-  end;
-  FileNameEditViewer.Text := AText;
-end;
 
 procedure TTesterForm.ExportHTMLActionExecute(Sender: TObject);
 var
@@ -165,12 +123,22 @@ begin
   (Sender as TAction).Enabled := FEverTested and (not TestFrame.IsTesting);
 end;
 
+procedure TTesterForm.FileChooseButtonClick(Sender: TObject);
+begin
+  OpenDialog.Files.Assign(FAppliedFiles);
+  if OpenDialog.Execute then
+  begin
+    FAppliedFiles.Assign(OpenDialog.Files);
+    FilesChangedTrigger;
+  end;
+end;
+
 procedure TTesterForm.FileNameEditViewerKeyDown(Sender: TObject;
   var Key: word; Shift: TShiftState);
 begin
   Shift := Shift; // to prevent hints
   if Key = VK_RETURN then
-    FileNameEdit.ButtonClick;
+    FileChooseButton.Click;
 end;
 
 procedure TTesterForm.FormCloseQuery(Sender: TObject; var CanClose: boolean);
@@ -190,7 +158,7 @@ procedure TTesterForm.LaunchTestActionExecute(Sender: TObject);
 begin
   FEverTested := True;
   TestFrame.Properties := FProperties;
-  TestFrame.Sources.Assign(FileNameEdit.DialogFiles);
+  TestFrame.Sources.Assign(FAppliedFiles);
   TestFrame.ProgressBar := ProgressBar;
   TestFrame.OnTestingStart := @TestFrameStart;
   TestFrame.OnTestingEnd := @TestFrameEnd;
@@ -200,12 +168,12 @@ end;
 procedure TTesterForm.LaunchTestActionUpdate(Sender: TObject);
 begin
   (Sender as TAction).Enabled :=
-    (FileNameEdit.DialogFiles.Count <> 0) and (not TestFrame.IsTesting);
+    (FAppliedFiles.Count <> 0) and (not TestFrame.IsTesting);
 end;
 
 procedure TTesterForm.OpenSourcesActionExecute(Sender: TObject);
 begin
-  FileNameEdit.ButtonClick;
+  FileChooseButton.Click;
 end;
 
 procedure TTesterForm.OpenSourcesActionUpdate(Sender: TObject);
@@ -257,15 +225,37 @@ begin
   FilePanel.Enabled := True;
 end;
 
+procedure TTesterForm.FilesChangedTrigger;
+var
+  I: integer;
+  AText: string;
+begin
+  AText := '';
+  with FAppliedFiles do
+  begin
+    for I := 0 to Count - 1 do
+    begin
+      if I <> 0 then
+        AText += ';';
+      AText += CreateRelativePath(ExpandFileNameUTF8(Strings[I]),
+        ExpandFileNameUTF8(GetCurrentDirUTF8));
+    end;
+  end;
+  FileNameEditViewer.Text := AText;
+end;
+
 constructor TTesterForm.Create(TheOwner: TComponent);
 begin
   inherited Create(TheOwner);
   FProperties := TProblemProperties.Create;
+  FAppliedFiles := TStringList.Create;
+  ImageKeeper.SmallImageList.GetBitmap(0, FileChooseButton.Glyph);
 end;
 
 destructor TTesterForm.Destroy;
 begin
   FreeAndNil(FProperties);
+  FreeAndNil(FAppliedFiles);
   inherited Destroy;
 end;
 

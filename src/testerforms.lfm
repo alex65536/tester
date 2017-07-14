@@ -3,6 +3,7 @@ object TesterForm: TTesterForm
   Height = 355
   Top = 163
   Width = 1009
+  ActiveControl = TestFrame.DrawGrid
   Caption = 'Test solutions'
   ClientHeight = 355
   ClientWidth = 1009
@@ -10,16 +11,17 @@ object TesterForm: TTesterForm
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.2.0'
+  LCLVersion = '1.6.4.0'
+  Visible = False
   inline TestFrame: TTesterFrame
-    Height = 269
+    Height = 236
     Top = 62
     Width = 1009
     Align = alClient
-    ClientHeight = 269
+    ClientHeight = 236
     ClientWidth = 1009
     inherited DrawGrid: TDrawGrid
-      Height = 269
+      Height = 236
       Width = 1009
       Font.Pitch = fpDefault
       Font.Quality = fqDefault
@@ -106,7 +108,7 @@ object TesterForm: TTesterForm
   object ProgressPanel: TPanel
     Left = 0
     Height = 24
-    Top = 331
+    Top = 298
     Width = 1009
     Align = alBottom
     AutoSize = True
@@ -159,33 +161,25 @@ object TesterForm: TTesterForm
       Layout = tlCenter
       ParentColor = False
     end
-    object FileNameEdit: TFileNameEdit
-      Left = 983
-      Height = 27
-      Top = 2
-      Width = 24
-      DialogOptions = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
-      Filter = 'All types of sources|*.c;*.cpp;*.pas;*.pp|C/C++ source files|*.c;*.cpp|Pascal source files|*.pas;*.pp'
-      FilterIndex = 0
-      HideDirectories = False
-      ButtonWidth = 23
-      NumGlyphs = 1
-      Flat = True
-      Align = alRight
-      MaxLength = 0
-      TabOrder = 1
-      TabStop = False
-      OnChange = FileNameEditChange
-    end
     object FileNameEditViewer: TEdit
       Left = 81
       Height = 27
       Top = 2
-      Width = 902
+      Width = 922
       Align = alClient
       OnKeyDown = FileNameEditViewerKeyDown
       ReadOnly = True
       TabOrder = 0
+    end
+    object FileChooseButton: TSpeedButton
+      Left = 1003
+      Height = 27
+      Top = 2
+      Width = 4
+      Align = alRight
+      AutoSize = True
+      Flat = True
+      OnClick = FileChooseButtonClick
     end
   end
   object ActionList: TActionList
@@ -264,6 +258,13 @@ object TesterForm: TTesterForm
     DefaultExt = '.html'
     Filter = 'HTML files|*.html'
     left = 408
+    top = 141
+  end
+  object OpenDialog: TOpenDialog
+    Title = 'Open solution files...'
+    Filter = 'All types of sources|*.c;*.cpp;*.pas;*.pp|C/C++ source files|*.c;*.cpp|Pascal source files|*.pas;*.pp'
+    Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
+    left = 504
     top = 141
   end
 end

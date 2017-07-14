@@ -93,6 +93,5 @@ begin
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
   Application.CreateForm(TEditCostsDialog, EditCostsDialog);
-  Application.CreateForm(TBaseForm, BaseForm);
   Application.Run;
 end.

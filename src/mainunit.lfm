@@ -163,7 +163,7 @@ inherited MainForm: TMainForm
       ShortCut = 8232
     end
     object CloseTabAction: TAction
-      Caption = 'Close'
+      Caption = 'Close tab'
       OnExecute = CloseTabActionExecute
       OnUpdate = CloseTabActionUpdate
       ShortCut = 16499

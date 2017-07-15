@@ -60,7 +60,10 @@ end;
 
 procedure TFindFilePropertiesParser.AddTest(ATest: TProblemTest);
 begin
-  Properties.AddTest(ATest);
+  if Properties.TestList.Find(ATest) < 0 then
+    Properties.AddTest(ATest)
+  else
+    FreeAndNil(ATest);
 end;
 
 function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;

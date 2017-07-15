@@ -36,7 +36,7 @@ type
   private
     procedure AddTest(ATest: TProblemTest);
     function ParseFromDir(const Dir: string): boolean;
-    function FindTests(const Dir: string): boolean;
+    function FindTests(const Dir: string; StartFrom: integer = 1): boolean;
     function FindChecker(const Dir: string): boolean;
   protected
     function DoParse: boolean; override;
@@ -64,21 +64,50 @@ begin
 end;
 
 function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
+var
+  WasTests: integer;
+  AList: TStringList;
+  I: integer;
+  CurDir: string;
+  LowerCurDir: string;
 begin
   Result := True;
-  if not FindTests(Dir) then
+  WasTests := Properties.TestCount;
+  if not FindChecker(Dir) then
     Result := False;
   if IsTerminated then
     Exit;
-  if not FindChecker(Dir) then
+  if not FindTests(Dir, Properties.TestCount - WasTests + 1) then
     Result := False;
+  if IsTerminated then
+    Exit;
+  AList := FindAllDirectories(AppendPathDelim(WorkingDir) + Dir, False);
+  try
+    AList.Sort;
+    for I := 0 to AList.Count - 1 do
+    begin
+      CurDir := AppendPathDelim(Dir) + ExtractFileName(AList[I]);
+      WriteLog('curInsideDir = ' + CurDir);
+      LowerCurDir := LowerCase(ExtractFileName(AList[I]));
+      if (Pos('group', LowerCurDir) = 1) or (Pos('subtask', LowerCurDir) = 1) or
+        (Pos('subproblem', LowerCurDir) = 1) then
+      begin
+        if not FindTests(CurDir, Properties.TestCount - WasTests + 1) then
+          Result := False;
+      end;
+      if IsTerminated then
+        Break;
+    end;
+  finally
+    FreeAndNil(AList);
+  end;
 end;
 
-function TFindFilePropertiesParser.FindTests(const Dir: string): boolean;
+function TFindFilePropertiesParser.FindTests(const Dir: string;
+  StartFrom: integer): boolean;
 var
   ATemplate: TProblemTestTemplate;
   I: integer;
-  WasEmpty: boolean;
 begin
   Result := True;
   ATemplate := TProblemTestTemplate.Create('', '', 1, 1);
@@ -87,11 +116,10 @@ begin
     begin
       ATemplate.InputFile := AppendPathDelim(Dir) + InputTemplate[I];
       ATemplate.OutputFile := AppendPathDelim(Dir) + OutputTemplate[I];
+      ATemplate.StartFrom := StartFrom;
+      WriteLogFmt('Gen by template: %s %s', [ATemplate.InputFile, ATemplate.OutputFile]);
       try
-        WasEmpty := Properties.TestCount = 0;
         ATemplate.GenerateTests(WorkingDir, @AddTest);
-        if (Properties.TestCount <> 0) and (not WasEmpty) then
-          Result := False;
       except
         on E: ETestTemplate do
           // mute the exception

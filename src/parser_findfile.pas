@@ -36,6 +36,8 @@ type
   private
     procedure AddTest(ATest: TProblemTest);
     function ParseFromDir(const Dir: string): boolean;
+    function FindTests(const Dir: string): boolean;
+    function FindChecker(const Dir: string): boolean;
   protected
     function DoParse: boolean; override;
   end;
@@ -62,62 +64,95 @@ begin
 end;
 
 function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
+begin
+  Result := True;
+  if not FindTests(Dir) then
+    Result := False;
+  if IsTerminated then
+    Exit;
+  if not FindChecker(Dir) then
+    Result := False;
+end;
 
-  function FindTests: boolean;
-  var
-    ATemplate: TProblemTestTemplate;
-    I: integer;
-    WasEmpty: boolean;
-  begin
-    Result := True;
-    ATemplate := TProblemTestTemplate.Create('', '', 1, 1);
-    try
-      for I := 0 to InputTemplate.Count - 1 do
-      begin
-        ATemplate.InputFile := AppendPathDelim(Dir) + InputTemplate[I];
-        ATemplate.OutputFile := AppendPathDelim(Dir) + OutputTemplate[I];
-        try
-          WasEmpty := Properties.TestCount = 0;
-          ATemplate.GenerateTests(WorkingDir, @AddTest);
-          if (Properties.TestCount <> 0) and (not WasEmpty) then
-            Result := False;
-        except
-          on E: ETestTemplate do
-            // mute the exception
-          else
-            Result := False;
-        end;
-        if IsTerminated then
-          Break;
+function TFindFilePropertiesParser.FindTests(const Dir: string): boolean;
+var
+  ATemplate: TProblemTestTemplate;
+  I: integer;
+  WasEmpty: boolean;
+begin
+  Result := True;
+  ATemplate := TProblemTestTemplate.Create('', '', 1, 1);
+  try
+    for I := 0 to InputTemplate.Count - 1 do
+    begin
+      ATemplate.InputFile := AppendPathDelim(Dir) + InputTemplate[I];
+      ATemplate.OutputFile := AppendPathDelim(Dir) + OutputTemplate[I];
+      try
+        WasEmpty := Properties.TestCount = 0;
+        ATemplate.GenerateTests(WorkingDir, @AddTest);
+        if (Properties.TestCount <> 0) and (not WasEmpty) then
+          Result := False;
+      except
+        on E: ETestTemplate do
+          // mute the exception
+        else
+          Result := False;
       end;
-    finally
-      FreeAndNil(ATemplate);
+      if IsTerminated then
+        Break;
     end;
+  finally
+    FreeAndNil(ATemplate);
   end;
+end;
 
-  function FindChecker: boolean;
-  var
-    AList: TStringList;
-    I: integer;
-    CurFile, CompiledFile: string;
-  begin
-    Result := True;
-    AList := FindAllFiles(nil, AppendPathDelim(WorkingDir) + Dir, '*', False);
-    try
-      // first, search for EXE checker
+function TFindFilePropertiesParser.FindChecker(const Dir: string): boolean;
+var
+  AList: TStringList;
+  I: integer;
+  CurFile, CompiledFile: string;
+begin
+  Result := True;
+  AList := FindAllFiles(nil, AppendPathDelim(WorkingDir) + Dir, '*', False);
+  try
+    // first, search for EXE checker
+    for I := 0 to AList.Count - 1 do
+    begin
+      CurFile := LowerCase(ExtractFileName(AList[I]));
+      // check if it's checker
+      if (CurFile = 'check.exe') or (CurFile = 'checker.exe')
+      {$IfNDef Windows}
+        or (CurFile = 'check') or (CurFile = 'checker')
+      {$EndIf}
+      then
+      begin
+        Properties.Checker :=
+          TTextChecker.Create(CreateRelativePath(AList[I], WorkingDir));
+        Properties.Checker.Replaceable := True;
+      end;
+      // if checker was found - we break
+      if Properties.Checker <> nil then
+        Break;
+      if IsTerminated then
+        Break;
+    end;
+    // otherwise, we should build the checker from sources
+    if Properties.Checker = nil then
+    begin
       for I := 0 to AList.Count - 1 do
       begin
-        CurFile := LowerCase(ExtractFileName(AList[I]));
+        CurFile := LowerCase(ExtractFileNameWithoutExt(ExtractFileName(AList[I])));
         // check if it's checker
-        if (CurFile = 'check.exe') or (CurFile = 'checker.exe')
-        {$IfNDef Windows}
-          or (CurFile = 'check') or (CurFile = 'checker')
-        {$EndIf}
-        then
+        if (CurFile = 'check') or (CurFile = 'checker') then
         begin
-          Properties.Checker :=
-            TTextChecker.Create(CreateRelativePath(AList[I], WorkingDir));
-          Properties.Checker.Replaceable := True;
+          // we build it from sources
+          CompiledFile := CompileChecker(AList[I]);
+          if CompiledFile <> '' then
+          begin
+            CompiledFile := CreateRelativePath(CompiledFile, WorkingDir);
+            Properties.Checker := TTextChecker.Create(CompiledFile);
+            Properties.Checker.Replaceable := True;
+          end;
         end;
         // if checker was found - we break
         if Properties.Checker <> nil then
@@ -125,44 +160,10 @@ function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
         if IsTerminated then
           Break;
       end;
-      // otherwise, we should build the checker from sources
-      if Properties.Checker = nil then
-      begin
-        for I := 0 to AList.Count - 1 do
-        begin
-          CurFile := LowerCase(ExtractFileNameWithoutExt(ExtractFileName(AList[I])));
-          // check if it's checker
-          if (CurFile = 'check') or (CurFile = 'checker') then
-          begin
-            // we build it from sources
-            CompiledFile := CompileChecker(AList[I]);
-            if CompiledFile <> '' then
-            begin
-              CompiledFile := CreateRelativePath(CompiledFile, WorkingDir);
-              Properties.Checker := TTextChecker.Create(CompiledFile);
-              Properties.Checker.Replaceable := True;
-            end;
-          end;
-          // if checker was found - we break
-          if Properties.Checker <> nil then
-            Break;
-          if IsTerminated then
-            Break;
-        end;
-      end;
-    finally
-      FreeAndNil(AList);
     end;
+  finally
+    FreeAndNil(AList);
   end;
-
-begin
-  Result := True;
-  if not FindTests then
-    Result := False;
-  if IsTerminated then
-    Exit;
-  if not FindChecker then
-    Result := False;
 end;
 
 function TFindFilePropertiesParser.DoParse: boolean;

@@ -40,25 +40,13 @@ type
 implementation
 
 uses
-  Laz_XMLRead, Laz2_DOM, Laz_DOM;
+  Laz_XMLRead, Laz2_DOM, Laz_DOM, formatutils;
 
 { TPolygonPropertiesParser }
 
 function TPolygonPropertiesParser.DoParse: boolean;
 var
   XMLDocument: TXMLDocument;
-
-  function PrintfToFormat(const S: string): string;
-    // Made to parse problem.xml's test templates
-    // For example: %02d => %.2d
-  var
-    I: integer;
-  begin
-    Result := S;
-    for I := 2 to Length(S) do
-      if (S[I] = '0') and (S[I - 1] = '%') then
-        Result[I] := '.';
-  end;
 
   function Parser: boolean;
   var
@@ -101,20 +89,16 @@ var
       // parse TL, ML
       with Properties, TProblemPropsCollector do
       begin
-        if not Success then
-          WriteLog(':)');
-        TimeLimit := MergeInt(TimeLimit, StrToInt(GetTestsetNode('time-limit')), Success);
-        if not Success then
-          WriteLog('TL :(');
-        MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetTestsetNode('memory-limit')) div 1024, Success);
-        if not Success then
-          WriteLog('ML :(');
+        TimeLimit := MergeInt(TimeLimit, StrToInt(GetTestsetNode('time-limit')),
+          Success);
+        MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetTestsetNode('memory-limit')) div
+          1024, Success);
       end;
       // parse test info
       TestCount := StrToInt(GetTestsetNode('test-count'));
-      InputTestFmt := PrintfToFormat(GetTestsetNode('input-path-pattern'));
+      InputTestFmt := FromCppFormat(GetTestsetNode('input-path-pattern'));
       InputTestFmt := AppendPathDelim(WorkingDir) + InputTestFmt;
-      OutputTestFmt := PrintfToFormat(GetTestsetNode('answer-path-pattern'));
+      OutputTestFmt := FromCppFormat(GetTestsetNode('answer-path-pattern'));
       OutputTestFmt := AppendPathDelim(WorkingDir) + OutputTestFmt;
       if IsTerminated then
         Exit;
@@ -125,14 +109,20 @@ var
     end;
 
   begin
-    // initialize
-    with TProblemPropsCollector do
-      CheckerPath := UnknownStr;
     Result := False;
     Success := True;
     RootNode := XMLDocument.DocumentElement;
-    // parse input and output file - "judging" node
     JudgingNode := RootNode.FindNode('judging') as TDOMElement;
+    // if "judging" node has no attributes - XML is not Polygon's
+    if JudgingNode.Attributes.Length = 0 then
+    begin
+      Result := True;
+      Exit;
+    end;
+    // initialize
+    with TProblemPropsCollector do
+      CheckerPath := UnknownStr;
+    // parse input and output file - "judging" node
     Properties.InputFile := JudgingNode.GetAttribute('input-file');
     Properties.OutputFile := JudgingNode.GetAttribute('output-file');
     if IsTerminated then
@@ -182,4 +172,3 @@ begin
 end;
 
 end.
-

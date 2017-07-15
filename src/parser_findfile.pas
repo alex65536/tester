@@ -171,6 +171,7 @@ var
   I: integer;
   CurDir: string;
 begin
+  Properties.TestList.LowPriority := True;
   Result := ParseFromDir('');
   AList := FindAllDirectories(WorkingDir, False);
   try

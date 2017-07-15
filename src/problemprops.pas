@@ -51,8 +51,7 @@ type
   protected
     function DoCheck: TTestVerdict; virtual; abstract;
   public
-    property Replaceable: boolean read FReplaceable write SetReplaceable;
-    // necessary for PropsParser
+    property Replaceable: boolean read FReplaceable write SetReplaceable; // necessary for PropsParser
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -94,14 +93,18 @@ type
 
   TProblemTestList = class(TCollection)
   private
+    FLowPriority: boolean;
     procedure SetItem(Index: integer; AValue: TProblemTest);
     function GetItem(Index: integer): TProblemTest;
+    procedure SetLowPriority(AValue: boolean);
   public
+    property LowPriority: boolean read FLowPriority write SetLowPriority; // necessary for PropsParser
     function Find(ATest: TProblemTest): integer;
     function Add: TProblemTest;
     function Insert(Index: integer): TProblemTest;
     property Items[Index: integer]: TProblemTest read GetItem write SetItem; default;
     constructor Create;
+    procedure AssignTo(Dest: TPersistent); override;
   end;
 
 
@@ -286,6 +289,12 @@ begin
   Result := (inherited Items[Index]) as TProblemTest;
 end;
 
+procedure TProblemTestList.SetLowPriority(AValue: boolean);
+begin
+  if FLowPriority = AValue then Exit;
+  FLowPriority := AValue;
+end;
+
 function TProblemTestList.Find(ATest: TProblemTest): integer;
 var
   I: integer;
@@ -312,6 +321,14 @@ end;
 constructor TProblemTestList.Create;
 begin
   inherited Create(TProblemTest);
+  LowPriority := False;
+end;
+
+procedure TProblemTestList.AssignTo(Dest: TPersistent);
+begin
+  inherited AssignTo(Dest);
+  with Dest as TProblemTestList do
+    LowPriority := Self.LowPriority;
 end;
 
 { TProblemTest }

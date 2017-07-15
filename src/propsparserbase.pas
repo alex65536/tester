@@ -25,7 +25,8 @@ unit propsparserbase;
 interface
 
 uses
-  Classes, SysUtils, problemprops, checkers, logfile, LazFileUtils, testerfileutil;
+  Classes, SysUtils, problemprops, checkers, logfile, LazFileUtils,
+  testerfileutil;
 
 type
 
@@ -70,8 +71,7 @@ type
     class function MergeInt(Int1, Int2: integer; var Success: boolean): integer;
     class function MergeChecker(Chk1, Chk2: TProblemChecker;
       var Success: boolean): TProblemChecker;
-    class procedure MergeTests(BaseTst, MergeTst: TProblemTestList;
-      var Success: boolean; Terminated: PBoolean = nil);
+    class procedure MergeTests(BaseTst, MergeTst: TProblemTestList; Terminated: PBoolean = nil);
     procedure Terminate;
     function Merge(Props: TProblemProperties): boolean;
     function Finalize: boolean;
@@ -240,33 +240,42 @@ begin
 end;
 
 class procedure TProblemPropsCollector.MergeTests(BaseTst,
-  MergeTst: TProblemTestList; var Success: boolean; Terminated: PBoolean);
+  MergeTst: TProblemTestList; Terminated: PBoolean);
 var
   I: integer;
+  Target, Source: TProblemTestList;
 begin
-  // we do not check for conflicts!
-  //if BaseTst.Count = MergeTst.Count then
-  //begin
-  //  for I := 0 to BaseTst.Count - 1 do
-  //    if not BaseTst[I].Equals(MergeTst[I]) then
-  //    begin
-  //      Success := False;
-  //      Break;
-  //    end;
-  //end
-  //else if (BaseTst.Count <> 0) and (MergeTst.Count <> 0) then
-  //  Success := False;
-  Success := Success;
-  // add tests from MergeTst that don't exist in BaseTst
-  for I := 0 to MergeTst.Count - 1 do
-    if BaseTst.Find(MergeTst[I]) < 0 then
+  Target := TProblemTestList.Create;
+  Source := TProblemTestList.Create;
+  try
+    // decide who is target and who is source
+    if MergeTst.LowPriority then
     begin
-      BaseTst.Add.Assign(MergeTst[I]);
-      // termination check
-      if Terminated <> nil then
-        if Terminated^ then
-          Break;
+      Target.Assign(BaseTst);
+      Source.Assign(MergeTst);
+    end
+    else
+    begin
+      Target.Assign(MergeTst);
+      Source.Assign(BaseTst);
     end;
+    BaseTst.Assign(Target);
+    // add tests from Source that don't exist in Target
+    for I := 0 to Source.Count - 1 do
+      if Target.Find(Source[I]) < 0 then
+      begin
+        Target.Add.Assign(Source[I]);
+        // termination check
+        if Terminated <> nil then
+          if Terminated^ then
+            Break;
+      end;
+    // push Target into BaseTst
+    BaseTst.Assign(Target);
+  finally
+    FreeAndNil(Target);
+    FreeAndNil(Source);
+  end;
 end;
 
 procedure TProblemPropsCollector.Terminate;
@@ -285,7 +294,7 @@ begin
     TimeLimit := MergeInt(TimeLimit, Props.TimeLimit, Result);
     MemoryLimit := MergeInt(MemoryLimit, Props.MemoryLimit, Result);
     Checker := CloneChecker(MergeChecker(Checker, Props.Checker, Result));
-    MergeTests(TestList, Props.TestList, Result, @FIsTerminated);
+    MergeTests(TestList, Props.TestList, @FIsTerminated);
   end;
 end;
 

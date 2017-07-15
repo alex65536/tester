@@ -246,7 +246,7 @@
         <ResourceBaseClass Value="Frame"/>
       </Unit37>
       <Unit38>
-        <Filename Value="parser_polygon.pas"/>
+        <Filename Value="parser_xml.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit38>
       <Unit39>

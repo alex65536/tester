@@ -131,7 +131,6 @@ function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
         for I := 0 to AList.Count - 1 do
         begin
           CurFile := LowerCase(ExtractFileNameWithoutExt(ExtractFileName(AList[I])));
-          WriteLog('checkerFind.curFile = ' + CurFile);
           // check if it's checker
           if (CurFile = 'check') or (CurFile = 'checker') then
           begin

@@ -68,7 +68,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parser_alltest,
   testerfileutil,
   textcheckedit,
-  parser_polygon,
+  parser_xml,
   versioninfo,
   parser_simplecfg,
   parser_findfile,

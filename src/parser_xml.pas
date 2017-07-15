@@ -26,7 +26,8 @@ interface
 
 uses
   Classes, SysUtils, propsparserbase, problemprops, LazFileUtils, testerfileutil,
-  LazFileCache, logfile, checkers, Laz_XMLRead, Laz2_DOM, Laz_DOM, formatutils;
+  LazFileCache, logfile, checkers, Laz_XMLRead, Laz2_DOM, Laz_DOM, parserutils,
+  testerprimitives, testtemplates;
 
 type
 
@@ -36,11 +37,201 @@ type
   protected
     procedure AddTests(BaseNode: TDOMElement; var Success: boolean);
     procedure AddTestsetNode(TestsetNode: TDOMElement; var Success: boolean);
-    function Parser(XMLDocument: TXMLDocument): boolean;
+      virtual; abstract;
+    function Parser(XMLDocument: TXMLDocument): boolean; virtual; abstract;
     function DoParse: boolean; override;
   end;
 
+  { TPolygonPropertiesParser }
+
+  TPolygonPropertiesParser = class(TXMLPropertiesParser)
+  protected
+    procedure AddTestsetNode(TestsetNode: TDOMElement; var Success: boolean); override;
+    function Parser(XMLDocument: TXMLDocument): boolean; override;
+  end;
+
+  { TRoiPropertiesParser }
+
+  TRoiPropertiesParser = class(TXMLPropertiesParser)
+  private
+    procedure AddTest(ATest: TProblemTest);
+  protected
+    procedure AddTestsetNode(TestsetNode: TDOMElement; var Success: boolean); override;
+    function Parser(XMLDocument: TXMLDocument): boolean; override;
+  end;
+
 implementation
+
+{ TRoiPropertiesParser }
+
+procedure TRoiPropertiesParser.AddTest(ATest: TProblemTest);
+begin
+  Properties.AddTest(ATest);
+end;
+
+procedure TRoiPropertiesParser.AddTestsetNode(TestsetNode: TDOMElement;
+  var Success: boolean);
+var
+  InputTestFmt, OutputTestFmt: string;
+  OurTL: TProblemTime;
+  OurML: TProblemMemory;
+  OurInput, OurOutput: string;
+
+  function FindTests: boolean;
+  var
+    ATemplate: TProblemTestTemplate;
+  begin
+    Result := True;
+    ATemplate := TProblemTestTemplate.Create('', '', 1, 1);
+    try
+      ATemplate.InputFile := InputTestFmt;
+      ATemplate.OutputFile := OutputTestFmt;
+      try
+        ATemplate.GenerateTests(WorkingDir, @AddTest);
+      except
+        Result := False;
+      end;
+    finally
+      FreeAndNil(ATemplate);
+    end;
+  end;
+
+begin
+  WriteLog('RoiParsers adds the node');
+  // parse TL, ML, input, output files
+  OurTL := StrToTimeLimit(TestsetNode.GetAttribute('time-limit'));
+  OurML := StrToInt(TestsetNode.GetAttribute('memory-limit'));
+  OurInput := TestsetNode.GetAttribute('input-name');
+  OurOutput := TestsetNode.GetAttribute('output-name');
+  WriteLogFmt('RoiParser found tl=%d, ml=%d, input=%s, output=%s',
+    [OurTL, OurML, OurInput, OurOutput]);
+  // merge everything carefully
+  with Properties, TProblemPropsCollector do
+  begin
+    TimeLimit := MergeInt(TimeLimit, OurTL, Success);
+    MemoryLimit := MergeInt(MemoryLimit, OurML, Success);
+    InputFile := MergeStr(InputFile, OurInput, Success);
+    OutputFile := MergeStr(OutputFile, OurOutput, Success);
+  end;
+  WriteLog('RoiParser merged them');
+  if not Success then
+    WriteLog('..but unsuccessfully');
+  // parse test info
+  InputTestFmt := FromRoiFormat(TestsetNode.GetAttribute('input-href'));
+  OutputTestFmt := FromRoiFormat(TestsetNode.GetAttribute('answer-href'));
+  WriteLogFmt('RoiParser found infmt=%s outfmt=%s', [InputTestFmt, OutputTestFmt]);
+  if IsTerminated then
+    Exit;
+  // add tests
+  if not FindTests then
+    Success := False;
+end;
+
+function TRoiPropertiesParser.Parser(XMLDocument: TXMLDocument): boolean;
+var
+  ProblemNode, JudgingNode, ScriptNode: TDOMElement;
+  Success: boolean;
+begin
+  Result := False;
+  Success := True;
+  // go to "problem/judging"
+  ProblemNode := XMLDocument.DocumentElement;
+  JudgingNode := ProblemNode.FindNode('judging') as TDOMElement;
+  // we must find "script node"
+  if JudgingNode.FindNode('script') = nil then
+  begin
+    Result := True;
+    Exit;
+  end;
+  ScriptNode := JudgingNode.FindNode('script') as TDOMElement;
+  WriteLogFmt('RoiParser found script node : %p', [Pointer(ScriptNode)]);
+  // parsing all the stuff
+  AddTests(ScriptNode, Success);
+  if IsTerminated then
+    Exit;
+  // parsing the checker
+
+  // TODO
+
+  // that's all! :)
+  Result := Success;
+end;
+
+{ TPolygonPropertiesParser }
+
+procedure TPolygonPropertiesParser.AddTestsetNode(TestsetNode: TDOMElement;
+  var Success: boolean);
+
+  function GetSonContent(const ANodeName: string): string; inline;
+  begin
+    Result := TestsetNode.FindNode(ANodeName).TextContent;
+  end;
+
+var
+  TestCount: integer;
+  InputTestFmt, OutputTestFmt: string;
+begin
+  // parse TL, ML
+  with Properties, TProblemPropsCollector do
+  begin
+    TimeLimit := MergeInt(TimeLimit, StrToInt(GetSonContent('time-limit')),
+      Success);
+    MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetSonContent('memory-limit')) div
+      1024, Success);
+  end;
+  // parse test info
+  TestCount := StrToInt(GetSonContent('test-count'));
+  InputTestFmt := FromCppFormat(GetSonContent('input-path-pattern'));
+  InputTestFmt := AppendPathDelim(WorkingDir) + InputTestFmt;
+  OutputTestFmt := FromCppFormat(GetSonContent('answer-path-pattern'));
+  OutputTestFmt := AppendPathDelim(WorkingDir) + OutputTestFmt;
+  if IsTerminated then
+    Exit;
+  // add tests
+  AddTestsFmt(InputTestFmt, OutputTestFmt, TestCount);
+end;
+
+function TPolygonPropertiesParser.Parser(XMLDocument: TXMLDocument): boolean;
+var
+  RootNode, JudgingNode, AssetsNode, CheckerNode, BinaryNode: TDOMElement;
+  CheckerPath: string;
+  Success: boolean;
+begin
+  Result := False;
+  Success := True;
+  RootNode := XMLDocument.DocumentElement;
+  JudgingNode := RootNode.FindNode('judging') as TDOMElement;
+  // if "judging" node has no attributes - XML is not Polygon's
+  if JudgingNode.Attributes.Length = 0 then
+  begin
+    Result := True;
+    Exit;
+  end;
+  // initialize
+  with TProblemPropsCollector do
+    CheckerPath := UnknownStr;
+  // parse input and output file - "judging" node
+  Properties.InputFile := JudgingNode.GetAttribute('input-file');
+  Properties.OutputFile := JudgingNode.GetAttribute('output-file');
+  if IsTerminated then
+    Exit;
+  // parsing all the "judging/testset" nodes
+  AddTests(JudgingNode, Success);
+  if IsTerminated then
+    Exit;
+  // parse checker - "assets/checker" node
+  AssetsNode := RootNode.FindNode('assets') as TDOMElement;
+  CheckerNode := AssetsNode.FindNode('checker') as TDOMElement;
+  BinaryNode := CheckerNode.FindNode('binary') as TDOMElement;
+  CheckerPath := AppendPathDelim(WorkingDir) + BinaryNode.GetAttribute('path');
+  if not FileExistsUTF8(CheckerPath) then
+    Success := False;
+  CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
+  WriteLog('checker path = ' + CheckerPath);
+  Properties.Checker := TTestlibChecker.Create(CheckerPath);
+  // that's all! ;)
+  Result := Success;
+end;
 
 { TXMLPropertiesParser }
 
@@ -86,96 +277,28 @@ begin
   end;
 end;
 
-procedure TXMLPropertiesParser.AddTestsetNode(TestsetNode: TDOMElement;
-  var Success: boolean);
-
-  function GetSonContent(const ANodeName: string): string; inline;
-  begin
-    Result := TestsetNode.FindNode(ANodeName).TextContent;
-  end;
-
-var
-  TestCount: integer;
-  InputTestFmt, OutputTestFmt: string;
-begin
-  // parse TL, ML
-  with Properties, TProblemPropsCollector do
-  begin
-    TimeLimit := MergeInt(TimeLimit, StrToInt(GetSonContent('time-limit')),
-      Success);
-    MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetSonContent('memory-limit')) div
-      1024, Success);
-  end;
-  // parse test info
-  TestCount := StrToInt(GetSonContent('test-count'));
-  InputTestFmt := FromCppFormat(GetSonContent('input-path-pattern'));
-  InputTestFmt := AppendPathDelim(WorkingDir) + InputTestFmt;
-  OutputTestFmt := FromCppFormat(GetSonContent('answer-path-pattern'));
-  OutputTestFmt := AppendPathDelim(WorkingDir) + OutputTestFmt;
-  if IsTerminated then
-    Exit;
-  // add tests
-  AddTestsFmt(InputTestFmt, OutputTestFmt, TestCount);
-  if IsTerminated then
-    Exit;
-end;
-
-function TXMLPropertiesParser.Parser(XMLDocument: TXMLDocument): boolean;
-var
-  RootNode, JudgingNode, AssetsNode, CheckerNode, BinaryNode: TDOMElement;
-  CheckerPath: string;
-  Success: boolean;
-begin
-  Result := False;
-  Success := True;
-  RootNode := XMLDocument.DocumentElement;
-  JudgingNode := RootNode.FindNode('judging') as TDOMElement;
-  // if "judging" node has no attributes - XML is not Polygon's
-  if JudgingNode.Attributes.Length = 0 then
-  begin
-    Result := True;
-    Exit;
-  end;
-  // initialize
-  with TProblemPropsCollector do
-    CheckerPath := UnknownStr;
-  // parse input and output file - "judging" node
-  Properties.InputFile := JudgingNode.GetAttribute('input-file');
-  Properties.OutputFile := JudgingNode.GetAttribute('output-file');
-  if IsTerminated then
-    Exit;
-  // parsing all the "judging/testset" nodes
-  AddTests(JudgingNode, Success);
-  // parse checker - "assets/checker" node
-  AssetsNode := RootNode.FindNode('assets') as TDOMElement;
-  CheckerNode := AssetsNode.FindNode('checker') as TDOMElement;
-  BinaryNode := CheckerNode.FindNode('binary') as TDOMElement;
-  CheckerPath := AppendPathDelim(WorkingDir) + BinaryNode.GetAttribute('path');
-  if not FileExistsUTF8(CheckerPath) then
-    Success := False;
-  CheckerPath := CreateRelativePath(CheckerPath, WorkingDir);
-  WriteLog('checker path = ' + CheckerPath);
-  Properties.Checker := TTestlibChecker.Create(CheckerPath);
-  // that's all! ;)
-  Result := Success;
-end;
-
 function TXMLPropertiesParser.DoParse: boolean;
-var
-  XMLDocument: TXMLDocument;
-  XMLFileName: string;
-begin
-  // load xml
-  XMLFileName := CorrectFileName(AppendPathDelim(WorkingDir) + 'problem.xml');
-  if not FileExistsUTF8(XMLFileName) then
-    Exit;
-  ReadXMLFile(XMLDocument, XMLFileName);
-  try
-    // parse xml
-    Result := Parser(XMLDocument);
-  finally
-    FreeAndNil(XMLDocument);
+
+  procedure TryXML(const XMLFileName: string);
+  var
+    XMLDocument: TXMLDocument;
+  begin
+    // load xml
+    if not FileExistsUTF8(XMLFileName) then
+      Exit;
+    ReadXMLFile(XMLDocument, XMLFileName);
+    try
+      // parse xml
+      Result := Parser(XMLDocument);
+    finally
+      FreeAndNil(XMLDocument);
+    end;
   end;
+
+begin
+  TryXML(CorrectFileName(AppendPathDelim(WorkingDir) + 'problem.xml'));
+  TryXML(CorrectFileName(AppendPathDelim(WorkingDir) + 'pcms' + PathDelim +
+    'problem.xml'));
 end;
 
 end.

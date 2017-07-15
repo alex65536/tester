@@ -18,17 +18,18 @@
   to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
   MA 02111-1307, USA.
 }
-unit formatutils;
+unit parserutils;
 
 {$mode objfpc}{$H+}{$coperators on}
 
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, testerprimitives;
 
 function FromCppFormat(const S: string): string;
 function FromRoiFormat(const S: string): string;
+function StrToTimeLimit(S: string): TProblemTime;
 
 implementation
 
@@ -76,6 +77,34 @@ begin
       Inc(I);
     end;
   end;
+end;
+
+function StrToTimeLimit(S: string): TProblemTime;
+var
+  Postfix: string;
+  FloatTime: double;
+begin
+  // parse postfix
+  Postfix := 'ms';
+  S := LowerCase(S);
+  if Pos('ms', S) = Length(S) - 1 then
+  begin
+    Postfix := 'ms';
+    Delete(S, Length(S) - 1, 2);
+  end
+  else if Pos('s', S) = Length(S) then
+  begin
+    Postfix := 's';
+    Delete(S, Length(S), 1);
+  end;
+  // extract floating point time value
+  FloatTime := StrToFloat(S);
+  // return time (in milliseconds)
+  if Postfix = 'ms'
+  then
+    Result := Round(FloatTime)
+  else
+    Result := Round(FloatTime * 1000);
 end;
 
 end.

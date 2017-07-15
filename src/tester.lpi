@@ -18,7 +18,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
-      <BuildNr Value="115"/>
+      <BuildNr Value="116"/>
       <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright (c) 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2-pre (unstable)"/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -284,7 +284,7 @@
         <ResourceBaseClass Value="Form"/>
       </Unit45>
       <Unit46>
-        <Filename Value="formatutils.pas"/>
+        <Filename Value="parserutils.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit46>
     </Units>

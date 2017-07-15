@@ -84,7 +84,7 @@ end;
 procedure RunAllParsers(const WorkingDir: string; Props: TProblemProperties);
 begin
   RunParsers(WorkingDir, [TFindFilePropertiesParser, TAllTestPropertiesParser,
-    TXMLPropertiesParser, TSimpleCfgPropertiesParser], Props);
+    TPolygonPropertiesParser, TRoiPropertiesParser, TSimpleCfgPropertiesParser], Props);
 end;
 
 {$R *.lfm}
@@ -116,7 +116,8 @@ end;
 
 procedure TParserForm.SetProperties(AValue: TProblemProperties);
 begin
-  if FProperties = AValue then Exit;
+  if FProperties = AValue then
+    Exit;
   FProperties := AValue;
 end;
 
@@ -144,8 +145,8 @@ begin
     case FThread.Status of
       ppNone, ppTerminated: ChangeProps := False;
       ppOK: ; // everything is ok, do nothing
-      ppParserFail: MsgText := Format(SParserWarningFmt,
-          [SParserFail, SCheckRecommendation]);
+      ppParserFail: MsgText :=
+          Format(SParserWarningFmt, [SParserFail, SCheckRecommendation]);
       ppMergeConflicts: MsgText :=
           Format(SParserWarningFmt, [SMergeConflict, SCheckRecommendation]);
       ppNotFullInfo: MsgText :=

@@ -89,7 +89,10 @@ var
       try
         ATemplate.GenerateTests(WorkingDir, @AddTest);
       except
-        Result := False;
+        on E: ETestTemplate do
+          // mute the exception
+        else
+          Result := False;
       end;
     finally
       FreeAndNil(ATemplate);

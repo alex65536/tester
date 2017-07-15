@@ -70,6 +70,13 @@ type
     procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
   end;
 
+  { TDelphiCompiler }
+
+  TDelphiCompiler = class(TFreePascalCompiler)
+  protected
+    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+  end;
+
   { TGnuCCompiler }
 
   TGnuCCompiler = class(TProcessCompiler)
@@ -178,10 +185,18 @@ begin
     Result := '';
 end;
 
+{ TDelphiCompiler }
+
+procedure TDelphiCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
+begin
+  inherited GetCommandLine(CmdName, Args);
+  Args.Add('-Sh');
+  Args.Add('-Mdelphi');
+end;
+
 { TGnuCpp11Compiler }
 
-procedure TGnuCpp11Compiler.GetCommandLine(out CmdName: string;
-  Args: TStringList);
+procedure TGnuCpp11Compiler.GetCommandLine(out CmdName: string; Args: TStringList);
 begin
   inherited GetCommandLine(CmdName, Args);
   Args.Add('-std=c++11');
@@ -189,13 +204,12 @@ end;
 
 { TGnuCppCompiler }
 
-procedure TGnuCppCompiler.GetCommandLine(out CmdName: string; Args: TStringList
-  );
+procedure TGnuCppCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
 begin
   CmdName := GppDir + GppExe;
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName + LineEnding + '-O2';
   {$IfDef Windows}
-     Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
+  Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
 end;
 
@@ -207,14 +221,13 @@ begin
   Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName +
     LineEnding + '-O2' + LineEnding;
   {$IfDef Windows}
-     Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
+  Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
 end;
 
 { TFreePascalCompiler }
 
-procedure TFreePascalCompiler.GetCommandLine(out CmdName: string;
-  Args: TStringList);
+procedure TFreePascalCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
 begin
   CmdName := FreePascalDir + FreePascalExe;
   Args.Text := SrcName + LineEnding + '-o' + ExeName + LineEnding + '-O2';
@@ -240,7 +253,8 @@ begin
         ArgsArr[I] := Args[I];
       ExitCode := 0;
       Output := '';
-      if RunCommandIndirUTF8(GetCurrentDirUTF8, CmdName, ArgsArr, Output, ExitCode) <> 0 then
+      if RunCommandIndirUTF8(GetCurrentDirUTF8, CmdName, ArgsArr,
+        Output, ExitCode) <> 0 then
       begin
         CompilerOutput := Format(SCompilerError, [CmdName]);
         Result := cvCompileFail;
@@ -290,7 +304,8 @@ end;
 
 procedure TCompiler.SetStackSize(AValue: integer);
 begin
-  if FStackSize = AValue then Exit;
+  if FStackSize = AValue then
+    Exit;
   FStackSize := AValue;
 end;
 
@@ -303,6 +318,7 @@ initialization
   CompilerMap := TStringToPointerTree.Create(False);
   RegisterCompiler('.pas', TFreePascalCompiler);
   RegisterCompiler('.pp', TFreePascalCompiler);
+  RegisterCompiler('.dpr', TDelphiCompiler);
   RegisterCompiler('.c', TGnuCCompiler);
   RegisterCompiler('.cpp', TGnuCpp11Compiler);
   //RegisterCompiler('.cpp', TGnuCppCompiler);

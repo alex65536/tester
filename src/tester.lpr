@@ -75,7 +75,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   editcostsdlg,
   htmlexport,
   baseforms,
-  parserutils;
+  parserutils,
+  parser_ejudgecfg;
 
 {$R *.res}
 

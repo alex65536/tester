@@ -33,6 +33,11 @@ type
   { TSimpleCfgPropertiesParser }
 
   TSimpleCfgPropertiesParser = class(TPropertiesParserBase)
+  private
+    function DelSeparators(const S: string): string;
+    procedure ParseChecker(ACheckerSrc: string; var Success: boolean);
+    function Parser(ALines: TStringList): boolean;
+  protected
     function DoParse: boolean; override;
   end;
 
@@ -40,78 +45,77 @@ implementation
 
 { TSimpleCfgPropertiesParser }
 
-function TSimpleCfgPropertiesParser.DoParse: boolean;
+function TSimpleCfgPropertiesParser.DelSeparators(const S: string): string;
+const
+  Letters = ['A' .. 'Z', 'a' .. 'z', '0' .. '9'];
+var
+  I: integer;
+begin
+  Result := '';
+  for I := 1 to Length(S) do
+    if S[I] in Letters then
+      Result := Result + S[I];
+end;
 
-  function Parser(ALines: TStringList): boolean;
+procedure TSimpleCfgPropertiesParser.ParseChecker(ACheckerSrc: string;
+  var Success: boolean);
+var
+  CheckerExe: string;
+begin
+  ACheckerSrc := CorrectFileName(AppendPathDelim(WorkingDir) + ACheckerSrc);
+  CheckerExe := CompileChecker(ACheckerSrc);
+  if CheckerExe <> '' then
+    Properties.Checker :=
+      TTestlibChecker.Create(CreateRelativePath(CheckerExe, WorkingDir))
+  else
+    Success := False;
+end;
 
-    function DelSeparators(const S: string): string;
-    const
-      Letters = ['A' .. 'Z', 'a' .. 'z', '0' .. '9'];
-    var
-      I: integer;
-    begin
-      Result := '';
-      for I := 1 to Length(S) do
-        if S[I] in Letters then
-          Result := Result + S[I];
-    end;
-
-    procedure ParseChecker(ACheckerSrc: string; var Success: boolean);
-    var
-      CheckerExe: string;
-    begin
-      ACheckerSrc := CorrectFileName(AppendPathDelim(WorkingDir) + ACheckerSrc);
-      CheckerExe := CompileChecker(ACheckerSrc);
-      if CheckerExe <> '' then
-        Properties.Checker :=
-          TTestlibChecker.Create(CreateRelativePath(CheckerExe, WorkingDir))
-      else
-        Success := False;
-    end;
-
-  var
-    I, P: integer;
-    AName, AValue: string;
-    TestCount: integer;
-    TestDir: string;
+function TSimpleCfgPropertiesParser.Parser(ALines: TStringList): boolean;
+var
+  I, P: integer;
+  AName, AValue: string;
+  TestCount: integer;
+  TestDir: string;
+begin
+  Result := True;
+  TestCount := 0;
+  for I := 0 to ALines.Count - 1 do
   begin
-    Result := True;
-    TestCount := 0;
-    for I := 0 to ALines.Count - 1 do
-    begin
-      // determine name and value
-      P := Pos('=', ALines[I]);
-      if P = 0 then
-        Continue;
-      AName := Copy(ALines[I], 1, P - 1);
-      AValue := Copy(ALines[I], P + 1, Length(ALines[I]) - P);
-      AName := LowerCase(DelSeparators(AName));
-      AValue := Trim(AValue);
-      // parse value by name
-      try
-        if AName = 'timelimit' then
-          Properties.TimeLimit := StrToInt(AValue)
-        else if AName = 'memorylimit' then
-          Properties.MemoryLimit := StrToInt(AValue)
-        else if AName = 'inputfile' then
-          Properties.InputFile := AValue
-        else if AName = 'outputfile' then
-          Properties.OutputFile := AValue
-        else if AName = 'checker' then
-          ParseChecker(AValue, Result)
-        else if AName = 'testscount' then
-          TestCount := StrToInt(AValue);
-      except
-        Result := False;
-      end;
-      if IsTerminated then
-        Break;
+    // determine name and value
+    P := Pos('=', ALines[I]);
+    if P = 0 then
+      Continue;
+    AName := Copy(ALines[I], 1, P - 1);
+    AValue := Copy(ALines[I], P + 1, Length(ALines[I]) - P);
+    AName := LowerCase(DelSeparators(AName));
+    AValue := Trim(AValue);
+    // parse value by name
+    try
+      if AName = 'timelimit' then
+        Properties.TimeLimit := StrToInt(AValue)
+      else if AName = 'memorylimit' then
+        Properties.MemoryLimit := StrToInt(AValue)
+      else if AName = 'inputfile' then
+        Properties.InputFile := AValue
+      else if AName = 'outputfile' then
+        Properties.OutputFile := AValue
+      else if AName = 'checker' then
+        ParseChecker(AValue, Result)
+      else if AName = 'testscount' then
+        TestCount := StrToInt(AValue);
+    except
+      Result := False;
     end;
-    TestDir := AppendPathDelim('tests');
-    if not IsTerminated then
-      AddTestsFmt(TestDir + '%d.in', TestDir + '%d.ans', TestCount);
+    if IsTerminated then
+      Break;
   end;
+  TestDir := AppendPathDelim('tests');
+  if not IsTerminated then
+    AddTestsFmt(TestDir + '%d.in', TestDir + '%d.ans', TestCount);
+end;
 
+function TSimpleCfgPropertiesParser.DoParse: boolean;
 var
   Lines: TStringList;
   CfgFileName: string;

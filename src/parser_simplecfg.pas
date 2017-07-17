@@ -35,7 +35,6 @@ type
   TSimpleCfgPropertiesParser = class(TPropertiesParserBase)
   private
     function DelSeparators(const S: string): string;
-    procedure ParseChecker(ACheckerSrc: string; var Success: boolean);
     function Parser(ALines: TStringList): boolean;
   protected
     function DoParse: boolean; override;
@@ -55,20 +54,6 @@ begin
   for I := 1 to Length(S) do
     if S[I] in Letters then
       Result := Result + S[I];
-end;
-
-procedure TSimpleCfgPropertiesParser.ParseChecker(ACheckerSrc: string;
-  var Success: boolean);
-var
-  CheckerExe: string;
-begin
-  ACheckerSrc := CorrectFileName(AppendPathDelim(WorkingDir) + ACheckerSrc);
-  CheckerExe := CompileChecker(ACheckerSrc);
-  if CheckerExe <> '' then
-    Properties.Checker :=
-      TTestlibChecker.Create(CreateRelativePath(CheckerExe, WorkingDir))
-  else
-    Success := False;
 end;
 
 function TSimpleCfgPropertiesParser.Parser(ALines: TStringList): boolean;
@@ -101,7 +86,7 @@ begin
       else if AName = 'outputfile' then
         Properties.OutputFile := AValue
       else if AName = 'checker' then
-        ParseChecker(AValue, Result)
+        ParseTestlibChecker(AValue, Result)
       else if AName = 'testscount' then
         TestCount := StrToInt(AValue);
     except

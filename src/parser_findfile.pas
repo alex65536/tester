@@ -34,6 +34,7 @@ type
 
   TFindFilePropertiesParser = class(TPropertiesParserBase)
   private
+    procedure SearcherFileFound(AIterator: TFileIterator);
     procedure AddTest(ATest: TProblemTest);
     function ParseFromDir(const Dir: string): boolean;
     function FindTests(const Dir: string; StartFrom: integer = 1): boolean;
@@ -57,6 +58,12 @@ begin
 end;
 
 { TFindFilePropertiesParser }
+
+procedure TFindFilePropertiesParser.SearcherFileFound(AIterator: TFileIterator);
+begin
+  if IsTerminated then
+    AIterator.Stop;
+end;
 
 procedure TFindFilePropertiesParser.AddTest(ATest: TProblemTest);
 begin
@@ -144,7 +151,7 @@ var
   CurFile, CompiledFile: string;
 begin
   Result := True;
-  AList := FindAllFiles(nil, AppendPathDelim(WorkingDir) + Dir, '*', False);
+  AList := FindAllFiles(@SearcherFileFound, AppendPathDelim(WorkingDir) + Dir, '*', False);
   try
     // first, search for EXE checker
     for I := 0 to AList.Count - 1 do
@@ -250,7 +257,7 @@ initialization
   // input01.txt - answer01.txt
   AddTestTemplate('input%d.txt', 'answer%d.txt');
   AddTestTemplate('input%.2d.txt', 'answer%.2d.txt');
-  // in.1 - out.1
+  // in.01 - out.01
   AddTestTemplate('in.%d', 'out.%d');
   AddTestTemplate('in.%.2d', 'out.%.2d');
 

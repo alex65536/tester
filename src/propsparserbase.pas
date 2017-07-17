@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, checkers, logfile, LazFileUtils,
-  testerfileutil;
+  testerfileutil, compilers;
 
 type
 
@@ -39,6 +39,7 @@ type
     FWorkingDir: string;
     procedure SetWorkingDir(AValue: string);
   protected
+    procedure ParseTestlibChecker(ACheckerSrc: string; var Success: boolean);
     procedure AddTestsFmt(const InputFmt, OutputFmt: string; TestCount: integer);
     function DoParse: boolean; virtual; abstract;
   public
@@ -88,6 +89,20 @@ begin
   if FWorkingDir = AValue then
     Exit;
   FWorkingDir := AValue;
+end;
+
+procedure TPropertiesParserBase.ParseTestlibChecker(ACheckerSrc: string;
+  var Success: boolean);
+var
+  CheckerExe: string;
+begin
+  ACheckerSrc := CorrectFileName(AppendPathDelim(WorkingDir) + ACheckerSrc);
+  CheckerExe := CompileChecker(ACheckerSrc);
+  if CheckerExe <> '' then
+    Properties.Checker :=
+      TTestlibChecker.Create(CreateRelativePath(CheckerExe, WorkingDir))
+  else
+    Success := False;
 end;
 
 procedure TPropertiesParserBase.AddTestsFmt(const InputFmt, OutputFmt: string;

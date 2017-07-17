@@ -26,7 +26,7 @@ interface
 
 type
   TProblemTime = integer; // in seconds
-  TProblemMemory = integer; // in kbytes
+  TProblemMemory = integer; // in Kbytes
 
   TCompilerVerdict = (
     cvSuccess,

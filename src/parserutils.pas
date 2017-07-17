@@ -20,7 +20,7 @@
 }
 unit parserutils;
 
-{$mode objfpc}{$H+}{$coperators on}
+{$mode objfpc}{$H+}{$coperators on}{$inline on}
 
 interface
 
@@ -30,6 +30,7 @@ uses
 function FromCppFormat(const S: string): string;
 function FromRoiFormat(const S: string): string;
 function StrToTimeLimit(S: string): TProblemTime;
+function StrToMemoryLimit(S: string): TProblemMemory;
 
 implementation
 
@@ -79,32 +80,83 @@ begin
   end;
 end;
 
+// Suffix utils, necessary for StrToTimeLimit and StrToMemoryLimit.
+
+function HasSuffix(const Suff, Str: string): boolean; inline;
+begin
+  if Length(Suff) > Length(Str) then
+    Result := False
+  else
+    Result := Copy(Str, Length(Str) - Length(Suff) + 1, Length(Suff)) = Suff;
+end;
+
+procedure CutSuffix(const Suff: string; var Str: string); inline;
+begin
+  if Suff = '' then
+    Exit;
+  if HasSuffix(Suff, Str) then
+    Delete(Str, Length(Str) - Length(Suff) + 1, Length(Suff))
+  else
+    raise Exception.Create('Internal Tester Error : CutSuffix has nothing to cut');
+end;
+
+procedure TrySuffix(var Suff: string; const TrySuff, Str: string); inline;
+begin
+  if (Suff = '') and (HasSuffix(TrySuff, Str)) then
+    Suff := TrySuff;
+end;
+
 function StrToTimeLimit(S: string): TProblemTime;
 var
-  Postfix: string;
+  Suff: string;
   FloatTime: double;
 begin
-  // parse postfix
-  Postfix := 'ms';
-  S := LowerCase(S);
-  if Pos('ms', S) = Length(S) - 1 then
-  begin
-    Postfix := 'ms';
-    Delete(S, Length(S) - 1, 2);
-  end
-  else if Pos('s', S) = Length(S) then
-  begin
-    Postfix := 's';
-    Delete(S, Length(S), 1);
-  end;
+  S := Trim(LowerCase(S));
+  // parse suffix
+  Suff := '';
+  TrySuffix(Suff, 'ms', S); // milliseconds
+  TrySuffix(Suff, 's', S); // seconds
+  CutSuffix(Suff, S);
+  if Suff = '' then
+    Suff := 'ms'; // we use milliseconds by default
   // extract floating point time value
   FloatTime := StrToFloat(S);
   // return time (in milliseconds)
-  if Postfix = 'ms'
-  then
+  if Suff = 'ms' then
     Result := Round(FloatTime)
+  else if Suff = 's' then
+    Result := Round(FloatTime * 1000)
   else
-    Result := Round(FloatTime * 1000);
+    raise Exception.Create('Internal Tester Error : StrToTimeLimit got bad suffix');
+end;
+
+function StrToMemoryLimit(S: string): TProblemMemory;
+var
+  Suff: string;
+  FloatMemory: double;
+begin
+  S := Trim(UpperCase(S));
+  // parse suffix
+  Suff := '';
+  TrySuffix(Suff, 'K', S); // in KBytes
+  TrySuffix(Suff, 'M', S); // in MBytes
+  TrySuffix(Suff, 'G', S); // in GBytes
+  CutSuffix(Suff, S);
+  if Suff = '' then
+    Suff := 'B'; // if no suffix, we assume it's in bytes
+  // extract floating point time value
+  FloatMemory := StrToFloat(S);
+  // return memory (in Kbytes)
+  if Suff = 'B' then
+    Result := Round(FloatMemory / 1024)
+  else if Suff = 'K' then
+    Result := Round(FloatMemory)
+  else if Suff = 'M' then
+    Result := Round(FloatMemory * 1024)
+  else if Suff = 'G' then
+    Result := Round(FloatMemory * 1048576)
+  else
+    raise Exception.Create('Internal Tester Error : StrToMemoryLimit got bad suffix');
 end;
 
 end.

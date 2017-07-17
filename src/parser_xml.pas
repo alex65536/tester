@@ -103,7 +103,7 @@ begin
   WriteLog('RoiParsers adds the node');
   // parse TL, ML, input, output files
   OurTL := StrToTimeLimit(TestsetNode.GetAttribute('time-limit'));
-  OurML := StrToInt(TestsetNode.GetAttribute('memory-limit'));
+  OurML := StrToMemoryLimit(TestsetNode.GetAttribute('memory-limit'));
   OurInput := TestsetNode.GetAttribute('input-name');
   OurOutput := TestsetNode.GetAttribute('output-name');
   WriteLogFmt('RoiParser found tl=%d, ml=%d, input=%s, output=%s',
@@ -154,7 +154,7 @@ begin
     Exit;
   // parsing the checker
 
-  // TODO
+  // TODO: add checker parsing here (maybe no?)
 
   // that's all! :)
   Result := Success;
@@ -171,16 +171,18 @@ procedure TPolygonPropertiesParser.AddTestsetNode(TestsetNode: TDOMElement;
   end;
 
 var
+  OurTL: TProblemTime;
+  OurML: TProblemMemory;
   TestCount: integer;
   InputTestFmt, OutputTestFmt: string;
 begin
   // parse TL, ML
+  OurTL := StrToTimeLimit(GetSonContent('time-limit'));
+  OurML := StrToMemoryLimit(GetSonContent('memory-limit'));
   with Properties, TProblemPropsCollector do
   begin
-    TimeLimit := MergeInt(TimeLimit, StrToInt(GetSonContent('time-limit')),
-      Success);
-    MemoryLimit := MergeInt(MemoryLimit, StrToInt(GetSonContent('memory-limit')) div
-      1024, Success);
+    TimeLimit := MergeInt(TimeLimit, OurTL, Success);
+    MemoryLimit := MergeInt(MemoryLimit, OurML, Success);
   end;
   // parse test info
   TestCount := StrToInt(GetSonContent('test-count'));

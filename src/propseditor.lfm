@@ -12,23 +12,24 @@ object ProblemPropsEditor: TProblemPropsEditor
     Left = 0
     Height = 151
     Top = 0
-    Width = 305
+    Width = 309
     AutoSize = True
     Caption = 'General options'
     ClientHeight = 132
-    ClientWidth = 301
+    ClientWidth = 305
     TabOrder = 0
     object Label4: TLabel
       AnchorSideLeft.Control = GroupBox1
       AnchorSideTop.Control = MemoryLimitEdit
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = MemoryLimitEdit
-      Left = 0
+      Left = 3
       Height = 17
       Top = 86
-      Width = 152
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
-      Caption = 'Memory limit (kbytes):'
+      BorderSpacing.Left = 3
+      Caption = 'Memory limit (Kbytes):'
       ParentColor = False
     end
     object Label2: TLabel
@@ -36,11 +37,12 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Control = OutputFileEdit
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = OutputFileEdit
-      Left = 0
+      Left = 3
       Height = 17
       Top = 32
-      Width = 152
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 3
       Caption = 'Output file:'
       ParentColor = False
     end
@@ -49,11 +51,12 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Control = InputFileEdit
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = OutputFileEdit
-      Left = 0
+      Left = 3
       Height = 17
       Top = 5
-      Width = 152
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 3
       Caption = 'Input file:'
       ParentColor = False
     end
@@ -62,11 +65,12 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Control = TimeLimitEdit
       AnchorSideTop.Side = asrCenter
       AnchorSideRight.Control = TimeLimitEdit
-      Left = 0
+      Left = 3
       Height = 17
       Top = 59
-      Width = 152
+      Width = 153
       Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 3
       Caption = 'Time limit (ms):'
       ParentColor = False
     end
@@ -74,7 +78,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Control = GroupBox1
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      Left = 152
+      Left = 156
       Height = 27
       Top = 0
       Width = 149
@@ -88,7 +92,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      Left = 152
+      Left = 156
       Height = 27
       Top = 27
       Width = 149
@@ -102,7 +106,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      Left = 152
+      Left = 156
       Height = 27
       Top = 54
       Width = 149
@@ -117,7 +121,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       AnchorSideTop.Side = asrBottom
       AnchorSideRight.Control = GroupBox1
       AnchorSideRight.Side = asrBottom
-      Left = 152
+      Left = 156
       Height = 27
       Top = 81
       Width = 149
@@ -136,7 +140,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       Height = 24
       Hint = 'If checked, Tester will do the following: when first test with non-accepted verdict is found, further tests are skipped.'
       Top = 108
-      Width = 301
+      Width = 305
       Anchors = [akTop, akLeft, akRight]
       Caption = 'Stop testing after first fail'
       ParentShowHint = False
@@ -153,28 +157,28 @@ object ProblemPropsEditor: TProblemPropsEditor
     Left = 0
     Height = 48
     Top = 151
-    Width = 305
+    Width = 309
     Anchors = [akTop, akLeft, akRight]
     AutoSize = True
     Caption = 'Checker'
     ClientHeight = 29
-    ClientWidth = 301
+    ClientWidth = 305
     TabOrder = 1
     inline CheckSelect: TCheckerSelect
       Height = 29
-      Width = 301
+      Width = 305
       Align = alClient
       ClientHeight = 29
-      ClientWidth = 301
+      ClientWidth = 305
       inherited Panel: TPanel
-        Width = 301
-        ClientWidth = 301
+        Width = 305
+        ClientWidth = 305
         ParentColor = True
         inherited CheckerCombo: TComboBox
-          Left = 136
+          Left = 140
         end
         inherited Label5: TLabel
-          Left = 77
+          Left = 81
         end
       end
     end
@@ -184,21 +188,21 @@ object ProblemPropsEditor: TProblemPropsEditor
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = GroupBox1
     AnchorSideBottom.Side = asrBottom
-    Left = 305
+    Left = 309
     Height = 488
     Top = 0
-    Width = 409
+    Width = 405
     Anchors = [akTop, akLeft, akRight, akBottom]
     AutoSize = True
     Caption = 'Tests'
     ClientHeight = 469
-    ClientWidth = 405
+    ClientWidth = 401
     TabOrder = 2
     object ButtonPanel: TPanel
       Left = 0
       Height = 38
       Top = 0
-      Width = 405
+      Width = 401
       Align = alTop
       AutoSize = True
       BevelInner = bvRaised
@@ -206,7 +210,7 @@ object ProblemPropsEditor: TProblemPropsEditor
       ChildSizing.Layout = cclLeftToRightThenTopToBottom
       ChildSizing.ControlsPerLine = 9
       ClientHeight = 38
-      ClientWidth = 405
+      ClientWidth = 401
       Color = clWindow
       ParentColor = False
       ParentShowHint = False
@@ -991,12 +995,12 @@ object ProblemPropsEditor: TProblemPropsEditor
       Left = 0
       Height = 431
       Top = 38
-      Width = 405
+      Width = 401
       Align = alClient
       ItemHeight = 0
       OnDblClick = TestsListDblClick
       OnSelectionChange = TestsListSelectionChange
-      ScrollWidth = 403
+      ScrollWidth = 399
       TabOrder = 1
       TopIndex = -1
     end

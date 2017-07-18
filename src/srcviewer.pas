@@ -96,9 +96,10 @@ begin
   FHighlighters := TStringToPointerTree.Create(False);
   RegisterHighligher('.pas', SynFreePascalSyn);
   RegisterHighligher('.pp', SynFreePascalSyn);
+  RegisterHighligher('.dpr', SynFreePascalSyn);
   RegisterHighligher('.c', SynCppSyn);
   RegisterHighligher('.cpp', SynCppSyn);
-  RegisterHighligher('.c11', SynCppSyn);
+  //RegisterHighligher('.c11', SynCppSyn);
 end;
 
 destructor TSourceViewer.Destroy;

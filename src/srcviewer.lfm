@@ -1,16 +1,15 @@
-object SourceViewer: TSourceViewer
+inherited SourceViewer: TSourceViewer
   Left = 544
   Height = 345
   Top = 182
   Width = 524
+  ActiveControl = SourceViewer
   Caption = 'Source viewer'
   ClientHeight = 345
   ClientWidth = 524
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object ButtonPanel1: TButtonPanel
+  object ButtonPanel1: TButtonPanel[0]
     Left = 6
     Height = 37
     Top = 302
@@ -26,7 +25,7 @@ object SourceViewer: TSourceViewer
     TabOrder = 1
     ShowButtons = [pbClose]
   end
-  inline SourceViewer: TSynEdit
+  inline SourceViewer: TSynEdit[1]
     Left = 0
     Height = 296
     Top = 0
@@ -523,7 +522,7 @@ object SourceViewer: TSourceViewer
       end
     end
   end
-  object SynFreePascalSyn: TSynFreePascalSyn
+  object SynFreePascalSyn: TSynFreePascalSyn[2]
     Enabled = False
     AsmAttri.Foreground = clGreen
     CommentAttri.Foreground = clGray
@@ -535,10 +534,10 @@ object SourceViewer: TSourceViewer
     DirectiveAttri.Foreground = clRed
     CompilerMode = pcmObjFPC
     NestedComments = True
-    left = 96
-    top = 336
+    left = 104
+    top = 80
   end
-  object SynCppSyn: TSynCppSyn
+  object SynCppSyn: TSynCppSyn[3]
     DefaultFilter = 'Файлы C++ (*.c,*.cpp,*.h,*.hpp,*.hh)|*.c;*.cpp;*.h;*.hpp;*.hh'
     Enabled = False
     AsmAttri.Foreground = clGreen
@@ -548,7 +547,7 @@ object SourceViewer: TSourceViewer
     KeyAttri.Foreground = clNavy
     NumberAttri.Foreground = clTeal
     StringAttri.Foreground = clBlue
-    left = 128
-    top = 336
+    left = 216
+    top = 80
   end
 end

@@ -1,4 +1,4 @@
-object TesterForm: TTesterForm
+inherited TesterForm: TTesterForm
   Left = 302
   Height = 355
   Top = 163
@@ -11,9 +11,7 @@ object TesterForm: TTesterForm
   OnCloseQuery = FormCloseQuery
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  inline TestFrame: TTesterFrame
+  inline TestFrame: TTesterFrame[0]
     Height = 236
     Top = 62
     Width = 1009
@@ -37,7 +35,7 @@ object TesterForm: TTesterForm
       Top = 176
     end
   end
-  object Panel: TPanel
+  object Panel: TPanel[1]
     Left = 0
     Height = 31
     Top = 0
@@ -105,7 +103,7 @@ object TesterForm: TTesterForm
       TabOrder = 4
     end
   end
-  object ProgressPanel: TPanel
+  object ProgressPanel: TPanel[2]
     Left = 0
     Height = 24
     Top = 298
@@ -138,7 +136,7 @@ object TesterForm: TTesterForm
       TabOrder = 0
     end
   end
-  object FilePanel: TPanel
+  object FilePanel: TPanel[3]
     Left = 0
     Height = 31
     Top = 31
@@ -182,7 +180,7 @@ object TesterForm: TTesterForm
       OnClick = FileChooseButtonClick
     end
   end
-  object ActionList: TActionList
+  object ActionList: TActionList[4]
     Images = ImageKeeper.ImageList
     left = 168
     top = 141
@@ -222,13 +220,13 @@ object TesterForm: TTesterForm
       ShortCut = 16453
     end
   end
-  object SaveDialog: TSaveDialog
+  object SaveDialog: TSaveDialog[5]
     DefaultExt = '.json'
     Filter = 'Testing results|*.json'
     left = 248
     top = 141
   end
-  object MainMenu: TMainMenu
+  object MainMenu: TMainMenu[6]
     left = 328
     top = 141
     object MenuItem1: TMenuItem
@@ -253,16 +251,16 @@ object TesterForm: TTesterForm
       end
     end
   end
-  object SaveHTMLDialog: TSaveDialog
+  object SaveHTMLDialog: TSaveDialog[7]
     Title = 'Export to HTML...'
     DefaultExt = '.html'
     Filter = 'HTML files|*.html'
     left = 408
     top = 141
   end
-  object OpenDialog: TOpenDialog
+  object OpenDialog: TOpenDialog[8]
     Title = 'Open solution files...'
-    Filter = 'All types of sources|*.c;*.cpp;*.pas;*.pp|C/C++ source files|*.c;*.cpp|Pascal source files|*.pas;*.pp'
+    Filter = 'All types of sources|*.c;*.C;*.cpp;*.CPP;*.pas;*.PAS;*.pp;*.PP;*.dpr;*.DPR|C/C++ source files|*.c;*.C;*.cpp;*.CPP|Pascal source files|*.pas;*.PAS;*.pp;*.PP;*.dpr;*.DPR'
     Options = [ofAllowMultiSelect, ofPathMustExist, ofFileMustExist, ofEnableSizing, ofViewDetail]
     left = 504
     top = 141

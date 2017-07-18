@@ -65,6 +65,7 @@ type
     constructor Create; override;
     constructor Create(ACheckerFileName: string);
     procedure CorrectFileNames; override;
+    procedure InvalidFilesList(AList: TStrings); override;
     procedure AssignTo(Dest: TPersistent); override;
     function Equals(Obj: TObject): boolean; override;
   published
@@ -163,6 +164,13 @@ begin
   CheckerFileName := CorrectFileName(CheckerFileName);
 end;
 
+procedure TStdExecutableChecker.InvalidFilesList(AList: TStrings);
+begin
+  inherited InvalidFilesList(AList);
+  if not FileExistsUTF8(CheckerFileName) then
+    AList.Add(CheckerFileName);
+end;
+
 procedure TStdExecutableChecker.AssignTo(Dest: TPersistent);
 begin
   inherited;
@@ -216,6 +224,7 @@ function TFileCompareChecker.DoCheck: TTestVerdict;
     Pos: integer;
     S: string;
   begin
+    // trim trailing spaces
     for I := 0 to List.Count - 1 do
     begin
       S := List[I];
@@ -224,6 +233,7 @@ function TFileCompareChecker.DoCheck: TTestVerdict;
         Dec(Pos);
       List[I] := Copy(S, 1, Pos);
     end;
+    // trim trailing newlines
     while (List.Count > 0) and (List[List.Count - 1] = '') do
       List.Delete(List.Count - 1);
   end;

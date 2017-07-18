@@ -328,10 +328,41 @@ begin
 end;
 
 procedure TProblemPropsEditor.LoadFromJSON;
+const
+  MaxLostViewed = 16;
 var
   MemStream: TMemoryStream;
   S: string;
   WasDir: string;
+
+  procedure ValidateFilesFound;
+  var
+    LostFiles: TStringList;
+    DlgText: string;
+    I: integer;
+  begin
+    LostFiles := TStringList.Create;
+    try
+      FProperties.InvalidFilesList(LostFiles);
+      if LostFiles.Count > 0 then
+      begin
+        if LostFiles.Count > MaxLostViewed then
+        begin
+          while LostFiles.Count >= MaxLostViewed do
+            LostFiles.Delete(LostFiles.Count - 1);
+          LostFiles.Add('...');
+        end;
+        DlgText := Format(SNotFoundWarningFmt, [SNotFoundWarning, SCheckRecommendation]);
+        DlgText := DlgText + LineEnding + SNotFoundFilesListBegin;
+        for I := 0 to LostFiles.Count - 1 do
+          DlgText := DlgText + LineEnding + Format(SNotFoundFileFormat, [LostFiles[I]]);
+        MessageDlg(DlgText, mtWarning, [mbOK], 0);
+      end;
+    finally
+      FreeAndNil(LostFiles);
+    end;
+  end;
+
 begin
   if FileName = '' then
     Exit;
@@ -341,11 +372,12 @@ begin
     SetLength(S, MemStream.Size);
     MemStream.Read(S[1], Length(S));
     LoadFromJSONStr(S, FProperties);
-    // correct file names
+    // validate and correct
     WasDir := GetCurrentDirUTF8;
     try
       SetCurrentDirUTF8(ExtractFilePath(FileName));
       FProperties.CorrectFileNames;
+      ValidateFilesFound;
     finally
       SetCurrentDirUTF8(WasDir);
     end;

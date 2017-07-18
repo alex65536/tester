@@ -337,8 +337,8 @@ begin
           InputFile := '';
           OutputFile := '';
         end;
-        if (not FileExists(AppendPathDelim(WorkingDir) + InputFile)) or
-          (not FileExists(AppendPathDelim(WorkingDir) + OutputFile)) then
+        if (not FileExistsUTF8(AppendPathDelim(WorkingDir) + InputFile)) or
+          (not FileExistsUTF8(AppendPathDelim(WorkingDir) + OutputFile)) then
           // if non-existing tests, delete them also
         begin
           InputFile := '';

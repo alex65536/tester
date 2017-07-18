@@ -79,6 +79,10 @@ resourcestring
   SHTMLTitle = 'Testing results';
   SSavePropsError = 'Unable to save properties file "%s"';
   STestFilesDontExist = 'Input or output file doesn''t exist. Do you really want to insert this test?';
+  SNotFoundWarning = 'Some files listed in the problem data were not found';
+  SNotFoundFilesListBegin = 'The files are:';
+  SNotFoundFileFormat = #9'%s';
+  SNotFoundWarningFmt = '%s. %s.';
 
 // Compilation verdicts
 resourcestring

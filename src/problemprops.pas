@@ -25,7 +25,8 @@ unit problemprops;
 interface
 
 uses
-  Classes, SysUtils, AvgLvlTree, strconsts, testerfileutil, testerprimitives;
+  Classes, SysUtils, AvgLvlTree, strconsts, testerfileutil, LazFileUtils,
+  testerprimitives;
 
 type
   EProblemChecker = class(Exception);
@@ -59,6 +60,7 @@ type
     property CheckerOutput: string read FCheckerOutput write SetCheckerOutput;
     constructor Create; virtual;
     procedure CorrectFileNames; virtual;
+    procedure InvalidFilesList(AList: TStrings); virtual;
     function Check: TTestVerdict;
     function Equals(Obj: TObject): boolean; override;
     procedure AssignTo(Dest: TPersistent); override;
@@ -82,6 +84,7 @@ type
     constructor Create(AInputFile, AOutputFile: string; ACost: double);
     procedure CorrectFileNames;
     function IsFileNamesValid: boolean;
+    procedure InvalidFilesList(AList: TStrings);
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -141,6 +144,7 @@ type
     procedure AssignTo(Dest: TPersistent); override;
     procedure RescaleCosts(NewTotalCost: double; APolicy: TTestCostEditPolicy);
     procedure CorrectFileNames;
+    procedure InvalidFilesList(AList: TStrings);
   published
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
@@ -240,6 +244,11 @@ end;
 
 procedure TProblemChecker.CorrectFileNames;
 begin
+end;
+
+procedure TProblemChecker.InvalidFilesList(AList: TStrings);
+begin
+  AList := AList; // to avoid hints
 end;
 
 function TProblemChecker.Check: TTestVerdict;
@@ -392,7 +401,15 @@ end;
 
 function TProblemTest.IsFileNamesValid: boolean;
 begin
-  Result := FileExists(InputFile) and FileExists(OutputFile);
+  Result := FileExistsUTF8(InputFile) and FileExistsUTF8(OutputFile);
+end;
+
+procedure TProblemTest.InvalidFilesList(AList: TStrings);
+begin
+  if not FileExistsUTF8(InputFile) then
+    AList.Add(InputFile);
+  if not FileExistsUTF8(OutputFile) then
+    AList.Add(OutputFile);
 end;
 
 constructor TProblemTest.Create(ACollection: TCollection);
@@ -579,6 +596,16 @@ begin
   finally
     EndCache;
   end;
+end;
+
+procedure TProblemProperties.InvalidFilesList(AList: TStrings);
+var
+  I: integer;
+begin
+  if Checker <> nil then
+    Checker.InvalidFilesList(AList);
+  for I := 0 to TestCount - 1 do
+    Tests[I].InvalidFilesList(AList);
 end;
 
 initialization

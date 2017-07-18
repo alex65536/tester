@@ -30,7 +30,7 @@ uses
 type
   ETestTemplate = class(Exception);
 
-  TAddTestProc = procedure(ATest: TProblemTest) of object;
+  TAddTestProc = procedure(ATest: TProblemTest; out Stop: boolean) of object;
 
   { TProblemTestTemplate }
 
@@ -64,9 +64,11 @@ var
   I: integer;
   LastInput, LastOutput: string;
   InputFileName, OutputFileName: string;
+  Stop: boolean;
 begin
   BeginCache;
   try
+    Stop := False;
     I := StartFrom;
     LastInput := '';
     LastOutput := '';
@@ -82,10 +84,12 @@ begin
       begin
         InputFileName := CreateRelativePath(InputFileName, WorkingDir);
         OutputFileName := CreateRelativePath(OutputFileName, WorkingDir);
-        Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost));
+        Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost), Stop);
         Inc(I);
         LastInput := InputFileName;
         LastOutput := OutputFileName;
+        if Stop then
+          Break;
       end
       else
         Break;

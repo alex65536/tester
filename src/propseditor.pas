@@ -28,7 +28,7 @@ uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
   problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
   testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils,
-  Dialogs, math;
+  Dialogs, Math;
 
 type
   EUnknownChecker = class(Exception);
@@ -88,7 +88,7 @@ type
     procedure SetFileName(AValue: string);
     procedure SetOnTestsChange(AValue: TNotifyEvent);
     function TestToStr(ATest: TProblemTest): string;
-    procedure AddTestProc(ATest: TProblemTest);
+    procedure AddTestProc(ATest: TProblemTest; out Stop: boolean);
     procedure AddInsertTestHelper(Place: integer);
   protected
     procedure DoTestChange; virtual;
@@ -315,9 +315,10 @@ begin
     ATest.OutputFile, ATest.Cost]);
 end;
 
-procedure TProblemPropsEditor.AddTestProc(ATest: TProblemTest);
+procedure TProblemPropsEditor.AddTestProc(ATest: TProblemTest; out Stop: boolean);
 begin
   FProperties.AddTest(ATest);
+  Stop := False;
 end;
 
 procedure TProblemPropsEditor.DoTestChange;

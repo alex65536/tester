@@ -35,7 +35,7 @@ type
   TFindFilePropertiesParser = class(TPropertiesParserBase)
   private
     procedure SearcherFileFound(AIterator: TFileIterator);
-    procedure AddTest(ATest: TProblemTest);
+    procedure AddTest(ATest: TProblemTest; out Stop: boolean);
     function ParseFromDir(const Dir: string): boolean;
     function FindTests(const Dir: string; StartFrom: integer = 1): boolean;
     function FindChecker(const Dir: string): boolean;
@@ -65,12 +65,13 @@ begin
     AIterator.Stop;
 end;
 
-procedure TFindFilePropertiesParser.AddTest(ATest: TProblemTest);
+procedure TFindFilePropertiesParser.AddTest(ATest: TProblemTest; out Stop: boolean);
 begin
   if Properties.TestList.Find(ATest) < 0 then
     Properties.AddTest(ATest)
   else
     FreeAndNil(ATest);
+  Stop := IsTerminated;
 end;
 
 function TFindFilePropertiesParser.ParseFromDir(const Dir: string): boolean;
@@ -151,7 +152,8 @@ var
   CurFile, CompiledFile: string;
 begin
   Result := True;
-  AList := FindAllFiles(@SearcherFileFound, AppendPathDelim(WorkingDir) + Dir, '*', False);
+  AList := FindAllFiles(@SearcherFileFound, AppendPathDelim(WorkingDir) +
+    Dir, '*', False);
   try
     // first, search for EXE checker
     for I := 0 to AList.Count - 1 do

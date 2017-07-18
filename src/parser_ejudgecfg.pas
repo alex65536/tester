@@ -35,7 +35,7 @@ type
 
   TEjudgeCfgPropertiesParser = class(TPropertiesParserBase)
   private
-    procedure AddTest(ATest: TProblemTest);
+    procedure AddTest(ATest: TProblemTest; out Stop: boolean);
     procedure SearcherFileFound(AIterator: TFileIterator);
     function DetectChecker(const CheckerName: string): boolean;
     function DetectTests(InputTemplate, OutputTemplate: string): boolean;
@@ -50,9 +50,11 @@ implementation
 
 { TEjudgeCfgPropertiesParser }
 
-procedure TEjudgeCfgPropertiesParser.AddTest(ATest: TProblemTest);
+procedure TEjudgeCfgPropertiesParser.AddTest(ATest: TProblemTest; out
+  Stop: boolean);
 begin
   Properties.AddTest(ATest);
+  Stop := IsTerminated;
 end;
 
 procedure TEjudgeCfgPropertiesParser.SearcherFileFound(AIterator: TFileIterator);
@@ -236,8 +238,11 @@ begin
     Exit;
   // parse time limit
   try
-    TLFloat := ReadFloatIfExists(ProblemSection, 'time_limit', 2, Result);
-    Properties.TimeLimit := Round(TLFloat * 1000);
+    if IniFile.ValueExists(ProblemSection, 'time_limit') then
+      TLFloat := IniFile.ReadFloat(ProblemSection, 'time_limit', 2) * 1000
+    else
+      TLFloat := ReadFloatIfExists(ProblemSection, 'time_limit_millis', 2000, Result);
+    Properties.TimeLimit := Round(TLFloat);
   except
     Result := False;
   end;

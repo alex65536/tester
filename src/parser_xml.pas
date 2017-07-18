@@ -54,7 +54,7 @@ type
 
   TRoiPropertiesParser = class(TXMLPropertiesParser)
   private
-    procedure AddTest(ATest: TProblemTest);
+    procedure AddTest(ATest: TProblemTest; out Stop: boolean);
   protected
     procedure AddTestsetNode(TestsetNode: TDOMElement; var Success: boolean); override;
     function Parser(XMLDocument: TXMLDocument): boolean; override;
@@ -64,9 +64,10 @@ implementation
 
 { TRoiPropertiesParser }
 
-procedure TRoiPropertiesParser.AddTest(ATest: TProblemTest);
+procedure TRoiPropertiesParser.AddTest(ATest: TProblemTest; out Stop: boolean);
 begin
   Properties.AddTest(ATest);
+  Stop := IsTerminated;
 end;
 
 procedure TRoiPropertiesParser.AddTestsetNode(TestsetNode: TDOMElement;

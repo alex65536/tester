@@ -26,7 +26,8 @@ interface
 
 uses
   Classes, SysUtils, propsparserbase, IniFiles, testerfileutil, FileUtil,
-  LazFileUtils, logfile, parserutils, checkers;
+  LazFileUtils, logfile, parserutils, checkers, compilers, testtemplates,
+  problemprops;
 
 type
 
@@ -34,8 +35,10 @@ type
 
   TEjudgeCfgPropertiesParser = class(TPropertiesParserBase)
   private
+    procedure AddTest(ATest: TProblemTest);
     procedure SearcherFileFound(AIterator: TFileIterator);
     function DetectChecker(const CheckerName: string): boolean;
+    function DetectTests(InputTemplate, OutputTemplate: string): boolean;
     function Unquote(const S: string): string;
     function PreprocessIniFile(const AFileName: string): TStream;
     function Parser(IniFile: TIniFile): boolean;
@@ -47,6 +50,11 @@ implementation
 
 { TEjudgeCfgPropertiesParser }
 
+procedure TEjudgeCfgPropertiesParser.AddTest(ATest: TProblemTest);
+begin
+  Properties.AddTest(ATest);
+end;
+
 procedure TEjudgeCfgPropertiesParser.SearcherFileFound(AIterator: TFileIterator);
 begin
   if IsTerminated then
@@ -56,11 +64,82 @@ end;
 function TEjudgeCfgPropertiesParser.DetectChecker(const CheckerName: string): boolean;
 var
   Files: TStringList;
+  CurFile, CurFileNoExt, Extension: string;
+  CheckerFileName: string;
+
+  function Detector(CanCompile: boolean): boolean;
+  begin
+    Result := False;
+    for CurFile in Files do
+    begin
+      CurFileNoExt := ExtractFileNameWithoutExt(ExtractFileNameOnly(CurFile));
+      Extension := LowerCase(ExtractFileExt(CurFile));
+      WriteLog('checker detector: *' + Extension);
+      WriteLog('checker detector: ' + CurFile + ' ' + CurFileNoExt);
+      // if the file hs wrong name - it's not checker
+      if LowerCase(CurFileNoExt) <> LowerCase(CheckerName) then
+        Continue;
+      // if it has right name - try to use it as a checker or compile it
+      if {$IfNDef Windows} (Extension = '') or {$EndIf}
+        (Extension = '.exe') then
+        CheckerFileName := CurFile
+      else if CanCompile then
+        CheckerFileName := CompileChecker(CurFile)
+      else
+        CheckerFileName := '';
+      WriteLog('Found ' + CheckerFileName);
+      // if checker detected - save it and exit
+      if CheckerFileName <> '' then
+      begin
+        CheckerFileName := CreateRelativePath(CheckerFileName, WorkingDir);
+        Result := True;
+        Properties.Checker := TTestlibChecker.Create(CheckerFileName);
+        Break;
+      end;
+      if IsTerminated then
+        Break;
+    end;
+  end;
+
 begin
   Files := FindAllFiles(@SearcherFileFound, WorkingDir, '*', False);
-  // TODO : Finish it !!!
-  Result := False;
+  try
+    Result := Detector(False);
+    if (not IsTerminated) and (not Result) then
+      Result := Detector(True);
+  finally
+    FreeAndNil(Files);
+  end;
+end;
 
+function TEjudgeCfgPropertiesParser.DetectTests(InputTemplate,
+  OutputTemplate: string): boolean;
+var
+  Template: TProblemTestTemplate;
+begin
+  if (InputTemplate = '') or (OutputTemplate = '') then
+  begin
+    Result := False;
+    Exit;
+  end;
+  Result := True;
+  InputTemplate := FromCppFormat(InputTemplate);
+  OutputTemplate := FromCppFormat(OutputTemplate);
+  Template := TProblemTestTemplate.Create('', '', 1, 1);
+  try
+    Template.InputFile := 'tests' + PathDelim + InputTemplate;
+    Template.OutputFile := 'tests' + PathDelim + OutputTemplate;
+    try
+      Template.GenerateTests(WorkingDir, @AddTest);
+    except
+      on E: ETestTemplate do
+        Result := False;
+      else
+        raise;
+    end;
+  finally
+    FreeAndNil(Template);
+  end;
 end;
 
 function TEjudgeCfgPropertiesParser.Unquote(const S: string): string;
@@ -136,6 +215,7 @@ var
   TLFloat: double;
   MLString: string;
   CheckerStr: string;
+  InputTemplate, OutputTemplate: string;
 begin
   Result := True;
   // parse input file
@@ -180,7 +260,7 @@ begin
     CheckerStr := ReadStrIfExists(ProblemSection, 'check_cmd', '', Result);
     if CheckerStr <> '' then
     begin
-      CheckerStr := ChangeFileExt(CheckerStr, '');
+      CheckerStr := ExtractFileNameWithoutExt(CheckerStr);
       WriteLog('Checker Str is ' + CheckerStr);
       if not DetectChecker(CheckerStr) then
         Result := False;
@@ -191,9 +271,10 @@ begin
   if IsTerminated then
     Exit;
   // parse tests
-
-  // TODO
-
+  InputTemplate := ReadStrIfExists(ProblemSection, 'test_pat', '', Result);
+  OutputTemplate := ReadStrIfExists(ProblemSection, 'corr_pat', '', Result);
+  if not DetectTests(InputTemplate, OutputTemplate) then
+    Result := False;
 end;
 
 function TEjudgeCfgPropertiesParser.DoParse: boolean;

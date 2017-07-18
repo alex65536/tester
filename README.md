@@ -6,8 +6,8 @@
 * [Downloading latest release](#downloading-latest-release)
 * [Building from sources](#building-from-sources)
 * [Documentation](#documentation)
-* [Libraries used by _Tester_](#libraries-used-by-tester)
 * [License](#license)
+* [Libraries used by _Tester_](#libraries-used-by-tester)
 
 # What is _Tester_?
 
@@ -93,7 +93,7 @@ Coming soon...
 
 # License
 
-_Tester_ is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](https://github.com/alex65536/tester/blob/master/LICENSE)  as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
+_Tester_ is free software; you can redistribute it and/or modify it under the terms of the [GNU General Public License](https://github.com/alex65536/tester/blob/master/LICENSE) as published by the Free Software Foundation; either version 2 of the License, or (at your option) any later version.
 
 This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the [GNU General Public License](https://github.com/alex65536/tester/blob/master/LICENSE) for more details.
 

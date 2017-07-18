@@ -33,6 +33,9 @@
 [*] Make warning if tests/checker not found while loading
 [*] Make adding some additional file to the directory with tested program
 [*] Allow testing EXEs
+[*] Rewrite the timerlib backend to support Java and Python
+[*] Add Java and Python
+[*] (in the far future) Write the Tester server
 [*] Allow stop the testing at every point of time
 [*] Allow stop the parser at every point of time
 [*] Create settings system

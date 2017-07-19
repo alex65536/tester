@@ -34,11 +34,11 @@ IndentFill + 'white-space: nowrap;'       + LineEnding +
 '.headerCell {'                           + LineEnding +
 IndentFill + 'background-color: silver;'  + LineEnding +
 '}'                                       + LineEnding +
-IndentFill + '.bigDataText {'             + LineEnding +
+'.bigDataText {'                          + LineEnding +
 IndentFill + 'font-size: 150%;'           + LineEnding +
 IndentFill + 'font-weight: bold;'         + LineEnding +
 '}'                                       + LineEnding +
-IndentFill + '.smallDataText {'           + LineEnding +
+'.smallDataText {'                        + LineEnding +
 IndentFill + ' font-size: 75%;'           + LineEnding +
 '}'
 

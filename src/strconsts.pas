@@ -85,6 +85,8 @@ resourcestring
   SNotFoundWarningFmt = '%s. %s.';
   SCoundNotConvert = 'Could not convert %s to %s';
   STooNewVersion = 'The file "%s" has a newer version (%s) that is supported (%s). Continue loading this file? If you continue, some problem data added in new versions will be lost.';
+  SUnableToLoad = 'Unable to load file "%s"';
+  SUnableToSave = 'Unable to save file "%s"';
 
 // Compilation verdicts
 resourcestring

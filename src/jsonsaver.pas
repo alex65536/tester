@@ -85,6 +85,7 @@ begin
         DeStreamer.JSONToObject(Obj['Version'] as TJSONObject, Version);
       except
         Version.FillZero;
+        // mute the exception
       end;
     end;
   finally

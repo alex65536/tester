@@ -186,49 +186,60 @@ var
   FileVersion: TFileVersion;
   CurVersion: TFileVersion;
   MsgText: string;
+  MsgFmt: string;
 begin
-  KeepLoading := True;
-  // check file version
-  FileVersion := GetFileVersion(FileName);
   try
-    CurVersion := TFileVersion.Current;
+    KeepLoading := True;
+    // check file version
+    FileVersion := GetFileVersion(FileName);
     try
-      if CompareFileVersions(FileVersion, CurVersion) > 0 then
-      begin
-        MsgText := Format(STooNewVersion, [FileName, FileVersion.ToString, CurVersion.ToString]);
-        KeepLoading := MessageDlg(MsgText, mtWarning, mbYesNo, 0) = mrYes;
+      CurVersion := TFileVersion.Current;
+      try
+        if CompareFileVersions(FileVersion, CurVersion) > 0 then
+        begin
+          MsgText := Format(STooNewVersion, [FileName, FileVersion.ToString, CurVersion.ToString]);
+          KeepLoading := MessageDlg(MsgText, mtWarning, mbYesNo, 0) = mrYes;
+        end;
+      finally
+        FreeAndNil(CurVersion);
       end;
     finally
-      FreeAndNil(CurVersion);
+      FreeAndNil(FileVersion);
     end;
-  finally
-    FreeAndNil(FileVersion);
-  end;
-  if not KeepLoading then
-    Exit;
-  // if everything is ok - continue loading
-  TabSheet := PropsList.AddTabSheet;
-  PropsList.ActivePage := TabSheet;
-  PropEditor := TProblemPropsEditor.Create(TabSheet);
-  PropEditor.OnTestsChange := @PropEditorTestsChange;
-  try
-    TabSheet.Caption := ExtractFileName(FileName);
-    PropEditor.PopupMenu := EmptyPopupMenu;
-    PropEditor.FileName := ExpandFileNameUTF8(FileName);
-    if Parse then
-    begin
-      RunAllParsers(ExtractFilePath(FileName), PropEditor.Properties);
-      PropEditor.UpdateControls;
+    if not KeepLoading then
+      Exit;
+    // if everything is ok - continue loading
+    TabSheet := PropsList.AddTabSheet;
+    PropsList.ActivePage := TabSheet;
+    PropEditor := TProblemPropsEditor.Create(TabSheet);
+    PropEditor.OnTestsChange := @PropEditorTestsChange;
+    try
+      TabSheet.Caption := ExtractFileName(FileName);
+      PropEditor.PopupMenu := EmptyPopupMenu;
+      PropEditor.FileName := ExpandFileNameUTF8(FileName);
+      if Parse then
+      begin
+        RunAllParsers(ExtractFilePath(FileName), PropEditor.Properties);
+        PropEditor.UpdateControls;
+      end;
+      case APolicy of
+        ceLoad: PropEditor.LoadFromJSON;
+        ceSave: PropEditor.SaveToJSON;
+      end;
+      PropEditor.Parent := TabSheet;
+      PropEditor.Align := alClient;
+    except
+      PropEditor.FileName := '';
+      FreeAndNil(TabSheet);
+      raise;
     end;
-    case APolicy of
-      ceLoad: PropEditor.LoadFromJSON;
-      ceSave: PropEditor.SaveToJSON;
-    end;
-    PropEditor.Parent := TabSheet;
-    PropEditor.Align := alClient;
   except
-    FreeAndNil(TabSheet);
-    Exit;
+    if APolicy = ceLoad then
+      MsgFmt := SUnableToLoad
+    else
+      MsgFmt := SUnableToSave;
+    MsgText := Format(MsgFmt, [FileName]);
+    MessageDlg(MsgText, mtError, [mbOK], 0);
   end;
 end;
 

@@ -98,6 +98,7 @@ type
     property FileName: string read FFileName write SetFileName;
     procedure LoadFromJSON;
     procedure SaveToJSON;
+    procedure ValidateAndCorrect;
     procedure UpdateProperties;
     procedure UpdateControls;
     procedure UpdateEnabled;
@@ -328,11 +329,51 @@ begin
 end;
 
 procedure TProblemPropsEditor.LoadFromJSON;
-const
-  MaxLostViewed = 16;
 var
   MemStream: TMemoryStream;
   S: string;
+begin
+  if FileName = '' then
+    Exit;
+  MemStream := TMemoryStream.Create;
+  try
+    MemStream.LoadFromFile(FileName);
+    SetLength(S, MemStream.Size);
+    MemStream.Read(S[1], Length(S));
+    LoadFromJSONStr(S, FProperties, nil);
+  finally
+    FreeAndNil(MemStream);
+    UpdateControls;
+  end;
+end;
+
+procedure TProblemPropsEditor.SaveToJSON;
+var
+  MemStream: TMemoryStream;
+  S: string;
+begin
+  if FileName = '' then
+    Exit;
+  try
+    UpdateProperties;
+    MemStream := TMemoryStream.Create;
+    try
+      S := SavePropsToJSONStr(FProperties);
+      MemStream.Write(S[1], Length(S));
+      MemStream.SaveToFile(FileName);
+    finally
+      FreeAndNil(MemStream);
+    end;
+  except
+    on E: Exception do
+      MessageDlg(Format(SSavePropsError, [FileName]), mtError, [mbOK], 0);
+  end;
+end;
+
+procedure TProblemPropsEditor.ValidateAndCorrect;
+const
+  MaxLostViewed = 16;
+var
   WasDir: string;
 
   procedure ValidateFilesFound;
@@ -364,49 +405,15 @@ var
   end;
 
 begin
-  if FileName = '' then
-    Exit;
-  MemStream := TMemoryStream.Create;
+  UpdateProperties;
+  WasDir := GetCurrentDirUTF8;
   try
-    MemStream.LoadFromFile(FileName);
-    SetLength(S, MemStream.Size);
-    MemStream.Read(S[1], Length(S));
-    LoadFromJSONStr(S, FProperties, nil);
-    // validate and correct
-    WasDir := GetCurrentDirUTF8;
-    try
-      SetCurrentDirUTF8(ExtractFilePath(FileName));
-      FProperties.CorrectFileNames;
-      ValidateFilesFound;
-    finally
-      SetCurrentDirUTF8(WasDir);
-    end;
+    SetCurrentDirUTF8(ExtractFilePath(FileName));
+    FProperties.CorrectFileNames;
+    ValidateFilesFound;
   finally
-    FreeAndNil(MemStream);
+    SetCurrentDirUTF8(WasDir);
     UpdateControls;
-  end;
-end;
-
-procedure TProblemPropsEditor.SaveToJSON;
-var
-  MemStream: TMemoryStream;
-  S: string;
-begin
-  if FileName = '' then
-    Exit;
-  try
-    UpdateProperties;
-    MemStream := TMemoryStream.Create;
-    try
-      S := SavePropsToJSONStr(FProperties);
-      MemStream.Write(S[1], Length(S));
-      MemStream.SaveToFile(FileName);
-    finally
-      FreeAndNil(MemStream);
-    end;
-  except
-    on E: Exception do
-      MessageDlg(Format(SSavePropsError, [FileName]), mtError, [mbOK], 0);
   end;
 end;
 

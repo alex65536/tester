@@ -226,6 +226,7 @@ begin
         ceLoad: PropEditor.LoadFromJSON;
         ceSave: PropEditor.SaveToJSON;
       end;
+      PropEditor.ValidateAndCorrect;
       PropEditor.Parent := TabSheet;
       PropEditor.Align := alClient;
     except
@@ -259,6 +260,7 @@ begin
   AEditor.FileName := ExpandFileNameUTF8(SaveDialog.FileName);
   AEditor.Parent.Caption := ExtractFileName(SaveDialog.FileName);
   AEditor.SaveToJSON;
+  AEditor.ValidateAndCorrect;
 end;
 
 procedure TMainForm.SaveFileActionUpdate(Sender: TObject);

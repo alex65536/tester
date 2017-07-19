@@ -63,7 +63,7 @@ function GetAppVersion: string;
 function GetAppFullName: string;
 function GetAppBuildDate: string;
 function GetAppTarget: string;
-function GetFileVersion: string;
+function GetAppFileVersion: string;
 
 implementation
 
@@ -90,7 +90,7 @@ const
     'customdrawn'
     );
   AppVersionKey = 'ProductVersion';
-  FileVersionKey = 'FileVersion';
+  AppFileVersionKey = 'FileVersion';
   BuildDate = {$I %DATE%};
   BuildTime = {$I %TIME%};
   TargetOS = {$I %FPCTARGETOS%};
@@ -99,7 +99,7 @@ const
 
 var
   AppVersion: string = '';
-  FileVersion: string = '';
+  AppFileVersion: string = '';
 
 procedure LoadVersionInfo;
 var
@@ -144,7 +144,7 @@ begin
       if AVersion <> nil then
       begin
         AppVersion := SeekForVersion(AppVersionKey);
-        FileVersion := SeekForVersion(FileVersionKey);
+        AppFileVersion := SeekForVersion(AppFileVersionKey);
       end;
     finally
       FreeAndNil(AResources);
@@ -251,11 +251,11 @@ begin
     WidgetSetNames[WidgetSet.LCLPlatform]]));
 end;
 
-function GetFileVersion: string;
+function GetAppFileVersion: string;
 begin
-  if FileVersion = '' then
+  if AppFileVersion = '' then
     LoadVersionInfo;
-  Result := FileVersion;
+  Result := AppFileVersion;
 end;
 
 { TFileVersion }
@@ -313,7 +313,7 @@ end;
 
 class function TFileVersion.Current: TFileVersion;
 begin
-  Result := StrToFileVersion(GetFileVersion);
+  Result := StrToFileVersion(GetAppFileVersion);
 end;
 
 end.

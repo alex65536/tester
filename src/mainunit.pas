@@ -193,7 +193,7 @@ var
     MsgText: string;
   begin
     Result := True;
-    FileVersion := GetFileVersion(FileName);
+    FileVersion := GetPropsFileVersion(FileName);
     try
       CurVersion := TFileVersion.Current;
       try

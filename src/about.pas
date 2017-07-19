@@ -81,7 +81,7 @@ end;
 procedure TAboutBox.FormCreate(Sender: TObject);
 begin
   VersionLbl.Caption := Format(SVersionFmt, [GetAppVersion]);
-  FileVersionLbl.Caption := GetFileVersion;
+  FileVersionLbl.Caption := GetAppFileVersion;
   PlatformLbl.Caption := GetAppTarget;
   DateLbl.Caption := Format(SBuildDateFmt, [GetAppBuildDate]);
 end;

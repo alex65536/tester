@@ -34,7 +34,7 @@ procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties;
 procedure LoadFromJSONStr(const Str: TJSONStringType; Props: TProblemProperties;
   Version: TFileVersion);
 
-function GetFileVersion(const AFileName: string): TFileVersion;
+function GetPropsFileVersion(const AFileName: string): TFileVersion;
 
 function SaveChecker(Checker: TProblemChecker): TJSONData;
 function SavePropsToJSONObj(Props: TProblemProperties): TJSONObject;
@@ -112,7 +112,7 @@ begin
   end;
 end;
 
-function GetFileVersion(const AFileName: string): TFileVersion;
+function GetPropsFileVersion(const AFileName: string): TFileVersion;
 var
   MemStream: TMemoryStream;
   S: string;

@@ -215,9 +215,6 @@ begin
   if Result <> 0 then
     Exit;
   // we do not compare by build!!!
-  {Result := CompareInt(Ver1.Build, Ver2.Build);
-  if Result <> 0 then
-    Exit;}
   // tag
   Result := CompareStr(Ver1.Tag, Ver2.Tag);
 end;

@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, compilers, runtimers, testresults,
-  FileUtil, LazFileUtils, testerprimitives, randomname, strconsts;
+  FileUtil, LazFileUtils, testerprimitives, randomname, strconsts, logfile;
 
 type
   EProblemTester = class(Exception);
@@ -202,12 +202,21 @@ procedure TProblemTester.Launch;
   end;
 
   procedure InternalDirDel(const DirName: string);
+  const
+    MaxTries = 64;
+  var
+    I: integer;
   begin
-    if DirectoryExistsUTF8(DirName) then
+    if not DirectoryExistsUTF8(DirName) then
+      Exit;
+    for I := 0 to MaxTries - 1 do
     begin
-      if not DeleteDirectory(DirName, False) then
-        raise EProblemTester.CreateFmt(SDirRemoveError, [DirName]);
+      WriteLogFmt('Directory deletion try %d', [I]);
+      if DeleteDirectory(DirName, False) then
+        Exit;
+      Sleep(40);
     end;
+    raise EProblemTester.CreateFmt(SDirRemoveError, [DirName]);
   end;
 
   procedure InternalCopyFiles(const Src, Dst: string);
@@ -260,7 +269,6 @@ var
   I: integer;
   Timer: TBaseRunTimer;
   MustSkip: boolean;
-
 begin
   FIsTerminated := False;
   try
@@ -388,9 +396,8 @@ begin
         InternalDirDel(WorkingDir);
       except
         on E: EProblemTester do
-        begin
           // mute the exception, we don't need to handle it.
-        end
+          WriteLog('Dir delete exception: ' + E.Message);
         else
           raise;
       end;

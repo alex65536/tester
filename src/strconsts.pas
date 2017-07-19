@@ -78,7 +78,7 @@ resourcestring
   SHTMLComment = 'This HTML file was exported by Tester v%s.';
   SHTMLTitle = 'Testing results';
   SSavePropsError = 'Unable to save properties file "%s"';
-  STestFilesDontExist = 'Input or output file doesn''t exist. Do you really want to insert this test?';
+  STestFilesDontExist = 'Input or output file doesn''t exist. Do you really want to add this test?';
   SNotFoundWarning = 'Some files listed in the problem data were not found';
   SNotFoundFilesListBegin = 'The files are:';
   SNotFoundFileFormat = #9'%s';

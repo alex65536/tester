@@ -82,6 +82,7 @@ type
     FFileName: string;
     FOnTestsChange: TNotifyEvent;
     FProperties: TProblemProperties;
+    function GetTestIfCan: TProblemTest;
     function GetProperties: TProblemProperties;
     function GetChecker: TProblemChecker;
     procedure PutChecker(AChecker: TProblemChecker);
@@ -125,14 +126,17 @@ begin
   TestDialog.PutTest(FProperties.Tests[Place]);
   if TestDialog.ShowModal(SEditTest) = mrOk then
   begin
-    ATest := TestDialog.GetTest;
-    try
-      FProperties.Tests[Place] := ATest;
-    finally
-      FreeAndNil(ATest);
-      RefreshTests;
-      UpdateEnabled;
-      DoTestChange;
+    ATest := GetTestIfCan;
+    if ATest <> nil then
+    begin
+      try
+        FProperties.Tests[Place] := ATest;
+      finally
+        FreeAndNil(ATest);
+        RefreshTests;
+        UpdateEnabled;
+        DoTestChange;
+      end;
     end;
   end;
 end;
@@ -142,6 +146,28 @@ begin
   User := User; // to prevent hints
   UpdateEnabled;
   DoTestChange;
+end;
+
+function TProblemPropsEditor.GetTestIfCan: TProblemTest;
+var
+  WasDir: string;
+begin
+  Result := TestDialog.GetTest;
+  try
+    WasDir := GetCurrentDirUTF8;
+    try
+      SetCurrentDirUTF8(ExtractFilePath(FileName));
+      Result.CorrectFileNames;
+      if not Result.IsFileNamesValid then
+        if MessageDlg(STestFilesDontExist, mtWarning, [mbYes, mbNo], 0) = mrNo then
+          FreeAndNil(Result);
+    finally
+      SetCurrentDirUTF8(WasDir);
+    end;
+  except
+    Result := nil;
+    raise;
+  end;
 end;
 
 procedure TProblemPropsEditor.AddTestBtnClick(Sender: TObject);
@@ -163,26 +189,13 @@ procedure TProblemPropsEditor.AddInsertTestHelper(Place: integer);
 var
   PutPlace: integer;
   Test: TProblemTest;
-  WasDir: string;
 begin
   PutPlace := Place;
   if Place < 0 then
     PutPlace := FProperties.TestCount;
   if TestDialog.ShowModal(SInsertTest) = mrOk then
   begin
-    Test := TestDialog.GetTest;
-    // correct test file names
-    WasDir := GetCurrentDirUTF8;
-    try
-      SetCurrentDirUTF8(ExtractFilePath(FileName));
-      Test.CorrectFileNames;
-      if not Test.IsFileNamesValid then
-        if MessageDlg(STestFilesDontExist, mtWarning, [mbYes, mbNo], 0) = mrNo then
-          FreeAndNil(Test);
-    finally
-      SetCurrentDirUTF8(WasDir);
-    end;
-    // if test is valid and exists - insert it
+    Test := GetTestIfCan;
     if Test <> nil then
     begin
       FProperties.InsertTest(PutPlace, Test);

@@ -22,7 +22,7 @@ unit versioninfo;
 
 {$mode objfpc}{$H+}
 
-// Thanks to lazresexplorer (a Lazarus exampler) for the way to get the version
+// Thanks to lazresexplorer (a Lazarus example) for the way to get the version
 // info and for code to do it. The code was taken from there and modified.
 
 interface

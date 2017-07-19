@@ -27,7 +27,7 @@ interface
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
   ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
-  parserforms, versioninfo, baseforms;
+  parserforms, versioninfo, baseforms, jsonsaver, strconsts;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);
@@ -182,7 +182,31 @@ procedure TMainForm.CreateFromFile(const FileName: string;
 var
   TabSheet: TTabSheet;
   PropEditor: TProblemPropsEditor;
+  KeepLoading: boolean;
+  FileVersion: TFileVersion;
+  CurVersion: TFileVersion;
+  MsgText: string;
 begin
+  KeepLoading := True;
+  // check file version
+  FileVersion := GetFileVersion(FileName);
+  try
+    CurVersion := TFileVersion.Current;
+    try
+      if CompareFileVersions(FileVersion, CurVersion) > 0 then
+      begin
+        MsgText := Format(STooNewVersion, [FileName, FileVersion.ToString, CurVersion.ToString]);
+        KeepLoading := MessageDlg(MsgText, mtWarning, mbYesNo, 0) = mrYes;
+      end;
+    finally
+      FreeAndNil(CurVersion);
+    end;
+  finally
+    FreeAndNil(FileVersion);
+  end;
+  if not KeepLoading then
+    Exit;
+  // if everything is ok - continue loading
   TabSheet := PropsList.AddTabSheet;
   PropsList.ActivePage := TabSheet;
   PropEditor := TProblemPropsEditor.Create(TabSheet);

@@ -27,10 +27,43 @@ unit versioninfo;
 
 interface
 
+type
+
+  { TFileVersion }
+
+  TFileVersion = class
+  private
+    FBuild: integer;
+    FMajor: integer;
+    FMinor: integer;
+    FRelease: integer;
+    FTag: string;
+    procedure SetBuild(AValue: integer);
+    procedure SetMajor(AValue: integer);
+    procedure SetMinor(AValue: integer);
+    procedure SetRelease(AValue: integer);
+    procedure SetTag(AValue: string);
+  public
+    constructor Create;
+    procedure FillZero;
+    function ToString: ansistring; override;
+    class function Current: TFileVersion;
+  published
+    property Major: integer read FMajor write SetMajor;
+    property Minor: integer read FMinor write SetMinor;
+    property Release: integer read FRelease write SetRelease;
+    property Build: integer read FBuild write SetBuild;
+    property Tag: string read FTag write SetTag;
+  end;
+
+function StrToFileVersion(Str: string): TFileVersion;
+function CompareFileVersions(Ver1, Ver2: TFileVersion): integer;
+
 function GetAppVersion: string;
 function GetAppFullName: string;
 function GetAppBuildDate: string;
 function GetAppTarget: string;
+function GetFileVersion: string;
 
 implementation
 
@@ -57,6 +90,7 @@ const
     'customdrawn'
     );
   AppVersionKey = 'ProductVersion';
+  FileVersionKey = 'FileVersion';
   BuildDate = {$I %DATE%};
   BuildTime = {$I %TIME%};
   TargetOS = {$I %FPCTARGETOS%};
@@ -65,14 +99,33 @@ const
 
 var
   AppVersion: string = '';
+  FileVersion: string = '';
 
-procedure LoadAppVersion;
+procedure LoadVersionInfo;
 var
   AResources: TResources;
   AReader: TAbstractResourceReader;
   AVersion: TVersionResource;
   I: integer;
-  Str: string;
+
+  function SeekForVersion(const AKey: string): string;
+  var
+    I: integer;
+    Str: string;
+  begin
+    Result := '';
+    for I := 0 to AVersion.StringFileInfo.Count - 1 do
+    begin
+      try
+        Str := AVersion.StringFileInfo.Items[I].Values[AKey];
+      except
+        Str := '';
+      end;
+      if Str <> '' then
+        Result := Str;
+    end;
+  end;
+
 begin
   {$IfDef Windows}
   AReader := TWinPEImageResourceReader.Create;
@@ -90,16 +143,8 @@ begin
       AppVersion := SDefaultVersion;
       if AVersion <> nil then
       begin
-        for I := 0 to AVersion.StringFileInfo.Count - 1 do
-        begin
-          try
-            Str := AVersion.StringFileInfo.Items[I].Values[AppVersionKey];
-          except
-            Str := '';
-          end;
-          if Str <> '' then
-            AppVersion := Str;
-        end;
+        AppVersion := SeekForVersion(AppVersionKey);
+        FileVersion := SeekForVersion(FileVersionKey);
       end;
     finally
       FreeAndNil(AResources);
@@ -109,10 +154,78 @@ begin
   end;
 end;
 
+function StrToFileVersion(Str: string): TFileVersion;
+
+  procedure RaiseException;
+  begin
+    raise EConvertError.CreateFmt(SCoundNotConvert, ['string', 'TFileVersion']);
+  end;
+
+  function CutBySeparator(const Separator: string; var S: string): integer;
+  var
+    P: integer;
+  begin
+    P := Pos(Separator, S);
+    if P = 0 then
+      RaiseException;
+    Result := StrToInt(Copy(S, 1, P-1));
+    Delete(S, 1, P);
+  end;
+
+begin
+  Result := TFileVersion.Create;
+  try
+    Result.Major := CutBySeparator('.', Str);
+    Result.Minor := CutBySeparator('.', Str);
+    Result.Release := CutBySeparator('.', Str);
+    if Pos('-', Str) = 0 then
+      Str := Str + '-';
+    Result.Build := CutBySeparator('-', Str);
+    Result.Tag := Str;
+  except
+    FreeAndNil(Result);
+    raise;
+  end;
+end;
+
+function CompareFileVersions(Ver1, Ver2: TFileVersion): integer;
+
+  function CompareInt(Int1, Int2: integer): integer; inline;
+  begin
+    if Int1 < Int2 then
+      Result := -1
+    else if Int1 > Int2 then
+      Result := +1
+    else
+      Result := 0;
+  end;
+
+begin
+  Result := 0;
+  // Major
+  Result := CompareInt(Ver1.Major, Ver2.Major);
+  if Result <> 0 then
+    Exit;
+  // Minor
+  Result := CompareInt(Ver1.Minor, Ver2.Minor);
+  if Result <> 0 then
+    Exit;
+  // Release
+  Result := CompareInt(Ver1.Release, Ver2.Release);
+  if Result <> 0 then
+    Exit;
+  // Build
+  Result := CompareInt(Ver1.Build, Ver2.Build);
+  if Result <> 0 then
+    Exit;
+  // Tag
+  Result := CompareStr(Ver1.Tag, Ver2.Tag);
+end;
+
 function GetAppVersion: string;
 begin
   if AppVersion = '' then
-    LoadAppVersion;
+    LoadVersionInfo;
   Result := AppVersion;
 end;
 
@@ -136,6 +249,71 @@ function GetAppTarget: string;
 begin
   Result := LowerCase(Format(TargetFmt, [TargetCPU, TargetOS,
     WidgetSetNames[WidgetSet.LCLPlatform]]));
+end;
+
+function GetFileVersion: string;
+begin
+  if FileVersion = '' then
+    LoadVersionInfo;
+  Result := FileVersion;
+end;
+
+{ TFileVersion }
+
+procedure TFileVersion.SetBuild(AValue: integer);
+begin
+  if FBuild = AValue then Exit;
+  FBuild := AValue;
+end;
+
+procedure TFileVersion.SetMajor(AValue: integer);
+begin
+  if FMajor = AValue then Exit;
+  FMajor := AValue;
+end;
+
+procedure TFileVersion.SetMinor(AValue: integer);
+begin
+  if FMinor = AValue then Exit;
+  FMinor := AValue;
+end;
+
+procedure TFileVersion.SetRelease(AValue: integer);
+begin
+  if FRelease = AValue then Exit;
+  FRelease := AValue;
+end;
+
+procedure TFileVersion.SetTag(AValue: string);
+begin
+  if FTag = AValue then Exit;
+  FTag := AValue;
+end;
+
+constructor TFileVersion.Create;
+begin
+  FillZero;
+end;
+
+procedure TFileVersion.FillZero;
+begin
+  Major := 0;
+  Minor := 0;
+  Release := 0;
+  Build := 0;
+  Tag := '';
+end;
+
+function TFileVersion.ToString: ansistring;
+begin
+  Result := Format('%d.%d.%d.%d', [Major, Minor, Release, Build]);
+  if Tag <> '' then
+    Result := Result + '-' + Tag;
+end;
+
+class function TFileVersion.Current: TFileVersion;
+begin
+  Result := StrToFileVersion(GetFileVersion);
 end;
 
 end.

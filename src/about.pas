@@ -34,6 +34,7 @@ type
 
   TAboutBox = class(TBaseForm)
     LisenceBtn: TButton;
+    FileVersionLbl: TLabel;
     WebsiteBtn: TButton;
     CloseBtn: TButton;
     DividerBevel1: TDividerBevel;
@@ -80,6 +81,7 @@ end;
 procedure TAboutBox.FormCreate(Sender: TObject);
 begin
   VersionLbl.Caption := Format(SVersionFmt, [GetAppVersion]);
+  FileVersionLbl.Caption := GetFileVersion;
   PlatformLbl.Caption := GetAppTarget;
   DateLbl.Caption := Format(SBuildDateFmt, [GetAppBuildDate]);
 end;

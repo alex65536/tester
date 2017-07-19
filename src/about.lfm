@@ -1,13 +1,13 @@
 inherited AboutBox: TAboutBox
   Left = 511
-  Height = 596
+  Height = 595
   Top = 66
   Width = 295
   ActiveControl = LisenceBtn
   AutoSize = True
   BorderStyle = bsDialog
   Caption = 'About Tester...'
-  ClientHeight = 596
+  ClientHeight = 595
   ClientWidth = 295
   OnCreate = FormCreate
   Position = poMainFormCenter
@@ -786,7 +786,7 @@ inherited AboutBox: TAboutBox
   object DividerBevel1: TDividerBevel[3]
     Left = 0
     Height = 17
-    Top = 372
+    Top = 389
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
@@ -795,7 +795,7 @@ inherited AboutBox: TAboutBox
   object Label3: TLabel[4]
     Left = 3
     Height = 17
-    Top = 457
+    Top = 474
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -806,7 +806,7 @@ inherited AboutBox: TAboutBox
   object Label4: TLabel[5]
     Left = 3
     Height = 17
-    Top = 474
+    Top = 491
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -817,7 +817,7 @@ inherited AboutBox: TAboutBox
   object Panel: TPanel[6]
     Left = 0
     Height = 29
-    Top = 567
+    Top = 568
     Width = 295
     Align = alBottom
     AutoSize = True
@@ -861,7 +861,7 @@ inherited AboutBox: TAboutBox
   object DividerBevel2: TDividerBevel[7]
     Left = 0
     Height = 17
-    Top = 550
+    Top = 551
     Width = 295
     Align = alBottom
     Font.Style = [fsBold]
@@ -870,7 +870,7 @@ inherited AboutBox: TAboutBox
   object Label5: TLabel[8]
     Left = 3
     Height = 51
-    Top = 389
+    Top = 406
     Width = 289
     Align = alTop
     Alignment = taCenter
@@ -883,7 +883,7 @@ inherited AboutBox: TAboutBox
   object DividerBevel3: TDividerBevel[9]
     Left = 0
     Height = 17
-    Top = 440
+    Top = 457
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
@@ -892,7 +892,7 @@ inherited AboutBox: TAboutBox
   object Label6: TLabel[10]
     Left = 3
     Height = 34
-    Top = 508
+    Top = 525
     Width = 289
     Align = alTop
     BorderSpacing.Left = 3
@@ -903,8 +903,8 @@ inherited AboutBox: TAboutBox
   end
   object Panel1: TPanel[11]
     Left = 0
-    Height = 8
-    Top = 542
+    Height = 1
+    Top = 559
     Width = 295
     Align = alClient
     BevelOuter = bvNone
@@ -913,7 +913,7 @@ inherited AboutBox: TAboutBox
   object DividerBevel4: TDividerBevel[12]
     Left = 0
     Height = 17
-    Top = 491
+    Top = 508
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
@@ -922,7 +922,7 @@ inherited AboutBox: TAboutBox
   object DateLbl: TLabel[13]
     Left = 0
     Height = 17
-    Top = 355
+    Top = 372
     Width = 295
     Align = alTop
     Alignment = taCenter
@@ -932,7 +932,7 @@ inherited AboutBox: TAboutBox
   object PlatformLbl: TLabel[14]
     Left = 0
     Height = 17
-    Top = 321
+    Top = 338
     Width = 295
     Align = alTop
     Alignment = taCenter
@@ -942,10 +942,20 @@ inherited AboutBox: TAboutBox
   object DividerBevel5: TDividerBevel[15]
     Left = 0
     Height = 17
-    Top = 338
+    Top = 355
     Width = 295
     Align = alTop
     Font.Style = [fsBold]
     ParentFont = False
+  end
+  object FileVersionLbl: TLabel[16]
+    Left = 0
+    Height = 17
+    Top = 321
+    Width = 295
+    Align = alTop
+    Alignment = taCenter
+    Caption = 'x.x.x.x'
+    ParentColor = False
   end
 end

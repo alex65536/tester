@@ -83,6 +83,8 @@ resourcestring
   SNotFoundFilesListBegin = 'The files are:';
   SNotFoundFileFormat = #9'%s';
   SNotFoundWarningFmt = '%s. %s.';
+  SCoundNotConvert = 'Could not convert %s to %s';
+  STooNewVersion = 'The file "%s" has a newer version (%s) that is supported (%s). Continue loading this file? If you continue, some problem data added in new versions will be lost.';
 
 // Compilation verdicts
 resourcestring

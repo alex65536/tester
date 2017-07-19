@@ -371,7 +371,7 @@ begin
     MemStream.LoadFromFile(FileName);
     SetLength(S, MemStream.Size);
     MemStream.Read(S[1], Length(S));
-    LoadFromJSONStr(S, FProperties);
+    LoadFromJSONStr(S, FProperties, nil);
     // validate and correct
     WasDir := GetCurrentDirUTF8;
     try

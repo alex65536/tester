@@ -25,12 +25,16 @@ unit jsonsaver;
 interface
 
 uses
-  SysUtils, problemprops, fpjson, fpjsonrtti, jsonparser, multitesters,
-  jsonscanner;
+  SysUtils, Classes, problemprops, fpjson, fpjsonrtti, jsonparser,
+  multitesters, jsonscanner, versioninfo;
 
 function LoadChecker(Obj: TJSONData): TProblemChecker;
-procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties);
-procedure LoadFromJSONStr(const Str: TJSONStringType; Props: TProblemProperties);
+procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties;
+  Version: TFileVersion);
+procedure LoadFromJSONStr(const Str: TJSONStringType; Props: TProblemProperties;
+  Version: TFileVersion);
+
+function GetFileVersion(const AFileName: string): TFileVersion;
 
 function SaveChecker(Checker: TProblemChecker): TJSONData;
 function SavePropsToJSONObj(Props: TProblemProperties): TJSONObject;
@@ -61,20 +65,35 @@ begin
   end;
 end;
 
-procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties);
+procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties;
+  Version: TFileVersion);
 var
   DeStreamer: TJSONDeStreamer;
 begin
   DeStreamer := TJSONDeStreamer.Create(nil);
   try
-    DeStreamer.JSONToObject(Obj, Props);
-    Props.Checker := LoadChecker(Obj['Checker']);
+    // load properties
+    if Props <> nil then
+    begin
+      DeStreamer.JSONToObject(Obj, Props);
+      Props.Checker := LoadChecker(Obj['Checker']);
+    end;
+    // load version info
+    if Version <> nil then
+    begin
+      try
+        DeStreamer.JSONToObject(Obj['Version'] as TJSONObject, Version);
+      except
+        Version.FillZero;
+      end;
+    end;
   finally
     FreeAndNil(DeStreamer);
   end;
 end;
 
-procedure LoadFromJSONStr(const Str: TJSONStringType; Props: TProblemProperties);
+procedure LoadFromJSONStr(const Str: TJSONStringType;
+  Props: TProblemProperties; Version: TFileVersion);
 var
   Parser: TJSONParser;
   Obj: TJSONData;
@@ -83,12 +102,34 @@ begin
   try
     Obj := Parser.Parse;
     try
-      LoadFromJSONObj(Obj as TJSONObject, Props);
+      LoadFromJSONObj(Obj as TJSONObject, Props, Version);
     finally
       FreeAndNil(Obj);
     end;
   finally
     FreeAndNil(Parser);
+  end;
+end;
+
+function GetFileVersion(const AFileName: string): TFileVersion;
+var
+  MemStream: TMemoryStream;
+  S: string;
+begin
+  Result := TFileVersion.Create;
+  try
+    MemStream := TMemoryStream.Create;
+    try
+      MemStream.LoadFromFile(AFileName);
+      SetLength(S, MemStream.Size);
+      MemStream.Read(S[1], Length(S));
+      LoadFromJSONStr(S, nil, Result);
+    finally
+      FreeAndNil(MemStream);
+    end;
+  except
+    FreeAndNil(Result);
+    raise;
   end;
 end;
 
@@ -117,11 +158,19 @@ end;
 function SavePropsToJSONObj(Props: TProblemProperties): TJSONObject;
 var
   Streamer: TJSONStreamer;
+  CurVersion: TFileVersion;
 begin
   Streamer := TJSONStreamer.Create(nil);
   try
     Result := Streamer.ObjectToJSON(Props);
     Result['Checker'] := SaveChecker(Props.Checker);
+    // write version info
+    CurVersion := TFileVersion.Current;
+    try
+      Result['Version'] := Streamer.ObjectToJSON(CurVersion);
+    finally
+      FreeAndNil(CurVersion);
+    end;
   finally
     FreeAndNil(Streamer);
   end;

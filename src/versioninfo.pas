@@ -202,23 +202,23 @@ function CompareFileVersions(Ver1, Ver2: TFileVersion): integer;
 
 begin
   Result := 0;
-  // Major
+  // major
   Result := CompareInt(Ver1.Major, Ver2.Major);
   if Result <> 0 then
     Exit;
-  // Minor
+  // minor
   Result := CompareInt(Ver1.Minor, Ver2.Minor);
   if Result <> 0 then
     Exit;
-  // Release
+  // release
   Result := CompareInt(Ver1.Release, Ver2.Release);
   if Result <> 0 then
     Exit;
-  // Build
-  Result := CompareInt(Ver1.Build, Ver2.Build);
+  // we do not compare by build!!!
+  {Result := CompareInt(Ver1.Build, Ver2.Build);
   if Result <> 0 then
-    Exit;
-  // Tag
+    Exit;}
+  // tag
   Result := CompareStr(Ver1.Tag, Ver2.Tag);
 end;
 

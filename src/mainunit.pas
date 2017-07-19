@@ -27,7 +27,7 @@ interface
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
   ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
-  parserforms, versioninfo, baseforms, jsonsaver, strconsts;
+  parserforms, versioninfo, baseforms, jsonsaver, strconsts, logfile;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);
@@ -187,10 +187,12 @@ var
   CurVersion: TFileVersion;
   MsgText: string;
   MsgFmt: string;
-begin
-  try
-    KeepLoading := True;
-    // check file version
+
+  function CheckFileVersion: boolean;
+  var
+    MsgText: string;
+  begin
+    Result := True;
     FileVersion := GetFileVersion(FileName);
     try
       CurVersion := TFileVersion.Current;
@@ -198,7 +200,7 @@ begin
         if CompareFileVersions(FileVersion, CurVersion) > 0 then
         begin
           MsgText := Format(STooNewVersion, [FileName, FileVersion.ToString, CurVersion.ToString]);
-          KeepLoading := MessageDlg(MsgText, mtWarning, mbYesNo, 0) = mrYes;
+          Result := MessageDlg(MsgText, mtWarning, mbYesNo, 0) = mrYes;
         end;
       finally
         FreeAndNil(CurVersion);
@@ -206,6 +208,13 @@ begin
     finally
       FreeAndNil(FileVersion);
     end;
+  end;
+
+begin
+  try
+    KeepLoading := True;
+    if APolicy = ceLoad then
+      KeepLoading := CheckFileVersion;
     if not KeepLoading then
       Exit;
     // if everything is ok - continue loading
@@ -230,17 +239,25 @@ begin
       PropEditor.Parent := TabSheet;
       PropEditor.Align := alClient;
     except
-      PropEditor.FileName := '';
-      FreeAndNil(TabSheet);
-      raise;
+      on E: Exception do
+      begin
+        WriteLog('Exception while loading/saving: ' + E.ClassName + ' ' + E.Message);
+        PropEditor.FileName := '';
+        FreeAndNil(TabSheet);
+        raise;
+      end;
     end;
   except
-    if APolicy = ceLoad then
-      MsgFmt := SUnableToLoad
-    else
-      MsgFmt := SUnableToSave;
-    MsgText := Format(MsgFmt, [FileName]);
-    MessageDlg(MsgText, mtError, [mbOK], 0);
+    on E: Exception do
+    begin
+      WriteLog('Exception while loading/saving: ' + E.ClassName + ' ' + E.Message);
+      if APolicy = ceLoad then
+        MsgFmt := SUnableToLoad
+      else
+        MsgFmt := SUnableToSave;
+      MsgText := Format(MsgFmt, [FileName]);
+      MessageDlg(MsgText, mtError, [mbOK], 0);
+    end;
   end;
 end;
 

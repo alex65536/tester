@@ -18,7 +18,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
-      <BuildNr Value="118"/>
+      <BuildNr Value="119"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2 (prerelease)"/>
     </VersionInfo>
@@ -307,6 +307,9 @@
     </SearchPaths>
     <CodeGeneration>
       <SmartLinkUnit Value="True"/>
+      <Optimizations>
+        <OptimizationLevel Value="2"/>
+      </Optimizations>
     </CodeGeneration>
     <Linking>
       <Debugging>

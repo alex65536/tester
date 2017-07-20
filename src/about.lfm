@@ -817,7 +817,7 @@ inherited AboutBox: TAboutBox
   object Panel: TPanel[6]
     Left = 0
     Height = 29
-    Top = 568
+    Top = 566
     Width = 295
     Align = alBottom
     AutoSize = True
@@ -861,7 +861,7 @@ inherited AboutBox: TAboutBox
   object DividerBevel2: TDividerBevel[7]
     Left = 0
     Height = 17
-    Top = 551
+    Top = 549
     Width = 295
     Align = alBottom
     Font.Style = [fsBold]

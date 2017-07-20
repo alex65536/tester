@@ -84,6 +84,7 @@ begin
   Application.Title := 'Tester';
   RequireDerivedFormResource := True;
   Application.Initialize;
+  InitVersionInfo;
   Application.CreateForm(TImageKeeper, ImageKeeper);
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TTestDialog, TestDialog);

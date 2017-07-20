@@ -82,12 +82,12 @@ begin
         Break;
       if FileExistsUTF8(InputFileName) and FileExistsUTF8(OutputFileName) then
       begin
+        LastInput := InputFileName;
+        LastOutput := OutputFileName;
         InputFileName := CreateRelativePath(InputFileName, WorkingDir);
         OutputFileName := CreateRelativePath(OutputFileName, WorkingDir);
         Proc(TProblemTest.Create(InputFileName, OutputFileName, Cost), Stop);
         Inc(I);
-        LastInput := InputFileName;
-        LastOutput := OutputFileName;
         if Stop then
           Break;
       end

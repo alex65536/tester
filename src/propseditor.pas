@@ -239,14 +239,27 @@ end;
 procedure TProblemPropsEditor.MultiAddTestsBtnClick(Sender: TObject);
 var
   Template: TProblemTestTemplate;
+  CanRefresh: boolean;
 begin
+  CanRefresh := False;
   if TestTemplateDialog.ShowModal(SMultiAddTest) = mrOk then
   begin
     Template := TestTemplateDialog.GetTemplate;
     try
       Template.GenerateTests(ExtractFileDir(FileName), @AddTestProc);
-    finally
-      FreeAndNil(Template);
+      CanRefresh := True;
+    except
+      on E: ETestTemplate do
+        MessageDlg(E.Message, mtError, [mbOK], 0);
+      else
+      begin
+        FreeAndNil(Template);
+        raise;
+      end;
+    end;
+    FreeAndNil(Template);
+    if CanRefresh then
+    begin
       RefreshTests;
       TestsList.ItemIndex := TestsList.Count - 1;
       UpdateEnabled;

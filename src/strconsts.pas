@@ -59,7 +59,7 @@ resourcestring
   SMemConsumedEx = '%d KBytes';
   SScoreDivide = '%.2f/%.2f';
   SAlreadyTesting = 'Testing is already started';
-  SNoTestsAdded = 'No tests were added';
+  SNoTestsAdded = 'No tests were added!';
   SAddTest = 'Add test';
   SInsertTest = 'Insert test';
   SEditTest = 'Edit test';
@@ -87,6 +87,7 @@ resourcestring
   STooNewVersion = 'The file "%s" has a newer version (%s) that is supported (%s). Continue loading this file? If you continue, some problem data added in new versions will be lost.';
   SUnableToLoad = 'Unable to load file "%s"';
   SUnableToSave = 'Unable to save file "%s"';
+  SUnableToLoadVersionInfo = 'Unable to load version info';
 
 // Compilation verdicts
 resourcestring

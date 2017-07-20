@@ -27,7 +27,11 @@ unit versioninfo;
 
 interface
 
+uses
+  SysUtils;
+
 type
+  EVersionInfo = class(Exception);
 
   { TFileVersion }
 
@@ -65,6 +69,8 @@ function GetAppBuildDate: string;
 function GetAppTarget: string;
 function GetAppFileVersion: string;
 
+procedure InitVersionInfo;
+
 implementation
 
 uses
@@ -73,7 +79,7 @@ uses
 {$Else}
   elfreader,
 {$EndIf}
-  Classes, SysUtils, resource, versionresource, Forms, InterfaceBase, strconsts;
+  Classes, resource, versionresource, Forms, InterfaceBase, strconsts;
 
 const
   WidgetSetNames: array [TLCLPlatform] of string = (
@@ -221,8 +227,6 @@ end;
 
 function GetAppVersion: string;
 begin
-  if AppVersion = '' then
-    LoadVersionInfo;
   Result := AppVersion;
 end;
 
@@ -250,9 +254,17 @@ end;
 
 function GetAppFileVersion: string;
 begin
-  if AppFileVersion = '' then
-    LoadVersionInfo;
   Result := AppFileVersion;
+end;
+
+procedure InitVersionInfo;
+begin
+  try
+    LoadVersionInfo;
+  finally
+    if (AppVersion = '') or (AppFileVersion = '') then
+      raise EVersionInfo.Create(SUnableToLoadVersionInfo);
+  end;
 end;
 
 { TFileVersion }

@@ -203,7 +203,7 @@ procedure TProblemTester.Launch;
 
   procedure InternalDirDel(const DirName: string);
   const
-    MaxTries = 64;
+    MaxTries = 25;
   var
     I: integer;
   begin

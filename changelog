@@ -4,7 +4,7 @@ Tester ChangeLog:
 version 1.2 (prerelease) (20.07.2017)
 [*] Many bug fixes and improvements.
 [*] Added warnings if tests or checker were not found.
-[*] Intoduced "Stop after first fail" option (to allow ACM-style problems).
+[*] Introduced "Stop after first fail" option (to allow ACM-style problems).
 [*] Now tests can have 0 points cost.
 [*] Optimized test results redrawing.
 [*] Now Delphi (*.dpr) is supported for solutions and checkers.

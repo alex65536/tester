@@ -20,7 +20,7 @@
       <MinorVersionNr Value="2"/>
       <BuildNr Value="118"/>
       <Attributes pvaPreRelease="True"/>
-      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2 (pre-release)"/>
+      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2 (prerelease)"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

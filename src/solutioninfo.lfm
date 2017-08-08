@@ -1,0 +1,396 @@
+inherited SolutionStatsDlg: TSolutionStatsDlg
+  Height = 263
+  Width = 310
+  ActiveControl = ButtonPanel.CloseButton
+  Caption = 'Solution stats'
+  ClientHeight = 263
+  ClientWidth = 310
+  Position = poMainFormCenter
+  object ButtonPanel: TButtonPanel[0]
+    Left = 6
+    Height = 37
+    Top = 220
+    Width = 298
+    OKButton.Name = 'OKButton'
+    OKButton.DefaultCaption = True
+    HelpButton.Name = 'HelpButton'
+    HelpButton.DefaultCaption = True
+    CloseButton.Name = 'CloseButton'
+    CloseButton.DefaultCaption = True
+    CancelButton.Name = 'CancelButton'
+    CancelButton.DefaultCaption = True
+    TabOrder = 0
+    ShowButtons = [pbClose]
+  end
+  object Panel: TPanel[1]
+    Left = 6
+    Height = 208
+    Top = 6
+    Width = 298
+    Align = alClient
+    BorderSpacing.Around = 6
+    BevelOuter = bvNone
+    ClientHeight = 208
+    ClientWidth = 298
+    TabOrder = 1
+    object Panel1: TPanel
+      Left = 0
+      Height = 17
+      Top = 0
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Bottom = 3
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 0
+      object Label1: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 45
+        Align = alLeft
+        Caption = 'Score: '
+        ParentColor = False
+      end
+      object ScoreLabel: TLabel
+        Left = 45
+        Height = 17
+        Top = 0
+        Width = 54
+        Align = alLeft
+        Caption = '100/100'
+        Font.Color = clGreen
+        ParentColor = False
+        ParentFont = False
+      end
+    end
+    object Panel2: TPanel
+      Left = 0
+      Height = 17
+      Top = 23
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 1
+      object Label2: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 93
+        Align = alLeft
+        Caption = 'Tests passed: '
+        ParentColor = False
+      end
+      object TestsPassedLabel: TLabel
+        Left = 93
+        Height = 17
+        Top = 0
+        Width = 79
+        Align = alLeft
+        Caption = '1 of 4 (25%)'
+        ParentColor = False
+      end
+    end
+    object Panel3: TPanel
+      Left = 0
+      Height = 17
+      Top = 40
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 2
+      object Label3: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 84
+        Align = alLeft
+        Caption = 'Tests failed: '
+        ParentColor = False
+      end
+      object TestsFailedLabel: TLabel
+        Left = 84
+        Height = 17
+        Top = 0
+        Width = 79
+        Align = alLeft
+        Caption = '1 of 4 (25%)'
+        ParentColor = False
+      end
+    end
+    object Panel4: TPanel
+      Left = 0
+      Height = 17
+      Top = 57
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 3
+      object Label4: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 99
+        Align = alLeft
+        Caption = 'Tests skipped: '
+        ParentColor = False
+      end
+      object TestsSkippedLabel: TLabel
+        Left = 99
+        Height = 17
+        Top = 0
+        Width = 79
+        Align = alLeft
+        Caption = '1 of 4 (25%)'
+        ParentColor = False
+      end
+    end
+    object Panel5: TPanel
+      Left = 0
+      Height = 17
+      Top = 74
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Bottom = 3
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 4
+      object Label5: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 94
+        Align = alLeft
+        Caption = 'Tests waiting:'
+        ParentColor = False
+      end
+      object TestsWaitingLabel: TLabel
+        Left = 94
+        Height = 17
+        Top = 0
+        Width = 79
+        Align = alLeft
+        Caption = '1 of 4 (25%)'
+        ParentColor = False
+      end
+    end
+    object Panel6: TPanel
+      Left = 0
+      Height = 17
+      Top = 97
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 5
+      object Label6: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 72
+        Align = alLeft
+        Caption = 'Best time: '
+        ParentColor = False
+      end
+      object BestTimeLabel: TLabel
+        Left = 72
+        Height = 17
+        Top = 0
+        Width = 38
+        Align = alLeft
+        Caption = '0.01 s'
+        ParentColor = False
+      end
+    end
+    object Panel7: TPanel
+      Left = 0
+      Height = 17
+      Top = 114
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 6
+      object Label7: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 83
+        Align = alLeft
+        Caption = 'Worst time: '
+        ParentColor = False
+      end
+      object WorstTimeLabel: TLabel
+        Left = 83
+        Height = 17
+        Top = 0
+        Width = 38
+        Align = alLeft
+        Caption = '0.01 s'
+        ParentColor = False
+      end
+    end
+    object Panel8: TPanel
+      Left = 0
+      Height = 17
+      Top = 131
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Bottom = 3
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 7
+      object Label8: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 98
+        Align = alLeft
+        Caption = 'Average time: '
+        ParentColor = False
+      end
+      object AverageTimeLabel: TLabel
+        Left = 98
+        Height = 17
+        Top = 0
+        Width = 38
+        Align = alLeft
+        Caption = '0.01 s'
+        ParentColor = False
+      end
+    end
+    object Panel9: TPanel
+      Left = 0
+      Height = 17
+      Top = 154
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 8
+      object Label9: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 141
+        Align = alLeft
+        Caption = 'Best memory usage: '
+        ParentColor = False
+      end
+      object BestMemoryLabel: TLabel
+        Left = 141
+        Height = 17
+        Top = 0
+        Width = 54
+        Align = alLeft
+        Caption = '2.56 MB'
+        ParentColor = False
+      end
+    end
+    object Panel10: TPanel
+      Left = 0
+      Height = 17
+      Top = 171
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 9
+      object Label10: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 152
+        Align = alLeft
+        Caption = 'Worst memory usage: '
+        ParentColor = False
+      end
+      object WorstMemoryLabel: TLabel
+        Left = 152
+        Height = 17
+        Top = 0
+        Width = 54
+        Align = alLeft
+        Caption = '2.56 MB'
+        ParentColor = False
+      end
+    end
+    object Panel11: TPanel
+      Left = 0
+      Height = 17
+      Top = 188
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 10
+      object Label11: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 167
+        Align = alLeft
+        Caption = 'Average memory usage: '
+        ParentColor = False
+      end
+      object AverageMemoryLabel: TLabel
+        Left = 167
+        Height = 17
+        Top = 0
+        Width = 54
+        Align = alLeft
+        Caption = '2.56 MB'
+        ParentColor = False
+      end
+    end
+    object Bevel1: TBevel
+      Left = 0
+      Height = 3
+      Top = 151
+      Width = 298
+      Align = alTop
+      Shape = bsTopLine
+    end
+    object Bevel2: TBevel
+      Left = 0
+      Height = 3
+      Top = 94
+      Width = 298
+      Align = alTop
+      Shape = bsTopLine
+    end
+    object Bevel3: TBevel
+      Left = 0
+      Height = 3
+      Top = 20
+      Width = 298
+      Align = alTop
+      Shape = bsTopLine
+    end
+  end
+end

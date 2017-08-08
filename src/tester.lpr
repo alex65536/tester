@@ -76,7 +76,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   htmlexport,
   baseforms,
   parserutils,
-  parser_ejudgecfg;
+  parser_ejudgecfg,
+  solutioninfo;
 
 {$R *.res}
 
@@ -97,5 +98,6 @@ begin
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
   Application.CreateForm(TEditCostsDialog, EditCostsDialog);
+  Application.CreateForm(TSolutionStatsDlg, SolutionStatsDlg);
   Application.Run;
 end.

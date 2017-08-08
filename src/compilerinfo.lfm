@@ -1,16 +1,15 @@
-object CompilerInfoDlg: TCompilerInfoDlg
+inherited CompilerInfoDlg: TCompilerInfoDlg
   Left = 611
   Height = 290
   Top = 219
   Width = 336
+  ActiveControl = CompilerOutputMemo
   Caption = 'Compilation status'
   ClientHeight = 290
   ClientWidth = 336
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object ButtonPanel1: TButtonPanel
+  object ButtonPanel: TButtonPanel[0]
     Left = 6
     Height = 37
     Top = 247
@@ -26,7 +25,7 @@ object CompilerInfoDlg: TCompilerInfoDlg
     TabOrder = 2
     ShowButtons = [pbClose]
   end
-  object Panel1: TPanel
+  object Panel1: TPanel[1]
     Left = 6
     Height = 17
     Top = 6
@@ -61,7 +60,7 @@ object CompilerInfoDlg: TCompilerInfoDlg
       ParentFont = False
     end
   end
-  object GroupBox1: TGroupBox
+  object GroupBox1: TGroupBox[2]
     Left = 0
     Height = 212
     Top = 29

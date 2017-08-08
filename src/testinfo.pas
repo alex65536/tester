@@ -33,7 +33,7 @@ type
   { TTestInfoDlg }
 
   TTestInfoDlg = class(TBaseForm)
-    ButtonPanel1: TButtonPanel;
+    ButtonPanel: TButtonPanel;
     CheckerOutputMemo: TMemo;
     GroupBox2: TGroupBox;
     Label1: TLabel;

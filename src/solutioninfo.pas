@@ -18,55 +18,66 @@
   to the Free Software Foundation, Inc., 59 Temple Place - Suite 330, Boston,
   MA 02111-1307, USA.
 }
-unit compilerinfo;
+unit solutioninfo;
 
 {$mode objfpc}{$H+}
 
 interface
 
 uses
-  Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts,
-  Classes, baseforms;
+  Classes, SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls;
 
 type
 
-  { TCompilerInfoDlg }
+  { TSolutionStatsDlg }
 
-  TCompilerInfoDlg = class(TBaseForm)
+  TSolutionStatsDlg = class(TBaseForm)
+    ScoreLabel: TLabel;
+    TestsPassedLabel: TLabel;
+    TestsFailedLabel: TLabel;
+    TestsSkippedLabel: TLabel;
+    TestsWaitingLabel: TLabel;
+    BestTimeLabel: TLabel;
+    WorstTimeLabel: TLabel;
+    AverageTimeLabel: TLabel;
+    BestMemoryLabel: TLabel;
+    WorstMemoryLabel: TLabel;
+    AverageMemoryLabel: TLabel;
+    Bevel1: TBevel;
+    Bevel2: TBevel;
+    Bevel3: TBevel;
     ButtonPanel: TButtonPanel;
-    GroupBox1: TGroupBox;
     Label1: TLabel;
-    VerdictLabel: TLabel;
-    CompilerOutputMemo: TMemo;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    Label6: TLabel;
+    Label7: TLabel;
+    Label8: TLabel;
+    Label9: TLabel;
+    Panel: TPanel;
     Panel1: TPanel;
-    procedure FormShow(Sender: TObject);
-  private
-    FResults: TTestedProblem;
-  public
-    procedure Show(AResults: TTestedProblem);
+    Panel10: TPanel;
+    Panel11: TPanel;
+    Panel2: TPanel;
+    Panel3: TPanel;
+    Panel4: TPanel;
+    Panel5: TPanel;
+    Panel6: TPanel;
+    Panel7: TPanel;
+    Panel8: TPanel;
+    Panel9: TPanel;
   end;
 
 var
-  CompilerInfoDlg: TCompilerInfoDlg;
+  SolutionStatsDlg: TSolutionStatsDlg;
 
 implementation
 
 {$R *.lfm}
-
-{ TCompilerInfoDlg }
-
-procedure TCompilerInfoDlg.FormShow(Sender: TObject);
-begin
-  VerdictLabel.Font.Color := CompilerVerdictColors[FResults.CompileVerdict];
-  VerdictLabel.Caption := SCompilerVerdicts[FResults.CompileVerdict];
-  CompilerOutputMemo.Text := FResults.CompilerOutput;
-end;
-
-procedure TCompilerInfoDlg.Show(AResults: TTestedProblem);
-begin
-  FResults := AResults;
-  ShowModal;
-end;
 
 end.
 

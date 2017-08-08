@@ -1,16 +1,15 @@
-object TestInfoDlg: TTestInfoDlg
+inherited TestInfoDlg: TTestInfoDlg
   Left = 536
   Height = 267
   Top = 124
   Width = 339
+  ActiveControl = CheckerOutputMemo
   Caption = 'Test status'
   ClientHeight = 267
   ClientWidth = 339
   OnShow = FormShow
   Position = poMainFormCenter
-  LCLVersion = '1.6.4.0'
-  Visible = False
-  object Panel: TPanel
+  object Panel: TPanel[0]
     Left = 6
     Height = 71
     Top = 6
@@ -156,7 +155,7 @@ object TestInfoDlg: TTestInfoDlg
       end
     end
   end
-  object ButtonPanel1: TButtonPanel
+  object ButtonPanel: TButtonPanel[1]
     Left = 6
     Height = 37
     Top = 224
@@ -172,7 +171,7 @@ object TestInfoDlg: TTestInfoDlg
     TabOrder = 2
     ShowButtons = [pbClose]
   end
-  object GroupBox2: TGroupBox
+  object GroupBox2: TGroupBox[2]
     Left = 0
     Height = 135
     Top = 83

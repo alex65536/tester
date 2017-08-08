@@ -93,10 +93,11 @@ var
 begin
   Stats := TProblemStats.Create(AResults);
   try
-    ScoreLabel.Font.Color := GetTotalScoreColor(AProps.MaxScore, AResults.TotalScore);
-    ScoreLabel.Caption := Format(SScoreDivide, [AProps.MaxScore, AResults.TotalScore]);
+    ScoreLabel.Font.Color := GetTotalScoreColor(AResults.TotalScore, AProps.MaxScore);
+    ScoreLabel.Caption := Format(SScoreDivide, [AResults.TotalScore, AProps.MaxScore]);
     with Stats do
     begin
+      // tests
       if CanCountTests then
       begin
         TestsPassedLabel.Caption :=
@@ -115,13 +116,13 @@ begin
         TestsSkippedLabel.Caption := SNoAnswer;
         TestsWaitingLabel.Caption := SNoAnswer;
       end;
-
+      // time
       if CanCountTime then
       begin
         MinTimeLabel.Caption := ProblemTimeToStrEx(MinTime);
         MaxTimeLabel.Caption := ProblemTimeToStrEx(MaxTime);
         AverageTimeLabel.Caption := ProblemTimeToStrEx(AverageTime);
-        TotalTimeLabel.Caption:= ProblemTimeToStr(TotalTime);
+        TotalTimeLabel.Caption:= ProblemTimeToStrEx(TotalTime);
       end
       else
       begin
@@ -130,7 +131,7 @@ begin
         AverageTimeLabel.Caption := SNoAnswer;
         TotalTimeLabel.Caption := SNoAnswer;
       end;
-
+      // memory
       if CanCountMemory then
       begin
         MinMemoryLabel.Caption := ProblemMemoryToStrEx(MinMemory);
@@ -144,6 +145,7 @@ begin
         AverageMemoryLabel.Caption := SNoAnswer;
       end;
     end;
+    ShowModal;
   finally
     FreeAndNil(Stats);
   end;

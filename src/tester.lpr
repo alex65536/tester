@@ -27,7 +27,7 @@ program tester;
 uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   cthreads,
   cmem, {$ENDIF} {$ENDIF}
-  //heaptrc,
+  heaptrc,
   Interfaces, // this includes the LCL widgetset
   Forms,
   SysUtils,
@@ -77,7 +77,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   baseforms,
   parserutils,
   parser_ejudgecfg,
-  solutioninfo, problemstats;
+  solutioninfo,
+  problemstats;
 
 {$R *.res}
 

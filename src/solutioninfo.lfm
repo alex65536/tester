@@ -172,13 +172,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
         Left = 0
         Height = 17
         Top = 0
-        Width = 94
+        Width = 97
         Align = alLeft
-        Caption = 'Tests waiting:'
+        Caption = 'Tests waiting: '
         ParentColor = False
       end
       object TestsWaitingLabel: TLabel
-        Left = 94
+        Left = 97
         Height = 17
         Top = 0
         Width = 79

@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, Forms, Grids, StdCtrls, problemprops, Math, strconsts,
   Graphics, testresults, Types, srcviewer, Dialogs, verdictcolors, compilerinfo,
-  testinfo, multitesters, testerprimitives, ComCtrls;
+  testinfo, multitesters, testerprimitives, ComCtrls, solutioninfo;
 
 type
   ETesterFrame = class(Exception);
@@ -400,7 +400,7 @@ begin
   end;
   if Col = 2 then // score
   begin
-    // TODO: Write something that must happen when clicking on score
+    SolutionStatsDlg.Show(Properties, TestResults[Row]);
     Exit;
   end;
   if (3 <= Col) and (Col <= Properties.TestCount + 2) then // tests

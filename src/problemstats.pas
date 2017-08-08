@@ -179,8 +179,10 @@ begin
     FMinMemory := Memory;
     TotMemory := Memory;
     // iterate over others
-    for I := Start+1 to FTotalTests - 1 do
+    for I := Start + 1 to FTotalTests - 1 do
     begin
+      if not (FTestedProblem[I].Verdict in TestedSet) then
+        Continue;
       Time := FTestedProblem[I].Time;
       FMaxTime := Max(FMaxTime, Time);
       FMinTime := Min(FMinTime, Time);
@@ -213,7 +215,7 @@ function TProblemStats.TestsPassedPercent: double;
 begin
   if not CanCountTests then
     raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FPassedTests / FTotalTests;
+  Result := FPassedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsFailed: integer;
@@ -227,7 +229,7 @@ function TProblemStats.TestsFailedPercent: double;
 begin
   if not CanCountTests then
     raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FFailedTests / FTotalTests;
+  Result := FFailedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsSkipped: integer;
@@ -241,7 +243,7 @@ function TProblemStats.TestsSkippedPercent: double;
 begin
   if not CanCountTests then
     raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FSkippedTests / FTotalTests;
+  Result := FSkippedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsWaiting: integer;
@@ -255,7 +257,7 @@ function TProblemStats.TestsWaitingPercent: double;
 begin
   if not CanCountTests then
     raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FWaitingTests / FTotalTests;
+  Result := FWaitingTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsTotal: integer;

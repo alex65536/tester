@@ -259,10 +259,10 @@ procedure TMultiTesterHTMLExporter.ExportHTML;
     Result := Format('class="bigDataText %s"', [TestVerdictClassName(AVerdict)]);
   end;
 
-  function GetTimeMemContent(const ATime, AMem: double): string;
+  function GetTimeMemContent(const ATime: TProblemTime;
+    AMem: TProblemMemory): string;
   begin
-    Result := Format(STimeConsumed, [ATime]) + ' <br> ';
-    Result := Result + Format(SMemConsumed, [AMem]);
+    Result := ProblemTimeToStr(ATime) + ' <br> ' + ProblemMemoryToStr(AMem);
   end;
 
 var
@@ -271,7 +271,6 @@ var
   C: TCompilerVerdict;
   T: TTestVerdict;
   Cur, Max: double;
-  ATime, AMem: double;
 begin
   TestCount := FMultiTester.Properties.TestCount;
   TesterCount := FMultiTester.TesterCount;
@@ -316,13 +315,11 @@ begin
                   with Testers[I].Results[J] do
                   begin
                     T := Verdict;
-                    ATime := Time / 1000;
-                    AMem := Memory / 1024;
                     // test
                     BeginTag('td', 'class="tableCell"');
                       SingleLineTag('div', TestDivAttr(T), STestVerdictsS[T]);
                       SingleLineTag('div', 'class="smallDataText"',
-                        GetTimeMemContent(ATime, AMem));
+                        GetTimeMemContent(Time, Memory));
                     EndTag('td');
                   end;
               EndTag('tr');

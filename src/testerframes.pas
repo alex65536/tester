@@ -353,14 +353,14 @@ begin
     DrawTextCenter(NewRect, TestVerdictStr);
     // time
     ACanvas.Font.Assign(TimeLabel.Font);
-    TimeStr := Format(STimeConsumed, [TestResults[Row][Col - 3].Time / 1000]);
+    TimeStr := ProblemTimeToStr(TestResults[Row][Col - 3].Time);
     H2 := ACanvas.TextHeight(TimeStr);
     NewRect.Top := NewRect.Bottom;
     NewRect.Bottom := NewRect.Top + H2;
     DrawTextCenter(NewRect, TimeStr);
     // memory
     ACanvas.Font.Assign(MemoryLabel.Font);
-    MemStr := Format(SMemConsumed, [TestResults[Row][Col - 3].Memory / 1024]);
+    MemStr := ProblemMemoryToStr(TestResults[Row][Col - 3].Memory);
     H3 := ACanvas.TextHeight(MemStr);
     NewRect.Top := NewRect.Bottom;
     NewRect.Bottom := NewRect.Top + H3;

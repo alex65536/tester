@@ -25,23 +25,27 @@ unit solutioninfo;
 interface
 
 uses
-  Classes, SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls;
+  Classes, SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls, testresults,
+  problemstats, problemprops, strconsts, verdictcolors;
 
 type
 
   { TSolutionStatsDlg }
 
   TSolutionStatsDlg = class(TBaseForm)
+    TotalTimeLabel: TLabel;
+    Label12: TLabel;
+    Panel12: TPanel;
     ScoreLabel: TLabel;
     TestsPassedLabel: TLabel;
     TestsFailedLabel: TLabel;
     TestsSkippedLabel: TLabel;
     TestsWaitingLabel: TLabel;
-    BestTimeLabel: TLabel;
-    WorstTimeLabel: TLabel;
+    MinTimeLabel: TLabel;
+    MaxTimeLabel: TLabel;
     AverageTimeLabel: TLabel;
-    BestMemoryLabel: TLabel;
-    WorstMemoryLabel: TLabel;
+    MinMemoryLabel: TLabel;
+    MaxMemoryLabel: TLabel;
     AverageMemoryLabel: TLabel;
     Bevel1: TBevel;
     Bevel2: TBevel;
@@ -70,6 +74,8 @@ type
     Panel7: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
+  public
+    procedure Show(AProps: TProblemProperties; AResults: TTestedProblem);
   end;
 
 var
@@ -79,5 +85,68 @@ implementation
 
 {$R *.lfm}
 
-end.
+{ TSolutionStatsDlg }
 
+procedure TSolutionStatsDlg.Show(AProps: TProblemProperties; AResults: TTestedProblem);
+var
+  Stats: TProblemStats;
+begin
+  Stats := TProblemStats.Create(AResults);
+  try
+    ScoreLabel.Font.Color := GetTotalScoreColor(AProps.MaxScore, AResults.TotalScore);
+    ScoreLabel.Caption := Format(SScoreDivide, [AProps.MaxScore, AResults.TotalScore]);
+    with Stats do
+    begin
+      if CanCountTests then
+      begin
+        TestsPassedLabel.Caption :=
+          Format(STestsOfInfo, [TestsPassed, TestsTotal, TestsPassedPercent]);
+        TestsFailedLabel.Caption :=
+          Format(STestsOfInfo, [TestsFailed, TestsTotal, TestsFailedPercent]);
+        TestsSkippedLabel.Caption :=
+          Format(STestsOfInfo, [TestsSkipped, TestsTotal, TestsSkippedPercent]);
+        TestsWaitingLabel.Caption :=
+          Format(STestsOfInfo, [TestsWaiting, TestsTotal, TestsWaitingPercent]);
+      end
+      else
+      begin
+        TestsPassedLabel.Caption := SNoAnswer;
+        TestsFailedLabel.Caption := SNoAnswer;
+        TestsSkippedLabel.Caption := SNoAnswer;
+        TestsWaitingLabel.Caption := SNoAnswer;
+      end;
+
+      if CanCountTime then
+      begin
+        MinTimeLabel.Caption := ProblemTimeToStrEx(MinTime);
+        MaxTimeLabel.Caption := ProblemTimeToStrEx(MaxTime);
+        AverageTimeLabel.Caption := ProblemTimeToStrEx(AverageTime);
+        TotalTimeLabel.Caption:= ProblemTimeToStr(TotalTime);
+      end
+      else
+      begin
+        MinTimeLabel.Caption := SNoAnswer;
+        MaxTimeLabel.Caption := SNoAnswer;
+        AverageTimeLabel.Caption := SNoAnswer;
+        TotalTimeLabel.Caption := SNoAnswer;
+      end;
+
+      if CanCountMemory then
+      begin
+        MinMemoryLabel.Caption := ProblemMemoryToStrEx(MinMemory);
+        MaxMemoryLabel.Caption := ProblemMemoryToStrEx(MaxMemory);
+        AverageMemoryLabel.Caption := ProblemMemoryToStrEx(AverageMemory);
+      end
+      else
+      begin
+        MinMemoryLabel.Caption := SNoAnswer;
+        MaxMemoryLabel.Caption := SNoAnswer;
+        AverageMemoryLabel.Caption := SNoAnswer;
+      end;
+    end;
+  finally
+    FreeAndNil(Stats);
+  end;
+end;
+
+end.

@@ -25,7 +25,7 @@ unit strconsts;
 interface
 
 uses
-  testerprimitives;
+  SysUtils, testerprimitives;
 
 // Common messages
 resourcestring
@@ -52,8 +52,8 @@ resourcestring
   SCompileStatus = 'Compile';
   STestIndex = 'Test %d';
   STotalScore = 'Score';
-  STimeConsumed = '%.2f s';
   SScoreFmt = '%.2f';
+  STimeConsumed = '%.2f s';
   STimeConsumedEx = '%.3f seconds';
   SMemConsumed = '%.2f MB';
   SMemConsumedEx = '%d KBytes';
@@ -88,6 +88,12 @@ resourcestring
   SUnableToLoad = 'Unable to load file "%s"';
   SUnableToSave = 'Unable to save file "%s"';
   SUnableToLoadVersionInfo = 'Unable to load version info';
+  SStatsUnableVerdict = 'Unable to process verdict "%s"';
+  SStatsCannotTestsInfo = 'Cannot get test info';
+  SStatsCannotTimeInfo = 'Cannot get time info';
+  SStatsCannotMemoryInfo = 'Cannot get memory info';
+  SNoAnswer = 'N/A';
+  STestsOfInfo = '%d of %d (%.2f%%)';
 
 // Compilation verdicts
 resourcestring
@@ -141,6 +147,32 @@ const
     STestRuntimeErrorS, STestTimeLimitS, STestIdlenessLimitS, STestMemoryLimitS,
     STestRunFailS, STestSkippedS, STestWaitingS);
 
+function ProblemTimeToStr(ATime: TProblemTime): string;
+function ProblemMemoryToStr(AMemory: TProblemMemory): string;
+
+function ProblemTimeToStrEx(ATime: TProblemTime): string;
+function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
+
 implementation
+
+function ProblemTimeToStr(ATime: TProblemTime): string;
+begin
+  Result := Format(STimeConsumed, [ATime / 1000]);
+end;
+
+function ProblemMemoryToStr(AMemory: TProblemMemory): string;
+begin
+  Result := Format(SMemConsumed, [AMemory / 1024]);
+end;
+
+function ProblemTimeToStrEx(ATime: TProblemTime): string;
+begin
+  Result := Format(STimeConsumedEx, [ATime / 1000]);
+end;
+
+function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
+begin
+  Result := Format(SMemConsumedEx, [AMemory]);
+end;
 
 end.

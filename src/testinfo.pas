@@ -72,8 +72,8 @@ begin
   VerdictLabel.Caption := STestVerdicts[FResults.Verdict];
   ScoreLabel.Font.Color := GetTotalScoreColor(FResults.Score, FTest.Cost);
   ScoreLabel.Caption := Format(SScoreDivide, [FResults.Score, FTest.Cost]);
-  TimeLabel.Caption := Format(STimeConsumedEx, [FResults.Time / 1000]);
-  MemoryLabel.Caption := Format(SMemConsumedEx, [FResults.Memory]);
+  TimeLabel.Caption := ProblemTimeToStrEx(FResults.Time);
+  MemoryLabel.Caption := ProblemMemoryToStrEx(FResults.Memory);
   CheckerOutputMemo.Text := FResults.CheckerOutput;
 end;
 

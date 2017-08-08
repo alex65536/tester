@@ -1,15 +1,15 @@
 inherited SolutionStatsDlg: TSolutionStatsDlg
-  Height = 263
+  Height = 280
   Width = 310
   ActiveControl = ButtonPanel.CloseButton
   Caption = 'Solution stats'
-  ClientHeight = 263
+  ClientHeight = 280
   ClientWidth = 310
   Position = poMainFormCenter
   object ButtonPanel: TButtonPanel[0]
     Left = 6
     Height = 37
-    Top = 220
+    Top = 237
     Width = 298
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -24,13 +24,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
   end
   object Panel: TPanel[1]
     Left = 6
-    Height = 208
+    Height = 225
     Top = 6
     Width = 298
     Align = alClient
     BorderSpacing.Around = 6
     BevelOuter = bvNone
-    ClientHeight = 208
+    ClientHeight = 225
     ClientWidth = 298
     TabOrder = 1
     object Panel1: TPanel
@@ -202,13 +202,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
         Left = 0
         Height = 17
         Top = 0
-        Width = 72
+        Width = 67
         Align = alLeft
-        Caption = 'Best time: '
+        Caption = 'Min time: '
         ParentColor = False
       end
-      object BestTimeLabel: TLabel
-        Left = 72
+      object MinTimeLabel: TLabel
+        Left = 67
         Height = 17
         Top = 0
         Width = 38
@@ -232,13 +232,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
         Left = 0
         Height = 17
         Top = 0
-        Width = 83
+        Width = 70
         Align = alLeft
-        Caption = 'Worst time: '
+        Caption = 'Max time: '
         ParentColor = False
       end
-      object WorstTimeLabel: TLabel
-        Left = 83
+      object MaxTimeLabel: TLabel
+        Left = 70
         Height = 17
         Top = 0
         Width = 38
@@ -254,7 +254,6 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
       Width = 298
       Align = alTop
       AutoSize = True
-      BorderSpacing.Bottom = 3
       BevelOuter = bvNone
       ClientHeight = 17
       ClientWidth = 298
@@ -281,7 +280,7 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
     object Panel9: TPanel
       Left = 0
       Height = 17
-      Top = 154
+      Top = 171
       Width = 298
       Align = alTop
       AutoSize = True
@@ -293,13 +292,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
         Left = 0
         Height = 17
         Top = 0
-        Width = 141
+        Width = 136
         Align = alLeft
-        Caption = 'Best memory usage: '
+        Caption = 'Min memory usage: '
         ParentColor = False
       end
-      object BestMemoryLabel: TLabel
-        Left = 141
+      object MinMemoryLabel: TLabel
+        Left = 136
         Height = 17
         Top = 0
         Width = 54
@@ -311,7 +310,7 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
     object Panel10: TPanel
       Left = 0
       Height = 17
-      Top = 171
+      Top = 188
       Width = 298
       Align = alTop
       AutoSize = True
@@ -323,13 +322,13 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
         Left = 0
         Height = 17
         Top = 0
-        Width = 152
+        Width = 139
         Align = alLeft
-        Caption = 'Worst memory usage: '
+        Caption = 'Max memory usage: '
         ParentColor = False
       end
-      object WorstMemoryLabel: TLabel
-        Left = 152
+      object MaxMemoryLabel: TLabel
+        Left = 139
         Height = 17
         Top = 0
         Width = 54
@@ -341,7 +340,7 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
     object Panel11: TPanel
       Left = 0
       Height = 17
-      Top = 188
+      Top = 205
       Width = 298
       Align = alTop
       AutoSize = True
@@ -371,7 +370,7 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
     object Bevel1: TBevel
       Left = 0
       Height = 3
-      Top = 151
+      Top = 168
       Width = 298
       Align = alTop
       Shape = bsTopLine
@@ -391,6 +390,37 @@ inherited SolutionStatsDlg: TSolutionStatsDlg
       Width = 298
       Align = alTop
       Shape = bsTopLine
+    end
+    object Panel12: TPanel
+      Left = 0
+      Height = 17
+      Top = 148
+      Width = 298
+      Align = alTop
+      AutoSize = True
+      BorderSpacing.Bottom = 3
+      BevelOuter = bvNone
+      ClientHeight = 17
+      ClientWidth = 298
+      TabOrder = 11
+      object Label12: TLabel
+        Left = 0
+        Height = 17
+        Top = 0
+        Width = 75
+        Align = alLeft
+        Caption = 'Total time: '
+        ParentColor = False
+      end
+      object TotalTimeLabel: TLabel
+        Left = 75
+        Height = 17
+        Top = 0
+        Width = 38
+        Align = alLeft
+        Caption = '0.01 s'
+        ParentColor = False
+      end
     end
   end
 end

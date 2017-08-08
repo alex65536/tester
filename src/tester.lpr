@@ -77,7 +77,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   baseforms,
   parserutils,
   parser_ejudgecfg,
-  solutioninfo;
+  solutioninfo, problemstats;
 
 {$R *.res}
 

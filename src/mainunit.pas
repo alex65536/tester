@@ -36,6 +36,8 @@ type
 
   TMainForm = class(TBaseForm)
     AboutAction: TAction;
+    CloseOtherTabsAction: TAction;
+    CloseAllTabsAction: TAction;
     EditCostsAction: TAction;
     ClearTestsAction: TAction;
     MenuItem19: TMenuItem;
@@ -43,6 +45,8 @@ type
     MenuItem21: TMenuItem;
     MenuItem22: TMenuItem;
     MenuItem23: TMenuItem;
+    MenuItem25: TMenuItem;
+    MenuItem26: TMenuItem;
     MultiAddTestsBtn: TAction;
     EditTestAction: TAction;
     CloseTabAction: TAction;
@@ -94,6 +98,10 @@ type
     procedure AutoSaveTimerTimer(Sender: TObject);
     procedure ClearTestsActionExecute(Sender: TObject);
     procedure ClearTestsActionUpdate(Sender: TObject);
+    procedure CloseAllTabsActionExecute(Sender: TObject);
+    procedure CloseAllTabsActionUpdate(Sender: TObject);
+    procedure CloseOtherTabsActionExecute(Sender: TObject);
+    procedure CloseOtherTabsActionUpdate(Sender: TObject);
     procedure CloseTabActionExecute(Sender: TObject);
     procedure CloseTabActionUpdate(Sender: TObject);
     procedure DeleteTestActionExecute(Sender: TObject);
@@ -380,6 +388,44 @@ var
 begin
   Editor := CurEditor;
   (Sender as TAction).Enabled := (Editor <> nil) and Editor.ClearTestsBtn.Enabled;
+end;
+
+procedure TMainForm.CloseAllTabsActionExecute(Sender: TObject);
+begin
+  while PropsList.PageCount <> 0 do
+  begin
+    PropsList.Pages[0].Free;
+    Refresh;
+  end;
+  DoUpdateActions;
+end;
+
+procedure TMainForm.CloseAllTabsActionUpdate(Sender: TObject);
+begin
+  (Sender as TAction).Enabled := PropsList.PageCount <> 0;
+end;
+
+procedure TMainForm.CloseOtherTabsActionExecute(Sender: TObject);
+var
+  CurPage: TTabSheet;
+begin
+  CurPage := PropsList.ActivePage;
+  while PropsList.PageCount > 1 do
+  begin
+    if PropsList.Pages[0] = CurPage then
+      PropsList.Pages[1].Free
+    else
+      PropsList.Pages[0].Free;
+    Refresh;
+  end;
+  PropsList.PageIndex := 0;
+  DoUpdateActions;
+end;
+
+procedure TMainForm.CloseOtherTabsActionUpdate(Sender: TObject);
+begin
+  (Sender as TAction).Enabled := (PropsList.ActivePage <> nil) and
+    (PropsList.PageCount > 1);
 end;
 
 procedure TMainForm.CloseTabActionExecute(Sender: TObject);

@@ -196,6 +196,18 @@ inherited MainForm: TMainForm
       OnUpdate = EditCostsActionUpdate
       ShortCut = 8274
     end
+    object CloseAllTabsAction: TAction
+      Caption = 'Close all tabs'
+      OnExecute = CloseAllTabsActionExecute
+      OnUpdate = CloseAllTabsActionUpdate
+      ShortCut = 24657
+    end
+    object CloseOtherTabsAction: TAction
+      Caption = 'Close other tabs'
+      OnExecute = CloseOtherTabsActionExecute
+      OnUpdate = CloseOtherTabsActionUpdate
+      ShortCut = 24691
+    end
   end
   object SaveDialog: TSaveDialog[3]
     DefaultExt = '.json'
@@ -223,6 +235,12 @@ inherited MainForm: TMainForm
     top = 160
     object MenuItem1: TMenuItem
       Action = CloseTabAction
+    end
+    object MenuItem25: TMenuItem
+      Action = CloseAllTabsAction
+    end
+    object MenuItem26: TMenuItem
+      Action = CloseOtherTabsAction
     end
   end
   object EmptyPopupMenu: TPopupMenu[7]

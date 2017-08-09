@@ -25,7 +25,7 @@ unit solutioninfo;
 interface
 
 uses
-  Classes, SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls, testresults,
+  SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls, testresults,
   problemstats, problemprops, strconsts, verdictcolors;
 
 type
@@ -118,7 +118,7 @@ begin
         MinTimeLabel.Caption := ProblemTimeToStrEx(MinTime);
         MaxTimeLabel.Caption := ProblemTimeToStrEx(MaxTime);
         AverageTimeLabel.Caption := ProblemTimeToStrEx(AverageTime);
-        TotalTimeLabel.Caption:= ProblemTimeToStrEx(TotalTime);
+        TotalTimeLabel.Caption := ProblemTimeToStrEx(TotalTime);
       end
       else
       begin

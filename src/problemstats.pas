@@ -25,8 +25,7 @@ unit problemstats;
 interface
 
 uses
-  Classes, SysUtils, problemprops, testresults, testerprimitives, typinfo,
-  strconsts, Math;
+  SysUtils, testresults, testerprimitives, typinfo, strconsts, Math;
 
 type
   EProblemStats = class(Exception);

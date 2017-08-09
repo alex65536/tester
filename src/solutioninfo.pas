@@ -74,6 +74,10 @@ type
     Panel7: TPanel;
     Panel8: TPanel;
     Panel9: TPanel;
+  private
+    FProps: TProblemProperties;
+    FResults: TTestedProblem;
+    procedure AssignData;
   public
     procedure Show(AProps: TProblemProperties; AResults: TTestedProblem);
   end;
@@ -81,20 +85,34 @@ type
 var
   SolutionStatsDlg: TSolutionStatsDlg;
 
+procedure ShowSolutionStats(AProps: TProblemProperties; AResults: TTestedProblem);
+
 implementation
+
+procedure ShowSolutionStats(AProps: TProblemProperties; AResults: TTestedProblem);
+var
+  AForm: TSolutionStatsDlg;
+begin
+  AForm := TSolutionStatsDlg.Create(nil);
+  try
+    AForm.Show(AProps, AResults);
+  finally
+    FreeAndNil(AForm);
+  end;
+end;
 
 {$R *.lfm}
 
 { TSolutionStatsDlg }
 
-procedure TSolutionStatsDlg.Show(AProps: TProblemProperties; AResults: TTestedProblem);
+procedure TSolutionStatsDlg.AssignData;
 var
   Stats: TProblemStats;
 begin
-  Stats := TProblemStats.Create(AResults);
+  Stats := TProblemStats.Create(FResults);
   try
-    ScoreLabel.Font.Color := GetTotalScoreColor(AResults.TotalScore, AProps.MaxScore);
-    ScoreLabel.Caption := Format(SScoreDivide, [AResults.TotalScore, AProps.MaxScore]);
+    ScoreLabel.Font.Color := GetTotalScoreColor(FResults.TotalScore, FProps.MaxScore);
+    ScoreLabel.Caption := Format(SScoreDivide, [FResults.TotalScore, FProps.MaxScore]);
     with Stats do
     begin
       // tests
@@ -141,10 +159,17 @@ begin
         AverageMemoryLabel.Caption := SNoAnswer;
       end;
     end;
-    ShowModal;
   finally
     FreeAndNil(Stats);
   end;
+end;
+
+procedure TSolutionStatsDlg.Show(AProps: TProblemProperties; AResults: TTestedProblem);
+begin
+  FProps := AProps;
+  FResults := AResults;
+  AssignData;
+  ShowModal;
 end;
 
 end.

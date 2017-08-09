@@ -384,8 +384,7 @@ begin
   if Col = 0 then // source name
   begin
     try
-      SourceViewer.FileName := Sources[Row];
-      SourceViewer.ShowModal;
+      ViewSource(Sources[Row]);
     except
       on E: Exception do
         MessageDlg(E.Message, mtError, [mbOK], 0);
@@ -395,18 +394,18 @@ begin
   if Col = 1 then // compile status
   begin
     if TestResults[Row].CompileVerdict <> cvWaiting then
-      CompilerInfoDlg.Show(TestResults[Row]);
+      ShowCompilerInfo(TestResults[Row]);
     Exit;
   end;
   if Col = 2 then // score
   begin
-    SolutionStatsDlg.Show(Properties, TestResults[Row]);
+    ShowSolutionStats(Properties, TestResults[Row]);
     Exit;
   end;
   if (3 <= Col) and (Col <= Properties.TestCount + 2) then // tests
   begin
     if not (TestResults[Row][Col - 3].Verdict in [veWaiting, veSkipped]) then
-      TestInfoDlg.Show(Properties.Tests[Col - 3], TestResults[Row][Col - 3]);
+      ShowTestInfo(Properties.Tests[Col - 3], TestResults[Row][Col - 3]);
     Exit;
   end;
   // we shoudn't have reached the end...

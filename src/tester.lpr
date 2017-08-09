@@ -90,8 +90,6 @@ begin
   Application.CreateForm(TImageKeeper, ImageKeeper);
   Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TTestDialog, TestDialog);
-  Application.CreateForm(TCompilerInfoDlg, CompilerInfoDlg);
-  Application.CreateForm(TTestInfoDlg, TestInfoDlg);
   Application.CreateForm(TSourceViewer, SourceViewer);
   Application.CreateForm(TTesterForm, TesterForm);
   Application.CreateForm(TAboutBox, AboutBox);
@@ -99,6 +97,5 @@ begin
   Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
   Application.CreateForm(TEditCostsDialog, EditCostsDialog);
-  Application.CreateForm(TSolutionStatsDlg, SolutionStatsDlg);
   Application.Run;
 end.

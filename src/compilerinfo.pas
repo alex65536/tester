@@ -26,7 +26,7 @@ interface
 
 uses
   Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts,
-  Classes, baseforms;
+  Classes, baseforms, SysUtils;
 
 type
 
@@ -39,9 +39,9 @@ type
     VerdictLabel: TLabel;
     CompilerOutputMemo: TMemo;
     Panel1: TPanel;
-    procedure FormShow(Sender: TObject);
   private
     FResults: TTestedProblem;
+    procedure AssignData;
   public
     procedure Show(AResults: TTestedProblem);
   end;
@@ -49,13 +49,27 @@ type
 var
   CompilerInfoDlg: TCompilerInfoDlg;
 
+procedure ShowCompilerInfo(AResults: TTestedProblem);
+
 implementation
+
+procedure ShowCompilerInfo(AResults: TTestedProblem);
+var
+  AForm: TCompilerInfoDlg;
+begin
+  AForm := TCompilerInfoDlg.Create(nil);
+  try
+    AForm.Show(AResults);
+  finally
+    FreeAndNil(AForm);
+  end;
+end;
 
 {$R *.lfm}
 
 { TCompilerInfoDlg }
 
-procedure TCompilerInfoDlg.FormShow(Sender: TObject);
+procedure TCompilerInfoDlg.AssignData;
 begin
   VerdictLabel.Font.Color := CompilerVerdictColors[FResults.CompileVerdict];
   VerdictLabel.Caption := SCompilerVerdicts[FResults.CompileVerdict];
@@ -65,6 +79,7 @@ end;
 procedure TCompilerInfoDlg.Show(AResults: TTestedProblem);
 begin
   FResults := AResults;
+  AssignData;
   ShowModal;
 end;
 

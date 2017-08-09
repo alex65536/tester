@@ -25,8 +25,8 @@ unit testinfo;
 interface
 
 uses
-  SysUtils, Forms, ExtCtrls, StdCtrls, ButtonPanel, strconsts,
-  verdictcolors, testresults, problemprops, Classes, baseforms;
+  SysUtils, Forms, ExtCtrls, StdCtrls, ButtonPanel, strconsts, verdictcolors,
+  testresults, problemprops, Classes, baseforms;
 
 type
 
@@ -49,10 +49,10 @@ type
     TimeLabel: TLabel;
     VerdictLabel: TLabel;
     ScoreLabel: TLabel;
-    procedure FormShow(Sender: TObject);
   private
     FTest: TProblemTest;
     FResults: TTestResult;
+    procedure AssignData;
   public
     procedure Show(ATest: TProblemTest; AResults: TTestResult);
   end;
@@ -60,13 +60,27 @@ type
 var
   TestInfoDlg: TTestInfoDlg;
 
+procedure ShowTestInfo(ATest: TProblemTest; AResults: TTestResult);
+
 implementation
+
+procedure ShowTestInfo(ATest: TProblemTest; AResults: TTestResult);
+var
+  AForm: TTestInfoDlg;
+begin
+  AForm := TTestInfoDlg.Create(nil);
+  try
+    AForm.Show(ATest, AResults);
+  finally
+    FreeAndNil(AForm);
+  end;
+end;
 
 {$R *.lfm}
 
 { TTestInfoDlg }
 
-procedure TTestInfoDlg.FormShow(Sender: TObject);
+procedure TTestInfoDlg.AssignData;
 begin
   VerdictLabel.Font.Color := TestVerdictColors[FResults.Verdict];
   VerdictLabel.Caption := STestVerdicts[FResults.Verdict];
@@ -81,6 +95,7 @@ procedure TTestInfoDlg.Show(ATest: TProblemTest; AResults: TTestResult);
 begin
   FResults := AResults;
   FTest := ATest;
+  AssignData;
   ShowModal;
 end;
 

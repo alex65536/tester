@@ -7,7 +7,6 @@ inherited TestInfoDlg: TTestInfoDlg
   Caption = 'Test status'
   ClientHeight = 267
   ClientWidth = 339
-  OnShow = FormShow
   Position = poMainFormCenter
   object Panel: TPanel[0]
     Left = 6

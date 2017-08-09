@@ -56,7 +56,15 @@ type
 var
   SourceViewer: TSourceViewer;
 
+procedure ViewSource(const AFileName: string);
+
 implementation
+
+procedure ViewSource(const AFileName: string);
+begin
+  SourceViewer.FileName := AFileName;
+  SourceViewer.ShowModal;
+end;
 
 {$R *.lfm}
 
@@ -100,6 +108,13 @@ begin
   RegisterHighligher('.c', SynCppSyn);
   RegisterHighligher('.cpp', SynCppSyn);
   //RegisterHighligher('.c11', SynCppSyn);
+  {$IfDef LINUX}
+    SourceViewer.Font.Name := 'monospace';
+  {$Else}
+    {$IfDef WINDOWS}
+      SourceViewer.Font.Name := 'Courier New';
+    {$EndIf}
+  {$EndIf}
 end;
 
 destructor TSourceViewer.Destroy;

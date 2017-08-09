@@ -7,7 +7,6 @@ inherited CompilerInfoDlg: TCompilerInfoDlg
   Caption = 'Compilation status'
   ClientHeight = 290
   ClientWidth = 336
-  OnShow = FormShow
   Position = poMainFormCenter
   object ButtonPanel: TButtonPanel[0]
     Left = 6

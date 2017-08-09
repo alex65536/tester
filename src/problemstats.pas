@@ -36,8 +36,6 @@ type
   TProblemStats = class
   private
     FTestedProblem: TTestedProblem;
-    FTestsCounted: boolean;
-    FTimeMemoryCounted: boolean;
 
     // tests
     FCanCountTests: boolean;
@@ -110,92 +108,95 @@ var
   I: integer;
   V: TTestVerdict;
 begin
-  if FTestsCounted then
-    Exit;
   if FTestedProblem.TestResultsCount = 0 then
-    FCanCountTests := False
-  else
   begin
-    FCanCountTests := True;
-    // assign values
-    FTotalTests := FTestedProblem.TestResultsCount;
-    FPassedTests := 0;
-    FFailedTests := 0;
-    FSkippedTests := 0;
-    FWaitingTests := 0;
-    // iterate over tests
-    for I := 0 to FTotalTests - 1 do
-    begin
-      V := FTestedProblem[I].Verdict;
-      if V in PassedSet then
-        Inc(FPassedTests)
-      else if V in FailedSet then
-        Inc(FFailedTests)
-      else if V in SkippedSet then
-        Inc(FSkippedTests)
-      else if V in WaitingSet then
-        Inc(FWaitingTests)
-      else
-        raise EProblemStats.CreateFmt(SStatsUnableVerdict,
-          [GetEnumName(TypeInfo(TTestVerdict), Ord(V))]);
-    end;
-    FTestedTests := FPassedTests + FFailedTests;
+    FCanCountTests := False;
+    Exit;
   end;
-  FTestsCounted := True;
+  FCanCountTests := True;
+  // assign values
+  FTotalTests := FTestedProblem.TestResultsCount;
+  FPassedTests := 0;
+  FFailedTests := 0;
+  FSkippedTests := 0;
+  FWaitingTests := 0;
+  // iterate over tests
+  for I := 0 to FTotalTests - 1 do
+  begin
+    V := FTestedProblem[I].Verdict;
+    if V in PassedSet then
+      Inc(FPassedTests)
+    else if V in FailedSet then
+      Inc(FFailedTests)
+    else if V in SkippedSet then
+      Inc(FSkippedTests)
+    else if V in WaitingSet then
+      Inc(FWaitingTests)
+    else
+      raise EProblemStats.CreateFmt(SStatsUnableVerdict,
+        [GetEnumName(TypeInfo(TTestVerdict), Ord(V))]);
+  end;
+  FTestedTests := FPassedTests + FFailedTests;
 end;
 
 procedure TProblemStats.CountTimeMemory;
 var
   I: integer;
-  Start: integer;
-  Time: TProblemTime;
-  Memory: TProblemMemory;
-  TotMemory: double; // double is used to avoid overflow
+  Size: integer;
+  Times: array of TProblemTime;
+  Memories: array of TProblemMemory;
+
+  function Sum(A: array of integer): integer;
+  var
+    I: integer;
+  begin
+    Result := 0;
+    for I := Low(A) to High(A) do
+      Result := Result + A[I];
+  end;
+
+  function Average(A: array of integer): double;
+  var
+    I: integer;
+  begin
+    Result := 0.0;
+    for I := Low(A) to High(A) do
+      Result := Result + A[I];
+    Result := Result / Length(A);
+  end;
+
 begin
-  if FTimeMemoryCounted then
-    Exit;
-  CountTests;
   if FTestedTests = 0 then
   begin
     FCanCountTime := False;
     FCanCountMemory := False;
-  end
-  else
-  begin
-    FCanCountTime := True;
-    FCanCountMemory := True;
-    // find first tested element
-    Start := 0;
-    while not (FTestedProblem[Start].Verdict in TestedSet) do
-      Inc(Start);
-    // add it
-    Time := FTestedProblem[Start].Time;
-    FMaxTime := Time;
-    FMinTime := Time;
-    FTotalTime := Time;
-    Memory := FTestedProblem[Start].Memory;
-    FMaxMemory := Memory;
-    FMinMemory := Memory;
-    TotMemory := Memory;
-    // iterate over others
-    for I := Start + 1 to FTotalTests - 1 do
-    begin
-      if not (FTestedProblem[I].Verdict in TestedSet) then
-        Continue;
-      Time := FTestedProblem[I].Time;
-      FMaxTime := Max(FMaxTime, Time);
-      FMinTime := Min(FMinTime, Time);
-      FTotalTime := FTotalTime + Time;
-      Memory := FTestedProblem[I].Memory;
-      FMaxMemory := Max(FMaxMemory, Memory);
-      FMinMemory := Min(FMinMemory, Memory);
-      TotMemory := TotMemory + Memory;
-    end;
-    // assign averages
-    FAverageTime := Round(FTotalTime / FTestedTests);
-    FAverageMemory := Round(TotMemory / FTestedTests);
+    Exit;
   end;
-  FTimeMemoryCounted := True;
+  FCanCountTime := True;
+  FCanCountMemory := True;
+  SetLength(Times, FTestedTests);
+  SetLength(Memories, FTestedTests);
+  Size := 0;
+  // add elements to Times & Memories
+  for I := 0 to FTotalTests - 1 do
+    with FTestedProblem[I] do
+    begin
+      if Verdict in TestedSet then
+      begin
+        Times[Size] := Time;
+        Memories[Size] := Memory;
+        Inc(Size);
+      end;
+    end;
+  // assign time values
+  FMinTime := MinValue(Times);
+  FMaxTime := MaxValue(Times);
+  FTotalTime := Sum(Times);
+  FAverageTime := Round(Average(Times));
+  // assign memory values
+  FMinMemory := MinValue(Memories);
+  FMaxMemory := MaxValue(Memories);
+  FAverageMemory := Round(Average(Memories));
 end;
 
 procedure TProblemStats.RequiresTests;
@@ -305,8 +306,6 @@ end;
 
 constructor TProblemStats.Create(ATestedProblem: TTestedProblem);
 begin
-  FTestsCounted := False;
-  FTimeMemoryCounted := False;
   FTestedProblem := ATestedProblem;
   CountTests;
   CountTimeMemory;

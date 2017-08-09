@@ -100,14 +100,10 @@ begin
       // tests
       if CanCountTests then
       begin
-        TestsPassedLabel.Caption :=
-          Format(STestsOfInfo, [TestsPassed, TestsTotal, TestsPassedPercent]);
-        TestsFailedLabel.Caption :=
-          Format(STestsOfInfo, [TestsFailed, TestsTotal, TestsFailedPercent]);
-        TestsSkippedLabel.Caption :=
-          Format(STestsOfInfo, [TestsSkipped, TestsTotal, TestsSkippedPercent]);
-        TestsWaitingLabel.Caption :=
-          Format(STestsOfInfo, [TestsWaiting, TestsTotal, TestsWaitingPercent]);
+        TestsPassedLabel.Caption := GetTestsOfCaption(TestsPassed, TestsTotal);
+        TestsFailedLabel.Caption := GetTestsOfCaption(TestsFailed, TestsTotal);
+        TestsSkippedLabel.Caption := GetTestsOfCaption(TestsSkipped, TestsTotal);
+        TestsWaitingLabel.Caption := GetTestsOfCaption(TestsWaiting, TestsTotal);
       end
       else
       begin

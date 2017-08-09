@@ -153,6 +153,8 @@ function ProblemMemoryToStr(AMemory: TProblemMemory): string;
 function ProblemTimeToStrEx(ATime: TProblemTime): string;
 function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
 
+function GetTestsOfCaption(AHave, ATotal: integer): string;
+
 implementation
 
 function ProblemTimeToStr(ATime: TProblemTime): string;
@@ -173,6 +175,14 @@ end;
 function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
 begin
   Result := Format(SMemConsumedEx, [AMemory]);
+end;
+
+function GetTestsOfCaption(AHave, ATotal: integer): string;
+var
+  Percent: double;
+begin
+  Percent := AHave / ATotal * 100;
+  Result := Format(STestsOfInfo, [AHave, ATotal, Percent]);
 end;
 
 end.

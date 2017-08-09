@@ -63,19 +63,18 @@ type
 
     procedure CountTests;
     procedure CountTimeMemory;
+    procedure RequiresTests;
+    procedure RequiresTime;
+    procedure RequiresMemory;
   public
     property TestedProblem: TTestedProblem read FTestedProblem;
 
     // Tests-related stuff
     function CanCountTests: boolean;
     function TestsPassed: integer;
-    function TestsPassedPercent: double;
     function TestsFailed: integer;
-    function TestsFailedPercent: double;
     function TestsSkipped: integer;
-    function TestsSkippedPercent: double;
     function TestsWaiting: integer;
-    function TestsWaitingPercent: double;
     function TestsTotal: integer;
 
     // Time-related stuff
@@ -199,6 +198,24 @@ begin
   FTimeMemoryCounted := True;
 end;
 
+procedure TProblemStats.RequiresTests;
+begin
+  if not CanCountTests then
+    raise EProblemStats.Create(SStatsCannotTestsInfo);
+end;
+
+procedure TProblemStats.RequiresTime;
+begin
+  if not FCanCountTime then
+    raise EProblemStats.Create(SStatsCannotTimeInfo);
+end;
+
+procedure TProblemStats.RequiresMemory;
+begin
+  if not CanCountMemory then
+    raise EProblemStats.Create(SStatsCannotMemoryInfo);
+end;
+
 function TProblemStats.CanCountTests: boolean;
 begin
   Result := FCanCountTests;
@@ -206,64 +223,31 @@ end;
 
 function TProblemStats.TestsPassed: integer;
 begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
+  RequiresTests;
   Result := FPassedTests;
-end;
-
-function TProblemStats.TestsPassedPercent: double;
-begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FPassedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsFailed: integer;
 begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
+  RequiresTests;
   Result := FFailedTests;
-end;
-
-function TProblemStats.TestsFailedPercent: double;
-begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FFailedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsSkipped: integer;
 begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
+  RequiresTests;
   Result := FSkippedTests;
-end;
-
-function TProblemStats.TestsSkippedPercent: double;
-begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FSkippedTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsWaiting: integer;
 begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
+  RequiresTests;
   Result := FWaitingTests;
-end;
-
-function TProblemStats.TestsWaitingPercent: double;
-begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
-  Result := FWaitingTests / FTotalTests * 100;
 end;
 
 function TProblemStats.TestsTotal: integer;
 begin
-  if not CanCountTests then
-    raise EProblemStats.Create(SStatsCannotTestsInfo);
+  RequiresTests;
   Result := FTotalTests;
 end;
 
@@ -274,29 +258,25 @@ end;
 
 function TProblemStats.MinTime: TProblemTime;
 begin
-  if not FCanCountTime then
-    raise EProblemStats.Create(SStatsCannotTimeInfo);
+  RequiresTime;
   Result := FMinTime;
 end;
 
 function TProblemStats.MaxTime: TProblemTime;
 begin
-  if not CanCountTime then
-    raise EProblemStats.Create(SStatsCannotTimeInfo);
+  RequiresTime;
   Result := FMaxTime;
 end;
 
 function TProblemStats.AverageTime: TProblemTime;
 begin
-  if not CanCountTime then
-    raise EProblemStats.Create(SStatsCannotTimeInfo);
+  RequiresTime;
   Result := FAverageTime;
 end;
 
 function TProblemStats.TotalTime: TProblemTime;
 begin
-  if not CanCountTime then
-    raise EProblemStats.Create(SStatsCannotTimeInfo);
+  RequiresTime;
   Result := FTotalTime;
 end;
 
@@ -307,22 +287,19 @@ end;
 
 function TProblemStats.MinMemory: TProblemMemory;
 begin
-  if not CanCountMemory then
-    raise EProblemStats.Create(SStatsCannotMemoryInfo);
+  RequiresMemory;
   Result := FMinMemory;
 end;
 
 function TProblemStats.MaxMemory: TProblemMemory;
 begin
-  if not CanCountMemory then
-    raise EProblemStats.Create(SStatsCannotMemoryInfo);
+  RequiresMemory;
   Result := FMaxMemory;
 end;
 
 function TProblemStats.AverageMemory: TProblemMemory;
 begin
-  if not CanCountMemory then
-    raise EProblemStats.Create(SStatsCannotMemoryInfo);
+  RequiresMemory;
   Result := FAverageMemory;
 end;
 

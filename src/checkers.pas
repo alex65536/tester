@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, processfork, LazFileUtils, LazUTF8, strconsts,
-  testerprimitives, testerfileutil;
+  testerprimitives, testerfileutil, fcutils;
 
 type
 
@@ -236,45 +236,13 @@ begin
 end;
 
 function TFileCompareChecker.DoCheck: TTestVerdict;
-
-  procedure StripList(List: TStringList);
-  var
-    I: integer;
-    Pos: integer;
-    S: string;
-  begin
-    // strip trailing spaces
-    if StripSpaces then
-    begin
-      for I := 0 to List.Count - 1 do
-      begin
-        S := List[I];
-        Pos := Length(S);
-        while (Pos > 0) and (S[Pos] = ' ') do
-          Dec(Pos);
-        List[I] := Copy(S, 1, Pos);
-      end;
-    end;
-    // strip trailing newlines
-    while (List.Count > 0) and (List[List.Count - 1] = '') do
-      List.Delete(List.Count - 1);
-  end;
-
-  function GetTextFromFile(const FileName: string): string;
-  var
-    List: TStringList;
-  begin
-    List := TStringList.Create;
-    try
-      List.LoadFromFile(AppendPathDelim(WorkingDir) + FileName);
-      StripList(List);
-      Result := List.Text;
-    finally
-      FreeAndNil(List);
-    end;
-  end;
-
+var
+  OutputList: TStringList;
+  AnswerList: TStringList;
+  Line, Col: integer;
+  Reason: string;
 begin
+  // check for existance
   if not FileExistsUTF8(AppendPathDelim(WorkingDir) + OutputFile) then
   begin
     CheckerOutput := Format(SFileNotFound, [OutputFile]);
@@ -287,17 +255,28 @@ begin
     Result := veCheckError;
     Exit;
   end;
-  if GetTextFromFile(OutputFile) = GetTextFromFile(AnswerFile) then
-  begin
-    CheckerOutput := SFilesEqual;
-    Result := veAccepted;
-  end
-  else
-  begin
-    CheckerOutput := SFilesNotEqual;
-    // TODO : Show where is the inequality
-    // TODO : Maybe use standard utils (as diff & fc)
-    Result := veWrongAnswer;
+  // get output and answer lists
+  OutputList := TStringList.Create;
+  AnswerList := TStringList.Create;
+  try
+    OutputList.LoadFromFile(OutputFile);
+    AnswerList.LoadFromFile(AnswerFile);
+    StripList(OutputList, StripSpaces);
+    StripList(AnswerList, StripSpaces);
+    // check for equality
+    if CompareText(OutputList, AnswerList, Line, Col, Reason) then
+    begin
+      CheckerOutput := SFilesEqual;
+      Result := veAccepted;
+    end
+    else
+    begin
+      CheckerOutput := Format(SFilesNotEqualFmt, [Line, Col, Reason]);
+      Result := veWrongAnswer;
+    end;
+  finally
+    FreeAndNil(OutputList);
+    FreeAndNil(AnswerList);
   end;
 end;
 

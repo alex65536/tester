@@ -33,8 +33,13 @@ resourcestring
   SCheckerNotFound = 'Checker "%s" not found';
   SCheckerNotRegistered = '%s is not registered';
   SCheckerRunError = 'Checker ran unsuccessfully';
-  SFilesEqual = 'Files are equal :)';
-  SFilesNotEqual = 'Files are not equal :(';
+  SFilesEqual = 'Files are equal! :)';
+  SFilesNotEqualFmt = 'Error at line %d, column %d : %s.';
+  SFilesCharsDiffer = 'expected "%s", found "%s"';
+  SFilesLineTooShort = 'line too short';
+  SFilesLineTooLong = 'extra data in line';
+  SFilesFileTooShort = 'unexpected end of file';
+  SFilesFileTooLong = 'extra data in file';
   SFileNotFound = 'File "%s" not found :(';
   SCheckerRunFail = 'Could not run checker "%s"';
   SCheckerExitCode = 'Checker exitcode: %d';

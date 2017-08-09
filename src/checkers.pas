@@ -44,8 +44,17 @@ type
   { TFileCompareChecker }
 
   TFileCompareChecker = class(TProblemChecker)
+  private
+    FStripSpaces: boolean;
+    procedure SetStripSpaces(AValue: boolean);
   protected
     function DoCheck: TTestVerdict; override;
+  public
+    constructor Create; override;
+    procedure AssignTo(Dest: TPersistent); override;
+    function Equals(Obj: TObject): boolean; override;
+  published
+    property StripSpaces: boolean read FStripSpaces write SetStripSpaces;
   end;
 
   TStdExecutableCheckerParamsPolicy = (secpOutAns, secpInOutAns);
@@ -59,11 +68,12 @@ type
     procedure SetCheckerFileName(AValue: string);
     procedure SetParamsPolicy(AValue: TStdExecutableCheckerParamsPolicy);
   protected
-    property ParamsPolicy: TStdExecutableCheckerParamsPolicy read FParamsPolicy write SetParamsPolicy;
+    property ParamsPolicy: TStdExecutableCheckerParamsPolicy
+      read FParamsPolicy write SetParamsPolicy;
     procedure GetCommandLine(out ExeName: string; Args: TStringList); override;
   public
     constructor Create; override;
-    constructor Create(ACheckerFileName: string);
+    constructor Create(const ACheckerFileName: string);
     procedure CorrectFileNames; override;
     procedure InvalidFilesList(AList: TStrings); override;
     procedure AssignTo(Dest: TPersistent); override;
@@ -128,9 +138,11 @@ begin
   FCheckerFileName := AValue;
 end;
 
-procedure TStdExecutableChecker.SetParamsPolicy(AValue: TStdExecutableCheckerParamsPolicy);
+procedure TStdExecutableChecker.SetParamsPolicy(AValue:
+  TStdExecutableCheckerParamsPolicy);
 begin
-  if FParamsPolicy = AValue then Exit;
+  if FParamsPolicy = AValue then
+    Exit;
   FParamsPolicy := AValue;
 end;
 
@@ -152,7 +164,7 @@ begin
   ParamsPolicy := secpInOutAns;
 end;
 
-constructor TStdExecutableChecker.Create(ACheckerFileName: string);
+constructor TStdExecutableChecker.Create(const ACheckerFileName: string);
 begin
   Create;
   CheckerFileName := ACheckerFileName;
@@ -216,24 +228,34 @@ end;
 
 { TFileCompareChecker }
 
+procedure TFileCompareChecker.SetStripSpaces(AValue: boolean);
+begin
+  if FStripSpaces = AValue then
+    Exit;
+  FStripSpaces := AValue;
+end;
+
 function TFileCompareChecker.DoCheck: TTestVerdict;
 
-  procedure TrimList(List: TStringList);
+  procedure StripList(List: TStringList);
   var
     I: integer;
     Pos: integer;
     S: string;
   begin
-    // trim trailing spaces
-    for I := 0 to List.Count - 1 do
+    // strip trailing spaces
+    if StripSpaces then
     begin
-      S := List[I];
-      Pos := Length(S);
-      while (Pos > 0) and (S[Pos] = ' ') do
-        Dec(Pos);
-      List[I] := Copy(S, 1, Pos);
+      for I := 0 to List.Count - 1 do
+      begin
+        S := List[I];
+        Pos := Length(S);
+        while (Pos > 0) and (S[Pos] = ' ') do
+          Dec(Pos);
+        List[I] := Copy(S, 1, Pos);
+      end;
     end;
-    // trim trailing newlines
+    // strip trailing newlines
     while (List.Count > 0) and (List[List.Count - 1] = '') do
       List.Delete(List.Count - 1);
   end;
@@ -245,7 +267,7 @@ function TFileCompareChecker.DoCheck: TTestVerdict;
     List := TStringList.Create;
     try
       List.LoadFromFile(AppendPathDelim(WorkingDir) + FileName);
-      TrimList(List);
+      StripList(List);
       Result := List.Text;
     finally
       FreeAndNil(List);
@@ -277,6 +299,30 @@ begin
     // TODO : Maybe use standard utils (as diff & fc)
     Result := veWrongAnswer;
   end;
+end;
+
+constructor TFileCompareChecker.Create;
+begin
+  inherited Create;
+  StripSpaces := True;
+end;
+
+procedure TFileCompareChecker.AssignTo(Dest: TPersistent);
+begin
+  inherited;
+  with Dest as TFileCompareChecker do
+  begin
+    StripSpaces := Self.StripSpaces;
+  end;
+end;
+
+function TFileCompareChecker.Equals(Obj: TObject): boolean;
+begin
+  if Obj.ClassType <> ClassType then
+    Result := False
+  else
+    with Obj as TFileCompareChecker do
+      Result := (StripSpaces = Self.StripSpaces);
 end;
 
 { TProcessProblemChecker }

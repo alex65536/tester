@@ -1,0 +1,21 @@
+object FileCompareCheckerEdit: TFileCompareCheckerEdit
+  Left = 0
+  Height = 240
+  Top = 0
+  Width = 320
+  AutoSize = True
+  ClientHeight = 240
+  ClientWidth = 320
+  TabOrder = 0
+  object StripSpacesCheck: TCheckBox
+    Left = 0
+    Height = 24
+    Top = 0
+    Width = 320
+    Align = alTop
+    Caption = 'Delete trailing spaces'
+    Checked = True
+    State = cbChecked
+    TabOrder = 0
+  end
+end

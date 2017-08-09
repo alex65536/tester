@@ -26,7 +26,7 @@ interface
 
 uses
   SysUtils, checkereditorbase, stdexecheckeredit, checkers, ExtCtrls, Controls,
-  problemprops, textcheckedit;
+  problemprops, textcheckedit, filecompcheckedit;
 
 type
 
@@ -34,7 +34,7 @@ type
 
   TFileCompareCheckerEditor = class(TCheckerEditor)
   private
-    FControl: TPanel;
+    FControl: TFileCompareCheckerEdit;
   protected
     function GetControl: TControl; override;
     function GetChecker: TProblemChecker; override;
@@ -132,20 +132,18 @@ end;
 
 function TFileCompareCheckerEditor.GetChecker: TProblemChecker;
 begin
-  Result := TFileCompareChecker.Create;
+  Result := FControl.GetChecker;
 end;
 
 procedure TFileCompareCheckerEditor.SetChecker(AValue: TProblemChecker);
 begin
-  AValue := AValue; // to prevent hints
+  FControl.SetChecker(AValue as TFileCompareChecker);
 end;
 
 constructor TFileCompareCheckerEditor.Create;
 begin
   inherited Create;
-  FControl := TPanel.Create(nil);
-  FControl.BevelInner := bvNone;
-  FControl.BevelOuter := bvNone;
+  FControl := TFileCompareCheckerEdit.Create(nil);
 end;
 
 destructor TFileCompareCheckerEditor.Destroy;

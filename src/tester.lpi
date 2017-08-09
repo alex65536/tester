@@ -18,9 +18,10 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
-      <BuildNr Value="119"/>
+      <RevisionNr Value="1"/>
+      <BuildNr Value="120"/>
       <Attributes pvaPreRelease="True"/>
-      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2 (prerelease)"/>
+      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Kernozhitsky Alexander" ProductName="Tester" ProductVersion="1.2.1 (unstable)"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -45,7 +46,7 @@
         <PackageName Value="LCL"/>
       </Item3>
     </RequiredPackages>
-    <Units Count="50">
+    <Units Count="51">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -303,6 +304,13 @@
         <Filename Value="problemstats.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit49>
+      <Unit50>
+        <Filename Value="filecompcheckedit.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="FileCompareCheckerEdit"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+      </Unit50>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

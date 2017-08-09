@@ -78,7 +78,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   parserutils,
   parser_ejudgecfg,
   solutioninfo,
-  problemstats;
+  problemstats,
+  filecompcheckedit;
 
 {$R *.res}
 

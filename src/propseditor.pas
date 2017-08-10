@@ -285,7 +285,9 @@ end;
 procedure TProblemPropsEditor.EditCostsBtnClick(Sender: TObject);
 begin
   EditCostsDialog.Execute(FProperties);
-  UpdateControls;
+  RefreshTests;
+  UpdateEnabled;
+  DoTestChange;
 end;
 
 procedure TProblemPropsEditor.EditTestBtnClick(Sender: TObject);

@@ -1,6 +1,13 @@
 Tester ChangeLog:
 --------------------------------
 
+version 1.2.1 (prerelease) (11.08.2017)
+[*] Minor fixes.
+[*] Added solution statistics dialog.
+[*] Close All Tabs and Close Other Tabs functions.
+[*] Improved "File comparator" checker.
+[*] Now solution are tested in the system temp directory (more safe).
+
 version 1.2 (prerelease) (20.07.2017)
 [*] Many bug fixes and improvements.
 [*] Added warnings if tests or checker were not found.

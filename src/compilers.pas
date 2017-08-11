@@ -38,13 +38,16 @@ type
     FExeName: string;
     FSrcName: string;
     FStackSize: integer;
+    FWorkingDir: string;
     procedure SetCompilerOutput(AValue: string);
     procedure SetExeName(AValue: string);
     procedure SetSrcName(AValue: string);
     procedure SetStackSize(AValue: integer);
+    procedure SetWorkingDir(AValue: string);
   public
     property SrcName: string read FSrcName write SetSrcName;
     property ExeName: string read FExeName write SetExeName;
+    property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property StackSize: integer read FStackSize write SetStackSize;
     property CompilerOutput: string read FCompilerOutput write SetCompilerOutput;
     function Compile: TCompilerVerdict; virtual; abstract;
@@ -117,7 +120,7 @@ const
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
 function CompileFile(const SrcName, ExeName: string; out Output: string;
-  StackSize: TProblemMemory = DefaultStackSize): TCompilerVerdict;
+  StackSize: TProblemMemory = DefaultStackSize; WorkingDir: string = ''): TCompilerVerdict;
 function CompileChecker(const AFileName: string): string;
 
 implementation
@@ -131,7 +134,7 @@ begin
 end;
 
 function CompileFile(const SrcName, ExeName: string; out Output: string;
-  StackSize: TProblemMemory): TCompilerVerdict;
+  StackSize: TProblemMemory; WorkingDir: string): TCompilerVerdict;
 var
   Extension: string;
   Compiler: TCompiler;
@@ -146,8 +149,12 @@ begin
   try
     Compiler := TCompilerClass(CompilerMap[Extension]).Create;
     try
-      Compiler.SrcName := SrcName;
-      Compiler.ExeName := ExeName;
+      if WorkingDir = '' then
+        Compiler.WorkingDir := GetCurrentDirUTF8
+      else
+        Compiler.WorkingDir := ExpandFileNameUTF8(WorkingDir);
+      Compiler.SrcName := ExpandFileNameUTF8(SrcName);
+      Compiler.ExeName := ExpandFileNameUTF8(ExeName);
       Compiler.StackSize := StackSize;
       Result := Compiler.Compile;
       Output := Compiler.CompilerOutput;
@@ -243,6 +250,7 @@ var
   Args: TStringList;
   ArgsArr: array of string;
   I: integer;
+  CurDir: string;
 begin
   try
     Args := TStringList.Create;
@@ -253,7 +261,11 @@ begin
         ArgsArr[I] := Args[I];
       ExitCode := 0;
       Output := '';
-      if RunCommandIndirUTF8(GetCurrentDirUTF8, CmdName, ArgsArr,
+      if WorkingDir = '' then
+        CurDir := GetCurrentDirUTF8
+      else
+        CurDir := WorkingDir;
+      if RunCommandIndirUTF8(CurDir, CmdName, ArgsArr,
         Output, ExitCode) <> 0 then
       begin
         CompilerOutput := Format(SCompilerError, [CmdName]);
@@ -309,8 +321,16 @@ begin
   FStackSize := AValue;
 end;
 
+procedure TCompiler.SetWorkingDir(AValue: string);
+begin
+  if FWorkingDir = AValue then
+    Exit;
+  FWorkingDir := AValue;
+end;
+
 constructor TCompiler.Create;
 begin
+  WorkingDir := '';
   StackSize := DefaultStackSize;
 end;
 

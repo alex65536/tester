@@ -236,7 +236,7 @@ var
   procedure ChooseNames;
   begin
     // create storage for temp files
-    WorkingDir := GetRandomName(8);
+    WorkingDir := AppendPathDelim(GetTempDir) + 'tstr-' + GetRandomName(8);
     // choose names for executable, input and output files
     ExeName := AppendPathDelim(WorkingDir) + GetRandomName(8);
     {$IfDef Windows}
@@ -288,7 +288,7 @@ begin
           InternalDirMake(WorkingDir);
           // compile the solution
           FResults.CompileVerdict := CompileFile(FSourceFile, ExeName,
-            CompilerOutput, FProperties.MemoryLimit);
+            CompilerOutput, FProperties.MemoryLimit, WorkingDir);
           FResults.CompilerOutput := CompilerOutput;
         except
           on E: EProblemTester do

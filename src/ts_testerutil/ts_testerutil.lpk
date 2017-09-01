@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="ts_testerutil"/>
+    <Type Value="RunAndDesignTime"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains utility classes and routines for Tester. They are used in many other packages, such as ts_testerbase."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="7">
+      <Item1>
+        <Filename Value="fcutils.pas"/>
+        <UnitName Value="fcutils"/>
+      </Item1>
+      <Item2>
+        <Filename Value="logfile.pas"/>
+        <UnitName Value="logfile"/>
+      </Item2>
+      <Item3>
+        <Filename Value="processfork.pas"/>
+        <UnitName Value="processfork"/>
+      </Item3>
+      <Item4>
+        <Filename Value="randomname.pas"/>
+        <UnitName Value="randomname"/>
+      </Item4>
+      <Item5>
+        <Filename Value="strconsts.pas"/>
+        <UnitName Value="strconsts"/>
+      </Item5>
+      <Item6>
+        <Filename Value="testerfileutil.pas"/>
+        <UnitName Value="testerfileutil"/>
+      </Item6>
+      <Item7>
+        <Filename Value="versioninfo.pas"/>
+        <UnitName Value="versioninfo"/>
+      </Item7>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="LazUtils"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

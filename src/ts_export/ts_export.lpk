@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="ts_export"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package can export testing results to HTML."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="htmlexport.pas"/>
+        <UnitName Value="htmlexport"/>
+      </Item1>
+      <Item2>
+        <Filename Value="defaultcss.inc"/>
+        <Type Value="Include"/>
+      </Item2>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="ts_design"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ts_testerbase"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="ts_testerutil"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

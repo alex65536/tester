@@ -25,7 +25,7 @@ unit compilerinfo;
 interface
 
 uses
-  Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strconsts,
+  Forms, ButtonPanel, ExtCtrls, StdCtrls, verdictcolors, testresults, strverdicts,
   Classes, baseforms, SysUtils;
 
 type

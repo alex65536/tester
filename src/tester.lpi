@@ -35,18 +35,36 @@
         <LaunchingApplication Use="True"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="9">
       <Item1>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="ts_design"/>
       </Item1>
       <Item2>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="ts_export"/>
       </Item2>
       <Item3>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ts_parsers"/>
       </Item3>
+      <Item4>
+        <PackageName Value="ts_testerbase"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="ts_testerutil"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="ts_timerlib"/>
+      </Item6>
+      <Item7>
+        <PackageName Value="LazControls"/>
+      </Item7>
+      <Item8>
+        <PackageName Value="SynEdit"/>
+      </Item8>
+      <Item9>
+        <PackageName Value="LCL"/>
+      </Item9>
     </RequiredPackages>
-    <Units Count="52">
+    <Units Count="24">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -59,262 +77,150 @@
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
-        <Filename Value="problemprops.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="testresults.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="strconsts.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit4>
-      <Unit5>
         <Filename Value="propseditor.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ProblemPropsEditor"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit5>
-      <Unit6>
+      </Unit2>
+      <Unit3>
         <Filename Value="testsdlg.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TestDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="jsonsaver.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="checkers.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit8>
-      <Unit9>
+      </Unit3>
+      <Unit4>
         <Filename Value="checkereditorbase.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit9>
-      <Unit10>
+      </Unit4>
+      <Unit5>
         <Filename Value="stdexecheckeredit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="StdExecuteCheckerEdit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit10>
-      <Unit11>
+      </Unit5>
+      <Unit6>
         <Filename Value="checkereditors.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit11>
-      <Unit12>
+      </Unit6>
+      <Unit7>
         <Filename Value="checkerselector.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CheckerSelect"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit12>
-      <Unit13>
-        <Filename Value="compilers.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit13>
-      <Unit14>
+      </Unit7>
+      <Unit8>
         <Filename Value="srcviewer.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="SourceViewer"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="processfork.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit15>
-      <Unit16>
-        <Filename Value="runtimers.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="problemtesting.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="testerprimitives.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit18>
-      <Unit19>
-        <Filename Value="randomname.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit19>
-      <Unit20>
+      </Unit8>
+      <Unit9>
         <Filename Value="testerframes.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TesterFrame"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit20>
-      <Unit21>
+      </Unit9>
+      <Unit10>
         <Filename Value="compilerinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="CompilerInfoDlg"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit21>
-      <Unit22>
-        <Filename Value="verdictcolors.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit22>
-      <Unit23>
+      </Unit10>
+      <Unit11>
         <Filename Value="testinfo.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TestInfoDlg"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit23>
-      <Unit24>
-        <Filename Value="multitesters.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit24>
-      <Unit25>
+      </Unit11>
+      <Unit12>
         <Filename Value="testerforms.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TesterForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit25>
-      <Unit26>
+      </Unit12>
+      <Unit13>
         <Filename Value="about.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="AboutBox"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit26>
-      <Unit27>
+      </Unit13>
+      <Unit14>
         <Filename Value="licenseforms.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="LicenseForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit27>
-      <Unit28>
+      </Unit14>
+      <Unit15>
         <Filename Value="imgkeeper.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ImageKeeper"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
-      </Unit28>
-      <Unit29>
-        <Filename Value="testtemplates.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit29>
-      <Unit30>
+      </Unit15>
+      <Unit16>
         <Filename Value="testtemplatedlg.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TestTemplateDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit30>
-      <Unit31>
-        <Filename Value="logfile.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit31>
-      <Unit32>
-        <Filename Value="propsparserbase.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit32>
-      <Unit33>
-        <Filename Value="parserlists.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit33>
-      <Unit34>
+      </Unit16>
+      <Unit17>
         <Filename Value="parserforms.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="ParserForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit34>
-      <Unit35>
-        <Filename Value="parser_alltest.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit35>
-      <Unit36>
-        <Filename Value="testerfileutil.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit36>
-      <Unit37>
+      </Unit17>
+      <Unit18>
         <Filename Value="textcheckedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TextCheckerEdit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit37>
-      <Unit38>
-        <Filename Value="parser_xml.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit38>
-      <Unit39>
-        <Filename Value="versioninfo.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit39>
-      <Unit40>
-        <Filename Value="parser_simplecfg.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit40>
-      <Unit41>
-        <Filename Value="parser_findfile.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit41>
-      <Unit42>
+      </Unit18>
+      <Unit19>
         <Filename Value="editcostsdlg.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="EditCostsDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit42>
-      <Unit43>
-        <Filename Value="htmlexport.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit43>
-      <Unit44>
-        <Filename Value="defaultcss.inc"/>
-        <IsPartOfProject Value="True"/>
-      </Unit44>
-      <Unit45>
+      </Unit19>
+      <Unit20>
         <Filename Value="baseforms.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="BaseForm"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit45>
-      <Unit46>
-        <Filename Value="parserutils.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit46>
-      <Unit47>
-        <Filename Value="parser_ejudgecfg.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit47>
-      <Unit48>
+      </Unit20>
+      <Unit21>
         <Filename Value="solutioninfo.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="SolutionStatsDlg"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit48>
-      <Unit49>
-        <Filename Value="problemstats.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit49>
-      <Unit50>
+      </Unit21>
+      <Unit22>
         <Filename Value="filecompcheckedit.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FileCompareCheckerEdit"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
-      </Unit50>
-      <Unit51>
-        <Filename Value="fcutils.pas"/>
+      </Unit22>
+      <Unit23>
+        <Filename Value="appinfo.pas"/>
         <IsPartOfProject Value="True"/>
-      </Unit51>
+      </Unit23>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -324,8 +230,6 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
-      <Libraries Value="../timerlib"/>
-      <OtherUnitFiles Value="../timerlib/src;../timerlib"/>
       <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

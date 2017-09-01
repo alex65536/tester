@@ -26,7 +26,7 @@ interface
 
 uses
   SysUtils, baseforms, StdCtrls, ButtonPanel, ExtCtrls, testresults,
-  problemstats, problemprops, strconsts, verdictcolors;
+  problemstats, problemprops, strconsts, verdictcolors, strverdicts;
 
 type
 

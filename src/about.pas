@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, DividerBevel, Forms, ExtCtrls, StdCtrls, licenseforms, versioninfo,
-  strconsts, SysUtils, LCLIntf, baseforms;
+  strconsts, SysUtils, LCLIntf, baseforms, appinfo;
 
 type
 

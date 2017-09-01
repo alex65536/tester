@@ -64,9 +64,6 @@ function StrToFileVersion(Str: string): TFileVersion;
 function CompareFileVersions(Ver1, Ver2: TFileVersion): integer;
 
 function GetAppVersion: string;
-function GetAppFullName: string;
-function GetAppBuildDate: string;
-function GetAppTarget: string;
 function GetAppFileVersion: string;
 
 procedure InitVersionInfo;
@@ -74,34 +71,17 @@ procedure InitVersionInfo;
 implementation
 
 uses
+  fileinfo,
 {$IfDef Windows}
   winpeimagereader,
 {$Else}
   elfreader,
 {$EndIf}
-  Classes, resource, versionresource, Forms, InterfaceBase, strconsts;
+  Classes, strconsts;
 
 const
-  WidgetSetNames: array [TLCLPlatform] of string = (
-    'gtk',
-    'gtk2',
-    'gtk3',
-    'win32/win64',
-    'wince',
-    'carbon',
-    'qt',
-    'fpgui',
-    'nogui',
-    'cocoa',
-    'customdrawn'
-    );
   AppVersionKey = 'ProductVersion';
   AppFileVersionKey = 'FileVersion';
-  BuildDate = {$I %DATE%};
-  BuildTime = {$I %TIME%};
-  TargetOS = {$I %FPCTARGETOS%};
-  TargetCPU = {$I %FPCTARGETCPU%};
-  TargetFmt = '%s-%s-%s';
 
 var
   AppVersion: string = '';
@@ -109,54 +89,15 @@ var
 
 procedure LoadVersionInfo;
 var
-  AResources: TResources;
-  AReader: TAbstractResourceReader;
-  AVersion: TVersionResource;
-  I: integer;
-
-  function SeekForVersion(const AKey: string): string;
-  var
-    I: integer;
-    Str: string;
-  begin
-    Result := '';
-    for I := 0 to AVersion.StringFileInfo.Count - 1 do
-    begin
-      try
-        Str := AVersion.StringFileInfo.Items[I].Values[AKey];
-      except
-        Str := '';
-      end;
-      if Str <> '' then
-        Result := Str;
-    end;
-  end;
-
+  VersionInfo: TFileVersionInfo;
 begin
-  {$IfDef Windows}
-  AReader := TWinPEImageResourceReader.Create;
-  {$Else}
-  AReader := TElfResourceReader.Create;
-  {$EndIf}
+  VersionInfo := TFileVersionInfo.Create(nil);
   try
-    AResources := TResources.Create;
-    try
-      AResources.LoadFromFile(Application.ExeName, AReader);
-      AVersion := nil;
-      for I := 0 to AResources.Count - 1 do
-        if AResources[i] is TVersionResource then
-          AVersion := AResources[i] as TVersionResource;
-      AppVersion := SDefaultVersion;
-      if AVersion <> nil then
-      begin
-        AppVersion := SeekForVersion(AppVersionKey);
-        AppFileVersion := SeekForVersion(AppFileVersionKey);
-      end;
-    finally
-      FreeAndNil(AResources);
-    end;
+    VersionInfo.ReadFileInfo;
+    AppVersion := VersionInfo.VersionStrings.Values[AppVersionKey];
+    AppFileVersion := VersionInfo.VersionStrings.Values[AppFileVersionKey];
   finally
-    FreeAndNil(AReader);
+    FreeAndNil(VersionInfo);
   end;
 end;
 
@@ -228,28 +169,6 @@ end;
 function GetAppVersion: string;
 begin
   Result := AppVersion;
-end;
-
-function GetAppFullName: string;
-begin
-  Result := Format(SFullAppNameFmt, [Application.Title, GetAppVersion]);
-end;
-
-function GetAppBuildDate: string;
-var
-  DateFmt: TFormatSettings;
-begin
-  DateFmt := DefaultFormatSettings;
-  DateFmt.ShortDateFormat := 'y/m/d';
-  DateFmt.DateSeparator := '/';
-  Result := FormatDateTime(SDateViewFmt, StrToDateTime(BuildDate, DateFmt)) +
-    ' ' + BuildTime;
-end;
-
-function GetAppTarget: string;
-begin
-  Result := LowerCase(Format(TargetFmt, [TargetCPU, TargetOS,
-    WidgetSetNames[WidgetSet.LCLPlatform]]));
 end;
 
 function GetAppFileVersion: string;

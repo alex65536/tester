@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, multitesters, typinfo, testerprimitives, Graphics,
-  verdictcolors, strconsts, versioninfo;
+  verdictcolors, strconsts, strverdicts, versioninfo;
 
 type
 

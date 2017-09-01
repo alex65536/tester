@@ -24,9 +24,6 @@ unit strconsts;
 
 interface
 
-uses
-  SysUtils, testerprimitives;
-
 // Common messages
 resourcestring
   SUnknownChecker = 'Unknown checker "%s"';
@@ -58,10 +55,6 @@ resourcestring
   STestIndex = 'Test %d';
   STotalScore = 'Score';
   SScoreFmt = '%.2f';
-  STimeConsumed = '%.2f s';
-  STimeConsumedEx = '%.3f seconds';
-  SMemConsumed = '%.2f MB';
-  SMemConsumedEx = '%d KBytes';
   SScoreDivide = '%.2f/%.2f';
   SAlreadyTesting = 'Testing is already started';
   SNoTestsAdded = 'No tests were added!';
@@ -98,96 +91,7 @@ resourcestring
   SStatsCannotTimeInfo = 'Cannot get time info';
   SStatsCannotMemoryInfo = 'Cannot get memory info';
   SNoAnswer = 'N/A';
-  STestsOfInfo = '%d of %d (%.2f%%)';
-
-// Compilation verdicts
-resourcestring
-  SCompileSuccess = 'Compilation successful';
-  SCompileSuccessS = 'OK';
-  SCompileError = 'Compilation error';
-  SCompileErrorS = 'CE';
-  SCompileFail = 'Compilation fail';
-  SCompileFailS = 'FL';
-  SCompileWaiting = 'Waiting';
-  SCompileWaitingS = '?';
-
-const
-  SCompilerVerdicts: array [TCompilerVerdict] of string =
-    (SCompileSuccess, SCompileError, SCompileFail, SCompileWaiting);
-  SCompilerVerdictsS: array [TCompilerVerdict] of string =
-    (SCompileSuccessS, SCompileErrorS, SCompileFailS, SCompileWaitingS);
-
-// Testing verdicts
-resourcestring
-  STestAccepted = 'Accepted';
-  STestAcceptedS = 'AC';
-  STestWrongAnswer = 'Wrong answer';
-  STestWrongAnswerS = 'WA';
-  STestPresentationError = 'Presentation error';
-  STestPresentationErrorS = 'PE';
-  STestCheckError = 'Checker error';
-  STestCheckErrorS = 'FL';
-  STestRuntimeError = 'Runtime error';
-  STestRuntimeErrorS = 'RE';
-  STestTimeLimit = 'Time limit exceeded';
-  STestTimeLimitS = 'TL';
-  STestIdlenessLimit = 'Idleness limit exceeded';
-  STestIdlenessLimitS = 'IL';
-  STestMemoryLimit = 'Memory limit exceeded';
-  STestMemoryLimitS = 'ML';
-  STestRunFail = 'Run failed';
-  STestRunFailS = 'RF';
-  STestSkipped = 'Skipped';
-  STestSkippedS = '-';
-  STestWaiting = 'Waiting';
-  STestWaitingS = '?';
-
-const
-  STestVerdicts: array [TTestVerdict] of string =
-    (STestAccepted, STestWrongAnswer, STestPresentationError, STestCheckError,
-    STestRuntimeError, STestTimeLimit, STestIdlenessLimit, STestMemoryLimit,
-    STestRunFail, STestSkipped, STestWaiting);
-  STestVerdictsS: array [TTestVerdict] of string =
-    (STestAcceptedS, STestWrongAnswerS, STestPresentationErrorS, STestCheckErrorS,
-    STestRuntimeErrorS, STestTimeLimitS, STestIdlenessLimitS, STestMemoryLimitS,
-    STestRunFailS, STestSkippedS, STestWaitingS);
-
-function ProblemTimeToStr(ATime: TProblemTime): string;
-function ProblemMemoryToStr(AMemory: TProblemMemory): string;
-
-function ProblemTimeToStrEx(ATime: TProblemTime): string;
-function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
-
-function GetTestsOfCaption(AHave, ATotal: integer): string;
 
 implementation
-
-function ProblemTimeToStr(ATime: TProblemTime): string;
-begin
-  Result := Format(STimeConsumed, [ATime / 1000]);
-end;
-
-function ProblemMemoryToStr(AMemory: TProblemMemory): string;
-begin
-  Result := Format(SMemConsumed, [AMemory / 1024]);
-end;
-
-function ProblemTimeToStrEx(ATime: TProblemTime): string;
-begin
-  Result := Format(STimeConsumedEx, [ATime / 1000]);
-end;
-
-function ProblemMemoryToStrEx(AMemory: TProblemMemory): string;
-begin
-  Result := Format(SMemConsumedEx, [AMemory]);
-end;
-
-function GetTestsOfCaption(AHave, ATotal: integer): string;
-var
-  Percent: double;
-begin
-  Percent := AHave / ATotal * 100;
-  Result := Format(STestsOfInfo, [AHave, ATotal, Percent]);
-end;
 
 end.

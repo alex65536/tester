@@ -71,12 +71,13 @@ procedure InitVersionInfo;
 implementation
 
 uses
+  fileinfo,
 {$IfDef Windows}
   winpeimagereader,
 {$Else}
   elfreader,
 {$EndIf}
-  Classes, Forms, resource, versionresource, strconsts;
+  Classes, strconsts;
 
 const
   AppVersionKey = 'ProductVersion';
@@ -88,54 +89,15 @@ var
 
 procedure LoadVersionInfo;
 var
-  AResources: TResources;
-  AReader: TAbstractResourceReader;
-  AVersion: TVersionResource;
-  I: integer;
-
-  function SeekForVersion(const AKey: string): string;
-  var
-    I: integer;
-    Str: string;
-  begin
-    Result := '';
-    for I := 0 to AVersion.StringFileInfo.Count - 1 do
-    begin
-      try
-        Str := AVersion.StringFileInfo.Items[I].Values[AKey];
-      except
-        Str := '';
-      end;
-      if Str <> '' then
-        Result := Str;
-    end;
-  end;
-
+  VersionInfo: TFileVersionInfo;
 begin
-  {$IfDef Windows}
-  AReader := TWinPEImageResourceReader.Create;
-  {$Else}
-  AReader := TElfResourceReader.Create;
-  {$EndIf}
+  VersionInfo := TFileVersionInfo.Create(nil);
   try
-    AResources := TResources.Create;
-    try
-      AResources.LoadFromFile(ParamStr(0), AReader);
-      AVersion := nil;
-      for I := 0 to AResources.Count - 1 do
-        if AResources[i] is TVersionResource then
-          AVersion := AResources[i] as TVersionResource;
-      AppVersion := SDefaultVersion;
-      if AVersion <> nil then
-      begin
-        AppVersion := SeekForVersion(AppVersionKey);
-        AppFileVersion := SeekForVersion(AppFileVersionKey);
-      end;
-    finally
-      FreeAndNil(AResources);
-    end;
+    VersionInfo.ReadFileInfo;
+    AppVersion := VersionInfo.VersionStrings.Values[AppVersionKey];
+    AppFileVersion := VersionInfo.VersionStrings.Values[AppFileVersionKey];
   finally
-    FreeAndNil(AReader);
+    FreeAndNil(VersionInfo);
   end;
 end;
 

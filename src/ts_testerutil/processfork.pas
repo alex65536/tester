@@ -2,7 +2,7 @@
   This file is part of Tester
 
   Copyright (c) 1999-2000 by the Free Pascal development team
-  Copyright (c) 2017 Kernozhitsky Alexander <sh200105@mail.ru>
+  Copyright (c) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free

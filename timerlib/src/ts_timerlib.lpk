@@ -2,7 +2,7 @@
 <CONFIG>
   <Package Version="4">
     <Name Value="ts_timerlib"/>
-    <Author Value="Kernozhitsky Alexander"/>
+    <Author Value="Alexander Kernozhitsky"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>

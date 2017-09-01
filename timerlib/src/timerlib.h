@@ -1,7 +1,7 @@
 /*
   timerlib.h - Header for libtimer.a
 
-  Copyright (C) 2017 Kernozhitsky Alexander <sh200105@mail.ru>
+  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public

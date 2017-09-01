@@ -3,7 +3,7 @@
   <Package Version="4">
     <Name Value="ts_testerbase"/>
     <AddToProjectUsesSection Value="True"/>
-    <Author Value="Kernozhitsky Alexander"/>
+    <Author Value="Alexander Kernozhitsky"/>
     <CompilerOptions>
       <Version Value="11"/>
       <SearchPaths>

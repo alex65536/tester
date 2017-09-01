@@ -800,7 +800,7 @@ inherited AboutBox: TAboutBox
     Align = alTop
     BorderSpacing.Left = 3
     BorderSpacing.Right = 3
-    Caption = 'Copyright © 2017 Kernozhitsky Alexander'
+    Caption = 'Copyright © 2017 Alexander Kernozhitsky'
     ParentColor = False
   end
   object Label4: TLabel[5]

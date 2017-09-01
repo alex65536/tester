@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<CONFIG>
-  <Compiler Value="/usr/bin/fpc" Date="1488055450"/>
-  <Params Value=" -MObjFPC -Scghi -Cg -O1 -g -gl -l -vewnhibq -Fu/usr/share/lazarus/1.6.4/packager/units/x86_64-linux -Fu/media/data/TaskDevelop/tester/timerlib/src/ -FU/media/data/TaskDevelop/tester/timerlib/src/lib/x86_64-linux/ ts_timerlib.pas"/>
-</CONFIG>

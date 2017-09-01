@@ -35,42 +35,49 @@
         <LaunchingApplication Use="True"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="11">
+    <RequiredPackages Count="13">
       <Item1>
-        <PackageName Value="tsgui_propsedit"/>
+        <PackageName Value="tsgui_about"/>
       </Item1>
       <Item2>
-        <PackageName Value="tsgui_utils"/>
+        <PackageName Value="LazControls"/>
       </Item2>
       <Item3>
-        <PackageName Value="ts_parsers"/>
+        <PackageName Value="tsgui_parsers"/>
       </Item3>
       <Item4>
-        <PackageName Value="ts_export"/>
+        <PackageName Value="tsgui_testerform"/>
+        <MaxVersion Major="1" Minor="2" Release="1"/>
       </Item4>
       <Item5>
-        <PackageName Value="ts_design"/>
+        <PackageName Value="tsgui_propsedit"/>
       </Item5>
       <Item6>
-        <PackageName Value="ts_testerbase"/>
+        <PackageName Value="tsgui_utils"/>
       </Item6>
       <Item7>
-        <PackageName Value="ts_testerutil"/>
+        <PackageName Value="ts_parsers"/>
       </Item7>
       <Item8>
-        <PackageName Value="ts_timerlib"/>
+        <PackageName Value="ts_export"/>
       </Item8>
       <Item9>
-        <PackageName Value="LazControls"/>
+        <PackageName Value="ts_design"/>
       </Item9>
       <Item10>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="ts_testerbase"/>
       </Item10>
       <Item11>
-        <PackageName Value="LCL"/>
+        <PackageName Value="ts_testerutil"/>
       </Item11>
+      <Item12>
+        <PackageName Value="ts_timerlib"/>
+      </Item12>
+      <Item13>
+        <PackageName Value="LCL"/>
+      </Item13>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="2">
       <Unit0>
         <Filename Value="tester.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -82,73 +89,6 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
-      <Unit2>
-        <Filename Value="srcviewer.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="SourceViewer"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit2>
-      <Unit3>
-        <Filename Value="testerframes.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="TesterFrame"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="compilerinfo.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="CompilerInfoDlg"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit4>
-      <Unit5>
-        <Filename Value="testinfo.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="TestInfoDlg"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit5>
-      <Unit6>
-        <Filename Value="testerforms.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="TesterForm"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit6>
-      <Unit7>
-        <Filename Value="about.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="AboutBox"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit7>
-      <Unit8>
-        <Filename Value="licenseforms.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="LicenseForm"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="parserforms.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="ParserForm"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit9>
-      <Unit10>
-        <Filename Value="solutioninfo.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="SolutionStatsDlg"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit10>
-      <Unit11>
-        <Filename Value="appinfo.pas"/>
-        <IsPartOfProject Value="True"/>
-      </Unit11>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

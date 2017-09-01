@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="tsgui_about"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package implements About Box window for Tester."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="5">
+      <Item1>
+        <Filename Value="about.lfm"/>
+        <Type Value="LFM"/>
+      </Item1>
+      <Item2>
+        <Filename Value="about.pas"/>
+        <UnitName Value="about"/>
+      </Item2>
+      <Item3>
+        <Filename Value="appinfo.pas"/>
+        <UnitName Value="appinfo"/>
+      </Item3>
+      <Item4>
+        <Filename Value="licenseforms.lfm"/>
+        <Type Value="LFM"/>
+      </Item4>
+      <Item5>
+        <Filename Value="licenseforms.pas"/>
+        <UnitName Value="licenseforms"/>
+      </Item5>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="LazControls"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ts_testerutil"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="tsgui_utils"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

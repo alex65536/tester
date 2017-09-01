@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="tsgui_parsers"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains a parser form that launches the parsers from ts_parsers package and shows the form indicating parsing progress."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="2">
+      <Item1>
+        <Filename Value="parserforms.lfm"/>
+        <Type Value="LFM"/>
+      </Item1>
+      <Item2>
+        <Filename Value="parserforms.pas"/>
+        <UnitName Value="parserforms"/>
+      </Item2>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="ts_parsers"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="tsgui_utils"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCLBase"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

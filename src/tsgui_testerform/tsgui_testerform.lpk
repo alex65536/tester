@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="tsgui_testerform"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains a testing frame for Tester GUI."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="12">
+      <Item1>
+        <Filename Value="compilerinfo.lfm"/>
+        <Type Value="LFM"/>
+      </Item1>
+      <Item2>
+        <Filename Value="compilerinfo.pas"/>
+        <UnitName Value="compilerinfo"/>
+      </Item2>
+      <Item3>
+        <Filename Value="solutioninfo.lfm"/>
+        <Type Value="LFM"/>
+      </Item3>
+      <Item4>
+        <Filename Value="solutioninfo.pas"/>
+        <UnitName Value="solutioninfo"/>
+      </Item4>
+      <Item5>
+        <Filename Value="srcviewer.lfm"/>
+        <Type Value="LFM"/>
+      </Item5>
+      <Item6>
+        <Filename Value="srcviewer.pas"/>
+        <UnitName Value="srcviewer"/>
+      </Item6>
+      <Item7>
+        <Filename Value="testerforms.lfm"/>
+        <Type Value="LFM"/>
+      </Item7>
+      <Item8>
+        <Filename Value="testerforms.pas"/>
+        <UnitName Value="testerforms"/>
+      </Item8>
+      <Item9>
+        <Filename Value="testerframes.lfm"/>
+        <Type Value="LFM"/>
+      </Item9>
+      <Item10>
+        <Filename Value="testerframes.pas"/>
+        <UnitName Value="testerframes"/>
+      </Item10>
+      <Item11>
+        <Filename Value="testinfo.lfm"/>
+        <Type Value="LFM"/>
+      </Item11>
+      <Item12>
+        <Filename Value="testinfo.pas"/>
+        <UnitName Value="testinfo"/>
+      </Item12>
+    </Files>
+    <RequiredPkgs Count="6">
+      <Item1>
+        <PackageName Value="SynEdit"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ts_design"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="tsgui_utils"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="LCLBase"/>
+      </Item4>
+      <Item5>
+        <PackageName Value="ts_testerbase"/>
+      </Item5>
+      <Item6>
+        <PackageName Value="FCL"/>
+      </Item6>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

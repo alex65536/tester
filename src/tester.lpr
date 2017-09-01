@@ -30,6 +30,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   //heaptrc,
   Interfaces, // this includes the LCL widgetset
   Forms,
+  lazcontrols,
   SysUtils,
   Classes,
   ts_timerlib,
@@ -40,18 +41,10 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   ts_parsers,
   tsgui_utils,
   tsgui_propsedit,
+  tsgui_testerform,
+  tsgui_parsers,
+  tsgui_about,
   mainunit,
-  lazcontrols,
-  srcviewer,
-  testerframes,
-  compilerinfo,
-  testinfo,
-  testerforms,
-  about,
-  licenseforms,
-  parserforms,
-  solutioninfo,
-  appinfo,
   versioninfo;
 
 {$R *.res}
@@ -62,10 +55,5 @@ begin
   Application.Initialize;
   InitVersionInfo;
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TSourceViewer, SourceViewer);
-  Application.CreateForm(TTesterForm, TesterForm);
-  Application.CreateForm(TAboutBox, AboutBox);
-  Application.CreateForm(TLicenseForm, LicenseForm);
-  Application.CreateForm(TParserForm, ParserForm);
   Application.Run;
 end.

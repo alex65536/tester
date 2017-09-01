@@ -10,6 +10,8 @@ rm -f timerlib/*.so
 
 rm -rf src/lib/
 rm -rf src/backup/
+rm -rf timerlib/src/lib/
+rm -rf timerlib/src/backup/
 
 for i in src/* ; do
 	rm -rf "$i/lib"

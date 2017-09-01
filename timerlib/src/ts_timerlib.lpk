@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="ts_timerlib"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package is a binding for timerlib library written on C. It is used to run programs with measuring time and memory limits.
+When building this package, be careful with linking errors!
+Timerlib library uses sources from ejudge project &lt;http://www.ejudge.ru>"/>
+    <License Value="GPL 2+"/>
+    <Version Minor="1" Release="1"/>
+    <Files Count="1">
+      <Item1>
+        <Filename Value="timerlib.pas"/>
+        <UnitName Value="timerlib"/>
+      </Item1>
+    </Files>
+    <RequiredPkgs Count="1">
+      <Item1>
+        <PackageName Value="FCL"/>
+      </Item1>
+    </RequiredPkgs>
+    <UsageOptions>
+      <LibraryPath Value="$(PkgDir)/.."/>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

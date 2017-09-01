@@ -92,7 +92,6 @@ inherited MainForm: TMainForm
     TabDragAcceptMode = dmAutomatic
   end
   object ActionList: TActionList[2]
-    Images = ImageKeeper.ImageList
     left = 192
     top = 216
     object NewFileAction: TAction

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="tsgui_propsedit"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains a properties editor component for Tester GUI."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="18">
+      <Item1>
+        <Filename Value="checkereditorbase.pas"/>
+        <UnitName Value="checkereditorbase"/>
+      </Item1>
+      <Item2>
+        <Filename Value="checkereditors.pas"/>
+        <UnitName Value="checkereditors"/>
+      </Item2>
+      <Item3>
+        <Filename Value="checkerselector.lfm"/>
+        <Type Value="LFM"/>
+      </Item3>
+      <Item4>
+        <Filename Value="checkerselector.pas"/>
+        <UnitName Value="checkerselector"/>
+      </Item4>
+      <Item5>
+        <Filename Value="editcostsdlg.lfm"/>
+        <Type Value="LFM"/>
+      </Item5>
+      <Item6>
+        <Filename Value="editcostsdlg.pas"/>
+        <UnitName Value="editcostsdlg"/>
+      </Item6>
+      <Item7>
+        <Filename Value="filecompcheckedit.lfm"/>
+        <Type Value="LFM"/>
+      </Item7>
+      <Item8>
+        <Filename Value="filecompcheckedit.pas"/>
+        <UnitName Value="filecompcheckedit"/>
+      </Item8>
+      <Item9>
+        <Filename Value="propseditor.lfm"/>
+        <Type Value="LFM"/>
+      </Item9>
+      <Item10>
+        <Filename Value="propseditor.pas"/>
+        <UnitName Value="propseditor"/>
+      </Item10>
+      <Item11>
+        <Filename Value="testsdlg.lfm"/>
+        <Type Value="LFM"/>
+      </Item11>
+      <Item12>
+        <Filename Value="testsdlg.pas"/>
+        <UnitName Value="testsdlg"/>
+      </Item12>
+      <Item13>
+        <Filename Value="testtemplatedlg.lfm"/>
+        <Type Value="LFM"/>
+      </Item13>
+      <Item14>
+        <Filename Value="testtemplatedlg.pas"/>
+        <UnitName Value="testtemplatedlg"/>
+      </Item14>
+      <Item15>
+        <Filename Value="textcheckedit.lfm"/>
+        <Type Value="LFM"/>
+      </Item15>
+      <Item16>
+        <Filename Value="textcheckedit.pas"/>
+        <UnitName Value="textcheckedit"/>
+      </Item16>
+      <Item17>
+        <Filename Value="stdexecheckeredit.lfm"/>
+        <Type Value="LFM"/>
+      </Item17>
+      <Item18>
+        <Filename Value="stdexecheckeredit.pas"/>
+        <UnitName Value="stdexecheckeredit"/>
+      </Item18>
+    </Files>
+    <RequiredPkgs Count="4">
+      <Item1>
+        <PackageName Value="tsgui_utils"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="ts_testerbase"/>
+      </Item2>
+      <Item3>
+        <PackageName Value="LCLBase"/>
+      </Item3>
+      <Item4>
+        <PackageName Value="FCL"/>
+      </Item4>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

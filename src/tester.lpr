@@ -34,50 +34,23 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   Classes,
   ts_timerlib,
   ts_testerutil,
+  ts_testerbase,
+  ts_design,
+  ts_export,
+  ts_parsers,
+  tsgui_utils,
+  tsgui_propsedit,
   mainunit,
-  problemprops,
-  testresults,
-  propseditor,
-  testsdlg,
   lazcontrols,
-  jsonsaver,
-  checkers,
-  stdexecheckeredit,
-  checkereditors,
-  checkerselector,
-  compilers,
   srcviewer,
-  runtimers,
-  problemtesting,
-  testerprimitives,
   testerframes,
   compilerinfo,
-  verdictcolors,
   testinfo,
-  multitesters,
   testerforms,
   about,
   licenseforms,
-  imgkeeper,
-  testtemplates,
-  testtemplatedlg,
-  propsparserbase,
-  parserlists,
   parserforms,
-  parser_alltest,
-  textcheckedit,
-  parser_xml,
-  parser_simplecfg,
-  parser_findfile,
-  editcostsdlg,
-  htmlexport,
-  baseforms,
-  parserutils,
-  parser_ejudgecfg,
   solutioninfo,
-  problemstats,
-  filecompcheckedit,
-  strverdicts,
   appinfo,
   versioninfo;
 
@@ -88,15 +61,11 @@ begin
   RequireDerivedFormResource := True;
   Application.Initialize;
   InitVersionInfo;
-  Application.CreateForm(TImageKeeper, ImageKeeper);
   Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TTestDialog, TestDialog);
   Application.CreateForm(TSourceViewer, SourceViewer);
   Application.CreateForm(TTesterForm, TesterForm);
   Application.CreateForm(TAboutBox, AboutBox);
   Application.CreateForm(TLicenseForm, LicenseForm);
-  Application.CreateForm(TTestTemplateDialog, TestTemplateDialog);
   Application.CreateForm(TParserForm, ParserForm);
-  Application.CreateForm(TEditCostsDialog, EditCostsDialog);
   Application.Run;
 end.

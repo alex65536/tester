@@ -32,6 +32,8 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   Forms,
   SysUtils,
   Classes,
+  ts_timerlib,
+  ts_testerutil,
   mainunit,
   problemprops,
   testresults,
@@ -45,11 +47,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   checkerselector,
   compilers,
   srcviewer,
-  processfork,
   runtimers,
   problemtesting,
   testerprimitives,
-  randomname,
   testerframes,
   compilerinfo,
   verdictcolors,
@@ -61,15 +61,12 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   imgkeeper,
   testtemplates,
   testtemplatedlg,
-  logfile,
   propsparserbase,
   parserlists,
   parserforms,
   parser_alltest,
-  testerfileutil,
   textcheckedit,
   parser_xml,
-  versioninfo,
   parser_simplecfg,
   parser_findfile,
   editcostsdlg,
@@ -80,9 +77,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   solutioninfo,
   problemstats,
   filecompcheckedit,
-  fcutils,
   strverdicts,
-  appinfo;
+  appinfo,
+  versioninfo;
 
 {$R *.res}
 

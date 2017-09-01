@@ -80,7 +80,9 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   solutioninfo,
   problemstats,
   filecompcheckedit,
-  fcutils;
+  fcutils,
+  strverdicts,
+  appinfo;
 
 {$R *.res}
 

@@ -27,7 +27,7 @@ interface
 uses
   Classes, SysUtils, Forms, Grids, StdCtrls, problemprops, Math, strconsts,
   Graphics, testresults, Types, srcviewer, Dialogs, verdictcolors, compilerinfo,
-  testinfo, multitesters, testerprimitives, ComCtrls, solutioninfo;
+  testinfo, multitesters, testerprimitives, ComCtrls, solutioninfo, strverdicts;
 
 type
   ETesterFrame = class(Exception);

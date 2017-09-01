@@ -27,7 +27,8 @@ interface
 uses
   Forms, ComCtrls, ExtCtrls, ExtendedNotebook, Classes, propseditor, Controls,
   ActnList, Dialogs, Menus, Buttons, SysUtils, LazFileUtils, testerforms, about,
-  parserforms, versioninfo, baseforms, jsonsaver, strconsts, logfile;
+  parserforms, appinfo, versioninfo, baseforms, jsonsaver, strconsts,
+  logfile;
 
 type
   TCreateEditorPolicy = (ceLoad, ceSave);

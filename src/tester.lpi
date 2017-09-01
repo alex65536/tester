@@ -38,21 +38,27 @@
     <RequiredPackages Count="9">
       <Item1>
         <PackageName Value="ts_design"/>
+        <DefaultFilename Value="ts_design/ts_design.lpk"/>
       </Item1>
       <Item2>
         <PackageName Value="ts_export"/>
+        <DefaultFilename Value="ts_export/ts_export.lpk"/>
       </Item2>
       <Item3>
         <PackageName Value="ts_parsers"/>
+        <DefaultFilename Value="ts_parsers/ts_parsers.lpk"/>
       </Item3>
       <Item4>
         <PackageName Value="ts_testerbase"/>
+        <DefaultFilename Value="ts_testerbase/ts_testerbase.lpk"/>
       </Item4>
       <Item5>
         <PackageName Value="ts_testerutil"/>
+        <DefaultFilename Value="ts_testerutil/ts_testerutil.lpk"/>
       </Item5>
       <Item6>
         <PackageName Value="ts_timerlib"/>
+        <DefaultFilename Value="../timerlib/src/ts_timerlib.lpk"/>
       </Item6>
       <Item7>
         <PackageName Value="LazControls"/>

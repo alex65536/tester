@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Package Version="4">
+    <Name Value="ts_parsers"/>
+    <AddToProjectUsesSection Value="True"/>
+    <Author Value="Kernozhitsky Alexander"/>
+    <CompilerOptions>
+      <Version Value="11"/>
+      <SearchPaths>
+        <UnitOutputDirectory Value="lib/$(TargetCPU)-$(TargetOS)/"/>
+      </SearchPaths>
+    </CompilerOptions>
+    <Description Value="This package contains problem properties parsers for Tester. Parsers are things to retrieve problem properties from problem packages that do not use Tester's configuration file format (e. g. Polygon packages, Ejudge packages, problems from Belarusian National OI that use .bat files)."/>
+    <License Value="GPL 2+"/>
+    <Version Major="1" Minor="2" Release="1"/>
+    <Files Count="8">
+      <Item1>
+        <Filename Value="parser_alltest.pas"/>
+        <UnitName Value="parser_alltest"/>
+      </Item1>
+      <Item2>
+        <Filename Value="parser_ejudgecfg.pas"/>
+        <UnitName Value="parser_ejudgecfg"/>
+      </Item2>
+      <Item3>
+        <Filename Value="parser_findfile.pas"/>
+        <UnitName Value="parser_findfile"/>
+      </Item3>
+      <Item4>
+        <Filename Value="parserlists.pas"/>
+        <UnitName Value="parserlists"/>
+      </Item4>
+      <Item5>
+        <Filename Value="parser_simplecfg.pas"/>
+        <UnitName Value="parser_simplecfg"/>
+      </Item5>
+      <Item6>
+        <Filename Value="parserutils.pas"/>
+        <UnitName Value="parserutils"/>
+      </Item6>
+      <Item7>
+        <Filename Value="parser_xml.pas"/>
+        <UnitName Value="parser_xml"/>
+      </Item7>
+      <Item8>
+        <Filename Value="propsparserbase.pas"/>
+        <UnitName Value="propsparserbase"/>
+      </Item8>
+    </Files>
+    <RequiredPkgs Count="2">
+      <Item1>
+        <PackageName Value="ts_testerbase"/>
+      </Item1>
+      <Item2>
+        <PackageName Value="FCL"/>
+      </Item2>
+    </RequiredPkgs>
+    <UsageOptions>
+      <UnitPath Value="$(PkgOutDir)"/>
+    </UsageOptions>
+    <PublishOptions>
+      <Version Value="2"/>
+    </PublishOptions>
+  </Package>
+</CONFIG>

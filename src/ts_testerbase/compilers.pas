@@ -20,7 +20,7 @@
 }
 unit compilers;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$B-}
 
 interface
 
@@ -275,7 +275,7 @@ end;
 
 function TGnuCppCompiler.CompilerName: string;
 begin
-  Result := 'GNU C++';
+  Result := 'g++';
 end;
 
 { TGnuCCompiler }
@@ -309,7 +309,7 @@ end;
 
 function TGnuCCompiler.CompilerName: string;
 begin
-  Result := 'GNU C';
+  Result := 'gcc';
 end;
 
 { TFreePascalCompiler }
@@ -339,7 +339,7 @@ end;
 
 function TFreePascalCompiler.CompilerName: string;
 begin
-  Result := 'Free Pascal';
+  Result := 'fpc';
 end;
 
 { TProcessCompiler }
@@ -399,6 +399,9 @@ var
   ExitCode: integer;
 begin
   RunCommandIndirUTF8('', GetCmdName, [GetVersionKey], Result, ExitCode);
+  // trim spaces/newlines at the end of the output
+  while (Result <> '') and (Result[Length(Result)] in [#0 .. ' ']) do
+    Delete(Result, Length(Result), 1);
 end;
 
 { TCompiler }

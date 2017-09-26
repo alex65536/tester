@@ -91,6 +91,7 @@ resourcestring
   SStatsCannotTimeInfo = 'Cannot get time info';
   SStatsCannotMemoryInfo = 'Cannot get memory info';
   SNoAnswer = 'N/A';
+  SCompilerFullVersion = '%s (%s %s)';
 
 implementation
 

@@ -51,6 +51,10 @@ type
     property StackSize: integer read FStackSize write SetStackSize;
     property CompilerOutput: string read FCompilerOutput write SetCompilerOutput;
     function Compile: TCompilerVerdict; virtual; abstract;
+    function LanguageName: string; virtual; abstract;
+    function CompilerName: string; virtual; abstract;
+    function CompilerVersion: string; virtual; abstract;
+    function CompilerFullName: string;
     constructor Create; virtual;
   end;
 
@@ -60,45 +64,66 @@ type
 
   TProcessCompiler = class(TCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList);
-      virtual; abstract;
+    function GetCmdName: string; virtual; abstract;
+    procedure GetCommandLine(Args: TStringList); virtual; abstract;
+    function GetVersionKey: string; virtual; abstract;
   public
     function Compile: TCompilerVerdict; override;
+    function CompilerVersion: string; override;
   end;
 
   { TFreePascalCompiler }
 
   TFreePascalCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+    function GetCmdName: string; override;
+    procedure GetCommandLine(Args: TStringList); override;
+    function GetVersionKey: string; override;
+  public
+    function LanguageName: string; override;
+    function CompilerName: string; override;
   end;
 
   { TDelphiCompiler }
 
   TDelphiCompiler = class(TFreePascalCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(Args: TStringList); override;
+  public
+    function LanguageName: string; override;
   end;
 
   { TGnuCCompiler }
 
   TGnuCCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+    function GetCmdName: string; override;
+    procedure GetCommandLine(Args: TStringList); override;
+    function GetVersionKey: string; override;
+  public
+    function LanguageName: string; override;
+    function CompilerName: string; override;
   end;
 
   { TGnuCppCompiler }
 
   TGnuCppCompiler = class(TProcessCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+    function GetCmdName: string; override;
+    procedure GetCommandLine(Args: TStringList); override;
+    function GetVersionKey: string; override;
+  public
+    function LanguageName: string; override;
+    function CompilerName: string; override;
   end;
 
   { TGnuCpp11Compiler }
 
   TGnuCpp11Compiler = class(TGnuCppCompiler)
   protected
-    procedure GetCommandLine(out CmdName: string; Args: TStringList); override;
+    procedure GetCommandLine(Args: TStringList); override;
+  public
+    function LanguageName: string; override;
   end;
 
 var
@@ -194,50 +219,127 @@ end;
 
 { TDelphiCompiler }
 
-procedure TDelphiCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
+procedure TDelphiCompiler.GetCommandLine(Args: TStringList);
 begin
-  inherited GetCommandLine(CmdName, Args);
+  inherited GetCommandLine(Args);
   Args.Add('-Sh');
   Args.Add('-Mdelphi');
 end;
 
+function TDelphiCompiler.LanguageName: string;
+begin
+  Result := 'Delphi';
+end;
+
 { TGnuCpp11Compiler }
 
-procedure TGnuCpp11Compiler.GetCommandLine(out CmdName: string; Args: TStringList);
+procedure TGnuCpp11Compiler.GetCommandLine(Args: TStringList);
 begin
-  inherited GetCommandLine(CmdName, Args);
+  inherited GetCommandLine(Args);
   Args.Add('-std=c++11');
+end;
+
+function TGnuCpp11Compiler.LanguageName: string;
+begin
+  Result := 'C++11';
 end;
 
 { TGnuCppCompiler }
 
-procedure TGnuCppCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
+function TGnuCppCompiler.GetCmdName: string;
 begin
-  CmdName := GppDir + GppExe;
-  Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName + LineEnding + '-O2';
+  Result := GppDir + GppExe;
+end;
+
+procedure TGnuCppCompiler.GetCommandLine(Args: TStringList);
+begin
+  Args.Clear;
+  Args.Add(SrcName);
+  Args.Add('-o');
+  Args.Add(ExeName);
+  Args.Add('-O2');
   {$IfDef Windows}
   Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
+end;
+
+function TGnuCppCompiler.GetVersionKey: string;
+begin
+  Result := '-dumpversion';
+end;
+
+function TGnuCppCompiler.LanguageName: string;
+begin
+  Result := 'C++';
+end;
+
+function TGnuCppCompiler.CompilerName: string;
+begin
+  Result := 'GNU C++';
 end;
 
 { TGnuCCompiler }
 
-procedure TGnuCCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
+function TGnuCCompiler.GetCmdName: string;
 begin
-  CmdName := GccDir + GccExe;
-  Args.Text := SrcName + LineEnding + '-o' + LineEnding + ExeName +
-    LineEnding + '-O2' + LineEnding;
+  Result := GccDir + GccExe;
+end;
+
+procedure TGnuCCompiler.GetCommandLine(Args: TStringList);
+begin
+  Args.Clear;
+  Args.Add(SrcName);
+  Args.Add('-o');
+  Args.Add(ExeName);
+  Args.Add('-O2');
   {$IfDef Windows}
   Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
 end;
 
+function TGnuCCompiler.GetVersionKey: string;
+begin
+  Result := '-dumpversion';
+end;
+
+function TGnuCCompiler.LanguageName: string;
+begin
+  Result := 'C';
+end;
+
+function TGnuCCompiler.CompilerName: string;
+begin
+  Result := 'GNU C';
+end;
+
 { TFreePascalCompiler }
 
-procedure TFreePascalCompiler.GetCommandLine(out CmdName: string; Args: TStringList);
+function TFreePascalCompiler.GetCmdName: string;
 begin
-  CmdName := FreePascalDir + FreePascalExe;
-  Args.Text := SrcName + LineEnding + '-o' + ExeName + LineEnding + '-O2';
+  Result := FreePascalDir + FreePascalExe;
+end;
+
+procedure TFreePascalCompiler.GetCommandLine(Args: TStringList);
+begin
+  Args.Clear;
+  Args.Add(SrcName);
+  Args.Add('-o' + ExeName);
+  Args.Add('-O2');
+end;
+
+function TFreePascalCompiler.GetVersionKey: string;
+begin
+  Result := '-iV';
+end;
+
+function TFreePascalCompiler.LanguageName: string;
+begin
+  Result := 'Pascal';
+end;
+
+function TFreePascalCompiler.CompilerName: string;
+begin
+  Result := 'Free Pascal';
 end;
 
 { TProcessCompiler }
@@ -255,7 +357,8 @@ begin
   try
     Args := TStringList.Create;
     try
-      GetCommandLine(CmdName, Args);
+      CmdName := GetCmdName;
+      GetCommandLine(Args);
       SetLength(ArgsArr, Args.Count);
       for I := 0 to Args.Count - 1 do
         ArgsArr[I] := Args[I];
@@ -289,6 +392,13 @@ begin
       CompilerOutput := E.Message;
     end;
   end;
+end;
+
+function TProcessCompiler.CompilerVersion: string;
+var
+  ExitCode: integer;
+begin
+  RunCommandIndirUTF8('', GetCmdName, [GetVersionKey], Result, ExitCode);
 end;
 
 { TCompiler }
@@ -328,6 +438,11 @@ begin
   FWorkingDir := AValue;
 end;
 
+function TCompiler.CompilerFullName: string;
+begin
+  Result := Format(SCompilerFullVersion, [LanguageName, CompilerName, CompilerVersion]);
+end;
+
 constructor TCompiler.Create;
 begin
   WorkingDir := '';
@@ -340,6 +455,7 @@ initialization
   RegisterCompiler('.pp', TFreePascalCompiler);
   RegisterCompiler('.dpr', TDelphiCompiler);
   RegisterCompiler('.c', TGnuCCompiler);
+  RegisterCompiler('.cxx', TGnuCppCompiler);
   RegisterCompiler('.cpp', TGnuCpp11Compiler);
   //RegisterCompiler('.cpp', TGnuCppCompiler);
   //RegisterCompiler('.c11', TGnuCpp11Compiler);

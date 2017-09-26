@@ -26,7 +26,7 @@ uses
 
 function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
   const Commands: array of string; out OutputString: string;
-  var ExitCode: integer): integer;
+  out ExitCode: integer): integer;
 
 implementation
 
@@ -46,7 +46,7 @@ const
 
 // helperfunction that does the bulk of the work.
 function InternalRunCommandUTF8(P: TProcessUTF8; out OutputString: string;
-  out StderrString: string; var ExitCode: integer): integer;
+  out StderrString: string; out ExitCode: integer): integer;
 var
   NumBytes, BytesRead, Available: integer;
   OutputLength, StderrLength: integer;
@@ -145,7 +145,7 @@ end;
 
 function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
   const Commands: array of string; out OutputString: string;
-  var ExitCode: integer): integer;
+  out ExitCode: integer): integer;
 var
   P: TProcessUTF8;
   I: integer;

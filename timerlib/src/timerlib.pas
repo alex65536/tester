@@ -50,15 +50,15 @@ interface
   {$IfDef Windows}
     {$IfDef Win32}
       const
-        TimerLibName = 'libtimer32.dll';
+        TimerLibName = 'libtimer0.1.2-32.dll';
     {$EndIf}
     {$IfDef Win64}
       const
-        TimerLibName = 'libtimer64.dll';
+        TimerLibName = 'libtimer0.1.2-64.dll';
     {$EndIf}
   {$Else}
     const
-      TimerLibName = 'libtimer.so';
+      TimerLibName = 'libtimer.so.0.1.2';
     {$linklib c}
     {$linklib libgcc}
   {$EndIf}

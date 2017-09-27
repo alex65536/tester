@@ -30,28 +30,36 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
+        <CommandLineParams Value="/home/alex256/tester-test/taskA props.json  /home/alex256/tester-test/taskA/solutions/BondarevA.cpp /home/alex256/tester-test/taskA/results.json"/>
         <LaunchingApplication Use="True"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="3">
+    <RequiredPackages Count="4">
       <Item1>
-        <PackageName Value="ts_testerbase"/>
-        <DefaultFilename Value="../src/ts_testerbase/ts_testerbase.lpk"/>
+        <PackageName Value="LazUtils"/>
       </Item1>
       <Item2>
-        <PackageName Value="ts_testerutil"/>
-        <DefaultFilename Value="../src/ts_testerutil/ts_testerutil.lpk"/>
+        <PackageName Value="ts_testerbase"/>
+        <DefaultFilename Value="../src/ts_testerbase/ts_testerbase.lpk"/>
       </Item2>
       <Item3>
+        <PackageName Value="ts_testerutil"/>
+        <DefaultFilename Value="../src/ts_testerutil/ts_testerutil.lpk"/>
+      </Item3>
+      <Item4>
         <PackageName Value="ts_timerlib"/>
         <DefaultFilename Value="../timerlib/src/ts_timerlib.lpk"/>
-      </Item3>
+      </Item4>
     </RequiredPackages>
-    <Units Count="1">
+    <Units Count="2">
       <Unit0>
         <Filename Value="tsrun.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
+      <Unit1>
+        <Filename Value="tsrunstrconsts.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

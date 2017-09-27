@@ -25,10 +25,166 @@ program tsrun;
 {$R *.res}
 
 uses
-  ts_testerutil, ts_testerbase, SysUtils, Classes, versioninfo;
+  {$IfDef Unix}
+  cwstring,
+  {$EndIf}
+  {$IfDef Windows}
+  Windows,
+  {$EndIf}
+  ts_testerutil, ts_testerbase, SysUtils, Classes, versioninfo, tsrunstrconsts,
+  LazUTF8, jsonsaver, LazFileUtils, problemtesting, problemprops;
+
+type
+  ETsRun = class(Exception);
+
+  { TTesterWatcher }
+
+  TTesterWatcher = class
+  public
+    procedure Start(Sender: TObject);
+    procedure Compile(Sender: TObject);
+    procedure Test(Sender: TObject; TestIndex: integer);
+    procedure TestSkip(Sender: TObject; TestIndex: integer);
+    procedure Finish(Sender: TObject);
+  end;
+
+var
+  ProblemWorkDir: string;
+  ProblemPropsFile: string;
+  TestSrc: string;
+  ResFile: string;
+  Timeout: integer;
+
+  Properties: TProblemProperties;
+  Tester: TProblemTester;
+
+procedure ParseParameters;
+begin
+  // check params count
+  if ParamCount < 4 then
+    raise ETsRun.CreateFmt(STooFewParams, [SUsage]);
+  if ParamCount > 5 then
+    raise ETsRun.CreateFmt(STooManyParams, [SUsage]);
+  // parse params
+  ProblemWorkDir := ExpandFileNameUTF8(ParamStrUTF8(1));
+  ProblemPropsFile := ParamStrUTF8(2);
+  TestSrc := ExpandFileNameUTF8(ParamStrUTF8(3));
+  ResFile := ExpandFileNameUTF8(ParamStrUTF8(4));
+  if ParamCount = 4 then
+    Timeout := 0
+  else
+    Timeout := StrToInt(ParamStrUTF8(5));
+end;
+
+function LoadPropertiesFromFile(const FileName: string): TProblemProperties;
+var
+  StrList: TStringList;
+  Version: TFileVersion;
+begin
+  Result := TProblemProperties.Create;
+  try
+    StrList := TStringList.Create;
+    try
+      StrList.LoadFromFile(FileName);
+      Version := TFileVersion.Create;
+      try
+        LoadFromJSONStr(StrList.Text, Result, Version);
+      finally
+        FreeAndNil(Version);
+      end;
+    finally
+      FreeAndNil(StrList);
+    end;
+  except
+    FreeAndNil(Result);
+    raise;
+  end;
+end;
+
+procedure Process;
+var
+  Watcher: TTesterWatcher;
+begin
+  // parse parameters
+  ParseParameters;
+  // go to the problem directory
+  SetCurrentDirUTF8(ProblemWorkDir);
+  ProblemPropsFile := ExpandFileNameUTF8(ProblemPropsFile);
+  // load properties from file
+  Properties := LoadPropertiesFromFile(ProblemPropsFile);
+  try
+    // create problem tester
+    Tester := TProblemTester.Create;
+    try
+      Watcher := TTesterWatcher.Create;
+      try
+        // fill the parameters & launch
+        Tester.Properties := Properties;
+        with Tester do
+        begin
+          SourceFile := TestSrc;
+          OnStart := @Watcher.Start;
+          OnCompile := @Watcher.Compile;
+          OnTest := @Watcher.Test;
+          OnTestSkip := @Watcher.TestSkip;
+          OnFinish := @Watcher.Finish;
+          Prepare;
+          Launch;
+        end;
+      finally
+        FreeAndNil(Watcher);
+      end;
+    finally
+      FreeAndNil(Tester);
+    end;
+  finally
+    FreeAndNil(Properties);
+  end;
+end;
+
+{ TTesterWatcher }
+
+procedure TTesterWatcher.Start(Sender: TObject);
+begin
+  WriteLn(Format(SStartTesting, [TestSrc]));
+end;
+
+procedure TTesterWatcher.Compile(Sender: TObject);
+begin
+  WriteLn(SCompiled);
+end;
+
+procedure TTesterWatcher.Test(Sender: TObject; TestIndex: integer);
+begin
+  WriteLn(Format(STestPassed, [TestIndex+1]));
+end;
+
+procedure TTesterWatcher.TestSkip(Sender: TObject; TestIndex: integer);
+begin
+  WriteLn(Format(STestSkipped, [TestIndex+1]));
+end;
+
+procedure TTesterWatcher.Finish(Sender: TObject);
+begin
+  WriteLn(SFinished);
+end;
 
 begin
+  {$IfDef Windows}
+  SetConsoleOutputCP(CP_UTF8);
+  {$EndIf}
   InitVersionInfo;
-  WriteLn('This is TsRun ', GetAppVersion);
+  WriteLn(Format(SThisIsTsRun, [GetAppVersion]));
+  WriteLn(SLegalCopyright);
+  WriteLn('---------------------------------------------------------');
+  try
+    Process;
+  except
+    on E: Exception do
+    begin
+      {WriteLn(StdErr, Format(SErrorFmt, [E.ClassName, E.Message]));
+      Halt(1); }
+      raise;
+    end;
+  end;
 end.
-

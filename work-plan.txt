@@ -31,11 +31,12 @@
 [V] 01.02.17 Add changing cost for ALL tests in one button
 [V] 11.07.17 Write README with system requirements
 [V] 18.07.17 Make warning if tests/checker not found while loading
+[V] 27.09.17 Make a console testing tool (from properties)
 [*] Make adding some additional file to the directory with tested program
 [*] Allow testing EXEs
 [*] Rewrite the timerlib backend to support Java and Python
 [*] Add Java and Python
-[*] (in the far future) Write the Tester server
+[*] Write the Tester server
 [*] Allow stop the testing at every point of time
 [*] Allow stop the parser at every point of time
 [*] Create settings system
@@ -44,5 +45,4 @@
 [*] Allow changing tests order by drag'n'drop
 [*] Write Russian translation
 [*] Write docs
-[*] Make a console testing tool (from properties)
 

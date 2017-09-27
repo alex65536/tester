@@ -32,7 +32,7 @@ uses
   Windows,
   {$EndIf}
   ts_testerutil, ts_testerbase, SysUtils, Classes, versioninfo, tsrunstrconsts,
-  LazUTF8, jsonsaver, LazFileUtils, problemtesting, problemprops;
+  LazUTF8, jsonsaver, LazFileUtils, problemtesting, problemprops, strverdicts;
 
 type
   ETsRun = class(Exception);
@@ -191,13 +191,15 @@ end;
 
 procedure TTesterWatcher.Compile(Sender: TObject);
 begin
-  WriteLn(SCompiled);
+  WriteLn(Format(SCompiled, [SCompilerVerdicts[Tester.Results.CompileVerdict]]));
   WriteResultsToFile;
 end;
 
 procedure TTesterWatcher.Test(Sender: TObject; TestIndex: integer);
 begin
-  WriteLn(Format(STestPassed, [TestIndex+1]));
+  with Tester.Results[TestIndex] do
+    WriteLn(Format(STestPassed, [TestIndex + 1, STestVerdicts[Verdict], Score,
+      Properties.Tests[TestIndex].Cost]));
   WriteResultsToFile;
 end;
 
@@ -208,7 +210,7 @@ end;
 
 procedure TTesterWatcher.Finish(Sender: TObject);
 begin
-  WriteLn(SFinished);
+  WriteLn(Format(SFinished, [Tester.Results.TotalScore, Properties.MaxScore]));
   WriteResultsToFile;
 end;
 

@@ -44,10 +44,10 @@ resourcestring
   STooFewParams = 'Too few parameters!' + LineEnding + '%s';
   STooManyParams = 'Too many parameters!' + LineEnding + '%s';
   SStartTesting = 'Testing "%s"...';
-  SCompiled = 'Compiled.';
-  STestPassed = 'Test #%d.';
-  STestSkipped = 'Skipped test #%d.';
-  SFinished = 'Finished.';
+  SCompiled = 'Compile : %s.';
+  STestPassed = 'Test #%d : %s (score = %.2f/%.2f).';
+  STestSkipped = 'Test #%d was skipped.';
+  SFinished = 'Finished (score = %.2f/%.2f).';
   SFileOpenTimeout = 'Trying to open file "%s" timed out.';
 
 implementation

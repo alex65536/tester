@@ -92,6 +92,7 @@ resourcestring
   SStatsCannotMemoryInfo = 'Cannot get memory info';
   SNoAnswer = 'N/A';
   SCompilerFullVersion = '%s (%s %s)';
+  SCouldNotCompilerVersion = 'Could not retrieve compiler version!';
 
 implementation
 

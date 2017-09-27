@@ -29,6 +29,7 @@ uses
   FileUtil, LazFileUtils;
 
 type
+  ECompiler = class(Exception);
 
   { TCompiler }
 
@@ -141,7 +142,7 @@ var
 {$EndIf}
 
 const
-  DefaultStackSize = 16384;
+  DefaultStackSize = 16384; // in KBytes
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
 function CompileFile(const SrcName, ExeName: string; out Output: string;
@@ -396,9 +397,12 @@ end;
 
 function TProcessCompiler.CompilerVersion: string;
 var
+  Status: integer;
   ExitCode: integer;
 begin
-  RunCommandIndirUTF8('', GetCmdName, [GetVersionKey], Result, ExitCode);
+  Status := RunCommandIndirUTF8('', GetCmdName, [GetVersionKey], Result, ExitCode);
+  if (ExitCode <> 0) or (Status <> 0) then
+    raise ECompiler.Create(SCouldNotCompilerVersion);
   // trim spaces/newlines at the end of the output
   while (Result <> '') and (Result[Length(Result)] in [#0 .. ' ']) do
     Delete(Result, Length(Result), 1);

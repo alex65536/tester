@@ -157,7 +157,7 @@ begin
     P.CurrentDirectory := CurDir;
   if High(Commands) >= 0 then
     for I := Low(Commands) to High(Commands) do
-      P.Parameters.add(Commands[I]);
+      P.Parameters.Add(Commands[I]);
   Result := InternalRunCommandUTF8(P, OutputString, errorstring, ExitCode);
 end;
 

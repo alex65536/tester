@@ -225,9 +225,8 @@ begin
   except
     on E: Exception do
     begin
-      {WriteLn(StdErr, Format(SErrorFmt, [E.ClassName, E.Message]));
-      Halt(1); }
-      raise;
+      WriteLn(StdErr, Format(SErrorFmt, [E.ClassName, E.Message]));
+      Halt(1);
     end;
   end;
 end.

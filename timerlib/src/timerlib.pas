@@ -58,7 +58,7 @@ interface
     {$EndIf}
   {$Else}
     const
-      TimerLibName = 'libtimer.so.0.1.2';
+      TimerLibName = 'libtimer-0.1.2.so';
     {$linklib c}
     {$linklib libgcc}
   {$EndIf}

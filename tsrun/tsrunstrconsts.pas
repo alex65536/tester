@@ -48,6 +48,7 @@ resourcestring
   STestPassed = 'Test #%d.';
   STestSkipped = 'Skipped test #%d.';
   SFinished = 'Finished.';
+  SFileOpenTimeout = 'Trying to open file "%s" timed out.';
 
 implementation
 

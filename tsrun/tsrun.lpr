@@ -58,6 +58,45 @@ var
   Properties: TProblemProperties;
   Tester: TProblemTester;
 
+function WaitForFileOpen(const FileName: string): TFileStream;
+const
+  TriesCount = 300;
+  TriesTimeout = 15;
+var
+  I: integer;
+begin
+  I := 0;
+  while True do
+    try
+      Result := TFileStream.Create(FileName, fmCreate or fmOpenReadWrite, fmShareExclusive);
+      Exit;
+    except
+      if I < TriesCount then
+      begin
+        Inc(I);
+        Sleep(TriesTimeout);
+      end
+      else
+        raise ETsRun.CreateFmt(SFileOpenTimeout, [FileName]);
+    end;
+end;
+
+procedure WriteResultsToFile;
+var
+  FileStream: TFileStream;
+  S: string;
+begin
+  FileStream := WaitForFileOpen(ResFile);
+  try
+    S := SaveTestedProblemToJSONStr(Tester.Results);
+    FileStream.Write(S[1], Length(S));
+    if Timeout <> 0 then
+      Sleep(Timeout);
+  finally
+    FreeAndNil(FileStream);
+  end;
+end;
+
 procedure ParseParameters;
 begin
   // check params count
@@ -147,16 +186,19 @@ end;
 procedure TTesterWatcher.Start(Sender: TObject);
 begin
   WriteLn(Format(SStartTesting, [TestSrc]));
+  WriteResultsToFile;
 end;
 
 procedure TTesterWatcher.Compile(Sender: TObject);
 begin
   WriteLn(SCompiled);
+  WriteResultsToFile;
 end;
 
 procedure TTesterWatcher.Test(Sender: TObject; TestIndex: integer);
 begin
   WriteLn(Format(STestPassed, [TestIndex+1]));
+  WriteResultsToFile;
 end;
 
 procedure TTesterWatcher.TestSkip(Sender: TObject; TestIndex: integer);
@@ -167,6 +209,7 @@ end;
 procedure TTesterWatcher.Finish(Sender: TObject);
 begin
   WriteLn(SFinished);
+  WriteResultsToFile;
 end;
 
 begin
@@ -188,3 +231,4 @@ begin
     end;
   end;
 end.
+

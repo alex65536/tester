@@ -90,11 +90,11 @@ begin
   try
     S := SaveTestedProblemToJSONStr(Tester.Results);
     FileStream.Write(S[1], Length(S));
-    if Timeout <> 0 then
-      Sleep(Timeout);
   finally
     FreeAndNil(FileStream);
   end;
+  if Timeout <> 0 then
+    Sleep(Timeout);
 end;
 
 procedure ParseParameters;

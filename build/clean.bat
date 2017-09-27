@@ -3,6 +3,7 @@ rem Cleans the directories.
 cd ..
 
 del /S /Q src\*.exe
+del /S /Q src\*.dll
 
 del /S /Q timerlib\*.a
 del /S /Q timerlib\*.dll

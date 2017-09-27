@@ -1,6 +1,6 @@
 #!/bin/bash
-# Installs libtimer.so into the system.
+# Installs timerlib into the system.
 
 INSTALL_PREFIX='/usr/local/lib'
 
-sudo install libtimer.so "${INSTALL_PREFIX}"
+sudo install libtimer-0.1.2.so "${INSTALL_PREFIX}"

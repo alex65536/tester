@@ -50,15 +50,15 @@ interface
   {$IfDef Windows}
     {$IfDef Win32}
       const
-        TimerLibName = 'libtimer32.dll';
+        TimerLibName = 'libtimer0.1.2-32.dll';
     {$EndIf}
     {$IfDef Win64}
       const
-        TimerLibName = 'libtimer64.dll';
+        TimerLibName = 'libtimer0.1.2-64.dll';
     {$EndIf}
   {$Else}
     const
-      TimerLibName = 'libtimer.so';
+      TimerLibName = 'libtimer-0.1.2.so';
     {$linklib c}
     {$linklib libgcc}
   {$EndIf}
@@ -83,9 +83,24 @@ function LaunchTimer(WorkingDir, ExeName, StdinRedir, StdoutRedir, StderrRedir: 
   WorkTime, WorkRealtime, WorkMemory, ExitCode: PInteger): TTimerResult;
   cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'launch_timer';
 
+procedure EnableGuiMode;
+
 implementation
 
+var
+  FGuiModeEnabled: boolean = False;
+
 procedure InitTimer; cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'init_timer';
+procedure GuiMode; cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'gui_mode';
+
+procedure EnableGuiMode;
+begin
+  if not FGuiModeEnabled then
+  begin
+    FGuiModeEnabled := True;
+    GuiMode;
+  end;
+end;
 
 initialization
   InitTimer;

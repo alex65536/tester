@@ -117,7 +117,7 @@ type
   private
     FChecker: TProblemChecker;
     FInputFile: string;
-    FMemoryLimit: TProblemTime;
+    FMemoryLimit: TProblemMemory;
     FOutputFile: string;
     FStopAfterFirstFail: boolean;
     FTestList: TProblemTestList;
@@ -149,7 +149,7 @@ type
     property InputFile: string read FInputFile write SetInputFile;
     property OutputFile: string read FOutputFile write SetOutputFile;
     property TimeLimit: TProblemTime read FTimeLimit write SetTimeLimit;
-    property MemoryLimit: TProblemTime read FMemoryLimit write SetMemoryLimit;
+    property MemoryLimit: TProblemMemory read FMemoryLimit write SetMemoryLimit;
     property StopAfterFirstFail: boolean read FStopAfterFirstFail
       write SetStopAfterFirstFail;
     property TestList: TProblemTestList read FTestList;

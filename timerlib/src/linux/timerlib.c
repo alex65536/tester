@@ -20,20 +20,20 @@
 #include "../exec.h"
 
 TIMER_RESULT launch_timer(
-		const char* working_dir,
-		const char* exe_name,
-		const char* stdin_redir,
-		const char* stdout_redir,
-		const char* stderr_redir,
-		int time_limit,
-		int realtime_limit,
-		int set_memory_limit,
-		int memory_limit,
-		int* work_time,
-		int* work_realtime,
-		int* work_memory,
-		int* exit_code)
-{
+	const char* working_dir,
+	const char* exe_name,
+	const char* stdin_redir,
+	const char* stdout_redir,
+	const char* stderr_redir,
+	int time_limit,
+	int realtime_limit,
+	int set_memory_limit,
+	int memory_limit,
+	int* work_time,
+	int* work_realtime,
+	int* work_memory,
+	int* exit_code
+) {
 	// create task
 	tpTask task = task_New();
 	if (task == NULL)
@@ -45,13 +45,13 @@ TIMER_RESULT launch_timer(
 			task_Delete(task); \
 			return TR_RUN_FAIL; \
 		}
-
+	
 	#define file_name(str) \
 		((*(str) == '\0') ? "/dev/null" : (str))
-
+	
 	#define file_rights(str) \
 		((*(str) == '\0') ? TSK_WRITE : TSK_REWRITE)
-
+	
 	// set params
 	secure_task_op(task_SetWorkingDir(task, working_dir))
 	secure_task_op(task_SetPath(task, exe_name))
@@ -63,25 +63,17 @@ TIMER_RESULT launch_timer(
 	secure_task_op(task_SetVMSize(task, set_memory_limit))
 	// set redirections
 	// stdin
-	secure_task_op(task_SetRedir(task,
-	                             0,
-	                             TSR_FILE,
-	                             file_name(stdin_redir),
-	                             TSK_READ))
+	secure_task_op(task_SetRedir(
+		task, 0, TSR_FILE, file_name(stdin_redir), TSK_READ
+	))
 	// stdout
-	secure_task_op(task_SetRedir(task,
-	                             1,
-	                             TSR_FILE,
-	                             file_name(stdout_redir),
-	                             file_rights(stdout_redir),
-	                             TSK_FULL_RW))
+	secure_task_op(task_SetRedir(
+		task, 1, TSR_FILE, file_name(stdout_redir), file_rights(stdout_redir), TSK_FULL_RW
+	))
 	// stderr
-	secure_task_op(task_SetRedir(task,
-	                             2,
-	                             TSR_FILE,
-	                             file_name(stderr_redir),
-	                             file_rights(stderr_redir),
-	                             TSK_FULL_RW))
+	secure_task_op(task_SetRedir(
+		task, 2, TSR_FILE, file_name(stderr_redir), file_rights(stderr_redir), TSK_FULL_RW
+	))
 	// run process
 	secure_task_op(task_Start(task))
 	if (task_Wait(task) == NULL)
@@ -122,6 +114,10 @@ TIMER_RESULT launch_timer(
 	#undef file_rights
 	#undef file_name
 	#undef secure_task_op
+}
+
+void gui_mode()
+{
 }
 
 void init_timer()

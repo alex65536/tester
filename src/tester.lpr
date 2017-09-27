@@ -33,11 +33,13 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
   SysUtils,
   Classes,
   appinfo,
+  ts_timerlib,
   ts_design,
   ts_export,
   ts_parsers,
   ts_testerbase,
   ts_testerutil,
+  timerlib,
   mainunit,
   propseditor,
   testsdlg,
@@ -65,6 +67,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
 {$R *.res}
 
 begin
+  EnableGuiMode;
   Application.Title := 'Tester';
   RequireDerivedFormResource := True;
   Application.Initialize;

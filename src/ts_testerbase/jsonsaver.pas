@@ -26,7 +26,7 @@ interface
 
 uses
   SysUtils, Classes, problemprops, fpjson, fpjsonrtti, jsonparser,
-  multitesters, jsonscanner, versioninfo, problemtesting;
+  multitesters, jsonscanner, versioninfo, testresults;
 
 function LoadChecker(Obj: TJSONData): TProblemChecker;
 procedure LoadFromJSONObj(Obj: TJSONObject; Props: TProblemProperties;
@@ -40,7 +40,7 @@ function SaveChecker(Checker: TProblemChecker): TJSONData;
 function SavePropsToJSONObj(Props: TProblemProperties): TJSONObject;
 function SavePropsToJSONStr(Props: TProblemProperties): TJSONStringType;
 
-function SaveProblemTesterToJSONStr(ProblemTester: TProblemTester): TJSONStringType;
+function SaveTestedProblemToJSONStr(TestedProblem: TTestedProblem): TJSONStringType;
 function SaveMultiTesterToJSONStr(MultiTester: TMultiTester): TJSONStringType;
 
 implementation
@@ -190,13 +190,13 @@ begin
   end;
 end;
 
-function SaveProblemTesterToJSONStr(ProblemTester: TProblemTester): TJSONStringType;
+function SaveTestedProblemToJSONStr(TestedProblem: TTestedProblem): TJSONStringType;
 var
   Streamer: TJSONStreamer;
 begin
   Streamer := TJSONStreamer.Create(nil);
   try
-    Result := Streamer.ObjectToJSONString(MultiTester);
+    Result := Streamer.ObjectToJSONString(TestedProblem);
   finally
     FreeAndNil(Streamer);
   end;

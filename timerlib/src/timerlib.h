@@ -44,8 +44,11 @@ extern TIMER_RESULT launch_timer(
 	int* work_time,
 	int* work_realtime,
 	int* work_memory,
-	int* exit_code);
-	
+	int* exit_code
+);
+
+extern void gui_mode();
+
 extern void init_timer();
 
 #endif //TIMERLIB_H_INCLUDED

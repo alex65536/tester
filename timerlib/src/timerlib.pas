@@ -83,9 +83,24 @@ function LaunchTimer(WorkingDir, ExeName, StdinRedir, StdoutRedir, StderrRedir: 
   WorkTime, WorkRealtime, WorkMemory, ExitCode: PInteger): TTimerResult;
   cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'launch_timer';
 
+procedure EnableGuiMode;
+
 implementation
 
+var
+  FGuiModeEnabled: boolean = False;
+
 procedure InitTimer; cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'init_timer';
+procedure GuiMode; cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'gui_mode';
+
+procedure EnableGuiMode;
+begin
+  if not FGuiModeEnabled then
+  begin
+    FGuiModeEnabled := True;
+    GuiMode;
+  end;
+end;
 
 initialization
   InitTimer;

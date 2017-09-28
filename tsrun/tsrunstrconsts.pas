@@ -26,7 +26,7 @@ interface
 
 resourcestring
   SThisIsTsRun = 'This is TsRun version %s';
-  SLegalCopyright = 'Copyright © 2017 Alexander Kernozhitsky';
+  SLegalCopyright = 'Copyright (c) 2017 Alexander Kernozhitsky';
   SUsage =
     'Usage:' + LineEnding +
     '' + LineEnding +

@@ -205,7 +205,7 @@ end;
 
 procedure TTesterWatcher.TestSkip(Sender: TObject; TestIndex: integer);
 begin
-  WriteLn(Format(STestSkipped, [TestIndex+1]));
+  WriteLn(Format(STestSkipped, [TestIndex + 1]));
 end;
 
 procedure TTesterWatcher.Finish(Sender: TObject);

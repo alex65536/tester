@@ -19,7 +19,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
       <RevisionNr Value="1"/>
-      <BuildNr Value="122"/>
+      <BuildNr Value="123"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.1 (prerelease)"/>
     </VersionInfo>

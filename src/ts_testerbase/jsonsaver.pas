@@ -40,7 +40,12 @@ function SaveChecker(Checker: TProblemChecker): TJSONData;
 function SavePropsToJSONObj(Props: TProblemProperties): TJSONObject;
 function SavePropsToJSONStr(Props: TProblemProperties): TJSONStringType;
 
+procedure LoadTestedProblemFromJSONObj(Obj: TJSONObject;
+  TestedProblem: TTestedProblem);
+procedure LoadTestedProblemFromJSONStr(const Str: TJSONStringType;
+  TestedProblem: TTestedProblem);
 function SaveTestedProblemToJSONStr(TestedProblem: TTestedProblem): TJSONStringType;
+
 function SaveMultiTesterToJSONStr(MultiTester: TMultiTester): TJSONStringType;
 
 implementation
@@ -187,6 +192,38 @@ begin
     Result := Obj.AsJSON;
   finally
     FreeAndNil(Obj);
+  end;
+end;
+
+procedure LoadTestedProblemFromJSONObj(Obj: TJSONObject;
+  TestedProblem: TTestedProblem);
+var
+  DeStreamer: TJSONDeStreamer;
+begin
+  DeStreamer := TJSONDeStreamer.Create(nil);
+  try
+    DeStreamer.JSONToObject(Obj, TestedProblem);
+  finally
+    FreeAndNil(DeStreamer);
+  end;
+end;
+
+procedure LoadTestedProblemFromJSONStr(const Str: TJSONStringType;
+  TestedProblem: TTestedProblem);
+var
+  Parser: TJSONParser;
+  Obj: TJSONData;
+begin
+  Parser := TJSONParser.Create(Str, DefaultOptions);
+  try
+    Obj := Parser.Parse;
+    try
+      LoadTestedProblemFromJSONObj(Obj as TJSONObject, TestedProblem);
+    finally
+      FreeAndNil(Obj);
+    end;
+  finally
+    FreeAndNil(Parser);
   end;
 end;
 

@@ -47,6 +47,7 @@ type
     FResults: TTestedProblem;
     FSourceFile: string;
     FTag: PtrInt;
+    FTestDirName: string;
     procedure SetOnCompile(AValue: TNotifyEvent);
     procedure SetOnFinish(AValue: TNotifyEvent);
     procedure SetOnStart(AValue: TNotifyEvent);
@@ -55,6 +56,7 @@ type
     procedure SetProperties(AValue: TProblemProperties);
     procedure SetSourceFile(AValue: string);
     procedure SetTag(AValue: PtrInt);
+    procedure SetTestDirName(AValue: string);
   protected
     procedure DoStart; virtual;
     procedure DoCompile; virtual;
@@ -70,6 +72,7 @@ type
     property OnTestSkip: TTestEvent read FOnTestSkip write SetOnTestSkip;
     property OnFinish: TNotifyEvent read FOnFinish write SetOnFinish;
     property Tag: PtrInt read FTag write SetTag;
+    property TestDirName: string read FTestDirName write SetTestDirName;
     procedure Prepare;
     procedure Launch;
     procedure AssignTo(Dest: TPersistent); override;
@@ -138,6 +141,12 @@ begin
   if FTag = AValue then
     Exit;
   FTag := AValue;
+end;
+
+procedure TProblemTester.SetTestDirName(AValue: string);
+begin
+  if FTestDirName = AValue then Exit;
+  FTestDirName := AValue;
 end;
 
 procedure TProblemTester.DoStart;
@@ -236,7 +245,10 @@ var
   procedure ChooseNames;
   begin
     // create storage for temp files
-    WorkingDir := AppendPathDelim(GetTempDir) + 'tstr-' + GetRandomName(8);
+    if TestDirName = '' then
+      WorkingDir := AppendPathDelim(GetTempDir) + 'tstr-' + GetRandomName(8)
+    else
+      WorkingDir := AppendPathDelim(GetTempDir) + TestDirName;
     // choose names for executable, input and output files
     ExeName := AppendPathDelim(WorkingDir) + GetRandomName(8);
     {$IfDef Windows}

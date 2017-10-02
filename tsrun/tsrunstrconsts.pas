@@ -30,7 +30,8 @@ resourcestring
   SUsage =
     'Usage:' + LineEnding +
     '' + LineEnding +
-    'tsrun <problem-work-dir> <problem-props-file> <test-src> <res-file> [<timeout>]' + LineEnding +
+    'tsrun <problem-work-dir> <problem-props-file> <test-src> <res-file>' + LineEnding +
+    '  [<test-dir-name>] [<timeout>]' + LineEnding +
     '' + LineEnding +
     '  TsRun will load a problem from <problem-props-file> with working directory' + LineEnding +
     '<problem-work-dir>. It will test source file <test-src> and write the results' + LineEnding +
@@ -38,6 +39,8 @@ resourcestring
     '  TsRun will update file each time when something is changed, so you can try to' + LineEnding +
     'read the file permanently to retrieve the updates. When the changes are made,' + LineEnding +
     'the file is locked.' + LineEnding +
+    '  If <test-dir-name> is set, the testing will be held in directory with the' + LineEnding +
+    'path {temp}/<test-dir-name>. If not set, <test-dir-name> will be random.' + LineEnding +
     '  <timeout> indicates what time TsRun will be idle after each change, so you can' + LineEnding +
     'read the results from the file.';
   SErrorFmt = 'ERROR %s : %s';

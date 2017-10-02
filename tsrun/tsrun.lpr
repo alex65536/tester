@@ -53,6 +53,7 @@ var
   ProblemPropsFile: string;
   TestSrc: string;
   ResFile: string;
+  TestDirName: string;
   Timeout: integer;
 
   Properties: TProblemProperties;
@@ -102,17 +103,19 @@ begin
   // check params count
   if ParamCount < 4 then
     raise ETsRun.CreateFmt(STooFewParams, [SUsage]);
-  if ParamCount > 5 then
+  if ParamCount > 6 then
     raise ETsRun.CreateFmt(STooManyParams, [SUsage]);
   // parse params
   ProblemWorkDir := ExpandFileNameUTF8(ParamStrUTF8(1));
   ProblemPropsFile := ParamStrUTF8(2);
   TestSrc := ExpandFileNameUTF8(ParamStrUTF8(3));
   ResFile := ExpandFileNameUTF8(ParamStrUTF8(4));
-  if ParamCount = 4 then
-    Timeout := 0
-  else
-    Timeout := StrToInt(ParamStrUTF8(5));
+  TestDirName := '';
+  Timeout := 0;
+  if ParamCount >= 5 then
+    TestDirName := ParamStrUTF8(5);
+  if ParamCount >= 6 then
+    Timeout := StrToInt(ParamStrUTF8(6));
 end;
 
 function LoadPropertiesFromFile(const FileName: string): TProblemProperties;
@@ -159,6 +162,7 @@ begin
       try
         // fill the parameters & launch
         Tester.Properties := Properties;
+        Tester.TestDirName := TestDirName;
         with Tester do
         begin
           SourceFile := TestSrc;

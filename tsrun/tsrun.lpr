@@ -69,7 +69,7 @@ begin
   I := 0;
   while True do
     try
-      Result := TFileStream.Create(FileName, fmCreate or fmOpenReadWrite, fmShareExclusive);
+      Result := TFileStream.Create(FileName, fmCreate or fmOpenReadWrite or fmShareExclusive);
       Exit;
     except
       if I < TriesCount then

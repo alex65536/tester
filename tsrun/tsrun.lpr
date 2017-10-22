@@ -61,7 +61,7 @@ var
 
 function WaitForFileOpen(const FileName: string): TFileStream;
 const
-  TriesCount = 300;
+  TriesCount = 30000;
   TriesTimeout = 15;
 var
   I: integer;

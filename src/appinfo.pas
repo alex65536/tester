@@ -31,22 +31,9 @@ function GetAppTarget: string;
 implementation
 
 uses
-  SysUtils, Forms, InterfaceBase, strconsts, versioninfo;
+  SysUtils, Forms, LCLPlatformDef, InterfaceBase, strconsts, versioninfo;
 
 const
-  WidgetSetNames: array [TLCLPlatform] of string = (
-    'gtk',
-    'gtk2',
-    'gtk3',
-    'win32/win64',
-    'wince',
-    'carbon',
-    'qt',
-    'fpgui',
-    'nogui',
-    'cocoa',
-    'customdrawn'
-    );
   BuildDate = {$I %DATE%};
   BuildTime = {$I %TIME%};
   TargetOS = {$I %FPCTARGETOS%};
@@ -72,7 +59,7 @@ end;
 function GetAppTarget: string;
 begin
   Result := LowerCase(Format(TargetFmt, [TargetCPU, TargetOS,
-    WidgetSetNames[WidgetSet.LCLPlatform]]));
+    LCLPlatformDisplayNames[WidgetSet.LCLPlatform]]));
 end;
 
 end.

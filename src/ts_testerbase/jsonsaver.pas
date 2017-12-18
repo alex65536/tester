@@ -50,6 +50,18 @@ function SaveMultiTesterToJSONStr(MultiTester: TMultiTester): TJSONStringType;
 
 implementation
 
+function ObjectToJSONPrettyString(AStreamer: TJSONStreamer; AObject: TObject): TJSONStringType;
+var
+  JSONObject: TJSONObject;
+begin
+  JSONObject := AStreamer.ObjectToJSON(AObject);
+  try
+    Result := JSONObject.FormatJSON([foUseTabchar], 1);
+  finally
+    FreeAndNil(JSONObject);
+  end;
+end;
+
 function LoadChecker(Obj: TJSONData): TProblemChecker;
 var
   DeStreamer: TJSONDeStreamer;
@@ -189,7 +201,7 @@ var
 begin
   Obj := SavePropsToJSONObj(Props);
   try
-    Result := Obj.AsJSON;
+    Result := Obj.FormatJSON([foUseTabchar], 1);
   finally
     FreeAndNil(Obj);
   end;
@@ -233,7 +245,7 @@ var
 begin
   Streamer := TJSONStreamer.Create(nil);
   try
-    Result := Streamer.ObjectToJSONString(TestedProblem);
+    Result := ObjectToJSONPrettyString(Streamer, TestedProblem);
   finally
     FreeAndNil(Streamer);
   end;
@@ -245,7 +257,7 @@ var
 begin
   Streamer := TJSONStreamer.Create(nil);
   try
-    Result := Streamer.ObjectToJSONString(MultiTester);
+    Result := ObjectToJSONPrettyString(Streamer, MultiTester);
   finally
     FreeAndNil(Streamer);
   end;

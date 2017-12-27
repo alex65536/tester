@@ -87,16 +87,16 @@ EXPORT TIMER_RESULT launch_timer(
 	// TODO : Deal with it somehow or remove it!
 	
 	// input
-	secure_task_op(task_SetRedir(
+	/*secure_task_op(task_SetRedir(
 		task, 42, TSR_FILE, file_name(input_file), TSK_READ
-	))
+	))*/
 	// output
-	secure_task_op(task_SetRedir(
+	/*secure_task_op(task_SetRedir(
 		task, 43, TSR_FILE, file_name(output_file), file_rights(output_file), TSK_FULL_RW
-	))
+	))*/
 	
 	// we don't need secure_task_op here, because the system may not support safe execution
-	task_EnableSecureExec(task);
+	//task_EnableSecureExec(task);
 	
 	// run process
 	secure_task_op(task_Start(task))

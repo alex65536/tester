@@ -35,12 +35,16 @@ type
   TBaseRunTimer = class
   private
     FExeName: string;
+    FInputFile: string;
+    FOutputFile: string;
     FProperties: TProblemProperties;
     FStderrRedir: string;
     FStdinRedir: string;
     FStdoutRedir: string;
     FWorkingDir: string;
     procedure SetExeName(AValue: string);
+    procedure SetInputFile(AValue: string);
+    procedure SetOutputFile(AValue: string);
     procedure SetProperties(AValue: TProblemProperties);
     procedure SetStderrRedir(AValue: string);
     procedure SetStdinRedir(AValue: string);
@@ -54,6 +58,8 @@ type
     property StdinRedir: string read FStdinRedir write SetStdinRedir;
     property StdoutRedir: string read FStdoutRedir write SetStdoutRedir;
     property StderrRedir: string read FStderrRedir write SetStderrRedir;
+    property InputFile: string read FInputFile write SetInputFile;
+    property OutputFile: string read FOutputFile write SetOutputFile;
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
     property ExeName: string read FExeName write SetExeName;
     property Properties: TProblemProperties read FProperties write SetProperties;
@@ -103,7 +109,8 @@ begin
   {$EndIf}
   Res := LaunchTimer(PChar(UTF8ToSystem(WorkingDir)), PChar(UTF8ToSystem(AExeName)),
     PChar(UTF8ToSystem(StdinRedir)), PChar(UTF8ToSystem(StdoutRedir)),
-    PChar(UTF8ToSystem(StderrRedir)), Properties.TimeLimit, Max(1000,
+    PChar(UTF8ToSystem(StderrRedir)), PChar(UTF8ToSystem(InputFile)),
+    PChar(UTF8ToSystem(OutputFile)), Properties.TimeLimit, Max(1000,
     Properties.TimeLimit * 2), Properties.MemoryLimit * 2048 - 1,
     Properties.MemoryLimit * 1024, @FTime, @Temp, @FMemory, @FExitCode);
   FMemory := Round(FMemory / 1024); // we show memory in kBytes instead of bytes!
@@ -131,6 +138,18 @@ begin
   if FExeName = AValue then
     Exit;
   FExeName := AValue;
+end;
+
+procedure TBaseRunTimer.SetInputFile(AValue: string);
+begin
+  if FInputFile = AValue then Exit;
+  FInputFile := AValue;
+end;
+
+procedure TBaseRunTimer.SetOutputFile(AValue: string);
+begin
+  if FOutputFile = AValue then Exit;
+  FOutputFile := AValue;
 end;
 
 procedure TBaseRunTimer.SetStderrRedir(AValue: string);

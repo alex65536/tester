@@ -13,7 +13,7 @@
 When building this package, be careful with linking errors!
 Timerlib library uses sources from ejudge project &lt;http://www.ejudge.ru>"/>
     <License Value="GPL 2+"/>
-    <Version Minor="1" Release="2"/>
+    <Version Minor="1" Release="3"/>
     <Files Count="1">
       <Item1>
         <Filename Value="timerlib.pas"/>

@@ -344,6 +344,8 @@ begin
               Timer.StdinRedir := InputRedir;
               Timer.StdoutRedir := OutputRedir;
               Timer.StderrRedir := '';
+              Timer.InputFile := InputFile;
+              Timer.OutputFile := OutputFile;
               Timer.WorkingDir := WorkingDir;
               Timer.ExeName := ExeName;
               Timer.Properties := FProperties;

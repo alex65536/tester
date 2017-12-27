@@ -31,6 +31,8 @@ EXPORT TIMER_RESULT launch_timer(
 	const char* stdin_redir,
 	const char* stdout_redir,
 	const char* stderr_redir,
+	const char* input_file,
+	const char* output_file,
 	int time_limit,
 	int realtime_limit,
 	int set_memory_limit,
@@ -79,6 +81,23 @@ EXPORT TIMER_RESULT launch_timer(
 	secure_task_op(task_SetRedir(
 		task, 2, TSR_FILE, file_name(stderr_redir), file_rights(stderr_redir), TSK_FULL_RW
 	))
+	
+	// This patch fixes RE with file I/O (only for safe execution)
+	// For now, we redirect input/output to unused file descriptors (42 and 43)
+	// TODO : Deal with it somehow or remove it!
+	
+	// input
+	secure_task_op(task_SetRedir(
+		task, 42, TSR_FILE, file_name(input_file), TSK_READ
+	))
+	// output
+	secure_task_op(task_SetRedir(
+		task, 43, TSR_FILE, file_name(output_file), file_rights(output_file), TSK_FULL_RW
+	))
+	
+	// we don't need secure_task_op here, because the system may not support safe execution
+	task_EnableSecureExec(task);
+	
 	// run process
 	secure_task_op(task_Start(task))
 	if (task_Wait(task) == NULL)

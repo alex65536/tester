@@ -37,6 +37,8 @@ extern TIMER_RESULT launch_timer(
 	const char* stdin_redir,
 	const char* stdout_redir,
 	const char* stderr_redir,
+	const char* input_file,
+	const char* output_file,
 	int time_limit,
 	int realtime_limit,
 	int set_memory_limit,

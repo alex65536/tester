@@ -50,15 +50,15 @@ interface
   {$IfDef Windows}
     {$IfDef Win32}
       const
-        TimerLibName = 'libtimer0.1.2-32.dll';
+        TimerLibName = 'libtimer0.1.3-32.dll';
     {$EndIf}
     {$IfDef Win64}
       const
-        TimerLibName = 'libtimer0.1.2-64.dll';
+        TimerLibName = 'libtimer0.1.3-64.dll';
     {$EndIf}
   {$Else}
     const
-      TimerLibName = 'libtimer-0.1.2.so';
+      TimerLibName = 'libtimer-0.1.3.so';
     {$linklib c}
     {$linklib libgcc}
   {$EndIf}
@@ -78,7 +78,9 @@ type
     trRunFail
     );
 
-function LaunchTimer(WorkingDir, ExeName, StdinRedir, StdoutRedir, StderrRedir: PChar;
+function LaunchTimer(
+  WorkingDir, ExeName, StdinRedir, StdoutRedir, StderrRedir: PChar;
+  InputFile, OutputFile: PChar;
   TimeLimit, RealtimeLimit, SetMemoryLimit, MemoryLimit: integer;
   WorkTime, WorkRealtime, WorkMemory, ExitCode: PInteger): TTimerResult;
   cdecl; external {$IfDef TimerlibDyn} TimerLibName {$EndIf} Name 'launch_timer';

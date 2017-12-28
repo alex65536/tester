@@ -137,8 +137,6 @@ var
   Cont: string;
 begin
   Cont := AContent;
-  if Cont <> '' then
-    Cont := ' ' + Cont + ' ';
   Add(MakeOpenTag(ATag, AAttrib) + Cont + MakeCloseTag(ATag));
 end;
 
@@ -171,7 +169,14 @@ begin
   I := 1;
   while (I <= Length(S)) and (S[I] in ['a' .. 'z']) do
     Inc(I);
-  Result := Pref + Copy(S, I, Length(S) - I + 1);
+  Result := Pref;
+  while I <= Length(S) do
+  begin
+    if not (S[I] in ['a' .. 'z']) then
+      Result += '-';
+    Result += LowerCase(S[I]);
+    Inc(I);
+  end;
 end;
 
 function TMultiTesterHTMLExporter.TestVerdictClassName(AVerdict: TTestVerdict): string;
@@ -231,12 +236,12 @@ procedure TMultiTesterHTMLExporter.ExportHTML;
   procedure AddHeaderCell(const AContent: string);
   begin
     with FDocument do
-      SingleLineTag('td', 'class="tableCell headerCell"', AContent);
+      SingleLineTag('th', '', AContent);
   end;
 
   function TableCellAttr: string;
   begin
-    Result := 'class="tableCell"';
+    Result := '';
   end;
 
   function ScoreCellAttr(CurScore, MaxScore: double): string;
@@ -244,25 +249,25 @@ procedure TMultiTesterHTMLExporter.ExportHTML;
     AColor: TColor;
   begin
     AColor := GetTotalScoreColor(CurScore, MaxScore);
-    Result := Format('class="tableCell bigDataText" style="color: rgb(%d, %d, %d)"',
+    Result := Format('class="big-label" style="color: rgb(%d, %d, %d)"',
       [Red(AColor), Green(AColor), Blue(AColor)]);
   end;
 
   function CompileCellAttr(AVerdict: TCompilerVerdict): string;
   begin
-    Result := Format('class="tableCell bigDataText %s"',
+    Result := Format('class="big-label %s"',
       [CompilerVerdictClassName(AVerdict)]);
   end;
 
   function TestDivAttr(AVerdict: TTestVerdict): string;
   begin
-    Result := Format('class="bigDataText %s"', [TestVerdictClassName(AVerdict)]);
+    Result := Format('class="big-label %s"', [TestVerdictClassName(AVerdict)]);
   end;
 
   function GetTimeMemContent(const ATime: TProblemTime;
     AMem: TProblemMemory): string;
   begin
-    Result := ProblemTimeToStr(ATime) + ' <br> ' + ProblemMemoryToStr(AMem);
+    Result := ProblemTimeToStr(ATime) + '<br>' + ProblemMemoryToStr(AMem);
   end;
 
 var
@@ -281,20 +286,18 @@ begin
     AddComment(Format(SHTMLComment, [GetAppVersion]));
     BeginTag('html');
       BeginTag('head');
-        BeginTag('meta', 'http-equiv="Content-Type" content="text/html; charset=utf-8"',
-          True);
+        BeginTag('meta', 'http-equiv="Content-Type" content="text/html; charset=utf-8"', True);
         SingleLineTag('title', '', SHTMLTitle);
         BeginTag('style');
           AddStrings(FStyleTable);
         EndTag('style');
       EndTag('head');
       BeginTag('body');
-        BeginTag('table', Format('cols="%d" rows="%d" class="scoreTable"',
-          [TestCount + 3, TesterCount]));
+        BeginTag('table', 'class="score-tab"');
           BeginTag('tr');
             AddHeaderCell(SSourceName);
-            AddHeaderCell(STotalScore);
             AddHeaderCell(SCompileStatus);
+            AddHeaderCell(STotalScore);
             for I := 1 to TestCount do
               AddHeaderCell(Format(STestIndex, [I]));
           EndTag('tr');
@@ -304,22 +307,21 @@ begin
               BeginTag('tr');
                 // source
                 SingleLineTag('td', TableCellAttr, ExtractFileName(Sources[I]));
+                // compile
+                C := Testers[I].Results.CompileVerdict;
+                SingleLineTag('td', CompileCellAttr(C), SCompilerVerdictsS[C]);
                 // score
                 Cur := Testers[I].Results.TotalScore;
                 Max := Properties.MaxScore;
                 SingleLineTag('td', ScoreCellAttr(Cur, Max), Format(SScoreFmt, [Cur]));
-                // compile
-                C := Testers[I].Results.CompileVerdict;
-                SingleLineTag('td', CompileCellAttr(C), SCompilerVerdictsS[C]);
                 for J := 0 to Testers[I].Results.TestResultsCount - 1 do
                   with Testers[I].Results[J] do
                   begin
                     T := Verdict;
                     // test
-                    BeginTag('td', 'class="tableCell"');
+                    BeginTag('td', '');
                       SingleLineTag('div', TestDivAttr(T), STestVerdictsS[T]);
-                      SingleLineTag('div', 'class="smallDataText"',
-                        GetTimeMemContent(Time, Memory));
+                      SingleLineTag('div', 'class="small-label"', GetTimeMemContent(Time, Memory));
                     EndTag('td');
                   end;
               EndTag('tr');

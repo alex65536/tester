@@ -19,26 +19,27 @@
   MA 02111-1307, USA.
 }
 
-'.scoreTable {'                           + LineEnding +
+'.score-tab {'                            + LineEnding +
 IndentFill + 'border-collapse: collapse;' + LineEnding +
 IndentFill + 'border: thin solid black;'  + LineEnding +
 IndentFill + 'font-family: sans-serif;'   + LineEnding +
 '}'                                       + LineEnding +
-'.tableCell {'                            + LineEnding +
+'.score-tab td, .score-tab th {'          + LineEnding +
 IndentFill + 'border: thin solid black;'  + LineEnding +
 IndentFill + 'text-align: center;'        + LineEnding +
 IndentFill + 'vertical-align: middle;'    + LineEnding +
-IndentFill + 'padding: 4px;'              + LineEnding +
+IndentFill + 'padding: 3pt 6pt;'          + LineEnding +
 IndentFill + 'white-space: nowrap;'       + LineEnding +
 '}'                                       + LineEnding +
-'.headerCell {'                           + LineEnding +
-IndentFill + 'background-color: silver;'  + LineEnding +
+'.score-tab th {'                         + LineEnding +
+IndentFill + 'background-color: #d9d9d9;' + LineEnding +
+IndentFill + 'font-weight: normal;'       + LineEnding +
 '}'                                       + LineEnding +
-'.bigDataText {'                          + LineEnding +
+'.big-label {'                            + LineEnding +
 IndentFill + 'font-size: 150%;'           + LineEnding +
 IndentFill + 'font-weight: bold;'         + LineEnding +
 '}'                                       + LineEnding +
-'.smallDataText {'                        + LineEnding +
-IndentFill + ' font-size: 75%;'           + LineEnding +
+'.small-label {'                          + LineEnding +
+IndentFill + 'font-size: 75%;'            + LineEnding +
 '}'
 

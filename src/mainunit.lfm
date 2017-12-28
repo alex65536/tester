@@ -12,7 +12,7 @@ inherited MainForm: TMainForm
   Position = poScreenCenter
   object Panel: TPanel[0]
     Left = 0
-    Height = 31
+    Height = 26
     Top = 0
     Width = 860
     Align = alTop
@@ -22,56 +22,56 @@ inherited MainForm: TMainForm
     ChildSizing.ShrinkHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
-    ClientHeight = 31
+    ClientHeight = 26
     ClientWidth = 860
     Color = clWindow
     ParentColor = False
     TabOrder = 0
     object BitBtn1: TBitBtn
       Left = 0
-      Height = 29
+      Height = 24
       Top = 0
-      Width = 115
+      Width = 110
       Action = NewFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 115
-      Height = 29
+      Left = 110
+      Height = 24
       Top = 0
-      Width = 130
+      Width = 125
       Action = OpenFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn3: TBitBtn
-      Left = 245
-      Height = 29
+      Left = 235
+      Height = 24
       Top = 0
-      Width = 155
+      Width = 154
       Action = SaveFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn4: TBitBtn
-      Left = 400
-      Height = 29
+      Left = 389
+      Height = 24
       Top = 0
-      Width = 250
+      Width = 255
       Action = TestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 650
-      Height = 29
+      Left = 644
+      Height = 24
       Top = 0
-      Width = 210
+      Width = 216
       Action = AboutAction
       AutoSize = True
       Color = clHighlight
@@ -80,8 +80,8 @@ inherited MainForm: TMainForm
   end
   object PropsList: TExtendedNotebook[1]
     Left = 0
-    Height = 445
-    Top = 31
+    Height = 483
+    Top = 26
     Width = 860
     Align = alClient
     PopupMenu = TabPopupMenu
@@ -127,74 +127,11 @@ inherited MainForm: TMainForm
       OnExecute = AboutActionExecute
       ShortCut = 8304
     end
-    object AddTestAction: TAction
-      Caption = 'Add...'
-      ImageIndex = 1
-      OnExecute = AddTestActionExecute
-      OnUpdate = AddTestActionUpdate
-      ShortCut = 8257
-    end
-    object InsertTestAction: TAction
-      Caption = 'Insert...'
-      ImageIndex = 3
-      OnExecute = InsertTestActionExecute
-      OnUpdate = InsertTestActionUpdate
-      ShortCut = 8265
-    end
-    object DeleteTestAction: TAction
-      Caption = 'Delete'
-      ImageIndex = 2
-      OnExecute = DeleteTestActionExecute
-      OnUpdate = DeleteTestActionUpdate
-      ShortCut = 8260
-    end
-    object MoveUpAction: TAction
-      Caption = 'Move up'
-      ImageIndex = 5
-      OnExecute = MoveUpActionExecute
-      OnUpdate = MoveUpActionUpdate
-      ShortCut = 8230
-    end
-    object MoveDownAction: TAction
-      Caption = 'Move down'
-      ImageIndex = 4
-      OnExecute = MoveDownActionExecute
-      OnUpdate = MoveDownActionUpdate
-      ShortCut = 8232
-    end
     object CloseTabAction: TAction
       Caption = 'Close tab'
       OnExecute = CloseTabActionExecute
       OnUpdate = CloseTabActionUpdate
       ShortCut = 16499
-    end
-    object EditTestAction: TAction
-      Caption = 'Edit...'
-      ImageIndex = 12
-      OnExecute = EditTestActionExecute
-      OnUpdate = EditTestActionUpdate
-      ShortCut = 8261
-    end
-    object MultiAddTestsBtn: TAction
-      Caption = 'Add from template...'
-      ImageIndex = 13
-      OnExecute = MultiAddTestsBtnExecute
-      OnUpdate = MultiAddTestsBtnUpdate
-      ShortCut = 8269
-    end
-    object ClearTestsAction: TAction
-      Caption = 'Clear'
-      ImageIndex = 14
-      OnExecute = ClearTestsActionExecute
-      OnUpdate = ClearTestsActionUpdate
-      ShortCut = 8262
-    end
-    object EditCostsAction: TAction
-      Caption = 'Edit costs...'
-      ImageIndex = 15
-      OnExecute = EditCostsActionExecute
-      OnUpdate = EditCostsActionUpdate
-      ShortCut = 8274
     end
     object CloseAllTabsAction: TAction
       Caption = 'Close all tabs'
@@ -207,6 +144,69 @@ inherited MainForm: TMainForm
       OnExecute = CloseOtherTabsActionExecute
       OnUpdate = CloseOtherTabsActionUpdate
       ShortCut = 24691
+    end
+    object AddTestAction: TAction
+      Caption = 'Add...'
+      ImageIndex = 1
+      OnExecute = AddTestActionExecute
+      OnUpdate = AddTestActionUpdate
+      ShortCut = 32833
+    end
+    object InsertTestAction: TAction
+      Caption = 'Insert...'
+      ImageIndex = 3
+      OnExecute = InsertTestActionExecute
+      OnUpdate = InsertTestActionUpdate
+      ShortCut = 32841
+    end
+    object DeleteTestAction: TAction
+      Caption = 'Delete'
+      ImageIndex = 2
+      OnExecute = DeleteTestActionExecute
+      OnUpdate = DeleteTestActionUpdate
+      ShortCut = 32836
+    end
+    object MoveUpAction: TAction
+      Caption = 'Move up'
+      ImageIndex = 5
+      OnExecute = MoveUpActionExecute
+      OnUpdate = MoveUpActionUpdate
+      ShortCut = 32806
+    end
+    object MoveDownAction: TAction
+      Caption = 'Move down'
+      ImageIndex = 4
+      OnExecute = MoveDownActionExecute
+      OnUpdate = MoveDownActionUpdate
+      ShortCut = 32808
+    end
+    object EditTestAction: TAction
+      Caption = 'Edit...'
+      ImageIndex = 12
+      OnExecute = EditTestActionExecute
+      OnUpdate = EditTestActionUpdate
+      ShortCut = 32837
+    end
+    object MultiAddTestsBtn: TAction
+      Caption = 'Add from template...'
+      ImageIndex = 13
+      OnExecute = MultiAddTestsBtnExecute
+      OnUpdate = MultiAddTestsBtnUpdate
+      ShortCut = 32845
+    end
+    object ClearTestsAction: TAction
+      Caption = 'Clear'
+      ImageIndex = 14
+      OnExecute = ClearTestsActionExecute
+      OnUpdate = ClearTestsActionUpdate
+      ShortCut = 32838
+    end
+    object EditCostsAction: TAction
+      Caption = 'Edit costs...'
+      ImageIndex = 15
+      OnExecute = EditCostsActionExecute
+      OnUpdate = EditCostsActionUpdate
+      ShortCut = 32850
     end
   end
   object SaveDialog: TSaveDialog[3]

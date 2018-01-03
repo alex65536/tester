@@ -1,5 +1,5 @@
 /*
-  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
+  Copyright (C) 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public
@@ -101,7 +101,10 @@ EXPORT TIMER_RESULT launch_timer(
 	// run process
 	secure_task_op(task_Start(task))
 	if (task_Wait(task) == NULL)
+	{
+		task_Delete(task);
 		return TR_RUN_FAIL;
+	}
 	if (task_Status(task) == TSK_RUNNING)
 		task_Kill(task);
 	// process results
@@ -110,19 +113,19 @@ EXPORT TIMER_RESULT launch_timer(
 	*exit_code = task_ExitCode(task);
 	if (*exit_code != 0)
 		result = TR_RUNTIME_ERROR;
-	// check real time
-	*work_realtime = task_GetRunningTime(task);
-	if (*work_realtime >= realtime_limit || task_IsRealTimeout(task))
-	{
-		*work_realtime = realtime_limit;
-		result = TR_REAL_TIME_LIMIT;
-	}
 	// check time
 	*work_time = task_GetRunningTime(task);
 	if (*work_time >= time_limit || task_IsTimeout(task))
 	{
 		*work_time = time_limit;
 		result = TR_TIME_LIMIT;
+	}
+	// check real time
+	*work_realtime = task_GetRealTime(task);
+	if (*work_realtime >= realtime_limit || task_IsRealTimeout(task))
+	{
+		*work_realtime = realtime_limit;
+		result = TR_REAL_TIME_LIMIT;
 	}
 	// check memory
 	*work_memory = task_GetMemoryUsed(task);

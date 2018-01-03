@@ -67,6 +67,7 @@ uses {$IFDEF UNIX} {$IFDEF UseCThreads}
 {$R *.res}
 
 begin
+  Application.Scaled := True;
   EnableGuiMode;
   Application.Title := 'Tester';
   RequireDerivedFormResource := True;

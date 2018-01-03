@@ -74,6 +74,7 @@ type
       AKind: TTesterUpdateKind);
     procedure MultiTesterFinish(Sender: TObject);
     procedure MultiTesterException(Sender: TObject; E: Exception);
+    procedure AssignFontHeights;
   public
     property ProgressBar: TProgressBar read FProgressBar write SetProgressBar;
     property IsTesting: boolean read FIsTesting;
@@ -431,6 +432,7 @@ end;
 procedure TTesterFrame.Prepare;
 begin
   FReady := True;
+  AssignFontHeights;
   PrepareTable;
   Repaint;
 end;
@@ -467,17 +469,27 @@ begin
   FThread.WaitFor;
 end;
 
-procedure TTesterFrame.AfterConstruction;
+procedure TTesterFrame.AssignFontHeights;
 var
   DefaultHeight: integer;
+
+  procedure ScaleFont(AFont: TFont; ARatio: double);
+  begin
+    AFont.Height := Round(ARatio * DefaultHeight);
+  end;
+
+begin
+  DefaultHeight := GetFontData(Canvas.Font.Reference.Handle).Height;
+  ScaleFont(CompilerLabel.Font, 1.5);
+  ScaleFont(VerdictLabel.Font, 1.5);
+  ScaleFont(ScoreLabel.Font, 1.5);
+  ScaleFont(TimeLabel.Font, 0.75);
+  ScaleFont(MemoryLabel.Font, 0.75);
+end;
+
+procedure TTesterFrame.AfterConstruction;
 begin
   inherited AfterConstruction;
-  DefaultHeight := GetFontData(Font.Reference.Handle).Height;
-  CompilerLabel.Font.Height := Round(1.5 * DefaultHeight);
-  VerdictLabel.Font.Height := Round(1.5 * DefaultHeight);
-  TimeLabel.Font.Height := Round(0.75 * DefaultHeight);
-  MemoryLabel.Font.Height := Round(0.75 * DefaultHeight);
-  ScoreLabel.Font.Height := Round(1.5 * DefaultHeight);
   Unprepare;
 end;
 

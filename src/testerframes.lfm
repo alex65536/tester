@@ -6,6 +6,8 @@ object TesterFrame: TTesterFrame
   ClientHeight = 240
   ClientWidth = 475
   TabOrder = 0
+  DesignLeft = 231
+  DesignTop = 427
   object DrawGrid: TDrawGrid
     Left = 0
     Height = 240
@@ -29,13 +31,12 @@ object TesterFrame: TTesterFrame
   end
   object VerdictLabel: TLabel
     Left = 128
-    Height = 24
+    Height = 20
     Top = 144
-    Width = 30
+    Width = 20
     Caption = 'AC'
     Font.Color = clGreen
     Font.Height = 20
-    Font.Name = 'Default'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
@@ -43,7 +44,7 @@ object TesterFrame: TTesterFrame
   end
   object TimeLabel: TLabel
     Left = 128
-    Height = 12
+    Height = 13
     Top = 168
     Width = 35
     Caption = '0.500 s'
@@ -54,7 +55,7 @@ object TesterFrame: TTesterFrame
   end
   object MemoryLabel: TLabel
     Left = 128
-    Height = 12
+    Height = 13
     Top = 184
     Width = 44
     Caption = '1024 MB'
@@ -65,13 +66,12 @@ object TesterFrame: TTesterFrame
   end
   object CompilerLabel: TLabel
     Left = 176
-    Height = 24
+    Height = 20
     Top = 144
-    Width = 30
+    Width = 20
     Caption = 'AC'
     Font.Color = clGreen
     Font.Height = 20
-    Font.Name = 'Default'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False
@@ -79,13 +79,12 @@ object TesterFrame: TTesterFrame
   end
   object ScoreLabel: TLabel
     Left = 224
-    Height = 24
+    Height = 20
     Top = 144
-    Width = 42
+    Width = 27
     Caption = '100'
     Font.Color = clGreen
     Font.Height = 20
-    Font.Name = 'Default'
     Font.Style = [fsBold]
     ParentColor = False
     ParentFont = False

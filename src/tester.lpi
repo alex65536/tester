@@ -6,9 +6,11 @@
       <SessionStorage Value="InProjectDir"/>
       <MainUnit Value="0"/>
       <Title Value="Tester"/>
+      <Scaled Value="True"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
+        <DpiAware Value="True/PM"/>
         <TextName Value="Alex65536.Tester.Tester"/>
         <TextDesc Value="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally."/>
       </XPManifest>
@@ -23,7 +25,7 @@
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
       <RevisionNr Value="2"/>
-      <BuildNr Value="126"/>
+      <BuildNr Value="127"/>
       <StringTable Comments="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017-2018 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.2"/>
     </VersionInfo>
     <BuildModes Count="1">

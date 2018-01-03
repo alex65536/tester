@@ -6,8 +6,6 @@ object TesterFrame: TTesterFrame
   ClientHeight = 240
   ClientWidth = 475
   TabOrder = 0
-  DesignLeft = 231
-  DesignTop = 427
   object DrawGrid: TDrawGrid
     Left = 0
     Height = 240

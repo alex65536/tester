@@ -15,7 +15,7 @@ inherited AboutBox: TAboutBox
     Left = 0
     Height = 256
     Top = 0
-    Width = 295
+    Width = 287
     Align = alTop
     AutoSize = True
     Center = True
@@ -762,7 +762,7 @@ inherited AboutBox: TAboutBox
     Left = 0
     Height = 48
     Top = 256
-    Width = 295
+    Width = 287
     Align = alTop
     Alignment = taCenter
     AutoSize = False
@@ -775,9 +775,9 @@ inherited AboutBox: TAboutBox
   end
   object VersionLbl: TLabel[2]
     Left = 0
-    Height = 17
+    Height = 18
     Top = 304
-    Width = 295
+    Width = 287
     Align = alTop
     Alignment = taCenter
     Caption = 'version %version%'
@@ -785,29 +785,29 @@ inherited AboutBox: TAboutBox
   end
   object DividerBevel1: TDividerBevel[3]
     Left = 0
-    Height = 17
-    Top = 389
-    Width = 295
+    Height = 18
+    Top = 394
+    Width = 287
     Align = alTop
     Font.Style = [fsBold]
     ParentFont = False
   end
   object Label3: TLabel[4]
     Left = 3
-    Height = 17
-    Top = 474
-    Width = 289
+    Height = 18
+    Top = 466
+    Width = 281
     Align = alTop
     BorderSpacing.Left = 3
     BorderSpacing.Right = 3
-    Caption = 'Copyright © 2017 Alexander Kernozhitsky'
+    Caption = 'Copyright © 2017-2018 Alexander Kernozhitsky'
     ParentColor = False
   end
   object Label4: TLabel[5]
     Left = 3
-    Height = 17
-    Top = 491
-    Width = 289
+    Height = 18
+    Top = 484
+    Width = 281
     Align = alTop
     BorderSpacing.Left = 3
     BorderSpacing.Right = 3
@@ -816,9 +816,9 @@ inherited AboutBox: TAboutBox
   end
   object Panel: TPanel[6]
     Left = 0
-    Height = 29
-    Top = 566
-    Width = 295
+    Height = 32
+    Top = 575
+    Width = 287
     Align = alBottom
     AutoSize = True
     BevelOuter = bvNone
@@ -826,32 +826,32 @@ inherited AboutBox: TAboutBox
     ChildSizing.ShrinkHorizontal = crsHomogenousChildResize
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 3
-    ClientHeight = 29
-    ClientWidth = 295
+    ClientHeight = 32
+    ClientWidth = 287
     TabOrder = 1
     object LisenceBtn: TButton
       Left = 0
-      Height = 29
+      Height = 32
       Top = 0
-      Width = 102
+      Width = 99
       Caption = 'License'
       OnClick = LisenceBtnClick
       TabOrder = 0
     end
     object WebsiteBtn: TButton
-      Left = 102
-      Height = 29
+      Left = 99
+      Height = 32
       Top = 0
-      Width = 107
+      Width = 103
       Caption = 'Website'
       OnClick = WebsiteBtnClick
       TabOrder = 1
     end
     object CloseBtn: TButton
-      Left = 209
-      Height = 29
+      Left = 202
+      Height = 32
       Top = 0
-      Width = 86
+      Width = 85
       Caption = 'Close'
       Default = True
       OnClick = CloseBtnClick
@@ -860,18 +860,18 @@ inherited AboutBox: TAboutBox
   end
   object DividerBevel2: TDividerBevel[7]
     Left = 0
-    Height = 17
-    Top = 549
-    Width = 295
+    Height = 18
+    Top = 557
+    Width = 287
     Align = alBottom
     Font.Style = [fsBold]
     ParentFont = False
   end
   object Label5: TLabel[8]
     Left = 3
-    Height = 51
-    Top = 406
-    Width = 289
+    Height = 36
+    Top = 412
+    Width = 281
     Align = alTop
     Alignment = taCenter
     BorderSpacing.Left = 3
@@ -882,18 +882,18 @@ inherited AboutBox: TAboutBox
   end
   object DividerBevel3: TDividerBevel[9]
     Left = 0
-    Height = 17
-    Top = 457
-    Width = 295
+    Height = 18
+    Top = 448
+    Width = 287
     Align = alTop
     Font.Style = [fsBold]
     ParentFont = False
   end
   object Label6: TLabel[10]
     Left = 3
-    Height = 34
-    Top = 525
-    Width = 289
+    Height = 36
+    Top = 520
+    Width = 281
     Align = alTop
     BorderSpacing.Left = 3
     BorderSpacing.Right = 3
@@ -904,26 +904,26 @@ inherited AboutBox: TAboutBox
   object Panel1: TPanel[11]
     Left = 0
     Height = 1
-    Top = 559
-    Width = 295
+    Top = 556
+    Width = 287
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 0
   end
   object DividerBevel4: TDividerBevel[12]
     Left = 0
-    Height = 17
-    Top = 508
-    Width = 295
+    Height = 18
+    Top = 502
+    Width = 287
     Align = alTop
     Font.Style = [fsBold]
     ParentFont = False
   end
   object DateLbl: TLabel[13]
     Left = 0
-    Height = 17
-    Top = 372
-    Width = 295
+    Height = 18
+    Top = 376
+    Width = 287
     Align = alTop
     Alignment = taCenter
     Caption = 'Build date: %builddate%'
@@ -931,9 +931,9 @@ inherited AboutBox: TAboutBox
   end
   object PlatformLbl: TLabel[14]
     Left = 0
-    Height = 17
-    Top = 338
-    Width = 295
+    Height = 18
+    Top = 340
+    Width = 287
     Align = alTop
     Alignment = taCenter
     Caption = '%platform%-%os%-%ws%'
@@ -941,18 +941,18 @@ inherited AboutBox: TAboutBox
   end
   object DividerBevel5: TDividerBevel[15]
     Left = 0
-    Height = 17
-    Top = 355
-    Width = 295
+    Height = 18
+    Top = 358
+    Width = 287
     Align = alTop
     Font.Style = [fsBold]
     ParentFont = False
   end
   object FileVersionLbl: TLabel[16]
     Left = 0
-    Height = 17
-    Top = 321
-    Width = 295
+    Height = 18
+    Top = 322
+    Width = 287
     Align = alTop
     Alignment = taCenter
     Caption = 'x.x.x.x'

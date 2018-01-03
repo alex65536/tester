@@ -8,6 +8,10 @@
       <Title Value="Tester"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
+      <XPManifest>
+        <TextName Value="Alex65536.Tester.Tester"/>
+        <TextDesc Value="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally."/>
+      </XPManifest>
       <Icon Value="0"/>
     </General>
     <i18n>
@@ -18,10 +22,9 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
-      <RevisionNr Value="1"/>
-      <BuildNr Value="125"/>
-      <Attributes pvaPreRelease="True"/>
-      <StringTable Comments="Tester is a program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.1 (prerelease)"/>
+      <RevisionNr Value="2"/>
+      <BuildNr Value="126"/>
+      <StringTable Comments="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017-2018 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.2"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

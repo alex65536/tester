@@ -110,7 +110,7 @@ TIMER_RESULT launch_timer(
 		result = TR_RUNTIME_ERROR;
 	// check time
 	*work_time = task_GetRunningTime(task);
-	if (*work_time >= time_limit || task_IsTimeout(task))
+	if (*work_time >= time_limit || (task_IsTimeout(task) && !task_IsRealTimeout(task)))
 	{
 		*work_time = time_limit;
 		result = TR_TIME_LIMIT;

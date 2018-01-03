@@ -115,14 +115,14 @@ EXPORT TIMER_RESULT launch_timer(
 		result = TR_RUNTIME_ERROR;
 	// check time
 	*work_time = task_GetRunningTime(task);
-	if (*work_time >= time_limit || task_IsTimeout(task))
+	if (*work_time >= time_limit /*|| task_IsTimeout(task)*/)
 	{
 		*work_time = time_limit;
 		result = TR_TIME_LIMIT;
 	}
 	// check real time
 	*work_realtime = task_GetRealTime(task);
-	if (*work_realtime >= realtime_limit || task_IsRealTimeout(task))
+	if ((*work_realtime >= realtime_limit || task_IsRealTimeout(task)) && *work_time < time_limit)
 	{
 		*work_realtime = realtime_limit;
 		result = TR_REAL_TIME_LIMIT;

@@ -17,7 +17,7 @@
 // This unit is a modification of RunCommandInDir from FreePascal's process.pp.
 unit processfork;
 
-{$mode objfpc}{$H+}
+{$mode objfpc}{$H+}{$COperators on}
 
 interface
 
@@ -29,6 +29,42 @@ function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
   out ExitCode: integer): integer;
 
 implementation
+
+{$IfDef WINDOWS}
+
+// A hack for Windows users, so they need not to add paths to g++
+// if they have Code::Blocks MinGW.
+procedure GetNewProcessEnv(Environment: TStrings);
+const
+  AddToPath: array [0 .. 1] of string = (
+    'C:\Program Files (x86)\CodeBlocks\MinGW\bin',
+    'C:\Program Files\CodeBlocks\MinGW\bin'
+  );
+var
+  S: string;
+  I: integer;
+  WasPath, NewPath: string;
+begin
+  Environment.Clear;
+  for I := 0 to GetEnvironmentVariableCount - 1 do
+    Environment.Add(GetEnvironmentString(I));
+  WasPath := Environment.Values['PATH'];
+  NewPath := '';
+  for S in AddToPath do
+    NewPath += S + ';';
+  NewPath += WasPath;
+  Environment.Values['PATH'] := NewPath;
+end;
+
+{$Else}
+
+// On Linux, we do nothing (everything is already in PATH, hack is not needed)
+procedure GetNewProcessEnv(Environment: TStrings);
+begin
+  Environment.Clear;
+end;
+
+{$EndIf}
 
 {
   The following two procedures were copied from FCL's process.pp
@@ -55,6 +91,7 @@ begin
   Result := -1;
   try
     try
+      GetNewProcessEnv(P.Environment);
       // modification here: we append stderr to stdout.
       P.Options := [poUsePipes, poStderrToOutPut];
       P.ShowWindow := swoHide;

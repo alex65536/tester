@@ -45,7 +45,7 @@
 
 ## GNU/Linux
 
-* Tested on _Ubuntu 16.04_ (32- and 64-bit), but should work on other popular _GNU/Linux_ distros.
+* Tested on _Ubuntu 16.04_ and _Debian 9_ (32- and 64-bit), but should work on other popular _GNU/Linux_ distros.
 
 * [_GTK+_](https://www.gtk.org/) installed.
 
@@ -59,7 +59,7 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 ## Common
 
-* To build _tester_ from sources, you will need [_Lazarus IDE_](https://www.lazarus-ide.org) (recommended version is 1.8.0) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.4) and [_GNU GCC Compiler_](https://gcc.gnu.org).
+* To build _tester_ from sources, you will need [_Lazarus IDE_](https://www.lazarus-ide.org) (recommended version is 1.8.2) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.4) and [_GNU GCC Compiler_](https://gcc.gnu.org).
 
 * You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
 

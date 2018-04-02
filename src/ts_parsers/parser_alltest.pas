@@ -1,7 +1,7 @@
 {
   This file is part of Tester
 
-  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
+  Copyright (C) 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, propsparserbase, FileUtil, LazFileUtils, testerfileutil,
-  logfile, process, problemprops, checkers;
+  logfile, process, problemprops, checkers, parserutils;
 
 type
 
@@ -69,6 +69,11 @@ var
       Result := ''
     else
       Result := CmdList[Index];
+  end;
+
+  function GetCmdCount: integer; inline;
+  begin
+    Result := CmdList.Count;
   end;
 
   function CompletePath(FileName: string): string; inline;
@@ -132,6 +137,24 @@ var
       except
         // mute the exceptions
       end;
+    end;
+  end;
+
+  procedure UpdateRunExe;
+  var
+    I: integer;
+  begin
+    with TProblemPropsCollector, Self.Properties do
+    begin
+      for I := 0 to GetCmdCount - 2 do
+        try
+          if GetCmd(I) = '-t' then
+            TimeLimit := MergeInt(TimeLimit, StrToTimeLimit(GetCmd(I+1), 's'), Success)
+          else if GetCmd(I) = '-m' then
+            MemoryLimit := MergeInt(MemoryLimit, StrToMemoryLimit(GetCmd(I+1)), Success);
+        except
+          // mute the exceptions
+        end;
     end;
   end;
 
@@ -286,6 +309,8 @@ begin
       WriteLog('CurCmd = "' + CurCmd + '"');
       if (CurCmd = 'timer') or (CurCmd = 'timer.exe') then
         UpdateTimer;
+      if (CurCmd = 'runexe') or (CurCmd = 'runexe.exe') then
+        UpdateRunExe;
       if CurCmd = 'copy' then
         UpdateInput;
       if (CurCmd = 'fc') or (CurCmd = 'fc.exe') then

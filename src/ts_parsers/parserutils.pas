@@ -1,7 +1,7 @@
 {
   This file is part of Tester
 
-  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
+  Copyright (C) 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -29,8 +29,8 @@ uses
 
 function FromCppFormat(const S: string): string;
 function FromRoiFormat(const S: string): string;
-function StrToTimeLimit(S: string): TProblemTime;
-function StrToMemoryLimit(S: string): TProblemMemory;
+function StrToTimeLimit(S: string; const DefaultSuff: string = 'ms'): TProblemTime;
+function StrToMemoryLimit(S: string; const DefaultSuff: string = 'B'): TProblemMemory;
 
 implementation
 
@@ -106,7 +106,7 @@ begin
     Suff := TrySuff;
 end;
 
-function StrToTimeLimit(S: string): TProblemTime;
+function StrToTimeLimit(S: string; const DefaultSuff: string): TProblemTime;
 var
   Suff: string;
   FloatTime: double;
@@ -118,7 +118,7 @@ begin
   TrySuffix(Suff, 's', S); // seconds
   CutSuffix(Suff, S);
   if Suff = '' then
-    Suff := 'ms'; // we use milliseconds by default
+    Suff := DefaultSuff;
   // extract floating point time value
   FloatTime := StrToFloat(S);
   // return time (in milliseconds)
@@ -130,7 +130,7 @@ begin
     raise Exception.Create('Internal Tester Error : StrToTimeLimit got bad suffix');
 end;
 
-function StrToMemoryLimit(S: string): TProblemMemory;
+function StrToMemoryLimit(S: string; const DefaultSuff: string): TProblemMemory;
 var
   Suff: string;
   FloatMemory: double;
@@ -143,7 +143,7 @@ begin
   TrySuffix(Suff, 'G', S); // in GBytes
   CutSuffix(Suff, S);
   if Suff = '' then
-    Suff := 'B'; // if no suffix, we assume it's in bytes
+    Suff := DefaultSuff;
   // extract floating point time value
   FloatMemory := StrToFloat(S);
   // return memory (in Kbytes)

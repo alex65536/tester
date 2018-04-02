@@ -221,7 +221,7 @@ begin
       CurDir := ExtractFileName(AList[I]);
       WriteLog('curDir = ' + CurDir);
       if (LowerCase(CurDir) = 'tests') or (LowerCase(CurDir) = 'test') or
-        (LowerCase(CurDir) = 'testset') then
+        (LowerCase(CurDir) = 'testset') or (LowerCase(CurDir) = 'full_tests') then
       begin
         if not ParseFromDir(CurDir) then
           Result := False;

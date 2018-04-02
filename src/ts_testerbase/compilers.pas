@@ -37,8 +37,10 @@ type
   private
     FCompilerOutput: string;
     FExeName: string;
+    FIncludePaths: TStringList;
     FSrcName: string;
     FStackSize: integer;
+    FUnitPaths: TStringList;
     FWorkingDir: string;
     procedure SetCompilerOutput(AValue: string);
     procedure SetExeName(AValue: string);
@@ -46,6 +48,8 @@ type
     procedure SetStackSize(AValue: integer);
     procedure SetWorkingDir(AValue: string);
   public
+    property IncludePaths: TStringList read FIncludePaths;
+    property UnitPaths: TStringList read FUnitPaths;
     property SrcName: string read FSrcName write SetSrcName;
     property ExeName: string read FExeName write SetExeName;
     property WorkingDir: string read FWorkingDir write SetWorkingDir;
@@ -57,6 +61,7 @@ type
     function CompilerVersion: string; virtual; abstract;
     function CompilerFullName: string;
     constructor Create; virtual;
+    destructor Destroy; override;
   end;
 
   TCompilerClass = class of TCompiler;
@@ -146,8 +151,9 @@ const
 
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
 function CompileFile(const SrcName, ExeName: string; out Output: string;
-  StackSize: TProblemMemory = DefaultStackSize; WorkingDir: string = ''): TCompilerVerdict;
-function CompileChecker(const AFileName: string): string;
+  StackSize: TProblemMemory = DefaultStackSize; WorkingDir: string = '';
+  IncludePaths: TStringList = nil; UnitPaths: TStringList = nil): TCompilerVerdict;
+function CompileChecker(const AFileName: string; LibPaths: TStringList = nil): string;
 
 implementation
 
@@ -160,8 +166,10 @@ begin
 end;
 
 function CompileFile(const SrcName, ExeName: string; out Output: string;
-  StackSize: TProblemMemory; WorkingDir: string): TCompilerVerdict;
+  StackSize: TProblemMemory; WorkingDir: string; IncludePaths: TStringList;
+  UnitPaths: TStringList): TCompilerVerdict;
 var
+  S: string;
   Extension: string;
   Compiler: TCompiler;
 begin
@@ -175,6 +183,12 @@ begin
   try
     Compiler := TCompilerClass(CompilerMap[Extension]).Create;
     try
+      if IncludePaths <> nil then
+        for S in IncludePaths do
+          Compiler.IncludePaths.Add(ExpandFileNameUTF8(S));
+      if UnitPaths <> nil then
+        for S in UnitPaths do
+          Compiler.UnitPaths.Add(ExpandFileNameUTF8(S));
       if WorkingDir = '' then
         Compiler.WorkingDir := GetCurrentDirUTF8
       else
@@ -196,7 +210,7 @@ begin
   end;
 end;
 
-function CompileChecker(const AFileName: string): string;
+function CompileChecker(const AFileName: string; LibPaths: TStringList): string;
 var
   ShortFileName, CheckerExe, CompilerOutput: string;
   CompilerVerdict: TCompilerVerdict;
@@ -211,7 +225,8 @@ begin
     CompilerVerdict := cvSuccess
   else
     // compile it
-    CompilerVerdict := CompileFile(AFileName, CheckerExe, CompilerOutput);
+    CompilerVerdict := CompileFile(AFileName, CheckerExe, CompilerOutput,
+      DefaultStackSize, '', LibPaths, LibPaths);
   if CompilerVerdict = cvSuccess then
     Result := CheckerExe
   else
@@ -253,6 +268,8 @@ begin
 end;
 
 procedure TGnuCppCompiler.GetCommandLine(Args: TStringList);
+var
+  S: string;
 begin
   Args.Clear;
   Args.Add(SrcName);
@@ -262,6 +279,8 @@ begin
   {$IfDef Windows}
   Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
+  for S in IncludePaths do
+    Args.Add('-I' + S);
 end;
 
 function TGnuCppCompiler.GetVersionKey: string;
@@ -287,6 +306,8 @@ begin
 end;
 
 procedure TGnuCCompiler.GetCommandLine(Args: TStringList);
+var
+  S: string;
 begin
   Args.Clear;
   Args.Add(SrcName);
@@ -296,6 +317,8 @@ begin
   {$IfDef Windows}
   Args.Add('-Wl,--stack=' + IntToStr(StackSize * 1024));
   {$EndIf}
+  for S in IncludePaths do
+    Args.Add('-I' + S);
 end;
 
 function TGnuCCompiler.GetVersionKey: string;
@@ -321,11 +344,17 @@ begin
 end;
 
 procedure TFreePascalCompiler.GetCommandLine(Args: TStringList);
+var
+  S: string;
 begin
   Args.Clear;
   Args.Add(SrcName);
   Args.Add('-o' + ExeName);
   Args.Add('-O2');
+  for S in IncludePaths do
+    Args.Add('-Fi' + S);
+  for S in UnitPaths do
+    Args.Add('-Fu' + S);
 end;
 
 function TFreePascalCompiler.GetVersionKey: string;
@@ -452,8 +481,17 @@ end;
 
 constructor TCompiler.Create;
 begin
+  FIncludePaths := TStringList.Create;
+  FUnitPaths := TStringList.Create;
   WorkingDir := '';
   StackSize := DefaultStackSize;
+end;
+
+destructor TCompiler.Destroy;
+begin
+  FreeAndNil(FUnitPaths);
+  FreeAndNil(FIncludePaths);
+  inherited Destroy;
 end;
 
 initialization

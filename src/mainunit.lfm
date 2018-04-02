@@ -12,7 +12,7 @@ inherited MainForm: TMainForm
   Position = poScreenCenter
   object Panel: TPanel[0]
     Left = 0
-    Height = 26
+    Height = 30
     Top = 0
     Width = 860
     Align = alTop
@@ -22,56 +22,56 @@ inherited MainForm: TMainForm
     ChildSizing.ShrinkHorizontal = crsScaleChilds
     ChildSizing.Layout = cclLeftToRightThenTopToBottom
     ChildSizing.ControlsPerLine = 5
-    ClientHeight = 26
+    ClientHeight = 30
     ClientWidth = 860
     Color = clWindow
     ParentColor = False
     TabOrder = 0
     object BitBtn1: TBitBtn
       Left = 0
-      Height = 24
+      Height = 28
       Top = 0
-      Width = 110
+      Width = 168
       Action = NewFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 0
     end
     object BitBtn2: TBitBtn
-      Left = 110
-      Height = 24
+      Left = 168
+      Height = 28
       Top = 0
-      Width = 125
+      Width = 178
       Action = OpenFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 1
     end
     object BitBtn3: TBitBtn
-      Left = 235
-      Height = 24
+      Left = 346
+      Height = 28
       Top = 0
-      Width = 154
+      Width = 197
       Action = SaveFileAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 2
     end
     object BitBtn4: TBitBtn
-      Left = 389
-      Height = 24
+      Left = 543
+      Height = 28
       Top = 0
-      Width = 255
+      Width = 171
       Action = TestAction
       AutoSize = True
       Color = clHighlight
       TabOrder = 3
     end
     object BitBtn5: TBitBtn
-      Left = 644
-      Height = 24
+      Left = 714
+      Height = 28
       Top = 0
-      Width = 216
+      Width = 146
       Action = AboutAction
       AutoSize = True
       Color = clHighlight
@@ -80,8 +80,8 @@ inherited MainForm: TMainForm
   end
   object PropsList: TExtendedNotebook[1]
     Left = 0
-    Height = 483
-    Top = 26
+    Height = 479
+    Top = 30
     Width = 860
     Align = alClient
     PopupMenu = TabPopupMenu
@@ -96,20 +96,20 @@ inherited MainForm: TMainForm
     left = 192
     top = 216
     object NewFileAction: TAction
-      Caption = 'New...'
+      Caption = 'New problem...'
       ImageIndex = 6
       OnExecute = NewFileActionExecute
       ShortCut = 16462
     end
     object SaveFileAction: TAction
-      Caption = 'Save as...'
+      Caption = 'Save problem as...'
       ImageIndex = 8
       OnExecute = SaveFileActionExecute
       OnUpdate = SaveFileActionUpdate
       ShortCut = 16467
     end
     object OpenFileAction: TAction
-      Caption = 'Open...'
+      Caption = 'Open problem...'
       ImageIndex = 7
       OnExecute = OpenFileActionExecute
       ShortCut = 16463

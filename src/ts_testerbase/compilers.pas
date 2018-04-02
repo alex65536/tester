@@ -137,6 +137,16 @@ type
     function LanguageName: string; override;
   end;
 
+  { TGnuCpp11GnuExtCompiler }
+
+  // compiles with --std=gnu++11
+  TGnuCpp11GnuExtCompiler = class(TGnuCppCompiler)
+  protected
+    procedure GetCommandLine(Args: TStringList); override;
+  public
+    function LanguageName: string; override;
+  end;
+
 var
   FreePascalDir: string = '';
   GccDir: string = '';
@@ -217,6 +227,19 @@ begin
       Output := E.Message;
     end;
   end;
+end;
+
+{ TGnuCpp11GnuExtCompiler }
+
+procedure TGnuCpp11GnuExtCompiler.GetCommandLine(Args: TStringList);
+begin
+  inherited GetCommandLine(Args);
+  Args.Add('--std=gnu++11');
+end;
+
+function TGnuCpp11GnuExtCompiler.LanguageName: string;
+begin
+  Result := 'Gnu++11';
 end;
 
 { TDelphiCompiler }
@@ -508,6 +531,7 @@ initialization
   RegisterCompiler('.c', TGnuCCompiler);
   RegisterCompiler('.cxx', TGnuCppCompiler);
   RegisterCompiler('.cpp', TGnuCpp11Compiler);
+  //RegisterCompiler('.gpp', TGnuCpp11GnuExtCompiler);
   //RegisterCompiler('.cpp', TGnuCppCompiler);
   //RegisterCompiler('.c11', TGnuCpp11Compiler);
 

@@ -75,6 +75,19 @@ begin
     CheckPath := AppendPathDelim(ExtractFilePath(ExpandFileNameUTF8(AFileName)));
     AddLibPath(CheckPath + 'files');
     Result := DoCompileChecker(AFileName, LibPaths, nil);
+    if ExtractFileExt(AFileName) = '.cpp' then
+    begin
+      if Result = '' then
+      begin
+        WriteLog('Simple c++11 didn''t work, compiling ' + AFileName + ' with gnu++11');
+        Result := DoCompileChecker(AFileName, LibPaths, TGnuCpp11GnuExtCompiler);
+      end;
+      if Result = '' then
+      begin
+        WriteLog('Gnu++11 didn''t work, compiling ' + AFileName + ' with default settings');
+        Result := DoCompileChecker(AFileName, LibPaths, TGnuCppCompiler);
+      end;
+    end;
   finally
     FreeAndNil(LibPaths);
   end;

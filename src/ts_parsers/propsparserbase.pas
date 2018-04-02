@@ -1,7 +1,7 @@
 {
   This file is part of Tester
 
-  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
+  Copyright (C) 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, problemprops, checkers, logfile, LazFileUtils,
-  testerfileutil, compilers;
+  testerfileutil, compilers, checkercompile;
 
 type
 

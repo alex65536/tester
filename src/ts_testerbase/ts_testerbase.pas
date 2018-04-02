@@ -4,12 +4,13 @@
 
 unit ts_testerbase;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
   checkers, compilers, jsonsaver, multitesters, problemprops, problemstats, 
   problemtesting, runtimers, strverdicts, testerprimitives, testresults, 
-  testtemplates;
+  testtemplates, checkercompile;
 
 implementation
 

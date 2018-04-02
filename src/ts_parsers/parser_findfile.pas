@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, testtemplates, problemprops, propsparserbase, FileUtil,
-  LazFileUtils, logfile, testerfileutil, checkers, compilers;
+  LazFileUtils, logfile, testerfileutil, checkers, compilers, checkercompile;
 
 type
 
@@ -150,18 +150,6 @@ var
   AList: TStringList;
   I: integer;
   CurFile, CompiledFile: string;
-  LibPaths: TStringList;
-  CheckPath: string;
-
-  procedure AddLibPath(const ALibPath: string);
-  begin
-    if DirectoryExistsUTF8(ALibPath) then
-    begin
-      WriteLog('Added lib path ' + ALibPath);
-      LibPaths.Add(ALibPath);
-    end;
-  end;
-
 begin
   Result := True;
   AList := FindAllFiles(@SearcherFileFound, AppendPathDelim(WorkingDir) +
@@ -198,14 +186,7 @@ begin
         if (CurFile = 'check') or (CurFile = 'checker') then
         begin
           // we build it from sources
-          LibPaths := TStringList.Create;
-          try
-            CheckPath := AppendPathDelim(ExtractFilePath(ExpandFileNameUTF8(AList[I])));
-            AddLibPath(CheckPath + 'files');
-            CompiledFile := CompileChecker(AList[I], LibPaths);
-          finally
-            FreeAndNil(LibPaths);
-          end;
+          CompiledFile := CompileChecker(AList[I]);
           if CompiledFile <> '' then
           begin
             CompiledFile := CreateRelativePath(CompiledFile, WorkingDir);

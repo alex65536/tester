@@ -157,8 +157,8 @@ const
 procedure RegisterCompiler(const Extension: string; AClass: TCompilerClass);
 function CompileFile(const SrcName, ExeName: string; out Output: string;
   StackSize: TProblemMemory = DefaultStackSize; WorkingDir: string = '';
-  IncludePaths: TStringList = nil; UnitPaths: TStringList = nil): TCompilerVerdict;
-function CompileChecker(const AFileName: string; LibPaths: TStringList = nil): string;
+  IncludePaths: TStringList = nil; UnitPaths: TStringList = nil;
+  CompilerClass: TCompilerClass = nil): TCompilerVerdict;
 
 implementation
 
@@ -172,21 +172,25 @@ end;
 
 function CompileFile(const SrcName, ExeName: string; out Output: string;
   StackSize: TProblemMemory; WorkingDir: string; IncludePaths: TStringList;
-  UnitPaths: TStringList): TCompilerVerdict;
+  UnitPaths: TStringList; CompilerClass: TCompilerClass): TCompilerVerdict;
 var
   S: string;
   Extension: string;
   Compiler: TCompiler;
 begin
   Extension := ExtractFileExt(SrcName);
-  if not CompilerMap.Contains(Extension) then
+  if CompilerClass = nil then
   begin
-    Output := Format(SCompilerNotRegistered, [Extension]);
-    Result := cvCompileFail;
-    Exit;
+    if not CompilerMap.Contains(Extension) then
+    begin
+      Output := Format(SCompilerNotRegistered, [Extension]);
+      Result := cvCompileFail;
+      Exit;
+    end;
+    CompilerClass := TCompilerClass(CompilerMap[Extension]);
   end;
   try
-    Compiler := TCompilerClass(CompilerMap[Extension]).Create;
+    Compiler := CompilerClass.Create;
     try
       if IncludePaths <> nil then
         for S in IncludePaths do
@@ -213,29 +217,6 @@ begin
       Output := E.Message;
     end;
   end;
-end;
-
-function CompileChecker(const AFileName: string; LibPaths: TStringList): string;
-var
-  ShortFileName, CheckerExe, CompilerOutput: string;
-  CompilerVerdict: TCompilerVerdict;
-begin
-  ShortFileName := ExtractFileNameWithoutExt(ExtractFileName(AFileName));
-  CheckerExe := AppendPathDelim(ExtractFileDir(AFileName)) + ShortFileName;
-  {$IfDef Windows}
-  CheckerExe := CheckerExe + '.exe';
-  {$EndIf}
-  if FileExistsUTF8(CheckerExe) then
-    // already compiled
-    CompilerVerdict := cvSuccess
-  else
-    // compile it
-    CompilerVerdict := CompileFile(AFileName, CheckerExe, CompilerOutput,
-      DefaultStackSize, '', LibPaths, LibPaths);
-  if CompilerVerdict = cvSuccess then
-    Result := CheckerExe
-  else
-    Result := '';
 end;
 
 { TDelphiCompiler }

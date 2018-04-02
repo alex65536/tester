@@ -43,10 +43,11 @@ type
     FUnitPaths: TStringList;
     FWorkingDir: string;
     procedure SetCompilerOutput(AValue: string);
-    procedure SetExeName(AValue: string);
-    procedure SetSrcName(AValue: string);
     procedure SetStackSize(AValue: integer);
     procedure SetWorkingDir(AValue: string);
+  protected
+    procedure SetExeName(AValue: string); virtual;
+    procedure SetSrcName(AValue: string); virtual;
   public
     property IncludePaths: TStringList read FIncludePaths;
     property UnitPaths: TStringList read FUnitPaths;
@@ -69,10 +70,14 @@ type
   { TProcessCompiler }
 
   TProcessCompiler = class(TCompiler)
+  private
+    procedure SanitizeFileName(var S: string);
   protected
     function GetCmdName: string; virtual; abstract;
     procedure GetCommandLine(Args: TStringList); virtual; abstract;
     function GetVersionKey: string; virtual; abstract;
+    procedure SetExeName(AValue: string); override;
+    procedure SetSrcName(AValue: string); override;
   public
     function Compile: TCompilerVerdict; override;
     function CompilerVersion: string; override;
@@ -373,6 +378,26 @@ begin
 end;
 
 { TProcessCompiler }
+
+procedure TProcessCompiler.SanitizeFileName(var S: string);
+begin
+  if S = '' then
+    Exit;
+  if S[1] = '-' then
+    S := '.' + PathDelim + S;
+end;
+
+procedure TProcessCompiler.SetExeName(AValue: string);
+begin
+  SanitizeFileName(AValue);
+  inherited SetExeName(AValue);
+end;
+
+procedure TProcessCompiler.SetSrcName(AValue: string);
+begin
+  SanitizeFileName(AValue);
+  inherited SetSrcName(AValue);
+end;
 
 function TProcessCompiler.Compile: TCompilerVerdict;
 var

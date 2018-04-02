@@ -22,7 +22,7 @@ unit processfork;
 interface
 
 uses
-  Classes, SysUtils, process, UTF8Process;
+  Classes, SysUtils, process, UTF8Process, LazFileUtils;
 
 function RunCommandIndirUTF8(const CurDir: string; const ExeName: string;
   const Commands: array of string; out OutputString: string;
@@ -66,6 +66,40 @@ end;
 
 {$EndIf}
 
+function ExpandExeName(PathEnv: string; const ExeName: string): string;
+
+  function ValidExecutable(const ExeName: string): boolean;
+  begin
+    Result := FileExistsUTF8(ExeName) and FileIsExecutable(ExeName);
+  end;
+
+var
+  Path: string;
+  NewExeName: string;
+  Items: TStringArray;
+begin
+  if PathEnv = '' then
+    PathEnv := GetEnvironmentVariable('PATH');
+  // if already has slashes, no need to expand it
+  if ExeName.Contains(DirectorySeparator) then
+    Exit(ExeName);
+  {$IfDef WINDOWS}
+  // search the current directory
+  if ValidExecutable(ExeName) then
+    Exit(ExeName);
+  {$EndIf}
+  // search in PATH env
+  Items := PathEnv.Split([PathSeparator]);
+  for Path in Items do
+  begin
+    NewExeName := AppendPathDelim(Path) + ExeName;
+    if ValidExecutable(NewExeName) then
+      Exit(NewExeName);
+  end;
+  // not found, return what we've been passed
+  Result := ExeName;
+end;
+
 {
   The following two procedures were copied from FCL's process.pp
   They are modified
@@ -92,6 +126,7 @@ begin
   try
     try
       GetNewProcessEnv(P.Environment);
+      P.Executable := ExpandExeName(P.Environment.Values['PATH'], P.Executable);
       // modification here: we append stderr to stdout.
       P.Options := [poUsePipes, poStderrToOutPut];
       P.ShowWindow := swoHide;

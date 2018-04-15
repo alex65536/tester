@@ -101,17 +101,21 @@ var
     {$EndIf}
   end;
 
+var
+  RealTimeLimit: integer;
 begin
   {$IfDef Windows}
     AExeName := ExeName;
   {$Else}
     AExeName := ExpandFileNameUTF8(ExeName);
   {$EndIf}
+  RealTimeLimit := Properties.TimeLimit * 5;
+  // TODO: Test new RealTimeLimit on Windows!
   Res := LaunchTimer(PChar(UTF8ToSystem(WorkingDir)), PChar(UTF8ToSystem(AExeName)),
     PChar(UTF8ToSystem(StdinRedir)), PChar(UTF8ToSystem(StdoutRedir)),
     PChar(UTF8ToSystem(StderrRedir)), PChar(UTF8ToSystem(InputFile)),
     PChar(UTF8ToSystem(OutputFile)), Properties.TimeLimit, Max(1000,
-    Properties.TimeLimit * 2), Properties.MemoryLimit * 2048 - 1,
+    RealTimeLimit), Properties.MemoryLimit * 2048 - 1,
     Properties.MemoryLimit * 1024, @FTime, @Temp, @FMemory, @FExitCode);
   FMemory := Round(FMemory / 1024); // we show memory in kBytes instead of bytes!
   case Res of

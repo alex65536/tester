@@ -13,3 +13,8 @@ src/tester-i386-linux
 src/tester-x86_64-linux
 tsrun/tsrun
 
+# For old git, that doesn't understand **
+*/*/backup/*
+*/*/lib/*
+*/backup/*
+*/lib/*

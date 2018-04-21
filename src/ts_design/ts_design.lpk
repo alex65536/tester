@@ -12,7 +12,7 @@
     </CompilerOptions>
     <Description Value="This package should contain routines that are used to control design of Tester. Currently there is only verdictcolors.pas."/>
     <License Value="GPL 2+"/>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="1">
       <Item1>
         <Filename Value="verdictcolors.pas"/>

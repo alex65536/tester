@@ -12,7 +12,7 @@
     </CompilerOptions>
     <Description Value="This package can export testing results to HTML."/>
     <License Value="GPL 2+"/>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="2">
       <Item1>
         <Filename Value="htmlexport.pas"/>

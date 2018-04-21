@@ -24,9 +24,9 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="1"/>
       <MinorVersionNr Value="2"/>
-      <RevisionNr Value="2"/>
+      <RevisionNr Value="3"/>
       <BuildNr Value="127"/>
-      <StringTable Comments="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017-2018 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.2"/>
+      <StringTable Comments="Tester is a lightweight, cross-platform program to test the solutions for competitive programming problems locally." FileDescription="Tester" LegalCopyright="Copyright © 2017-2018 Alexander Kernozhitsky" ProductName="Tester" ProductVersion="1.2.3"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>

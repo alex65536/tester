@@ -12,7 +12,7 @@
     </CompilerOptions>
     <Description Value="This package contains problem properties parsers for Tester. Parsers are things to retrieve problem properties from problem packages that do not use Tester's configuration file format (e. g. Polygon packages, Ejudge packages, problems from Belarusian National OI that use .bat files)."/>
     <License Value="GPL 2+"/>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="8">
       <Item1>
         <Filename Value="parser_alltest.pas"/>

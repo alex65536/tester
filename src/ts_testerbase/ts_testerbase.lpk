@@ -12,7 +12,7 @@
     </CompilerOptions>
     <Description Value="This package contains Tester's base features: problem properties, checker and compiler support, testing solutions, problem stats and so on."/>
     <License Value="GPL 2+"/>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="13">
       <Item1>
         <Filename Value="checkers.pas"/>

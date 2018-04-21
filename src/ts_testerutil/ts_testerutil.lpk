@@ -13,7 +13,7 @@
     </CompilerOptions>
     <Description Value="This package contains utility classes and routines for Tester. They are used in many other packages, such as ts_testerbase."/>
     <License Value="GPL 2+"/>
-    <Version Major="1" Minor="2" Release="1"/>
+    <Version Major="1" Minor="2" Release="3"/>
     <Files Count="7">
       <Item1>
         <Filename Value="fcutils.pas"/>

@@ -6,35 +6,24 @@ default: build
 STATIC_BUILD ?= 1
 SHARED_BUILD ?= 1
 
-FORCE_WIN32 ?= 0
-
 TIMERLIB_VERSION := 0.1.3
 
-ifeq ($(OS),Windows_NT)
- 	WIN_BITS := 0
- 	ifeq ($(PROCESSOR_ARCHITEW6432),AMD64)
- 		WIN_BITS := 64
- 	else
- 		ifeq ($(PROCESSOR_ARCHITECTURE),AMD64)
- 			WIN_BITS := 64
- 		endif
- 		ifeq ($(PROCESSOR_ARCHITECTURE),x86)
- 			WIN_BITS := 32
- 		endif
- 	endif
- 	ifeq ($(WIN_BITS),0)
-		$(error Cannot determine target CPU)
- 	endif
- 	ifneq ($(FORCE_WIN32),0)
-		WIN_BITS := 32
- 	endif
+include ../tools/os-detect.mak
+
+GOOD := 0
+
+ifeq ($(OS_NAME),Windows)
+ 	GOOD := 1
  	include build-win.mak
-else
- 	OS_NAME := $(shell uname -s)
- 	ifneq ($(OS_NAME),Linux)
- 		$(error Only GNU/Linux and Windows are supported)
- 	endif
+endif
+
+ifeq ($(OS_NAME),Linux)
+ 	GOOD := 1
  	include build-linux.mak
+endif
+
+ifneq ($(GOOD), 1)
+ 	$(error Unknown OS $(OS_NAME))
 endif
 
 ifneq ($(STATIC_BUILD),0)

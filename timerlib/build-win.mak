@@ -15,18 +15,27 @@ else
  	endif
 endif
 
-build-static: clean
-	$(CC) -c src\windows\*.c $(COMPILE_TARGET)
-	ar rcs $(STATIC_NAME) *.o
+build-static: clean-$(WIN_BITS)
+	$(CC) -c $(wildcard src/windows/*.c) $(COMPILE_TARGET)
+	ar rcs $(STATIC_NAME) $(wildcard *.o)
 	del /S /Q *.o >>nul
 
-build-shared: clean
-	$(CC) -DLINK_TO_DLL -shared -o $(SHARED_NAME) src\windows\*.c $(COMPILE_TARGET)
+build-shared: clean-$(WIN_BITS)
+	$(CC) -DLINK_TO_DLL -shared -o $(SHARED_NAME) $(wildcard src/windows/*.c) $(COMPILE_TARGET)
 	del /S /Q *.o >>nul
 	copy $(SHARED_NAME) ..\src\$(SHARED_NAME)
 	copy $(SHARED_NAME) ..\tsrun\$(SHARED_NAME)
 
-clean:
+clean-32:
 	del /S /Q *.o >>nul
-	del /S /Q libtimer-win32.a libtimer-win64.a >>nul
-	del /S /Q $(SHARED_SHORT_NAME)-32.dll $(SHARED_SHORT_NAME)-64.dll >>nul
+	del /S /Q libtimer-win32.a >>nul
+	del /S /Q $(SHARED_SHORT_NAME)-32.dll >>nul
+
+clean-64:
+	del /S /Q *.o >>nul
+	del /S /Q libtimer-win64.a >>nul
+	del /S /Q $(SHARED_SHORT_NAME)-64.dll >>nul
+
+clean: clean-32 clean-64
+
+.PHONY: clean-32 clean-64

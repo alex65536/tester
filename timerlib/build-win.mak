@@ -17,7 +17,7 @@ endif
 
 build-static: clean-$(WIN_BITS)
 	$(CC) -c $(wildcard src/windows/*.c) $(COMPILE_TARGET)
-	ar rcs $(STATIC_NAME) $(wildcard *.o)
+	ar rcs $(STATIC_NAME) *.o
 	del /S /Q *.o >>nul
 
 build-shared: clean-$(WIN_BITS)

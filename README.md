@@ -59,19 +59,19 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 ## Common
 
-* To build _tester_ from sources, you will need [_Lazarus IDE_](https://www.lazarus-ide.org) (recommended version is 1.8.2) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.4) and [_GNU GCC Compiler_](https://gcc.gnu.org).
+* To build _tester_ from sources, you will need [_Lazarus IDE_](https://www.lazarus-ide.org) (recommended version is 1.8.2) with [_Free Pascal Compiler_](https://freepascal.org/) (recommended version is 3.0.4), GNU Make and [_GNU GCC Compiler_](https://gcc.gnu.org).
 
 * You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
 
-* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (`libtimer0.1.3-32.dll` or `libtimer0.1.3-64.dll` for _Windows_ and `libtimer-0.1.3.so` for _GNU/Linux_) with the executable. For _GNU/Linux_, you must install the shared library. To do this, use `timerlib/install-linux.sh` (root privileges may be required). For _Windows_, you must put the shared library to the same directory with the executable.
+* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (`libtimer0.1.3-32.dll` or `libtimer0.1.3-64.dll` for _Windows_ and `libtimer-0.1.3.so` for _GNU/Linux_) with the executable. For _GNU/Linux_, you must install the shared library. To do this, run `make install` from `timerlib` directory (root privileges required). For _Windows_, you must put the shared library to the same directory with the executable.
+
+* Building is quite simple: just run `make build`.
 
 ## Windows
 
 * Use the environment variable `PATH` to specify paths to [_Lazarus IDE_](https://www.lazarus-ide.org) directory and to [_GNU GCC_](https://gcc.gnu.org)'s `bin` directory.
 
 * If you link _timerlib_ statically, specify paths to the _C_ libraries in the project or in your `fp.cfg` file (you can find that file in the [_Free Pascal Compiler_](https://freepascal.org/)'s directory.  
-
-* Use the following batch scripts: `build/build-win32.bat` (for _Win32_) and `build/build-win64.bat` (for _Win64_). They will build _Tester_ automatically.
 
 * There can be linking problems on _Windows_ when you link _timerlib_ statically. Due to _MinGW_ bugs, linking may fail with the message:  
   `Undefined symbol: __ms_vsnprintf`  
@@ -82,8 +82,6 @@ To download latest release of _Tester_, go to the following [link](https://githu
 * If you have problems with static linking, do build _timerlib_ dynamically.
 
 ## GNU/Linux
-
-* Use `build/build-linux.sh` shell script. It will build _Tester_ automatically.
 
 * Better use static linking (you won't have to install the shared library).
 

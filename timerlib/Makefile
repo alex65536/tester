@@ -1,5 +1,3 @@
-# TODO : Test on Windows!
-
 default: build
 
 STATIC_BUILD ?= 1

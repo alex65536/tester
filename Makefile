@@ -1,5 +1,3 @@
-# TODO : Test on Windows!
-
 default: build
 
 include ./tools/os-detect.mak
@@ -51,8 +49,6 @@ clean:
 		rmdir /S /Q "%%i\lib" & \
 		rmdir /S /Q "%%i\backup" \
 	)
-	
-	echo OK
 GOOD := 1
 endif
 
@@ -75,8 +71,6 @@ clean:
 		[ -d "$$i/lib" ] && rm -rf "$$i/lib"; \
 		[ -d "$$i/backup" ] && rm -rf "$$i/backup"; \
 	done || true
-	
-	echo OK
 GOOD := 1
 endif
 

@@ -23,6 +23,8 @@ build-static: clean
 build-shared: clean
 	$(CC) -DLINK_TO_DLL -shared -o $(SHARED_NAME) src\windows\*.c $(COMPILE_TARGET)
 	del /S /Q *.o >>nul
+	copy $(SHARED_NAME) ..\src\$(SHARED_NAME)
+	copy $(SHARED_NAME) ..\tsrun\$(SHARED_NAME)
 
 clean:
 	del /S /Q *.o >>nul

@@ -21,7 +21,7 @@ ifeq ($(OS_NAME),Linux)
  	include build-linux.mak
 endif
 
-ifneq ($(GOOD), 1)
+ifneq ($(GOOD),1)
  	$(error Unknown OS $(OS_NAME))
 endif
 

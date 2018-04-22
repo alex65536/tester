@@ -1,5 +1,5 @@
 SHARED_NAME := libtimer-$(TIMERLIB_VERSION).so
-INSTALL_PREFIX := /usr/local/lib
+INSTALL_PREFIX ?= /usr/local/lib
 
 build-static: clean
 	gcc -c ./src/linux/*.c
@@ -16,6 +16,6 @@ clean:
 	rm -f ./$(SHARED_NAME)
 
 install:
-	install ./$(SHARED_NAME) "$(INSTALL_PREFIX)"
+	install ./$(SHARED_NAME) $(INSTALL_PREFIX)
 
 .PHONY: install

@@ -3,7 +3,7 @@ default: build
 STATIC_BUILD ?= 1
 SHARED_BUILD ?= 1
 
-TIMERLIB_VERSION := 0.1.3
+TIMERLIB_VERSION := 0.1.4
 
 include ../tools/os-detect.mak
 

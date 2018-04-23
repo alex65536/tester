@@ -45,20 +45,23 @@ interface
   {$EndIf}
 {$EndIf}
 
+const
+  TimerLibVersion = '0.1.4';
+
 // Determining lib paths for dynamic linking
 {$IfDef TimerlibDyn}
   {$IfDef Windows}
     {$IfDef Win32}
       const
-        TimerLibName = 'libtimer0.1.3-32.dll';
+        TimerLibName = 'libtimer' + TimerLibVersion + '-32.dll';
     {$EndIf}
     {$IfDef Win64}
       const
-        TimerLibName = 'libtimer0.1.3-64.dll';
+        TimerLibName = 'libtimer' + TimerLibVersion + '-64.dll';
     {$EndIf}
   {$Else}
     const
-      TimerLibName = 'libtimer-0.1.3.so';
+      TimerLibName = 'libtimer-' + TimerLibVersion + '.so';
     {$linklib c}
     {$linklib libgcc}
   {$EndIf}

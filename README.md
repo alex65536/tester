@@ -63,7 +63,7 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 * You can choose the way you link _timerlib_: statically or dynamically. If you want to link _timerlib_ dynamically, uncomment `{$Define TimerlibDyn}` in `timerlib/src/timerlib.pas`.
 
-* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (`libtimer0.1.3-32.dll` or `libtimer0.1.3-64.dll` for _Windows_ and `libtimer-0.1.3.so` for _GNU/Linux_) with the executable. For _GNU/Linux_, you must install the shared library. To do this, run `make install` from `timerlib` directory (root privileges required). For _Windows_, you must put the shared library to the same directory with the executable.
+* If you link _timerlib_ dynamically, you'll be have to distribute the shared library (`libtimer0.1.4-32.dll` or `libtimer0.1.4-64.dll` for _Windows_ and `libtimer-0.1.4.so` for _GNU/Linux_) with the executable. For _GNU/Linux_, you must install the shared library. To do this, run `make install` from `timerlib` directory (root privileges required). For _Windows_, you must put the shared library to the same directory with the executable.
 
 * Building is quite simple: just run `make build`.
 

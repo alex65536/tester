@@ -12,22 +12,28 @@ Package: tester
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: gcc, g++, fpc
-Description: A program to test competitive programming problems locally
- Tester is an application that can test competitive programming problems. It is very easy to use. No Internet connection required to test the problems -- you'll just need the tests. It can import archives like Polygon's. You can also create a problem in it -- Tester has its own problem properties editor.
+Description: Program to test competitive programming problems locally
+ Tester is an application that can test competitive programming problems. It
+ is very easy to use. No Internet connection required to test the problems --
+ you'll just need the tests. It can import archives like Polygon's. You can
+ also create a problem in it -- Tester has its own problem properties editor.
  .
  Why use Tester?
  .
- * It's a native, lightweight application.
+  * It's a native, lightweight application.
  .
- * It doesn't require much space and can be distributed in a single executable.
+  * It doesn't require much space and can be distributed in a single
+ executable.
  .
- * It's cross-platform and available on Windows and GNU/Linux
+  * It's cross-platform and available on Windows and GNU/Linux
  .
- * No more batch scripts like All_Test.bat! Tester provides an intuitive graphical interface.
+  * No more batch scripts like All_Test.bat! Tester provides an intuitive
+ graphical interface.
  .
- * It can automatially import problems.
+  * It can automatially import problems.
  .
- * Tester uses JSON to save problems' properties, so they can be easily parsed.
+  * Tester uses JSON to save problems' properties, so they can be easily
+ parsed.
  .
  * Testing results can be saved to JSON and can be easily parsed, too.
 

@@ -34,6 +34,7 @@ build-timerlib:
 
 build: build-timerlib
 	cd src && lazbuild tester.lpi $(TARGET_OS) $(TARGET_CPU)
+	cd tsrun && lazbuild tsrun.lpi $(TARGET_OS) $(TARGET_CPU)
 
 GOOD := 0
 
@@ -85,6 +86,7 @@ endif
 ifeq ($(OS_NAME),Linux)
 install:
 	install -TD src/tester-*-linux $(PREFIX)/bin/tester
+	install -TD tsrun/tsrun $(PREFIX)/bin/tsrun
 	+cd images/logo && make install
 	install -TD misc/tester.desktop $(PREFIX)/share/applications/tester.desktop
 endif

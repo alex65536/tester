@@ -72,7 +72,6 @@ clean:
 	rm -rf timerlib/src/backup/
 	
 	for i in src/*; do \
-		echo $$i; \
 		[ -d "$$i/lib" ] && rm -rf "$$i/lib"; \
 		[ -d "$$i/backup" ] && rm -rf "$$i/backup"; \
 	done || true

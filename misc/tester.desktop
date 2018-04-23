@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Tester
+GenericName=Testing utility
+Comment=A lightweight tool to test competitive programming problems locally
+Exec=tester
+Terminal=false
+Type=Application
+Icon=tester
+Categories=Education;ComputerScience;
+Keywords=tester;testing;programming;problems;competitive;olympiad;

@@ -102,4 +102,4 @@ help:
 	@echo "   FORCE_WIN32: if set to 1, force building 32-bit version on Win64"
 	@echo "   INST_PREFIX: where to install Tester (/usr/local by default)"
 
-.PHONY: default build-timerlib build clean help
+.PHONY: default build-timerlib build clean help install

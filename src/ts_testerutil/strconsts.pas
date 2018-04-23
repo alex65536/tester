@@ -29,7 +29,6 @@ resourcestring
   SUnknownChecker = 'Unknown checker "%s"';
   SCheckerNotFound = 'Checker "%s" not found';
   SCheckerNotRegistered = '%s is not registered';
-  SCheckerRunError = 'Checker ran unsuccessfully';
   SFilesEqual = 'Files are equal! :)';
   SFilesNotEqualFmt = 'Error at line %d, column %d : %s.';
   SFilesCharsDiffer = 'expected "%s", found "%s"';
@@ -38,10 +37,12 @@ resourcestring
   SFilesFileTooShort = 'unexpected end of file';
   SFilesFileTooLong = 'extra data in file';
   SFileNotFound = 'File "%s" not found :(';
-  SCheckerRunFail = 'Could not run checker "%s"';
+  SCheckerRunFail = 'Could not run checker "%s".' + LineEnding + LineEnding +
+    'Possible reason is that the checker binary is incompatible with your OS or it doesn''t exist. You may try to rebuild the checker.';
   SCheckerExitCode = 'Checker exitcode: %d';
   SCheckerEditorNotFound = 'Checker editor not found';
-  SCompilerError = 'Could not run compiler "%s"';
+  SCompilerError = 'Could not run compiler "%s".' + LineEnding + LineEnding +
+    'Make sure that this compiler is installed and path to it is added to the PATH environment.';
   SCompilerExitCode = 'Compiler exitcode: %d';
   SCompilerNotRegistered = 'No compiler registered for extension %s';
   SSourceNotSupported = 'Extension %s not supported';

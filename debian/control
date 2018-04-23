@@ -1,0 +1,15 @@
+Source: tester
+Section: unknown
+Priority: optional
+Maintainer: Alexander Kernozhitsky <sh200105@mail.ru>
+Build-Depends: debhelper (>= 9)
+Standards-Version: 3.9.8
+Homepage: <insert the upstream URL, if relevant>
+#Vcs-Git: https://anonscm.debian.org/collab-maint/tester.git
+#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/tester.git
+
+Package: tester
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>

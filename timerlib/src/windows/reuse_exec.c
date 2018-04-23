@@ -1277,7 +1277,7 @@ task_Start(tTask *tsk)
   return 0;
 }
 
-void update_task_info(tTask *tsk);
+void task_update_info(tTask *tsk);
 
 // This method was patched by Kernozhitsky Alexander
 // Reason: now task_Wait terminates the process when CPU time limit is over, not only real time.
@@ -1302,7 +1302,6 @@ task_Wait(tTask *tsk)
       int wait_delta = 100;
       if (wait_time < wait_delta)
 	wait_delta = wait_time;
-      //printf("Waiting %d ms, left %d ms\n", wait_delta, wait_time);
       r = WaitForSingleObject(tsk->pi.hProcess, wait_delta);
       if (r == WAIT_FAILED) {
 	tsk->state = TSK_ERROR;
@@ -1311,8 +1310,7 @@ task_Wait(tTask *tsk)
 		  GetLastError());
 	return NULL;
       }
-      update_task_info(tsk);
-      //printf("Spent CPU time = %d ms\n", tsk->used_time);
+      task_update_info(tsk);
       if (task_IsTimeout(tsk)) {
 	break;
       }
@@ -1358,12 +1356,12 @@ task_Wait(tTask *tsk)
     tsk->state = TSK_EXITED;
   }
   
-  update_task_info(tsk);
+  task_update_info(tsk);
   return tsk;
 }
 
 void
-update_task_info(tTask *tsk)
+task_update_info(tTask *tsk)
 {
   JOBOBJECT_BASIC_ACCOUNTING_INFORMATION basic_acct;
   JOBOBJECT_EXTENDED_LIMIT_INFORMATION ext_limit;

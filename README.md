@@ -85,6 +85,12 @@ To download latest release of _Tester_, go to the following [link](https://githu
 
 * Better use static linking (you won't have to install the shared library).
 
+* For _Debian GNU/Linux_ or _Ubuntu_, you can also build a Debian package. Use _Debian_ tools like `debuild`:
+
+~~~~~
+$ debuild -us -uc
+~~~~~
+
 # Documentation
 
 Coming soon...

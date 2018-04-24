@@ -1,3 +1,17 @@
+tester (1.2.3) stable; urgency=medium
+
+  * New stable release.
+  * Buttons have better captions.
+  * Fixes in parsers.
+  * Added runexe support in bat files.
+  * Increased RealTimeLimit for weak computers. Now it is 5 * TL.
+  * Timerlib improvements on Windows.
+  * More user-friendly error messages.
+  * TsRun is included into distribution.
+  * Started building Debian packages.
+
+ -- Alexander Kernozhitsky <sh200105@mail.ru>  Tue, 24 Apr 2018 06:51:12 +0300
+
 tester (1.2.3~pre) unstable; urgency=low
 
   * Work on creating Tester Debian package has started.

@@ -1,6 +1,17 @@
 Tester ChangeLog:
 --------------------------------
 
+version 1.2.3 (24.04.2018)
+[*] Now Code::Blocks MinGW is added to PATH automatically.
+[*] Buttons have better captions.
+[*] Fixes in parsers.
+[*] Added runexe support in bat files.
+[*] Increased RealTimeLimit for weak computers. Now it is 5 * TL.
+[*] Timerlib improvements on Windows.
+[*] More user-friendly error messages.
+[*] TsRun is included into distribution.
+[*] Started building Debian packages.
+
 version 1.2.2 (03.01.2018)
 [*] Code refactoring and dividing on packages.
 [*] Idleness Limit Exceeded verdict is now handled more correctly.

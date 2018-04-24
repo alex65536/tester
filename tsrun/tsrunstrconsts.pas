@@ -33,14 +33,18 @@ resourcestring
     'tsrun <problem-work-dir> <problem-props-file> <test-src> <res-file>' + LineEnding +
     '  [<test-dir-name>] [<timeout>]' + LineEnding +
     '' + LineEnding +
+    '  TsRun is a command-line frontend for Tester. The purpose of TsRun is to allow' + LineEnding +
+    'testing problems automatically (e. g. from other program or a shell script).' + LineEnding +
+    'Testing results are available in JSON format.' + LineEnding +
     '  TsRun will load a problem from <problem-props-file> with working directory' + LineEnding +
     '<problem-work-dir>. It will test source file <test-src> and write the results' + LineEnding +
     'into <res-file>.' + LineEnding +
-    '  TsRun will update file each time when something is changed, so you can try to' + LineEnding +
-    'read the file permanently to retrieve the updates. When the changes are made,' + LineEnding +
-    'the file is locked.' + LineEnding +
+    '  TsRun will update <res-file> file each time when something is changed (e.g.' + LineEnding +
+    'the tested program passes a test), so you can try to read the file permanently' + LineEnding +
+    'to retrieve the updates. When the changes are being made, the file is locked.' + LineEnding +
     '  If <test-dir-name> is set, the testing will be held in directory with the' + LineEnding +
-    'path {temp}/<test-dir-name>. If not set, <test-dir-name> will be random.' + LineEnding +
+    'path $TMP/<test-dir-name>. If not set, <test-dir-name> will be chosen by TsRun' + LineEnding +
+    'randomly.' + LineEnding +
     '  <timeout> indicates what time TsRun will be idle after each change, so you can' + LineEnding +
     'read the results from the file.';
   SErrorFmt = 'ERROR %s : %s';

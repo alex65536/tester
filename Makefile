@@ -1,5 +1,10 @@
 default: build
 
+INST_PREFIX ?= /usr/local
+PREFIX := $(DESTDIR)$(INST_PREFIX)
+
+export PREFIX
+
 include ./tools/os-detect.mak
 
 export FORCE_WIN32
@@ -29,6 +34,7 @@ build-timerlib:
 
 build: build-timerlib
 	cd src && lazbuild tester.lpi $(TARGET_OS) $(TARGET_CPU)
+	cd tsrun && lazbuild tsrun.lpi $(TARGET_OS) $(TARGET_CPU)
 
 GOOD := 0
 
@@ -67,7 +73,6 @@ clean:
 	rm -rf timerlib/src/backup/
 	
 	for i in src/*; do \
-		echo $$i; \
 		[ -d "$$i/lib" ] && rm -rf "$$i/lib"; \
 		[ -d "$$i/backup" ] && rm -rf "$$i/backup"; \
 	done || true
@@ -78,14 +83,24 @@ ifeq ($(GOOD),0)
  	$(error OS $(OS_NAME) not supported)
 endif
 
+ifeq ($(OS_NAME),Linux)
+install:
+	install -TD src/tester-*-linux $(PREFIX)/bin/tester
+	install -TD tsrun/tsrun $(PREFIX)/bin/tsrun
+	+cd images/logo && make install
+	install -TD misc/tester.desktop $(PREFIX)/share/applications/tester.desktop
+endif
+
 help:
 	@echo "This Makefile builds Tester"
 	@echo ""
 	@echo "Supported targets:"
 	@echo "    build: Builds Timerlib"
 	@echo "    clean: Cleans the directory"
+	@echo "  install: Installs Tester to the system (GNU/Linux only)"
 	@echo ""
 	@echo "Variables:"
 	@echo "   FORCE_WIN32: if set to 1, force building 32-bit version on Win64"
+	@echo "   INST_PREFIX: where to install Tester (/usr/local by default)"
 
-.PHONY: default build-timerlib build clean help
+.PHONY: default build-timerlib build clean help install

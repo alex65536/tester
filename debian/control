@@ -1,0 +1,39 @@
+Source: tester
+Section: education
+Priority: optional
+Maintainer: Alexander Kernozhitsky <sh200105@mail.ru>
+Build-Depends: debhelper (>= 9), fpc (>= 3.0.4) | fp-compiler (>= 3.0.4) | fp-compiler-3.0.4, lazarus-ide (>= 1.8.2) | lazarus-ide-1.8 (>= 1.8.2) | lazarus-project (>= 1.8.2~), inkscape
+Standards-Version: 3.9.8
+Homepage: https://alex65536.github.io/tester/
+Vcs-Git: https://github.com/alex65536/tester.git
+Vcs-Browser: https://github.com/alex65536/tester
+
+Package: tester
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: gcc, g++, fpc
+Description: Program to test competitive programming problems locally
+ Tester is an application that can test competitive programming problems. It
+ is very easy to use. No Internet connection required to test the problems --
+ you'll just need the tests. It can import archives like Polygon's. You can
+ also create a problem in it -- Tester has its own problem properties editor.
+ .
+ Why use Tester?
+ .
+  * It's a native, lightweight application.
+ .
+  * It doesn't require much space and can be distributed in a single
+ executable.
+ .
+  * It's cross-platform and available on Windows and GNU/Linux
+ .
+  * No more batch scripts like All_Test.bat! Tester provides an intuitive
+ graphical interface.
+ .
+  * It can automatially import problems.
+ .
+  * Tester uses JSON to save problems' properties, so they can be easily
+ parsed.
+ .
+ * Testing results can be saved to JSON and can be easily parsed, too.
+

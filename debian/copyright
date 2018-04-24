@@ -1,0 +1,105 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: tester
+Source: https://github.com/alex65536/tester
+
+Files: *
+Copyright: 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
+License: GPL-2.0+
+
+Files: debian/*
+Copyright: 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
+License: GPL-2.0+
+
+Files:
+ timerlib/src/*.h
+ timerlib/src/linux/*.c
+ timerlib/src/windows/*.c
+Copyright: 1997-2017 Alexander Chernov <cher@ejudge.ru>
+License: LGPL-2.1+
+
+Files:
+ timerlib/src/process_stats.h
+ timerlib/src/linux/process_stats.c
+ timerlib/src/windows/process_stats.c
+Copyright: 2016 Alexander Chernov <cher@ejudge.ru>
+License: GPL-2.0+
+
+Files:
+ timerlib/src/*.pas
+ timerlib/src/ts_timerlib.lpk
+ timerlib/src/timerlib.h
+ timerlib/src/linux/timerlib.c
+ timerlib/src/windows/timerlib.c
+Copyright: 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
+License: LGPL-2.1+
+
+Files: src/ts_testerutil/processfork.pas
+Copyright:
+ 1999-2000 Free Pascal development team
+ 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
+License: LGPL-2.1+ with staticLink exception
+
+License: GPL-2.0+
+ This package is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2 of the License, or
+ (at your option) any later version.
+ .
+ This package is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ You should have received a copy of the GNU General Public License
+ along with this program. If not, see <https://www.gnu.org/licenses/>
+ .
+ On Debian systems, the complete text of the GNU General
+ Public License version 2 can be found in "/usr/share/common-licenses/GPL-2".
+
+License: LGPL-2.1+
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301 USA
+ .
+ On Debian systems, the complete text of version 2.1 of the GNU Lesser
+ General Public License can be found in '/usr/share/common-licenses/LGPL-2.1'.
+
+License: LGPL-2.1+ with staticLink exception
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation; either
+ version 2.1 of the License, or (at your option) any later version
+ with the following modification:
+ .
+ As a special exception, the copyright holders of this library give you
+ permission to link this library with independent modules to produce an
+ executable, regardless of the license terms of these independent modules,and
+ to copy and distribute the resulting executable under terms of your choice,
+ provided that you also meet, for each linked independent module, the terms
+ and conditions of the license of that module. An independent module is a
+ module which is not derived from or based on this library. If you modify
+ this library, you may extend this exception to your version of the library,
+ but you are not obligated to do so. If you do not wish to do so, delete this
+ exception statement from your version.
+ .
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Lesser General Public License for more details.
+ .
+ You should have received a copy of the GNU Lesser General Public
+ License along with this library; if not, write to the Free Software
+ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301  USA
+ .
+ On Debian systems, the complete text of version 2.1 of the GNU Lesser
+ General Public License can be found in '/usr/share/common-licenses/LGPL-2.1'.

@@ -1,0 +1,5 @@
+tester (1.2.3~pre) unstable; urgency=low
+
+  * Work on creating Tester Debian package has started.
+
+ -- Alexander Kernozhitsky <sh200105@mail.ru>  Mon, 23 Apr 2018 19:27:52 +0300

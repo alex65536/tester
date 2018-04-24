@@ -13,6 +13,11 @@ src/tester-i386-linux
 src/tester-x86_64-linux
 tsrun/tsrun
 
+debian/debhelper-build-stamp
+debian/files
+debian/tester.substvars
+debian/tester/
+
 # For old git, that doesn't understand **
 */*/backup/*
 */*/lib/*

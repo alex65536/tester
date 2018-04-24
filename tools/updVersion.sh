@@ -33,7 +33,7 @@ echo "${VERSION}" | sed -E -e 's/([0-9]+)\.([0-9]+)\.([0-9]+)/\1\n\2\n\3/' | {
 	'
 	find ../src -type f -name "*.lpk" -exec sh -c "${COMMAND}" \;
 	
-	for FILE in ../src/*.lpi; do
+	for FILE in ../src/*.lpi ../tsrun/*.lpi; do
 		echo "Processing \"${FILE}\""
 		sed -i -E -e '
 			s#(<MajorVersionNr Value=\")[0-9]+(\"/>)#\1'"${MAJOR}"'\2#

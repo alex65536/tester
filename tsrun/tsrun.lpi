@@ -19,7 +19,9 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <MajorVersionNr Value="1"/>
-      <StringTable Comments="TsRun is a simple console tool that can test Tester problems." FileDescription="TsRun" LegalCopyright="Copyright © 2017 Alexander Kernozhitsky" ProductName="TsRun" ProductVersion="1.0"/>
+      <MinorVersionNr Value="2"/>
+      <RevisionNr Value="3"/>
+      <StringTable Comments="TsRun is a simple console tool that can test Tester problems." FileDescription="TsRun" LegalCopyright="Copyright © 2017 Alexander Kernozhitsky" ProductName="TsRun" ProductVersion="1.2.3"/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
@@ -30,8 +32,7 @@
     <RunParams>
       <local>
         <FormatVersion Value="1"/>
-        <CommandLineParams Value="/home/alex256/tester-test/taskA props.json  /home/alex256/tester-test/taskA/solutions/BondarevA.cpp /home/alex256/tester-test/taskA/results.json"/>
-        <LaunchingApplication Use="True"/>
+        <CommandLineParams Value="/home/gepardo/tester-test/taskA props.json  /home/gepardo/tester-test/taskA/solutions/BondarevA.cpp /home/gepardo/tester-test/taskA/results.json"/>
       </local>
     </RunParams>
     <RequiredPackages Count="4">

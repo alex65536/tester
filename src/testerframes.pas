@@ -479,7 +479,7 @@ var
   end;
 
 begin
-  DefaultHeight := GetFontData(Canvas.Font.Reference.Handle).Height;
+  DefaultHeight := Canvas.TextHeight('H');
   ScaleFont(CompilerLabel.Font, 1.5);
   ScaleFont(VerdictLabel.Font, 1.5);
   ScaleFont(ScoreLabel.Font, 1.5);

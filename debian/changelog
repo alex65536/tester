@@ -1,3 +1,9 @@
+tester (1.2.3+py) testing; urgency=medium
+
+  * Added Python support
+
+ -- Alexander Kernozhitsky <sh200105@mail.ru>  Fri, 18 May 2018 19:52:31 +0300
+
 tester (1.2.3) stable; urgency=medium
 
   * New stable release.
@@ -10,7 +16,7 @@ tester (1.2.3) stable; urgency=medium
   * TsRun is included into distribution.
   * Started building Debian packages.
 
- -- Alexander Kernozhitsky <sh200105@mail.ru>  Tue, 24 Apr 2018 06:51:12 +0300
+ -- Alexander Kernozhitsky <sh200105@mail.ru>  Fri, 18 May 2018 19:51:44 +0300
 
 tester (1.2.3~pre) unstable; urgency=low
 

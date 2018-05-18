@@ -134,7 +134,7 @@
         <IsPartOfProject Value="True"/>
         <ComponentName Value="TesterFrame"/>
         <HasResources Value="True"/>
-        <ResourceBaseClass Value="Frame"/>
+        <ResourceBaseClass Value="Form"/>
       </Unit9>
       <Unit10>
         <Filename Value="compilerinfo.pas"/>

@@ -147,6 +147,19 @@ type
     function LanguageName: string; override;
   end;
 
+  { TPythonCompiler }
+
+  TPythonCompiler = class(TProcessCompiler)
+  protected
+    procedure GetCommandLine(Args: TStringList); override;
+    function GetCmdName: string; override;
+  public
+    function Compile: TCompilerVerdict; override;
+    function CompilerVersion: string; override;
+    function LanguageName: string; override;
+    function CompilerName: string; override;
+  end;
+
 var
   FreePascalDir: string = '';
   GccDir: string = '';
@@ -227,6 +240,55 @@ begin
       Output := E.Message;
     end;
   end;
+end;
+
+{ TPythonCompiler }
+
+procedure TPythonCompiler.GetCommandLine(Args: TStringList);
+begin
+  Args.Clear;
+  Args.Add('-T');
+  Args.Add(SrcName);
+  Args.Add(ExeName);
+end;
+
+function TPythonCompiler.GetCmdName: string;
+begin
+  Result := 'install';
+end;
+
+function TPythonCompiler.Compile: TCompilerVerdict;
+var
+  StrList: TStringList;
+begin
+  Result := inherited Compile;
+  if Result = cvSuccess then
+  begin
+    StrList := TStringList.Create;
+    try
+      StrList.LoadFromFile(ExeName);
+      StrList.Insert(0, '#!/usr/bin/env python3');
+      StrList.LineBreak := LineEnding;
+      StrList.SaveToFile(ExeName);
+    finally
+      FreeAndNil(StrList);
+    end;
+  end;
+end;
+
+function TPythonCompiler.CompilerVersion: string;
+begin
+  Result := '3';
+end;
+
+function TPythonCompiler.LanguageName: string;
+begin
+  Result := 'Python3 (ALPHA)';
+end;
+
+function TPythonCompiler.CompilerName: string;
+begin
+  Result := 'install';
 end;
 
 { TGnuCpp11GnuExtCompiler }
@@ -534,6 +596,7 @@ initialization
   //RegisterCompiler('.gpp', TGnuCpp11GnuExtCompiler);
   //RegisterCompiler('.cpp', TGnuCppCompiler);
   //RegisterCompiler('.c11', TGnuCpp11Compiler);
+  RegisterCompiler('.py', TPythonCompiler);
 
 finalization
   FreeAndNil(CompilerMap);

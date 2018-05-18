@@ -25,9 +25,9 @@ unit srcviewer;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, SynEdit, SynHighlighterPas, Forms,
-  ButtonPanel, AvgLvlTree, SynHighlighterCpp, SynEditHighlighter, strconsts,
-  LazUTF8, Graphics, StdCtrls, baseforms;
+  Classes, SysUtils, FileUtil, SynEdit, SynHighlighterPas, Forms, ButtonPanel,
+  AvgLvlTree, SynHighlighterCpp, SynEditHighlighter, SynHighlighterPython,
+  strconsts, LazUTF8, Graphics, StdCtrls, baseforms;
 
 type
   ESourceViewer = class(Exception);
@@ -39,6 +39,7 @@ type
     SourceViewer: TSynEdit;
     SynCppSyn: TSynCppSyn;
     SynFreePascalSyn: TSynFreePascalSyn;
+    SynPythonSyn: TSynPythonSyn;
     procedure FormShow(Sender: TObject);
   private
     FFileName: string;
@@ -108,6 +109,7 @@ begin
   RegisterHighligher('.c', SynCppSyn);
   RegisterHighligher('.cpp', SynCppSyn);
   //RegisterHighligher('.c11', SynCppSyn);
+  RegisterHighligher('.py', SynPythonSyn);
   {$IfDef LINUX}
     SourceViewer.Font.Name := 'monospace';
   {$Else}

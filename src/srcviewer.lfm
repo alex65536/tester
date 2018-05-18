@@ -11,8 +11,8 @@ inherited SourceViewer: TSourceViewer
   Position = poMainFormCenter
   object ButtonPanel1: TButtonPanel[0]
     Left = 6
-    Height = 37
-    Top = 302
+    Height = 42
+    Top = 297
     Width = 512
     OKButton.Name = 'OKButton'
     OKButton.DefaultCaption = True
@@ -27,7 +27,7 @@ inherited SourceViewer: TSourceViewer
   end
   inline SourceViewer: TSynEdit[1]
     Left = 0
-    Height = 296
+    Height = 291
     Top = 0
     Width = 524
     Align = alClient
@@ -548,6 +548,12 @@ inherited SourceViewer: TSourceViewer
     NumberAttri.Foreground = clTeal
     StringAttri.Foreground = clBlue
     left = 216
+    top = 80
+  end
+  object SynPythonSyn: TSynPythonSyn[4]
+    DefaultFilter = 'Файлы Python (*.py)|*.py'
+    Enabled = False
+    left = 312
     top = 80
   end
 end

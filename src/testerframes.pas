@@ -27,14 +27,15 @@ interface
 uses
   Classes, SysUtils, Forms, Grids, StdCtrls, problemprops, Math, strconsts,
   Graphics, testresults, Types, srcviewer, Dialogs, verdictcolors, compilerinfo,
-  testinfo, multitesters, testerprimitives, ComCtrls, solutioninfo, strverdicts;
+  testinfo, multitesters, testerprimitives, ComCtrls, solutioninfo, strverdicts,
+  baseforms;
 
 type
   ETesterFrame = class(Exception);
 
   { TTesterFrame }
 
-  TTesterFrame = class(TFrame)
+  TTesterFrame = class(TBaseFrame)
     ScoreLabel: TLabel;
     DrawGrid: TDrawGrid;
     TimeLabel: TLabel;

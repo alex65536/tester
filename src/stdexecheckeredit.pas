@@ -25,13 +25,13 @@ unit stdexecheckeredit;
 interface
 
 uses
-  Forms, StdCtrls, checkers, problemprops;
+  Forms, StdCtrls, checkers, problemprops, baseforms;
 
 type
 
   { TStdExecuteCheckerEdit }
 
-  TStdExecuteCheckerEdit = class(TFrame)
+  TStdExecuteCheckerEdit = class(TBaseFrame)
     CheckerNameEdit: TEdit;
     Label1: TLabel;
   public

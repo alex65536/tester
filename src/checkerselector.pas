@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, ExtCtrls, StdCtrls, problemprops,
-  checkereditorbase, checkers;
+  checkereditorbase, checkers, baseforms;
 
 const
   CheckerTypesCount = 3;
@@ -37,7 +37,7 @@ type
 
   { TCheckerSelect }
 
-  TCheckerSelect = class(TFrame)
+  TCheckerSelect = class(TBaseFrame)
     CheckerCombo: TComboBox;
     Label5: TLabel;
     Panel: TPanel;

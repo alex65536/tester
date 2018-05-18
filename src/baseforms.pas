@@ -38,15 +38,76 @@ type
   protected
     procedure DoShow; override;
   public
+    procedure AutoAdjustLayout(AMode: TLayoutAdjustmentPolicy; const AFromPPI,
+      AToPPI, AOldFormWidth, ANewFormWidth: Integer); override;
     procedure AfterConstruction; override;
   end;
+
+  { TBaseFrame }
+
+  TBaseFrame = class(TFrame)
+  public
+    procedure AutoAdjustLayout(AMode: TLayoutAdjustmentPolicy; const AFromPPI,
+      AToPPI, AOldFormWidth, ANewFormWidth: Integer); override;
+  end;
+
+  TFixFontsAction = (faSaveZeroHeight, faLoadZeroHeight);
 
 var
   BaseForm: TBaseForm;
 
+procedure FixFonts(AControl: TControl; AAction: TFixFontsAction);
+
 implementation
 
+// Storing if the font doesn't need scaling in Font.Quality is not a good option,
+// but we have no other place to store it (no tags for fonts)
+procedure FixFonts(AControl: TControl; AAction: TFixFontsAction);
+var
+  WinCtrl: TWinControl;
+  I: integer;
+begin
+  if AControl is TWinControl then
+  begin
+    WinCtrl := AControl as TWinControl;
+    for I := 0 to WinCtrl.ComponentCount-1 do
+      if WinCtrl.Components[I] is TControl then
+        FixFonts(WinCtrl.Components[I] as TControl, AAction);
+  end;
+  case AAction of
+    faSaveZeroHeight:
+      begin
+        if AControl.Font.Size = 0 then
+          AControl.Font.Quality := fqCleartypeNatural
+        else
+          AControl.Font.Quality := fqCleartype;
+      end;
+    faLoadZeroHeight:
+      if AControl.Font.Quality = fqCleartypeNatural then
+      begin
+        AControl.Font.Quality := fqCleartype;
+        AControl.Font.Size := 0;
+      end;
+  end;
+end;
+
 {$R *.lfm}
+
+{ TBaseFrame }
+
+procedure TBaseFrame.AutoAdjustLayout(AMode: TLayoutAdjustmentPolicy;
+  const AFromPPI, AToPPI, AOldFormWidth, ANewFormWidth: Integer);
+begin
+  DisableAutoSizing;
+  try
+    FixFonts(Self, faSaveZeroHeight);
+    inherited AutoAdjustLayout(AMode, AFromPPI, AToPPI, AOldFormWidth,
+      ANewFormWidth);
+    FixFonts(Self, faLoadZeroHeight);
+  finally
+    EnableAutoSizing;
+  end;
+end;
 
 { TBaseForm }
 
@@ -66,6 +127,20 @@ begin
     Position := WasPos;
   end;
   inherited DoShow;
+end;
+
+procedure TBaseForm.AutoAdjustLayout(AMode: TLayoutAdjustmentPolicy;
+  const AFromPPI, AToPPI, AOldFormWidth, ANewFormWidth: Integer);
+begin
+  DisableAutoSizing;
+  try
+    FixFonts(Self, faSaveZeroHeight);
+    inherited AutoAdjustLayout(AMode, AFromPPI, AToPPI, AOldFormWidth,
+      ANewFormWidth);
+    FixFonts(Self, faLoadZeroHeight);
+  finally
+    EnableAutoSizing;
+  end;
 end;
 
 procedure TBaseForm.AfterConstruction;

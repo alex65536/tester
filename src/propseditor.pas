@@ -26,7 +26,7 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, StdCtrls, Spin, ExtCtrls, Buttons,
-  problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper,
+  problemprops, testsdlg, checkerselector, jsonsaver, imgkeeper, baseforms,
   testtemplates, testtemplatedlg, strconsts, editcostsdlg, LazFileUtils,
   Dialogs, Math;
 
@@ -35,7 +35,7 @@ type
 
   { TProblemPropsEditor }
 
-  TProblemPropsEditor = class(TFrame)
+  TProblemPropsEditor = class(TBaseFrame)
     AddTestBtn: TBitBtn;
     ButtonPanel: TPanel;
     StopAfterFirstFailCheck: TCheckBox;

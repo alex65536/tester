@@ -25,13 +25,13 @@ unit filecompcheckedit;
 interface
 
 uses
-  Forms, StdCtrls, checkers, problemprops;
+  Forms, StdCtrls, checkers, problemprops, baseforms;
 
 type
 
   { TFileCompareCheckerEdit }
 
-  TFileCompareCheckerEdit = class(TFrame)
+  TFileCompareCheckerEdit = class(TBaseFrame)
     StripSpacesCheck: TCheckBox;
   public
     function GetChecker: TFileCompareChecker; virtual;

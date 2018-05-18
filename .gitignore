@@ -17,6 +17,7 @@ debian/debhelper-build-stamp
 debian/files
 debian/tester.substvars
 debian/tester/
+debian/.debhelper
 
 # For old git, that doesn't understand **
 */*/backup/*

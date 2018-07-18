@@ -479,7 +479,11 @@ var
   end;
 
 begin
-  DefaultHeight := GetFontData(Canvas.Font.Reference.Handle).Height;
+  // we cannot use GetFontData(Font.Reference.Handle).Height every time
+  // see https://bugs.freepascal.org/view.php?id=34004
+  DefaultHeight := Font.Height;
+  if DefaultHeight = 0 then
+    DefaultHeight := GetFontData(Font.Reference.Handle).Height;
   ScaleFont(CompilerLabel.Font, 1.5);
   ScaleFont(VerdictLabel.Font, 1.5);
   ScaleFont(ScoreLabel.Font, 1.5);

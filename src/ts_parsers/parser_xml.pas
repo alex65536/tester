@@ -1,7 +1,7 @@
 {
   This file is part of Tester
 
-  Copyright (C) 2017 Alexander Kernozhitsky <sh200105@mail.ru>
+  Copyright (C) 2017-2018 Alexander Kernozhitsky <sh200105@mail.ru>
 
   This program is free software; you can redistribute it and/or modify it under
   the terms of the GNU General Public License as published by the Free
@@ -107,6 +107,10 @@ begin
   OurML := StrToMemoryLimit(TestsetNode.GetAttribute('memory-limit'));
   OurInput := TestsetNode.GetAttribute('input-name');
   OurOutput := TestsetNode.GetAttribute('output-name');
+  if OurInput = '*' then
+    OurInput := 'stdin';
+  if OurOutput = '*' then
+    OurOutput := 'stdout';
   WriteLogFmt('RoiParser found tl=%d, ml=%d, input=%s, output=%s',
     [OurTL, OurML, OurInput, OurOutput]);
   // merge everything carefully

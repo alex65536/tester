@@ -30,7 +30,7 @@ ifeq ($(OS_NAME),Windows)
 endif
 
 build-timerlib:
-	+cd timerlib && make build
+	+cd timerlib && $(MAKE) build
 
 build: build-timerlib
 	cd src && lazbuild tester.lpi $(TARGET_OS) $(TARGET_CPU)
@@ -87,7 +87,7 @@ ifeq ($(OS_NAME),Linux)
 install:
 	install -TD src/tester-*-linux $(PREFIX)/bin/tester
 	install -TD tsrun/tsrun $(PREFIX)/bin/tsrun
-	+cd images/logo && make install
+	+cd images/logo && $(MAKE) install
 	install -TD misc/tester.desktop $(PREFIX)/share/applications/tester.desktop
 endif
 
@@ -95,7 +95,7 @@ help:
 	@echo "This Makefile builds Tester"
 	@echo ""
 	@echo "Supported targets:"
-	@echo "    build: Builds Timerlib"
+	@echo "    build: Starts building (default)"
 	@echo "    clean: Cleans the directory"
 	@echo "  install: Installs Tester to the system (GNU/Linux only)"
 	@echo ""
